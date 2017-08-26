@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{22569A11-9534-7E41-7C40-A82349B2597D}</ProjectGuid>
+    <ProjectGuid>{8F2D13F7-116E-69EE-FB6A-F367211692F7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -119,7 +119,7 @@
      <Compile Include="Assets\Google.Protobuf\WellKnownTypes\Wrappers.cs" />
      <Compile Include="Assets\Google.Protobuf\WellKnownTypes\WrappersPartial.cs" />
      <Compile Include="Assets\Google.Protobuf\WireFormat.cs" />
-     <Compile Include="Assets\Server\Addressbook.cs" />
+     <Compile Include="Assets\Server\proto\Addressbook.cs" />
      <Compile Include="Assets\test.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
