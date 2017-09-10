@@ -32,6 +32,9 @@
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 namespace server2N {
+class CONECT_STATUS;
+class CONECT_STATUSDefaultTypeInternal;
+extern CONECT_STATUSDefaultTypeInternal _CONECT_STATUS_default_instance_;
 class User;
 class UserDefaultTypeInternal;
 extern UserDefaultTypeInternal _User_default_instance_;
@@ -97,6 +100,30 @@ inline bool User_SEND_TYPE_Parse(
     const ::std::string& name, User_SEND_TYPE* value) {
   return ::google::protobuf::internal::ParseNamedEnum<User_SEND_TYPE>(
     User_SEND_TYPE_descriptor(), name, value);
+}
+enum CONECT_STATUS_CONNECT_STATUS {
+  CONECT_STATUS_CONNECT_STATUS_FAIL = 0,
+  CONECT_STATUS_CONNECT_STATUS_REQUEST = 98,
+  CONECT_STATUS_CONNECT_STATUS_RESPONSE = 99,
+  CONECT_STATUS_CONNECT_STATUS_CONNECT = 100,
+  CONECT_STATUS_CONNECT_STATUS_DISCONNECT = 101,
+  CONECT_STATUS_CONNECT_STATUS_CONECT_STATUS_CONNECT_STATUS_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  CONECT_STATUS_CONNECT_STATUS_CONECT_STATUS_CONNECT_STATUS_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool CONECT_STATUS_CONNECT_STATUS_IsValid(int value);
+const CONECT_STATUS_CONNECT_STATUS CONECT_STATUS_CONNECT_STATUS_CONNECT_STATUS_MIN = CONECT_STATUS_CONNECT_STATUS_FAIL;
+const CONECT_STATUS_CONNECT_STATUS CONECT_STATUS_CONNECT_STATUS_CONNECT_STATUS_MAX = CONECT_STATUS_CONNECT_STATUS_DISCONNECT;
+const int CONECT_STATUS_CONNECT_STATUS_CONNECT_STATUS_ARRAYSIZE = CONECT_STATUS_CONNECT_STATUS_CONNECT_STATUS_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* CONECT_STATUS_CONNECT_STATUS_descriptor();
+inline const ::std::string& CONECT_STATUS_CONNECT_STATUS_Name(CONECT_STATUS_CONNECT_STATUS value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    CONECT_STATUS_CONNECT_STATUS_descriptor(), value);
+}
+inline bool CONECT_STATUS_CONNECT_STATUS_Parse(
+    const ::std::string& name, CONECT_STATUS_CONNECT_STATUS* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<CONECT_STATUS_CONNECT_STATUS>(
+    CONECT_STATUS_CONNECT_STATUS_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -333,6 +360,125 @@ class User : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
   mutable int _cached_size_;
   friend struct protobuf_user_2eproto::TableStruct;
 };
+// -------------------------------------------------------------------
+
+class CONECT_STATUS : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.CONECT_STATUS) */ {
+ public:
+  CONECT_STATUS();
+  virtual ~CONECT_STATUS();
+
+  CONECT_STATUS(const CONECT_STATUS& from);
+
+  inline CONECT_STATUS& operator=(const CONECT_STATUS& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const CONECT_STATUS& default_instance();
+
+  static inline const CONECT_STATUS* internal_default_instance() {
+    return reinterpret_cast<const CONECT_STATUS*>(
+               &_CONECT_STATUS_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    2;
+
+  void Swap(CONECT_STATUS* other);
+
+  // implements Message ----------------------------------------------
+
+  inline CONECT_STATUS* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  CONECT_STATUS* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const CONECT_STATUS& from);
+  void MergeFrom(const CONECT_STATUS& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(CONECT_STATUS* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  typedef CONECT_STATUS_CONNECT_STATUS CONNECT_STATUS;
+  static const CONNECT_STATUS FAIL =
+    CONECT_STATUS_CONNECT_STATUS_FAIL;
+  static const CONNECT_STATUS REQUEST =
+    CONECT_STATUS_CONNECT_STATUS_REQUEST;
+  static const CONNECT_STATUS RESPONSE =
+    CONECT_STATUS_CONNECT_STATUS_RESPONSE;
+  static const CONNECT_STATUS CONNECT =
+    CONECT_STATUS_CONNECT_STATUS_CONNECT;
+  static const CONNECT_STATUS DISCONNECT =
+    CONECT_STATUS_CONNECT_STATUS_DISCONNECT;
+  static inline bool CONNECT_STATUS_IsValid(int value) {
+    return CONECT_STATUS_CONNECT_STATUS_IsValid(value);
+  }
+  static const CONNECT_STATUS CONNECT_STATUS_MIN =
+    CONECT_STATUS_CONNECT_STATUS_CONNECT_STATUS_MIN;
+  static const CONNECT_STATUS CONNECT_STATUS_MAX =
+    CONECT_STATUS_CONNECT_STATUS_CONNECT_STATUS_MAX;
+  static const int CONNECT_STATUS_ARRAYSIZE =
+    CONECT_STATUS_CONNECT_STATUS_CONNECT_STATUS_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  CONNECT_STATUS_descriptor() {
+    return CONECT_STATUS_CONNECT_STATUS_descriptor();
+  }
+  static inline const ::std::string& CONNECT_STATUS_Name(CONNECT_STATUS value) {
+    return CONECT_STATUS_CONNECT_STATUS_Name(value);
+  }
+  static inline bool CONNECT_STATUS_Parse(const ::std::string& name,
+      CONNECT_STATUS* value) {
+    return CONECT_STATUS_CONNECT_STATUS_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // int32 id = 1;
+  void clear_id();
+  static const int kIdFieldNumber = 1;
+  ::google::protobuf::int32 id() const;
+  void set_id(::google::protobuf::int32 value);
+
+  // int32 type = 2;
+  void clear_type();
+  static const int kTypeFieldNumber = 2;
+  ::google::protobuf::int32 type() const;
+  void set_type(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:server2N.CONECT_STATUS)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::int32 id_;
+  ::google::protobuf::int32 type_;
+  mutable int _cached_size_;
+  friend struct protobuf_user_2eproto::TableStruct;
+};
 // ===================================================================
 
 
@@ -415,7 +561,41 @@ inline void User::set_id(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:server2N.User.id)
 }
 
+// -------------------------------------------------------------------
+
+// CONECT_STATUS
+
+// int32 id = 1;
+inline void CONECT_STATUS::clear_id() {
+  id_ = 0;
+}
+inline ::google::protobuf::int32 CONECT_STATUS::id() const {
+  // @@protoc_insertion_point(field_get:server2N.CONECT_STATUS.id)
+  return id_;
+}
+inline void CONECT_STATUS::set_id(::google::protobuf::int32 value) {
+  
+  id_ = value;
+  // @@protoc_insertion_point(field_set:server2N.CONECT_STATUS.id)
+}
+
+// int32 type = 2;
+inline void CONECT_STATUS::clear_type() {
+  type_ = 0;
+}
+inline ::google::protobuf::int32 CONECT_STATUS::type() const {
+  // @@protoc_insertion_point(field_get:server2N.CONECT_STATUS.type)
+  return type_;
+}
+inline void CONECT_STATUS::set_type(::google::protobuf::int32 value) {
+  
+  type_ = value;
+  // @@protoc_insertion_point(field_set:server2N.CONECT_STATUS.type)
+}
+
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 
@@ -437,6 +617,11 @@ template <> struct is_proto_enum< ::server2N::User_SEND_TYPE> : ::google::protob
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::server2N::User_SEND_TYPE>() {
   return ::server2N::User_SEND_TYPE_descriptor();
+}
+template <> struct is_proto_enum< ::server2N::CONECT_STATUS_CONNECT_STATUS> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::server2N::CONECT_STATUS_CONNECT_STATUS>() {
+  return ::server2N::CONECT_STATUS_CONNECT_STATUS_descriptor();
 }
 
 }  // namespace protobuf
