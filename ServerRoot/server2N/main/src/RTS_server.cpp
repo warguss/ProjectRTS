@@ -8,6 +8,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <pthread.h>
 #include "google/protobuf/io/coded_stream.h"
 #include "google/protobuf/io/zero_copy_stream_impl.h"
 
@@ -19,6 +20,22 @@ using namespace google::protobuf::io;
 
 #define READ_BUFSIZE 8096
 #define BACKLOG_SIZE 50
+
+extern CUserPool g_userPool;
+extern pthread_mutex_t g mutex = PTHREAD_MUTEX_INITIALIZER;
+extern pthread_cond_t g cond = PTHREAD_COND_INITIALIZER;
+void* MainGaminLogic(void* userPool)
+{
+	while(true)
+	{
+		
+
+	}
+
+	return -1;
+}
+
+
 int main(int argc, char* argv[]) {
 	// Verify that the version of the library that we linked against is
 	// compatible with the version of the headers we compiled against.
@@ -65,14 +82,29 @@ int main(int argc, char* argv[]) {
 	char buffer[READ_BUFSIZE];
 	size_t servAddrSize = sizeof(serverAddr);
 
-	struct sockaddr_in clntAddr;
-	int clntAddrSize = sizeof(clntAddr);
-	int clientSock = accept(serverSock, (sockaddr*)&clntAddr, (socklen_t*)&clntAddrSize); 
-	if ( clientSock < 0 )
-	{		
-		LOG("Error Client Set\n");
-		perror("accept");
+	pthread_create();
+	while(true)
+	{
+		struct sockaddr_in clntAddr;
+		int clntAddrSize = sizeof(clntAddr);
+		int clientSock = accept(serverSock, (sockaddr*)&clntAddr, (socklen_t*)&clntAddrSize); 
+		if ( clientSock < 0 )
+		{		
+			LOG("Error Client Set\n");
+			perror("accept");
+		}
+		
+		/**************************
+		 * 초기 게임 생성 위치 랜덤
+		 **************************/
+
+		g_userPool.addUserInPool(clientSock, 0, 0);
 	}
+	
+	google::protobuf::ShutdownProtobufLibrary();
+	return -1;
+
+#if 0 	
 	while(true)
 	{
 		memset(buffer, '\0', (size_t)READ_BUFSIZE);
@@ -110,9 +142,6 @@ int main(int argc, char* argv[]) {
 		} 
 		LOG("Success\n");
 	}
-
+#endif
 	// Optional:  Delete all global objects allocated by libprotobuf.
-	google::protobuf::ShutdownProtobufLibrary();
-
-	return 0;
 }
