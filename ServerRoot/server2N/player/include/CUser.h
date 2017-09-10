@@ -6,6 +6,7 @@
 class CUser
 {
 	private:
+		int32_t uniqueNo;
 		int32_t pX;
 		int32_t pY;
 		
