@@ -3,13 +3,17 @@
 
 #include <iostream>
 #include <stdio.h>
+#include <pthread.h>
+#define BUFFER 8096
 
 class CUser
 {
 	private:
+		pthread_t sendThread;
 		int _fd;
-		int32_t x,y;
-		int sector;
+		int32_t tX,tY;
+		int _sector;
+		char _buffer[BUFFER];
 
 	public:
 		CUser(int fd, int32_t x, int32_t y);
@@ -18,10 +22,7 @@ class CUser
 		bool moveX(int32_t tX);
 		bool moveY(int32_t tY);
 		
-		int32_t readData();
-		int32_t writeData();
-
-		
+		//static void* readData();
+		static void* writeData();
 };
-
 #endif
