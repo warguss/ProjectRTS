@@ -11,6 +11,9 @@ class CUserPool
 	private:
 		map<int , CUser*> userInfo;
 
+		pthread_mutex_t pool_mutex;
+		pthread_cond_t pool_cond;
+
 	public:
 		CUserPool();
 		~CUserPool();
@@ -19,6 +22,8 @@ class CUserPool
 		bool delUserInPool(int fd);
 
 		bool allSendEvent();
+		bool sendUser(int fd);
+		int32_t userCount();
 };
 
 

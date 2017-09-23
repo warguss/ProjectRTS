@@ -7,6 +7,8 @@
 CUserPool::CUserPool()
 {
 	userInfo.clear()
+	pool_mutex = PTHREAD_MUTEX_INITIALIZER;
+	pool_cond = PTHREAD_COND_INITIALIZER;
 } 
 
 
@@ -51,8 +53,10 @@ bool CUserPool::delUserInPool(int fd)
 CUser* CUserPool::findUserInPool(int fd)
 {
 	CUser* user = NULL;
+	/* Lock */
 	/* find */
 
+	/* UnLock */
 	/* return */
 	return user;
 } 

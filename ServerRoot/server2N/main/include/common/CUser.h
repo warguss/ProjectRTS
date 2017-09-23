@@ -22,7 +22,7 @@ class CUser
 		bool moveX(int32_t tX);
 		bool moveY(int32_t tY);
 		
-		static void* readData();
+		//static void* readData();
 		static void* writeData();
 };
 #endif
