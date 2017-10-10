@@ -1,14 +1,12 @@
-#ifndef _CQUEUE_H_
-#define _CQUEUE_H_
+#ifndef _CQUEUE_MANAGER_H_
+#define _CQUEUE_MANAGER_H_
 
 #include <stdio.h>
-#define BUFFER_SIZE 8196
 class CQueueManager
 {
 private:
-	list<char*> _bufferQueue;  	
-	int front;
-	int rear;
+	list<CData*> _queue;  	
+	int _queueSize;
 
 	pthread_mutex_t queue_mutex;
 	pthread_cond_t queue_cond;
@@ -16,8 +14,8 @@ public:
 	CQueueManager();
 	~CQueueManager();
 
-	bool enqueue();
-	char* dequeue();
+	bool enqueue(int fd, char* buf, int type);
+	CData dequeue();
 };
 
 #endif

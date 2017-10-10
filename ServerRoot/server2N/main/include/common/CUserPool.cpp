@@ -1,6 +1,4 @@
-
 #include "CUserPool.h"
-#define MAX_POOL 300
 
 
 
@@ -20,7 +18,7 @@ CUserPool::~CUserPool()
 bool CUserPool::addUserInPool(int fd, int32_t x, int32_t y)
 {
 	/* Lock  */
-	if ( userInfo.size() >=  MAX_POOL  )
+	if ( userInfo.size() >=  POOL_SIZE  )
 	{
 		return false;
 	}
@@ -52,6 +50,7 @@ bool CUserPool::delUserInPool(int fd)
 		
 CUser* CUserPool::findUserInPool(int fd)
 {
+	/* 이건 Lock 이 필요없을듯 */
 	CUser* user = NULL;
 	/* Lock */
 	/* find */

@@ -17,13 +17,13 @@ private:
 	int _serverSock;
 	int _port;
 
-
+	CQueueManager manager;
 public:
 	CSessionManager();
 	~CSessionManager();
 		
 	void connectInitialize();
-	bool waitEvent();
+	static void* waitEvent();
 
 private:
 	bool _connectUserEvent(int fd);

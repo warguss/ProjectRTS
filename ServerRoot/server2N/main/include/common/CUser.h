@@ -4,15 +4,15 @@
 #include <iostream>
 #include <stdio.h>
 #include <pthread.h>
-#define BUFFER 8096
+#include "MsgString.h"
 
 class CUser
 {
 	private:
 		pthread_t sendThread;
 		int _fd;
-		int32_t tX,tY;
 		int _sector;
+		int32_t tX,tY;
 		char _buffer[BUFFER];
 
 	public:
@@ -22,7 +22,8 @@ class CUser
 		bool moveX(int32_t tX);
 		bool moveY(int32_t tY);
 		
-		//static void* readData();
-		static void* writeData();
+		
+		
+		static void* writeData(void* buf);
 };
 #endif
