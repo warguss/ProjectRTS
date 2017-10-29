@@ -13,7 +13,7 @@ public class test : MonoBehaviour
     TcpClient client;
     NetworkStream ns;
     Dictionary<int, MainCharacter> playerCharacters;
-    int myId;
+    int myId = 1;
     int testId = 2;
 
     byte[] msgBuffer = new byte[256];
@@ -21,11 +21,9 @@ public class test : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        myId = 1;
-        testId = 2;
         playerCharacters = new Dictionary<int, MainCharacter>();
-        playerCharacters.Add(myId, Instantiate(PlayerPrefab).GetComponent<MainCharacter>());
-        playerCharacters.Add(testId, Instantiate(PlayerPrefab).GetComponent<MainCharacter>());
+        AddPlayer(myId);
+        AddPlayer(testId);
 //        client = new TcpClient("192.168.0.4", 10001);
 //        ns = client.GetStream();
 
@@ -46,24 +44,24 @@ public class test : MonoBehaviour
 //            }
 //        }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Google.Protobuf.Examples.AddressBook.Person asd = new Google.Protobuf.Examples.AddressBook.Person
-            {
-                Id = 3,
-                Name = "test"
-            };
-
-            byte[] writeBuffer;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                asd.WriteTo(ms);
-                writeBuffer = ms.ToArray();
-            }
-
-            Debug.Log("msg Length : " + writeBuffer.Length);
-            ns.Write(writeBuffer, 0, writeBuffer.Length);
-        }
+//        if (Input.GetKeyDown(KeyCode.Space))
+//        {
+//            Google.Protobuf.Examples.AddressBook.Person asd = new Google.Protobuf.Examples.AddressBook.Person
+//            {
+//                Id = 3,
+//                Name = "test"
+//            };
+//
+//            byte[] writeBuffer;
+//            using (MemoryStream ms = new MemoryStream())
+//            {
+//                asd.WriteTo(ms);
+//                writeBuffer = ms.ToArray();
+//            }
+//
+//            Debug.Log("msg Length : " + writeBuffer.Length);
+//            ns.Write(writeBuffer, 0, writeBuffer.Length);
+//        }
 
         ProcessInput();
     }
@@ -78,6 +76,13 @@ public class test : MonoBehaviour
 
     void userLeave(int id)
     {
+    }
+
+    void AddPlayer(int playerId)
+    {
+        MainCharacter characterScript = Instantiate(PlayerPrefab).GetComponent<MainCharacter>();
+        playerCharacters.Add(playerId, characterScript);
+        characterScript.playerId = playerId;
     }
 
     void DataReceive(System.IAsyncResult ar)
@@ -104,6 +109,8 @@ public class test : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.UpArrow))
             SendInputToCharacter(myId, PlayerAction.Jump);
+        if (Input.GetKeyDown(KeyCode.RightShift))
+            SendInputToCharacter(myId, PlayerAction.Fire);
 
         if (Input.GetKeyDown(KeyCode.A))
             SendInputToCharacter(testId, PlayerAction.Left);
@@ -114,6 +121,8 @@ public class test : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W))
             SendInputToCharacter(testId, PlayerAction.Jump);
+        if (Input.GetKeyDown(KeyCode.Q))
+            SendInputToCharacter(testId, PlayerAction.Fire);
         
     }
 }

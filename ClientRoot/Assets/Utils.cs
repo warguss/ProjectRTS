@@ -25,7 +25,8 @@
         Stop,
         Left,
         Right,
-        Jump
+        Jump,
+        Fire
     }
 
     public class Utils

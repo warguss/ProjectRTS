@@ -6,23 +6,29 @@ public enum CharacterStatus
 {
 	Neutral,
     Moving,
-    inAir,
     Attacking,
 	Attacked,
 }
 
 public class MainCharacter : MonoBehaviour
 {
-	public float MaxMoveSpeed = 100;
-	public float MoveForce = 100;
-	public float JumpForce =0.01f;
+    public float MaxMoveSpeed;
+    public float MoveForce;
+    public float JumpForce;
 
     public GameObject bulletPrefab;
 
     private Rigidbody2D rb2d;
+     
+    public int playerId{ get; set; }
 
     private CharacterStatus status = CharacterStatus.Neutral;
     private int hitRecovery = 0;
+
+    private float hp = 100;
+
+    private bool inAir = false;
+    private bool isLeft = true;
 
     private int posX;
     private int posY;
@@ -49,7 +55,11 @@ public class MainCharacter : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
-        Debug.Log(posX + ", " + posY);
+        //Debug.Log(posX + ", " + posY);
+        if (hp <= 0)
+        {
+            Dead();
+        }
 	}
 
 	void FixedUpdate()
@@ -88,11 +98,15 @@ public class MainCharacter : MonoBehaviour
             case PlayerAction.Jump:
                 currentInput.jump = true;
                 break;
+            case PlayerAction.Fire:
+                currentInput.fire = true;
+                break;
         }
     }
 
     void MoveLeft()
     {
+        isLeft = true;
         if (-1 * rb2d.velocity.x < MaxMoveSpeed)
             rb2d.AddForce(Vector2.right * -1 * MoveForce);
         
@@ -102,6 +116,7 @@ public class MainCharacter : MonoBehaviour
 
     void MoveRight()
     {
+        isLeft = false;
         if (1 * rb2d.velocity.x < MaxMoveSpeed)
             rb2d.AddForce(Vector2.right * 1 * MoveForce);
 
@@ -118,12 +133,33 @@ public class MainCharacter : MonoBehaviour
 
     void Fire()
     {
-        Instantiate(bulletPrefab, gameObject.transform.position, new Quaternion());
+        GameObject bullet = (GameObject)Instantiate(bulletPrefab, gameObject.transform.position, new Quaternion());
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+
+        bulletScript.OwnerPlayer = playerId;
+
+        if (isLeft)
+            bulletScript.angle = 180;
+        else
+            bulletScript.angle = 0;
+
+        currentInput.fire = false;
     }
 
-    void GetHit(int damage, int hitRecovery)
+    public void GetHit(int damage, int hitRecovery, int impact, int impactAngle)
     {
-        
+        hp -= damage;
+        Debug.Log("player" + playerId + "hp : " + hp);
+
+        float radian = Mathf.PI * (float)impactAngle / 180f;
+        float impactX = Mathf.Cos(radian);
+        float impactY = Mathf.Sin(radian);
+        rb2d.AddForce(new Vector2(impactX, impactY) * impact);
+    }
+
+    public void Dead()
+    {
+        Destroy(gameObject);
     }
 
     //void Networkinterpolation(float posX, float posY, float speedX, float speedY, CharacterStatus status)
