@@ -16,9 +16,9 @@
 
 
 #include "common/MsgString.h"
-#include "common/CUserPool.h"
-#include "common/CQueueManager.h"
-
+//#include "common/CUserPool.h"
+#include "common/CSessionManager.h"
+//#include "common/CQueueManager.h"
 
 
 
@@ -26,13 +26,15 @@ using namespace std;
 using namespace google::protobuf::io;
 
 
-extern CUserPool g_userPool;
-extern CQueueManager g_queue;
-extern pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;
-extern pthread_cond_t g_cond = PTHREAD_COND_INITIALIZER;
 
-void* MainGaminLogic(void* userPool)
+//CUserPool g_userPool;
+//extern pthread_mutex_t g_main_mutex = PTHREAD_MUTEX_INITIALIZER;
+//extern pthread_cond_t g_main_cond = PTHREAD_COND_INITIALIZER;
+
+void* MainGameLogic(void* sessions)
 {
+	CSessionManager* session = (CSessionManager*)sessions;
+
 	while(true)
 	{
 		/*
@@ -41,8 +43,8 @@ void* MainGaminLogic(void* userPool)
 		 * BusyWait가 되어버린다.
 		 * Signal Wait가 필요할거 같기도하다. 
 		 */
-		CData* data = NULL;
-		if ( data = g_queue.dequeue() ) 
+		CUser* data = NULL;
+		if ( data = session->m_Qmanager.dequeue() ) 
 		{
 			/* 
 			 * 해석 로직이 필요함 buffer -> Object 
@@ -58,7 +60,7 @@ void* MainGaminLogic(void* userPool)
 				
 	}
 
-	return -1;
+	return (void*)-1;
 }
 
 
@@ -68,10 +70,17 @@ int main(int argc, char* argv[])
 	// compatible with the version of the headers we compiled against.
 	GOOGLE_PROTOBUF_VERIFY_VERSION;
 	
-	CSessionManager session;
+	int port = 2048;
+	pthread_t thread;
+	CSessionManager session(port);
 
-	pthread_create();
+	if ( pthread_create(&thread, NULL, MainGameLogic, (void*)&port) < 0 )
+	{
+		exit(0);
+	}
 	
+	int status;
+	pthread_join(thread, (void**)&status);
 	google::protobuf::ShutdownProtobufLibrary();
 	return -1;
 

@@ -1,34 +1,41 @@
-#ifndef _CSESSION_MANAGER_H_
-#define _CSESSION_MANAGER_H_
+#ifndef _MODULE_CSESSION_MANAGER_H_
+#define _MODULE_CSESSION_MANAGER_H_
+
+#include <unistd.h>
 #include <sys/epoll.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "CQueueManager.h"
+#include "MsgString.h"
+#include "CUserPool.h"
 
-#define EPOLL_SIZE 300
-#define LOG printf
+using namespace std;
 
 class CSessionManager
 {
 private:
-	int _epoll_fd;
-	struct epoll_event _init_ev, *_events;
-
-	int _serverSock;
 	int _port;
 
-	CQueueManager manager;
 public:
-	CSessionManager();
-	~CSessionManager();
-		
-	void connectInitialize();
-	static void* waitEvent();
+	static int _epoll_fd;
+    static struct epoll_event _init_ev, *_events;
+
+    static int _serverSock;
+
+    static CQueueManager m_Qmanager;
+    CSessionManager(int port);
+    ~CSessionManager();
+
+    int connectInitialize();
+    static void* waitEvent(void* val);
 
 private:
-	bool _connectUserEvent(int fd);
-	bool _deleteUserEvent(int fd);
-	bool _readUserEvent(int fd);
+    bool _connectUserEvent(int fd);
+    bool _deleteUserEvent(int fd);
+    bool _readUserEvent(int fd);
 };
-
 #endif
+

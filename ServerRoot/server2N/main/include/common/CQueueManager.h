@@ -1,21 +1,29 @@
-#ifndef _CQUEUE_MANAGER_H_
-#define _CQUEUE_MANAGER_H_
+#ifndef _MODULE_CQUEUE_MANAGER_H_
+#define _MODULE_CQUEUE_MANAGER_H_
 
 #include <stdio.h>
+#include <pthread.h>
+#include <list>
+#include "CUser.h"
+
+using namespace std;
 class CQueueManager
 {
 private:
-	list<CData*> _queue;  	
-	int _queueSize;
+    list<CUser*> _queue;
+    int _queueSize;
 
-	pthread_mutex_t queue_mutex;
-	pthread_cond_t queue_cond;
+    pthread_mutex_t queue_mutex;
+    pthread_cond_t queue_cond;
 public:
-	CQueueManager();
-	~CQueueManager();
+    CQueueManager();
+    ~CQueueManager();
 
-	bool enqueue(int fd, char* buf, int type);
-	CData dequeue();
+    bool enqueue(int fd, char* buf, int type);
+    CUser* dequeue();
+
+    bool isQueueDataExist(int curSize);
 };
 
 #endif
+
