@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\GameLogic.cs" />
      <Compile Include="Assets\GameLogic\Script\Player\Bullet.cs" />
      <Compile Include="Assets\GameLogic\Script\Player\MainCharacter.cs" />
      <Compile Include="Assets\Google.Protobuf\ByteArray.cs" />
@@ -119,9 +120,11 @@
      <Compile Include="Assets\Google.Protobuf\WellKnownTypes\Wrappers.cs" />
      <Compile Include="Assets\Google.Protobuf\WellKnownTypes\WrappersPartial.cs" />
      <Compile Include="Assets\Google.Protobuf\WireFormat.cs" />
+     <Compile Include="Assets\Manager.cs" />
+     <Compile Include="Assets\NetworkModule.cs" />
      <Compile Include="Assets\Server\proto\Addressbook.cs" />
+     <Compile Include="Assets\TestUI.cs" />
      <Compile Include="Assets\Utils.cs" />
-     <Compile Include="Assets\test.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

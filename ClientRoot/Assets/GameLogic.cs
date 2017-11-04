@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Collections.Generic;
 using RTS;
 
-public class test : MonoBehaviour
+public class GameLogic : MonoBehaviour
 {
     public GameObject PlayerPrefab;
 
@@ -24,45 +24,12 @@ public class test : MonoBehaviour
         playerCharacters = new Dictionary<int, MainCharacter>();
         AddPlayer(myId);
         AddPlayer(testId);
-//        client = new TcpClient("192.168.0.4", 10001);
-//        ns = client.GetStream();
 
     }
 	
     // Update is called once per frame
     void Update()
     {
-//        if (client != null)
-//        {
-//            if (ns.DataAvailable)
-//            {
-//                ns.BeginRead(msgBuffer, 0, msgBuffer.Length, DataReceive, ns);
-//            }
-//            else
-//            {
-//                
-//            }
-//        }
-
-//        if (Input.GetKeyDown(KeyCode.Space))
-//        {
-//            Google.Protobuf.Examples.AddressBook.Person asd = new Google.Protobuf.Examples.AddressBook.Person
-//            {
-//                Id = 3,
-//                Name = "test"
-//            };
-//
-//            byte[] writeBuffer;
-//            using (MemoryStream ms = new MemoryStream())
-//            {
-//                asd.WriteTo(ms);
-//                writeBuffer = ms.ToArray();
-//            }
-//
-//            Debug.Log("msg Length : " + writeBuffer.Length);
-//            ns.Write(writeBuffer, 0, writeBuffer.Length);
-//        }
-
         ProcessInput();
     }
 
@@ -83,14 +50,6 @@ public class test : MonoBehaviour
         MainCharacter characterScript = Instantiate(PlayerPrefab).GetComponent<MainCharacter>();
         playerCharacters.Add(playerId, characterScript);
         characterScript.playerId = playerId;
-    }
-
-    void DataReceive(System.IAsyncResult ar)
-    {
-        var parsed = Google.Protobuf.Examples.AddressBook.Person.Parser.ParseFrom(msgBuffer);
-        Debug.Log(parsed.Name);
-
-        msgBuffer.Initialize();
     }
 
     void SendInputToCharacter(int player, PlayerAction action)
@@ -126,6 +85,4 @@ public class test : MonoBehaviour
         
     }
 }
-
-// 메시지 종류 구분 방법
-// 읽은 메시지 길이로 바이트 배열 길이 결정
+   
