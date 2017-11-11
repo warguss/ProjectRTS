@@ -12,7 +12,7 @@ public class NetworkModule : MonoBehaviour
 
     TcpClient client;
     NetworkStream ns;
-    byte[] msgBuffer = new byte[256];
+    byte[] msgBuffer = new byte[8];
 
     // Use this for initialization
     void Start()
@@ -35,8 +35,9 @@ public class NetworkModule : MonoBehaviour
             }
         }
 
-        if (client != null &&   Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
+            TestUI.Instance.PrintText("Sending AddressBook.Person... Id=3, Name=test");
             Google.Protobuf.Examples.AddressBook.Person person = new Google.Protobuf.Examples.AddressBook.Person
             {
                 Id = 3,
@@ -49,9 +50,16 @@ public class NetworkModule : MonoBehaviour
                 person.WriteTo(ms);
                 writeBuffer = ms.ToArray();
             }
-        
-            TestUI.Instance.PrintText("sended msg Length : " + writeBuffer.Length);
-            ns.Write(writeBuffer, 0, writeBuffer.Length);
+
+            try
+            {
+                ns.Write(writeBuffer, 0, writeBuffer.Length);
+                TestUI.Instance.PrintText("sended msg Length : " + writeBuffer.Length);
+            }
+            catch (Exception e)
+            {
+                TestUI.Instance.PrintText("Send Failed : " + e.Message);
+            }
         }
     }
 
@@ -64,6 +72,7 @@ public class NetworkModule : MonoBehaviour
             {
                 client = new TcpClient(ip, port);
                 ns = client.GetStream();
+                TestUI.Instance.PrintText("Connected");
             }
             catch (Exception e)
             {
@@ -75,7 +84,9 @@ public class NetworkModule : MonoBehaviour
     void DataReceive(System.IAsyncResult ar)
     {
         var parsed = Google.Protobuf.Examples.AddressBook.Person.Parser.ParseFrom(msgBuffer);
-        TestUI.Instance.PrintText(parsed.Name);
+        string message = "Data Received. Name=" + parsed.Name + ", id=" + parsed.Id;
+        Debug.Log(message);
+        TestUI.Instance.PrintText(message);
 
         msgBuffer.Initialize();
     }

@@ -9,11 +9,12 @@ using RTS;
 public class GameLogic : MonoBehaviour
 {
     public GameObject PlayerPrefab;
+    public CameraMove CameraScript;
 
     TcpClient client;
     NetworkStream ns;
     Dictionary<int, MainCharacter> playerCharacters;
-    int myId = 1;
+    int myId = 1; 
     int testId = 2;
 
     byte[] msgBuffer = new byte[256];
@@ -25,6 +26,7 @@ public class GameLogic : MonoBehaviour
         AddPlayer(myId);
         AddPlayer(testId);
 
+        CameraScript.SetTarget(playerCharacters[myId].gameObject);
     }
 	
     // Update is called once per frame
