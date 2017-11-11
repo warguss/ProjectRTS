@@ -19,8 +19,9 @@ public:
     CQueueManager();
     ~CQueueManager();
 
-    bool enqueue(int fd, char* buf, int type);
-    CUser* dequeue();
+    bool enqueue(int fd, char* buf, int length, int type);
+    bool enqueue(CUser* user);
+    CUser* dequeue(int type);
 
     bool isQueueDataExist(int curSize);
 };

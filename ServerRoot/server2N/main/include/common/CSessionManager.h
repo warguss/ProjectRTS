@@ -25,12 +25,14 @@ public:
 
     static int _serverSock;
 
-    static CQueueManager m_Qmanager;
+    static CQueueManager m_readQ_Manager;
+    static CQueueManager m_writeQ_Manager;
     CSessionManager(int port);
     ~CSessionManager();
 
     int connectInitialize();
     static void* waitEvent(void* val);
+    static void* writeEvent(void* val);
 
 private:
     bool _connectUserEvent(int fd);
