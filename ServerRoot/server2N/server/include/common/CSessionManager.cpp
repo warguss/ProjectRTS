@@ -3,6 +3,7 @@ int CSessionManager::_serverSock = 0;
 int CSessionManager::_epoll_fd = 0;
 struct epoll_event CSessionManager::_init_ev;
 struct epoll_event* CSessionManager::_events;
+
 CQueueManager CSessionManager::m_readQ_Manager;
 CQueueManager CSessionManager::m_writeQ_Manager;
 static void* CSessionManager::waitEvent(void* val);
@@ -15,7 +16,11 @@ CSessionManager::CSessionManager(int port)
 	_port = port;
 	_serverSock = 0;
 	_epoll_fd = 0;
+
+	m_readQ_Manager.setType(READ_TYPE);
+	m_writeQ_Manager.setType(WRITE_TYPE);
     connectInitialize();
+
 }
 
 CSessionManager::~CSessionManager()

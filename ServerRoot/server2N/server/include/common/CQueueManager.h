@@ -12,6 +12,7 @@ class CQueueManager
 private:
     list<CUser*> _queue;
     int _queueSize;
+	int _type;
 
     pthread_mutex_t queue_mutex;
     pthread_cond_t queue_cond;
@@ -24,6 +25,7 @@ public:
     CUser* dequeue(int type);
 
     bool isQueueDataExist(int curSize);
+    void setType(int type);
 };
 
 #endif
