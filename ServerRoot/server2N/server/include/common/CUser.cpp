@@ -38,8 +38,6 @@ void CUser::setData(int fd, char* buf, int length, int type)
 	memset(_buffer, '\0', BUFFER);
 	memcpy(_buffer, buf, _length);
 	_type = type;
-
-
 }
 
 #if 0 

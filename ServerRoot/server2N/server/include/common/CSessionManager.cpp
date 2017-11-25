@@ -6,6 +6,7 @@ struct epoll_event* CSessionManager::_events;
 
 CQueueManager CSessionManager::m_readQ_Manager;
 CQueueManager CSessionManager::m_writeQ_Manager;
+
 static void* CSessionManager::waitEvent(void* val);
 static void* CSessionManager::writeEvent(void* val);
 
@@ -35,12 +36,12 @@ int CSessionManager::connectInitialize()
 	_serverSock = socket(AF_INET, SOCK_STREAM, 0);
     if ( _serverSock <= 0 )
     {
-        LOG("Error Sock Open");
+        LOG("---ConnectInitialize() Error Sock Open\n");
         perror("socket:");
         return -1;
     }
 
-	LOG("serverSock [%d]\n", _serverSock);
+	LOG("---ConnectInitialize() serverSock [%d]\n", _serverSock);
     memset(&serverAddr, '\0', sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -48,14 +49,14 @@ int CSessionManager::connectInitialize()
 
     if ( bind(_serverSock, (sockaddr*)&serverAddr, sizeof(serverAddr)) < 0 )
     {
-        LOG("Serv SOck Bind Error\n");
+        LOG("---ConnectInitialize() Serv SOck Bind Error\n");
         perror("bind");
         return -1;
     }
 
     if ( listen(_serverSock , BACKLOG_SIZE) < 0 )
     {
-        LOG("Errror List\n");
+        LOG("---ConnectInitialize() Errror List\n");
         perror("listen:");
         return -1;
     }
@@ -66,7 +67,7 @@ int CSessionManager::connectInitialize()
     _init_ev.data.fd = _serverSock;
     epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, _serverSock, &_init_ev);
 
-	LOG("Connect Initialize\n");
+	LOG("---connectInitialize() Connect Initialize Complete\n");
 	return 0;
 }
 
@@ -74,20 +75,20 @@ static void* CSessionManager::waitEvent(void* val)
 {
     while(1)
     {
-		LOG("epoll wait\n");
+		LOG("---waitEvent() epoll wait\n");
         int event_count = epoll_wait(_epoll_fd, _events, EPOLL_SIZE, -1);
         if ( event_count == -1 )
         {
             break;
         }
 
-		LOG("Epoll Count [%d]\n", event_count);
+		LOG("---waitEvent() Epoll Count [%d]\n", event_count);
         for ( int i = 0; i < event_count; ++i )
         {
-			LOG("Wait Epoll Event\n");
+			LOG("---waitEvent() Epoll Event\n");
             if ( _events[i].data.fd == _serverSock )
             {
-				LOG("Connect Epoll Event\n");
+				LOG("---waitEvent() Connect Epoll Event\n");
                 /* Client 접속 */
                 struct sockaddr_in clntAddr;
                 int clntAddrSize = sizeof(clntAddr);
@@ -125,11 +126,10 @@ static void* CSessionManager::waitEvent(void* val)
 		
 				int fd = _events[i].data.fd;
 				int readn = read(fd, buffer, BUFFER);
-				LOG("Client Input [%d], read size[%d]\n", fd, readn);
+				LOG("---waitEvent() Client Input [%d], read size[%d]", fd, readn);
 				if ( readn <= 0 )
 				{
-					LOG("Read Error, Delete Event\n");    
-					LOG("CSessionManager _deleteEvent[%d]\n", fd);
+					LOG("---waitEvent() Error, Delete Socket[%d]", fd);    
 					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
 					g_userPool.delUserInPool(fd);
 					close(fd);
@@ -140,8 +140,7 @@ static void* CSessionManager::waitEvent(void* val)
 				 * QueueManager 내부에서 Lock 처리한다.
 				 * userPool 에서 꺼내야할듯
 				 */
-				int type = READ_TYPE;
-				m_readQ_Manager.enqueue(fd, buffer, readn, type);
+				m_readQ_Manager.enqueue(fd, buffer, readn);
             }
         }
     }
@@ -153,13 +152,13 @@ static void* CSessionManager::writeEvent(void* val)
 	{
 		/* signal ... */
 		CUser* user = NULL;
-		if ( user = m_writeQ_Manager.dequeue(WRITE_TYPE) )
+		if ( user = m_writeQ_Manager.dequeue() )
 		{
 			int32_t writeSize = 0;
 			if ( (writeSize = write(user->_fd, user->_buffer, (size_t)user->_length)) < 0 ) 
 			{
 				perror("Send");
-				LOG("Write Size[%d]\n", writeSize);
+				LOG("---writeEvent() Write Error Socket[%d] writeSize[%d]", user->_fd, writeSize);
 			}	
 		}
 	}

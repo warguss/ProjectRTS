@@ -26,74 +26,60 @@ void CQueueManager::setType(int type)
 }
 
 
-bool CQueueManager::enqueue(int fd, char* buf, int length, int type)
+bool CQueueManager::enqueue(int fd, char* buf, int length)
 {
-	LOG("deque Test");
     CUser* user = new CUser;
-    user->setData(fd, buf, length, type);
+    user->setData(fd, buf, length, _type);
 
-    /* 1thread...? Queue Lock */
+    /* Auto Lock */
 	CThreadLockManager lock(_type);
     _queue.push_back(user);
     _queueSize++;
-    /* Queue UnLock */
 
+	LOG("Dequeue Success\n");
     return true;
 }
 
-bool CQueueManager::enqueue(CUser* user,int type)
+bool CQueueManager::enqueue(CUser* user)
 {
-	LOG("Send deque Test");
-
-    /* 1thread...? Queue Lock */
-	CThreadLockManager lock(type);
-	CThreadLock lock;
+    /* Auto Lock */
+	CThreadLockManager lock(_type);
     _queue.push_back(user);
     _queueSize++;
-    /* Queue UnLock */
 
+	LOG("Endeque Success\n");
     return true;
 }
 
-CUser* CQueueManager::dequeue(int type)
+CUser* CQueueManager::dequeue()
 {
     CUser* user = NULL;
-	/* Queue Lock */
-	CThreadLockManager lock(type);
-	if ( type == READ_TYPE ) 
+	if ( !isQueueDataExist() ) 
 	{
-		if ( _queue.size () > 0 ) 
-		{
-			user = _queue.front();
-			_queue.pop_front();
-			_queueSize--;
-			LOG("dequeu user[%d]", user->_fd);
-		}
+		return user;
 	}
-	else 
-	{
-		if ( _queue.size () > 0 ) 
-		{
-			user = _queue.front();
-			_queue.pop_front();
-			_queueSize--;
-			LOG("dequeu user[%d]", user->_fd);
-		}
-	}
-    /* UnLock */
 
+	LOG("Dequeue Start\n");
+	/* Auto Lock */
+	CThreadLockManager lock(_type);
+
+	user = _queue.front();
+	_queue.pop_front();
+	_queueSize--;
+
+
+	//LOG("dequeu user[%d]\n", user->_fd);
     return user;
 }
 
-bool CQueueManager::isQueueDataExist(int curSize,int type)
+bool CQueueManager::isQueueDataExist()
 {
-	/* Lock */
-	CThreadLockManager lock(type);
+	/* Auto Lock */
+	CThreadLockManager lock(_type);
     if ( _queueSize > 0 )
     {
         return true;
     }
-	/* UnLock */
 
     return false;
 }
