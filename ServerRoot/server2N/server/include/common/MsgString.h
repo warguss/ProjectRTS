@@ -5,8 +5,7 @@
 #define BACKLOG_SIZE 50
 
 #include <stdio.h>
-#define LOG printf
-
+#define LOG(fmt, ...) { printf("%s(%d)[%s] : " fmt, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
 
 /* Type관련 Define */
 #define NOT_SET 0

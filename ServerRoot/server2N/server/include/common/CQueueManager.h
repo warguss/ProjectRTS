@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <list>
 #include "CUser.h"
+#include "CThreadLockManager.h"
 
 using namespace std;
 class CQueueManager
@@ -20,11 +21,11 @@ public:
     CQueueManager();
     ~CQueueManager();
 
-    bool enqueue(int fd, char* buf, int length, int type);
+    bool enqueue(int fd, char* buf, int length);
     bool enqueue(CUser* user);
-    CUser* dequeue(int type);
+    CUser* dequeue();
 
-    bool isQueueDataExist(int curSize);
+    bool isQueueDataExist();
     void setType(int type);
 };
 
