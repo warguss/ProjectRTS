@@ -1,4 +1,6 @@
-﻿namespace RTS
+﻿using UnityEngine;
+
+namespace RTS
 {
     public struct PosInt
     {
@@ -44,6 +46,11 @@
             return posint;
         }
 
+        public static PosInt RbPosToGamePos(Vector2 rbPos)
+        {
+            return RbPosToGamePos(rbPos.x, rbPos.y);
+        }
+
         public static PosFloat GamePosToRbPos(int x, int y)
         {
             float posX = (float)(x / 100);
@@ -54,6 +61,15 @@
                 y = posY
             };
             return posfloat;
+        }
+
+        public static int GamePosDistance(PosInt a, PosInt b)//////////////////////////
+        {
+            Vector2 vecA = new Vector2(a.x, a.y);
+            Vector2 vecB = new Vector2(b.x, b.y);
+            float vecDistance = Vector2.Distance(vecA, vecB);
+
+            return (int)vecDistance;
         }
     }
 }

@@ -15,6 +15,7 @@ public class MainCharacter : MonoBehaviour
     public float MaxMoveSpeed;
     public float MoveForce;
     public float JumpForce;
+    public int airJumpCount = 1;
 
     public GameObject bulletPrefab;
 
@@ -136,12 +137,12 @@ public class MainCharacter : MonoBehaviour
         GameObject bullet = (GameObject)Instantiate(bulletPrefab, gameObject.transform.position, new Quaternion());
         Bullet bulletScript = bullet.GetComponent<Bullet>();
 
-        bulletScript.OwnerPlayer = playerId;
+        bulletScript.SetOwner(playerId);
 
         if (isLeft)
-            bulletScript.angle = 180;
+            bulletScript.SetAngle(180);
         else
-            bulletScript.angle = 0;
+            bulletScript.SetAngle(0);
 
         currentInput.fire = false;
     }

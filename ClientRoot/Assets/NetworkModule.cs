@@ -13,6 +13,7 @@ public class NetworkModule : MonoBehaviour
     TcpClient client;
     NetworkStream ns;
     byte[] msgBuffer = new byte[8];
+    int testCount = 0;
 
     // Use this for initialization
     void Start()
@@ -37,29 +38,7 @@ public class NetworkModule : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            TestUI.Instance.PrintText("Sending AddressBook.Person... Id=3, Name=test");
-            Google.Protobuf.Examples.AddressBook.Person person = new Google.Protobuf.Examples.AddressBook.Person
-            {
-                Id = 3,
-                Name = "test"
-            };
-        
-            byte[] writeBuffer;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                person.WriteTo(ms);
-                writeBuffer = ms.ToArray();
-            }
-
-            try
-            {
-                ns.Write(writeBuffer, 0, writeBuffer.Length);
-                TestUI.Instance.PrintText("sended msg Length : " + writeBuffer.Length);
-            }
-            catch (Exception e)
-            {
-                TestUI.Instance.PrintText("Send Failed : " + e.Message);
-            }
+            Send();
         }
     }
 
@@ -78,6 +57,33 @@ public class NetworkModule : MonoBehaviour
             {
                 TestUI.Instance.PrintText(e.Message);
             }
+        }
+    }
+
+    public void Send()
+    {
+        TestUI.Instance.PrintText("Sending AddressBook.Person... Id=3, Name=test");
+        Google.Protobuf.Examples.AddressBook.Person person = new Google.Protobuf.Examples.AddressBook.Person
+            {
+                Id = 3,
+                Name = "test"
+            };
+
+        byte[] writeBuffer;
+        using (MemoryStream ms = new MemoryStream())
+        {
+            person.WriteTo(ms);
+            writeBuffer = ms.ToArray();
+        }
+
+        try
+        {
+            ns.Write(writeBuffer, 0, writeBuffer.Length);
+            TestUI.Instance.PrintText("sended msg Length : " + writeBuffer.Length);
+        }
+        catch (Exception e)
+        {
+            TestUI.Instance.PrintText("Send Failed : " + e.Message);
         }
     }
 

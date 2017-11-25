@@ -1,17 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
+using RTS;
 
 public class Bullet : MonoBehaviour {
 
     public float bulletSpeed;
-    public int angle = 0;
-    public int OwnerPlayer = 0;
+    public int range;
+
+    private int angle = 0;
+    private int OwnerPlayer = 0;
+
+    private PosInt StartPosition;
 
     private Rigidbody2D rb2d;
 
 	// Use this for initialization
 	void Start () {
         rb2d = GetComponent<Rigidbody2D>();
+        StartPosition = Utils.RbPosToGamePos(rb2d.position);
 	}
 	
 	// Update is called once per frame
@@ -25,6 +31,10 @@ public class Bullet : MonoBehaviour {
             rb2d.velocity = Vector2.left * bulletSpeed;
         else if(angle == 0)
             rb2d.velocity = Vector2.right * bulletSpeed;
+
+        PosInt CurrentPosition = Utils.RbPosToGamePos(rb2d.position);
+        if(Utils.GamePosDistance(StartPosition, CurrentPosition) > range)
+            Destroy(gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -42,5 +52,15 @@ public class Bullet : MonoBehaviour {
         {
             Destroy(gameObject);
         }
+    }
+
+    public void SetAngle(int inAngle)
+    {
+        angle = inAngle;
+    }
+
+    public void SetOwner(int player)
+    {
+        OwnerPlayer = player;
     }
 }
