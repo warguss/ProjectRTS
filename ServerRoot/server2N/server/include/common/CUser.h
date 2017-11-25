@@ -13,12 +13,15 @@ class CUser
 {
     private:
         pthread_t sendThread;
-        int _fd;
         int _sector;
+		int _type;
         int32_t tX,tY;
-        char _buffer[BUFFER];
+			
 
     public:
+        char _buffer[BUFFER];
+        int _fd;
+		int _length;
         CUser();
         CUser(int fd, int32_t x, int32_t y);
         ~CUser();
@@ -26,7 +29,7 @@ class CUser
         bool moveX(int32_t tX);
         bool moveY(int32_t tY);
 
-        void setData(int fd,char* buf, int type);
+        void setData(int fd, char* buf, int length, int type);
 
         static void* writeData(void* buf);
 };

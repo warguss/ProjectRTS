@@ -3,17 +3,24 @@ int CSessionManager::_serverSock = 0;
 int CSessionManager::_epoll_fd = 0;
 struct epoll_event CSessionManager::_init_ev;
 struct epoll_event* CSessionManager::_events;
-CQueueManager CSessionManager::m_Qmanager;
+
+CQueueManager CSessionManager::m_readQ_Manager;
+CQueueManager CSessionManager::m_writeQ_Manager;
 static void* CSessionManager::waitEvent(void* val);
+static void* CSessionManager::writeEvent(void* val);
 
 CUserPool g_userPool;
 
 CSessionManager::CSessionManager(int port)
 {
-	_port = 2048;
+	_port = port;
 	_serverSock = 0;
 	_epoll_fd = 0;
+
+	m_readQ_Manager.setType(READ_TYPE);
+	m_writeQ_Manager.setType(WRITE_TYPE);
     connectInitialize();
+
 }
 
 CSessionManager::~CSessionManager()
@@ -33,6 +40,7 @@ int CSessionManager::connectInitialize()
         return -1;
     }
 
+	LOG("serverSock [%d]\n", _serverSock);
     memset(&serverAddr, '\0', sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -57,22 +65,29 @@ int CSessionManager::connectInitialize()
     _init_ev.events = EPOLLIN;
     _init_ev.data.fd = _serverSock;
     epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, _serverSock, &_init_ev);
+
+	LOG("Connect Initialize\n");
+	return 0;
 }
 
 static void* CSessionManager::waitEvent(void* val)
 {
-    while(true)
+    while(1)
     {
+		LOG("epoll wait\n");
         int event_count = epoll_wait(_epoll_fd, _events, EPOLL_SIZE, -1);
         if ( event_count == -1 )
         {
             break;
         }
 
+		LOG("Epoll Count [%d]\n", event_count);
         for ( int i = 0; i < event_count; ++i )
         {
+			LOG("Wait Epoll Event\n");
             if ( _events[i].data.fd == _serverSock )
             {
+				LOG("Connect Epoll Event\n");
                 /* Client 접속 */
                 struct sockaddr_in clntAddr;
                 int clntAddrSize = sizeof(clntAddr);
@@ -110,6 +125,7 @@ static void* CSessionManager::waitEvent(void* val)
 		
 				int fd = _events[i].data.fd;
 				int readn = read(fd, buffer, BUFFER);
+				LOG("Client Input [%d], read size[%d]\n", fd, readn);
 				if ( readn <= 0 )
 				{
 					LOG("Read Error, Delete Event\n");    
@@ -122,13 +138,38 @@ static void* CSessionManager::waitEvent(void* val)
 				/*
 				 * QueueManger에 넣는다.
 				 * QueueManager 내부에서 Lock 처리한다.
+				 * userPool 에서 꺼내야할듯
 				 */
 				int type = READ_TYPE;
-				m_Qmanager.enqueue(fd, buffer, type);
+				m_readQ_Manager.enqueue(fd, buffer, readn, type);
             }
         }
     }
 }
+
+static void* CSessionManager::writeEvent(void* val)
+{
+	while(1) 
+	{
+		/* signal ... */
+		CUser* user = NULL;
+		if ( user = m_writeQ_Manager.dequeue(WRITE_TYPE) )
+		{
+			int32_t writeSize = 0;
+			if ( (writeSize = write(user->_fd, user->_buffer, (size_t)user->_length)) < 0 ) 
+			{
+				perror("Send");
+				LOG("Write Size[%d]\n", writeSize);
+			}	
+		}
+	}
+	 
+
+	return (void*)0;
+}
+
+
+
 #if 0 
 bool CSessionManager::_connectUserEvent(int clientSock)
 {
