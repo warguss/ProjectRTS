@@ -368,7 +368,7 @@ namespace Google.Protobuf.WellKnownTypes {
         return true;
       }
       if (NullValue != other.NullValue) return false;
-      if (NumberValue != other.NumberValue) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(NumberValue, other.NumberValue)) return false;
       if (StringValue != other.StringValue) return false;
       if (BoolValue != other.BoolValue) return false;
       if (!object.Equals(StructValue, other.StructValue)) return false;
@@ -381,7 +381,7 @@ namespace Google.Protobuf.WellKnownTypes {
     public override int GetHashCode() {
       int hash = 1;
       if (kindCase_ == KindOneofCase.NullValue) hash ^= NullValue.GetHashCode();
-      if (kindCase_ == KindOneofCase.NumberValue) hash ^= NumberValue.GetHashCode();
+      if (kindCase_ == KindOneofCase.NumberValue) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(NumberValue);
       if (kindCase_ == KindOneofCase.StringValue) hash ^= StringValue.GetHashCode();
       if (kindCase_ == KindOneofCase.BoolValue) hash ^= BoolValue.GetHashCode();
       if (kindCase_ == KindOneofCase.StructValue) hash ^= StructValue.GetHashCode();
@@ -466,10 +466,16 @@ namespace Google.Protobuf.WellKnownTypes {
           BoolValue = other.BoolValue;
           break;
         case KindOneofCase.StructValue:
-          StructValue = other.StructValue;
+          if (StructValue == null) {
+            StructValue = new global::Google.Protobuf.WellKnownTypes.Struct();
+          }
+          StructValue.MergeFrom(other.StructValue);
           break;
         case KindOneofCase.ListValue:
-          ListValue = other.ListValue;
+          if (ListValue == null) {
+            ListValue = new global::Google.Protobuf.WellKnownTypes.ListValue();
+          }
+          ListValue.MergeFrom(other.ListValue);
           break;
       }
 

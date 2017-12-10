@@ -68,7 +68,7 @@ namespace Google.Protobuf
         /// <summary>
         /// Returns a formatter using the default settings.
         /// </summary>
-        public static readonly JsonFormatter Default = new JsonFormatter(Settings.Default);
+        public static JsonFormatter Default { get; } = new JsonFormatter(Settings.Default);
 
         // A JSON formatter which *only* exists 
         private static readonly JsonFormatter diagnosticFormatter = new JsonFormatter(Settings.Default);
@@ -125,13 +125,7 @@ namespace Google.Protobuf
 
         private readonly Settings settings;
 
-        private bool DiagnosticOnly
-        {
-            get
-            {
-                return ReferenceEquals(this, diagnosticFormatter);
-            }
-        }
+        private bool DiagnosticOnly => ReferenceEquals(this, diagnosticFormatter);
 
         /// <summary>
         /// Creates a new formatted with the given settings.
@@ -162,8 +156,8 @@ namespace Google.Protobuf
         /// <returns>The formatted message.</returns>
         public void Format(IMessage message, TextWriter writer)
         {
-            ProtoPreconditions.CheckNotNull(message, "message");
-            ProtoPreconditions.CheckNotNull(writer, "writer");
+            ProtoPreconditions.CheckNotNull(message, nameof(message));
+            ProtoPreconditions.CheckNotNull(writer, nameof(writer));
 
             if (message.Descriptor.IsWellKnownType)
             {
@@ -194,7 +188,7 @@ namespace Google.Protobuf
         /// <returns>The diagnostic-only JSON representation of the message</returns>
         public static string ToDiagnosticString(IMessage message)
         {
-            ProtoPreconditions.CheckNotNull(message, "message");
+            ProtoPreconditions.CheckNotNull(message, nameof(message));
             return diagnosticFormatter.Format(message);
         }
 
@@ -530,7 +524,7 @@ namespace Google.Protobuf
             MessageDescriptor descriptor = settings.TypeRegistry.Find(typeName);
             if (descriptor == null)
             {
-                throw new InvalidOperationException("Type registry has no descriptor for type name '" + typeName + "'");
+                throw new InvalidOperationException($"Type registry has no descriptor for type name '{typeName}'");
             }
             IMessage message = descriptor.Parser.ParseFrom(data);
             writer.Write("{ ");
@@ -771,7 +765,7 @@ namespace Google.Protobuf
             /// <summary>
             /// Default settings, as used by <see cref="JsonFormatter.Default"/>
             /// </summary>
-            public static readonly Settings Default;
+            public static Settings Default { get; }
 
             // Workaround for the Mono compiler complaining about XML comments not being on
             // valid language elements.
@@ -784,17 +778,17 @@ namespace Google.Protobuf
             /// Whether fields whose values are the default for the field type (e.g. 0 for integers)
             /// should be formatted (true) or omitted (false).
             /// </summary>
-            public readonly bool FormatDefaultValues;
+            public bool FormatDefaultValues { get; }
 
             /// <summary>
             /// The type registry used to format <see cref="Any"/> messages.
             /// </summary>
-            public readonly TypeRegistry TypeRegistry;
+            public TypeRegistry TypeRegistry { get; }
 
             /// <summary>
             /// Whether to format enums as ints. Defaults to false.
             /// </summary>
-            public readonly bool FormatEnumsAsIntegers;
+            public bool FormatEnumsAsIntegers { get; }
 
 
             /// <summary>
@@ -835,28 +829,19 @@ namespace Google.Protobuf
             /// Creates a new <see cref="Settings"/> object with the specified formatting of default values and the current settings.
             /// </summary>
             /// <param name="formatDefaultValues"><c>true</c> if default values (0, empty strings etc) should be formatted; <c>false</c> otherwise.</param>
-            public Settings WithFormatDefaultValues(bool formatDefaultValues)
-            {
-                return new Settings(formatDefaultValues, TypeRegistry, FormatEnumsAsIntegers);
-            }
+            public Settings WithFormatDefaultValues(bool formatDefaultValues) => new Settings(formatDefaultValues, TypeRegistry, FormatEnumsAsIntegers);
 
             /// <summary>
             /// Creates a new <see cref="Settings"/> object with the specified type registry and the current settings.
             /// </summary>
             /// <param name="typeRegistry">The <see cref="TypeRegistry"/> to use when formatting <see cref="Any"/> messages.</param>
-            public Settings WithTypeRegistry(TypeRegistry typeRegistry)
-            {
-                return new Settings(FormatDefaultValues, typeRegistry, FormatEnumsAsIntegers);
-            }
+            public Settings WithTypeRegistry(TypeRegistry typeRegistry) => new Settings(FormatDefaultValues, typeRegistry, FormatEnumsAsIntegers);
 
             /// <summary>
             /// Creates a new <see cref="Settings"/> object with the specified enums formatting option and the current settings.
             /// </summary>
             /// <param name="formatEnumsAsIntegers"><c>true</c> to format the enums as integers; <c>false</c> to format enums as enum names.</param>
-            public Settings WithFormatEnumsAsIntegers(bool formatEnumsAsIntegers)
-            {
-                return new Settings(FormatDefaultValues, TypeRegistry, formatEnumsAsIntegers);
-            }
+            public Settings WithFormatEnumsAsIntegers(bool formatEnumsAsIntegers) => new Settings(FormatDefaultValues, TypeRegistry, formatEnumsAsIntegers);
         }
 
         // Effectively a cache of mapping from enum values to the original name as specified in the proto file,
@@ -888,17 +873,30 @@ namespace Google.Protobuf
                 return originalName;
             }
 
+#if NET35
             // TODO: Consider adding functionality to TypeExtensions to avoid this difference.
-            private static Dictionary<object, string> GetNameMapping(System.Type enumType)
-            {
-                return enumType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static).ToDictionary(f => f.GetValue(null),
-                                  f =>
-                                  {
-                                      var p = f.GetCustomAttributes(typeof(OriginalNameAttribute), false).FirstOrDefault() as OriginalNameAttribute;
-                                      if (p != null && p.Name != null) return p.Name;
-                                      return f.Name;
-                                  });
-            }
+            private static Dictionary<object, string> GetNameMapping(System.Type enumType) =>
+                enumType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static)
+                    .Where(f => (f.GetCustomAttributes(typeof(OriginalNameAttribute), false)
+                                 .FirstOrDefault() as OriginalNameAttribute)
+                                 ?.PreferredAlias ?? true)
+                    .ToDictionary(f => f.GetValue(null),
+                                  f => (f.GetCustomAttributes(typeof(OriginalNameAttribute), false)
+                                        .FirstOrDefault() as OriginalNameAttribute)
+                                        // If the attribute hasn't been applied, fall back to the name of the field.
+                                        ?.Name ?? f.Name);
+#else
+            private static Dictionary<object, string> GetNameMapping(System.Type enumType) =>
+                enumType.GetTypeInfo().DeclaredFields
+                    .Where(f => f.IsStatic)
+                    .Where(f => f.GetCustomAttributes<OriginalNameAttribute>()
+                                 .FirstOrDefault()?.PreferredAlias ?? true)
+                    .ToDictionary(f => f.GetValue(null),
+                                  f => f.GetCustomAttributes<OriginalNameAttribute>()
+                                        .FirstOrDefault()
+                                        // If the attribute hasn't been applied, fall back to the name of the field.
+                                        ?.Name ?? f.Name);
+#endif
         }
     }
 }

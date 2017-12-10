@@ -30,12 +30,14 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using Google.Protobuf.Collections;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-
+#if NET35
+// Needed for ReadOnlyDictionary, which does not exist in .NET 3.5
+using Google.Protobuf.Collections;
+#endif
 
 namespace Google.Protobuf.Reflection
 {
@@ -66,8 +68,8 @@ namespace Google.Protobuf.Reflection
             : base(file, file.ComputeFullName(parent, proto.Name), typeIndex)
         {
             Proto = proto;
-            Parser = generatedCodeInfo == null ? null : generatedCodeInfo.Parser;
-            ClrType = generatedCodeInfo == null ? null : generatedCodeInfo.ClrType;
+            Parser = generatedCodeInfo?.Parser;
+            ClrType = generatedCodeInfo?.ClrType;
             ContainingType = parent;
 
             // Note use of generatedCodeInfo. rather than generatedCodeInfo?. here... we don't expect
@@ -91,7 +93,7 @@ namespace Google.Protobuf.Reflection
             fieldsInDeclarationOrder = DescriptorUtil.ConvertAndMakeReadOnly(
                 proto.Field,
                 (field, index) =>
-                new FieldDescriptor(field, file, this, index, generatedCodeInfo == null ? null : generatedCodeInfo.PropertyNames[index]));
+                new FieldDescriptor(field, file, this, index, generatedCodeInfo?.PropertyNames[index]));
             fieldsInNumberOrder = new ReadOnlyCollection<FieldDescriptor>(fieldsInDeclarationOrder.OrderBy(field => field.FieldNumber).ToArray());
             // TODO: Use field => field.Proto.JsonName when we're confident it's appropriate. (And then use it in the formatter, too.)
             jsonFieldMap = CreateJsonFieldMap(fieldsInNumberOrder);
@@ -113,15 +115,9 @@ namespace Google.Protobuf.Reflection
         /// <summary>
         /// The brief name of the descriptor's target.
         /// </summary>
-        public override string Name
-        {
-            get
-            {
-                return Proto.Name;
-            }
-        }
+        public override string Name => Proto.Name;
 
-        internal readonly DescriptorProto Proto;
+        internal DescriptorProto Proto { get; }
 
         /// <summary>
         /// The CLR type used to represent message instances from this descriptor.
@@ -140,7 +136,7 @@ namespace Google.Protobuf.Reflection
         /// a wrapper type, and handle the result appropriately.
         /// </para>
         /// </remarks>
-        public readonly Type ClrType;
+        public Type ClrType { get; }
 
         /// <summary>
         /// A parser for this message type.
@@ -163,75 +159,57 @@ namespace Google.Protobuf.Reflection
         /// a wrapper type, and handle the result appropriately.
         /// </para>
         /// </remarks>
-        public readonly MessageParser Parser;
+        public MessageParser Parser { get; }
 
         /// <summary>
         /// Returns whether this message is one of the "well known types" which may have runtime/protoc support.
         /// </summary>
-        internal bool IsWellKnownType
-        {
-            get
-            {
-                return File.Package == "google.protobuf" && WellKnownTypeNames.Contains(File.Name);
-            }
-        }
+        internal bool IsWellKnownType => File.Package == "google.protobuf" && WellKnownTypeNames.Contains(File.Name);
 
         /// <summary>
         /// Returns whether this message is one of the "wrapper types" used for fields which represent primitive values
         /// with the addition of presence.
         /// </summary>
-        internal bool IsWrapperType
-        {
-            get
-            {
-                return File.Package == "google.protobuf" && File.Name == "google/protobuf/wrappers.proto";
-            }
-        }
+        internal bool IsWrapperType => File.Package == "google.protobuf" && File.Name == "google/protobuf/wrappers.proto";
 
         /// <value>
         /// If this is a nested type, get the outer descriptor, otherwise null.
         /// </value>
-        public readonly MessageDescriptor ContainingType;
+        public MessageDescriptor ContainingType { get; }
 
         /// <value>
         /// A collection of fields, which can be retrieved by name or field number.
         /// </value>
-        public readonly FieldCollection Fields;
+        public FieldCollection Fields { get; }
 
         /// <value>
         /// An unmodifiable list of this message type's nested types.
         /// </value>
-        public readonly IList<MessageDescriptor> NestedTypes;
+        public IList<MessageDescriptor> NestedTypes { get; }
 
         /// <value>
         /// An unmodifiable list of this message type's enum types.
         /// </value>
-        public readonly IList<EnumDescriptor> EnumTypes;
+        public IList<EnumDescriptor> EnumTypes { get; }
 
         /// <value>
         /// An unmodifiable list of the "oneof" field collections in this message type.
         /// </value>
-        public readonly IList<OneofDescriptor> Oneofs;
+        public IList<OneofDescriptor> Oneofs { get; }
 
         /// <summary>
         /// Finds a field by field name.
         /// </summary>
         /// <param name="name">The unqualified name of the field (e.g. "foo").</param>
         /// <returns>The field's descriptor, or null if not found.</returns>
-        public FieldDescriptor FindFieldByName(String name)
-        {
-            return File.DescriptorPool.FindSymbol<FieldDescriptor>(FullName + "." + name);
-        }
+        public FieldDescriptor FindFieldByName(String name) => File.DescriptorPool.FindSymbol<FieldDescriptor>(FullName + "." + name);
 
         /// <summary>
         /// Finds a field by field number.
         /// </summary>
         /// <param name="number">The field number within this message type.</param>
         /// <returns>The field's descriptor, or null if not found.</returns>
-        public FieldDescriptor FindFieldByNumber(int number)
-        {
-            return File.DescriptorPool.FindFieldByNumber(this, number);
-        }
+        public FieldDescriptor FindFieldByNumber(int number) => File.DescriptorPool.FindFieldByNumber(this, number);
 
         /// <summary>
         /// Finds a nested descriptor by name. The is valid for fields, nested
@@ -239,21 +217,13 @@ namespace Google.Protobuf.Reflection
         /// </summary>
         /// <param name="name">The unqualified name of the descriptor, e.g. "Foo"</param>
         /// <returns>The descriptor, or null if not found.</returns>
-        public T FindDescriptor<T>(string name) where T : class, IDescriptor
-        {
-            return File.DescriptorPool.FindSymbol<T>(FullName + "." + name);
-        }
+        public T FindDescriptor<T>(string name)  where T : class, IDescriptor =>
+            File.DescriptorPool.FindSymbol<T>(FullName + "." + name);
+
         /// <summary>
         /// The (possibly empty) set of custom options for this message.
         /// </summary>
-        //public CustomOptions CustomOptions => Proto.Options?.CustomOptions ?? CustomOptions.Empty;
-        public CustomOptions CustomOptions
-        {
-            get
-            {
-                return Proto.Options == null ? null : Proto.Options.CustomOptions ?? CustomOptions.Empty;
-            }
-        }
+        public CustomOptions CustomOptions => Proto.Options?.CustomOptions ?? CustomOptions.Empty;
 
         /// <summary>
         /// Looks up and cross-links all fields and nested types.
@@ -292,7 +262,7 @@ namespace Google.Protobuf.Reflection
             /// Returns the fields in the message as an immutable list, in the order in which they
             /// are declared in the source .proto file.
             /// </value>
-            public IList<FieldDescriptor> InDeclarationOrder() { return messageDescriptor.fieldsInDeclarationOrder; }
+            public IList<FieldDescriptor> InDeclarationOrder() => messageDescriptor.fieldsInDeclarationOrder;
 
             /// <value>
             /// Returns the fields in the message as an immutable list, in ascending field number
@@ -300,10 +270,7 @@ namespace Google.Protobuf.Reflection
             /// index in the list to the field number; to retrieve a field by field number, it is better
             /// to use the <see cref="FieldCollection"/> indexer.
             /// </value>
-            public IList<FieldDescriptor> InFieldNumberOrder()
-            {
-                return messageDescriptor.fieldsInNumberOrder;
-            }
+            public IList<FieldDescriptor> InFieldNumberOrder() => messageDescriptor.fieldsInNumberOrder;
 
             // TODO: consider making this public in the future. (Being conservative for now...)
 
@@ -313,10 +280,7 @@ namespace Google.Protobuf.Reflection
             /// in the message would result two entries, one with a key <c>fooBar</c> and one with a key
             /// <c>foo_bar</c>, both referring to the same field.
             /// </value>
-            internal IDictionary<string, FieldDescriptor> ByJsonName()
-            {
-                return messageDescriptor.jsonFieldMap;
-            }
+            internal IDictionary<string, FieldDescriptor> ByJsonName() => messageDescriptor.jsonFieldMap;
 
             /// <summary>
             /// Retrieves the descriptor for the field with the given number.

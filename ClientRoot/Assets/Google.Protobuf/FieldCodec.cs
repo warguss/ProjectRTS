@@ -30,6 +30,7 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using Google.Protobuf.Collections;
 using Google.Protobuf.Compatibility;
 using Google.Protobuf.WellKnownTypes;
 using System;
@@ -346,6 +347,7 @@ namespace Google.Protobuf
     /// </remarks>
     public sealed class FieldCodec<T>
     {
+        private static readonly EqualityComparer<T> EqualityComparer = ProtobufEqualityComparers.GetEqualityComparer<T>();
         private static readonly T DefaultDefault;
         // Only non-nullable value types support packing. This is the simplest way of detecting that.
         private static readonly bool TypeSupportsPacking = default(T) != null;
@@ -363,33 +365,31 @@ namespace Google.Protobuf
             // Otherwise it's the default value of the CLR type
         }
 
-        internal static bool IsPackedRepeatedField(uint tag)
-        {
-            return TypeSupportsPacking && WireFormat.GetTagWireType(tag) == WireFormat.WireType.LengthDelimited;
-        }
+        internal static bool IsPackedRepeatedField(uint tag) =>
+            TypeSupportsPacking && WireFormat.GetTagWireType(tag) == WireFormat.WireType.LengthDelimited;
 
-        internal readonly bool PackedRepeatedField;
+        internal bool PackedRepeatedField { get; }
 
         /// <summary>
         /// Returns a delegate to write a value (unconditionally) to a coded output stream.
         /// </summary>
-        internal readonly Action<CodedOutputStream, T> ValueWriter;
+        internal Action<CodedOutputStream, T> ValueWriter { get; }
 
         /// <summary>
         /// Returns the size calculator for just a value.
         /// </summary>
-        internal readonly Func<T, int> ValueSizeCalculator;
+        internal Func<T, int> ValueSizeCalculator { get; }
 
         /// <summary>
         /// Returns a delegate to read a value from a coded input stream. It is assumed that
         /// the stream is already positioned on the appropriate tag.
         /// </summary>
-        internal readonly Func<CodedInputStream, T> ValueReader;
+        internal Func<CodedInputStream, T> ValueReader { get; }
 
         /// <summary>
         /// Returns the fixed size for an entry, or 0 if sizes vary.
         /// </summary>
-        internal readonly int FixedSize;
+        internal int FixedSize { get; }
 
         /// <summary>
         /// Gets the tag of the codec.
@@ -397,7 +397,7 @@ namespace Google.Protobuf
         /// <value>
         /// The tag of the codec.
         /// </value>
-        internal readonly uint Tag;
+        internal uint Tag { get; }
 
         /// <summary>
         /// Default value for this codec. Usually the same for every instance of the same type, but
@@ -407,7 +407,7 @@ namespace Google.Protobuf
         /// <value>
         /// The default value of the codec's type.
         /// </value>
-        internal readonly T DefaultValue;
+        internal T DefaultValue { get; }
 
         private readonly int tagSize;
         
@@ -463,23 +463,14 @@ namespace Google.Protobuf
         /// </summary>
         /// <param name="input">The input stream to read from.</param>
         /// <returns>The value read from the stream.</returns>
-        public T Read(CodedInputStream input)
-        {
-            return ValueReader(input);
-        }
+        public T Read(CodedInputStream input) => ValueReader(input);
 
         /// <summary>
         /// Calculates the size required to write the given value, with a tag,
         /// if the value is not the default.
         /// </summary>
-        public int CalculateSizeWithTag(T value)
-        {
-            return IsDefault(value) ? 0 : ValueSizeCalculator(value) + tagSize;
-        }
+        public int CalculateSizeWithTag(T value) => IsDefault(value) ? 0 : ValueSizeCalculator(value) + tagSize;
 
-        private bool IsDefault(T value)
-        {
-            return EqualityComparer<T>.Default.Equals(value, DefaultValue);
-        }
+        private bool IsDefault(T value) => EqualityComparer.Equals(value, DefaultValue);
     }
 }

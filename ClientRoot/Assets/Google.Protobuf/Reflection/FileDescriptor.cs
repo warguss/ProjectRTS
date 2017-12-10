@@ -48,7 +48,7 @@ namespace Google.Protobuf.Reflection
             SerializedData = descriptorData;
             DescriptorPool = pool;
             Proto = proto;
-            Dependencies = new ReadOnlyCollection<FileDescriptor>((FileDescriptor[])dependencies.Clone());
+            Dependencies = new ReadOnlyCollection<FileDescriptor>((FileDescriptor[]) dependencies.Clone());
 
             PublicDependencies = DeterminePublicDependencies(this, proto, dependencies, allowUnknownDependencies);
 
@@ -123,87 +123,63 @@ namespace Google.Protobuf.Reflection
         /// <value>
         /// The descriptor in its protocol message representation.
         /// </value>
-        internal readonly FileDescriptorProto Proto;
+        internal FileDescriptorProto Proto { get; }
 
         /// <value>
         /// The file name.
         /// </value>
-        public string Name
-        {
-            get
-            {
-                return Proto.Name;
-            }
-        }
+        public string Name => Proto.Name;
 
         /// <summary>
         /// The package as declared in the .proto file. This may or may not
         /// be equivalent to the .NET namespace of the generated classes.
         /// </summary>
-        public string Package
-        {
-            get
-            {
-                return Proto.Package;
-            }
-        }
+        public string Package => Proto.Package;
 
         /// <value>
         /// Unmodifiable list of top-level message types declared in this file.
         /// </value>
-        public readonly IList<MessageDescriptor> MessageTypes;
+        public IList<MessageDescriptor> MessageTypes { get; }
 
         /// <value>
         /// Unmodifiable list of top-level enum types declared in this file.
         /// </value>
-        public readonly IList<EnumDescriptor> EnumTypes;
+        public IList<EnumDescriptor> EnumTypes { get; }
 
         /// <value>
         /// Unmodifiable list of top-level services declared in this file.
         /// </value>
-        public readonly IList<ServiceDescriptor> Services;
+        public IList<ServiceDescriptor> Services { get; }
 
         /// <value>
         /// Unmodifiable list of this file's dependencies (imports).
         /// </value>
-        public readonly IList<FileDescriptor> Dependencies;
+        public IList<FileDescriptor> Dependencies { get; }
 
         /// <value>
         /// Unmodifiable list of this file's public dependencies (public imports).
         /// </value>
-        public readonly IList<FileDescriptor> PublicDependencies;
+        public IList<FileDescriptor> PublicDependencies { get; }
 
         /// <value>
         /// The original serialized binary form of this descriptor.
         /// </value>
-        public readonly ByteString SerializedData;
+        public ByteString SerializedData { get; }
 
         /// <value>
         /// Implementation of IDescriptor.FullName - just returns the same as Name.
         /// </value>
-        string IDescriptor.FullName
-        {
-            get
-            {
-                return Name;
-            }
-        }
+        string IDescriptor.FullName => Name;
 
         /// <value>
         /// Implementation of IDescriptor.File - just returns this descriptor.
         /// </value>
-        FileDescriptor IDescriptor.File
-        {
-            get
-            {
-                return this;
-            }
-        }
+        FileDescriptor IDescriptor.File => this;
 
         /// <value>
         /// Pool containing symbol descriptors.
         /// </value>
-        internal readonly DescriptorPool DescriptorPool;
+        internal DescriptorPool DescriptorPool { get; }
 
         /// <summary>
         /// Finds a type (message, enum, service or extension) in the file by name. Does not find nested types.
@@ -324,7 +300,7 @@ namespace Google.Protobuf.Reflection
             }
             catch (DescriptorValidationException e)
             {
-                throw new ArgumentException("Invalid embedded descriptor for \"" + proto.Name + "\".", e);
+                throw new ArgumentException($"Invalid embedded descriptor for \"{proto.Name}\".", e);
             }
         }
 
@@ -336,7 +312,7 @@ namespace Google.Protobuf.Reflection
         /// </returns>
         public override string ToString()
         {
-            return "FileDescriptor for " + Name;
+            return $"FileDescriptor for {Name}";
         }
 
         /// <summary>
@@ -357,13 +333,6 @@ namespace Google.Protobuf.Reflection
         /// <summary>
         /// The (possibly empty) set of custom options for this file.
         /// </summary>
-        //public CustomOptions CustomOptions => Proto.Options?.CustomOptions ?? CustomOptions.Empty;
-        public CustomOptions CustomOptions
-        {
-            get
-            {
-                return Proto.Options == null ? null : Proto.Options.CustomOptions ?? CustomOptions.Empty;
-            }
-        }
+        public CustomOptions CustomOptions => Proto.Options?.CustomOptions ?? CustomOptions.Empty;
     }
 }

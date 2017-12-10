@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Server2N;
 using Google.Protobuf;
 using System.IO;
 using System.Net.Sockets;
@@ -12,7 +13,7 @@ public class NetworkModule : MonoBehaviour
 
     TcpClient client;
     NetworkStream ns;
-    byte[] msgBuffer = new byte[8];
+    byte[] msgBuffer = new byte[256];
     int testCount = 0;
 
     // Use this for initialization
@@ -62,35 +63,85 @@ public class NetworkModule : MonoBehaviour
 
     public void Send()
     {
-        TestUI.Instance.PrintText("Sending AddressBook.Person... Id=3, Name=test");
-        Google.Protobuf.Examples.AddressBook.Person person = new Google.Protobuf.Examples.AddressBook.Person
-            {
-                Id = 3,
-                Name = "test"
-            };
-
-        byte[] writeBuffer;
-        using (MemoryStream ms = new MemoryStream())
-        {
-            person.WriteTo(ms);
-            writeBuffer = ms.ToArray();
-        }
-
+        TestUI.Instance.PrintText("Sending ConnectionPacket, EventPacket");
+        PacketBody connectionPacket = CreateConnectionPacket(testCount);
+        PacketBody eventPacket = CreateEventPacket((float)testCount);
+     
         try
         {
-            ns.Write(writeBuffer, 0, writeBuffer.Length);
-            TestUI.Instance.PrintText("sended msg Length : " + writeBuffer.Length);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                byte[] writeBuffer;
+                connectionPacket.WriteTo(ms);
+                writeBuffer = ms.ToArray();
+
+                //ns.Write(writeBuffer, 0, writeBuffer.Length);
+                TestUI.Instance.PrintText("sended connectionPacket, id = " + testCount + " Length : " + writeBuffer.Length);
+            }
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                byte[] writeBuffer;
+                eventPacket.WriteTo(ms);
+                writeBuffer = ms.ToArray();
+
+                //ns.Write(writeBuffer, 0, writeBuffer.Length);
+                TestUI.Instance.PrintText("sended eventPacket , XY = " + testCount + " Length : " + writeBuffer.Length);
+            }
         }
         catch (Exception e)
         {
             TestUI.Instance.PrintText("Send Failed : " + e.Message);
         }
+
+        testCount++;
     }
 
     void DataReceive(System.IAsyncResult ar)
     {
-        var parsed = Google.Protobuf.Examples.AddressBook.Person.Parser.ParseFrom(msgBuffer);
-        string message = "Data Received. Name=" + parsed.Name + ", id=" + parsed.Id;
+        var parsed = PacketBody.Parser.ParseFrom(msgBuffer);
+        ProcessPacketBody(parsed);
+    }
+
+    PacketBody CreateConnectionPacket(int test)
+    {
+        UserConnection uesrConnection = new UserConnection();
+        uesrConnection.ConType = UserConnection.Types.ConnectionType.Connect;
+        uesrConnection.Id = test;
+
+        PacketBody packetBody = new PacketBody();
+        packetBody.MsgType = PacketBody.Types.messageType.UserConnection;
+        packetBody.Connect = uesrConnection;
+
+        return packetBody;
+    }
+
+    PacketBody CreateEventPacket(float test)
+    {
+        GameEvent gameEvent = new GameEvent();
+        gameEvent.Act = GameEvent.Types.action.Move;
+        gameEvent.EventPositionX = test;
+        gameEvent.EventPositionY = test;
+
+        PacketBody packetBody = new PacketBody();
+        packetBody.MsgType = PacketBody.Types.messageType.GameEvent;
+        packetBody.Event = gameEvent;
+
+        return packetBody;
+    }
+
+    void ProcessPacketBody(PacketBody packetBody)
+    {
+        string message = "";
+        switch (packetBody.MsgType)
+        {
+            case PacketBody.Types.messageType.UserConnection: 
+                message = "UserConnection Data Received. id=" + packetBody.Connect.Id;
+                break;
+            case PacketBody.Types.messageType.GameEvent:
+                message = "GameEvent Data Received. position=" + packetBody.Event.EventPositionX;
+                break;
+        }
         Debug.Log(message);
         TestUI.Instance.PrintText(message);
 

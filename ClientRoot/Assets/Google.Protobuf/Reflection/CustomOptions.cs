@@ -119,10 +119,7 @@ namespace Google.Protobuf.Reflection
         /// <param name="field">The field to fetch the value for.</param>
         /// <param name="value">The output variable to populate.</param>
         /// <returns><c>true</c> if a suitable value for the field was found; <c>false</c> otherwise.</returns>
-        public bool TryGetFixed32(int field, out uint value)
-        {
-            return TryGetUInt32(field, out value);
-        }
+        public bool TryGetFixed32(int field, out uint value) => TryGetUInt32(field, out value);
 
         /// <summary>
         /// Retrieves an unsigned 64-bit integer value for the specified option field,
@@ -131,10 +128,7 @@ namespace Google.Protobuf.Reflection
         /// <param name="field">The field to fetch the value for.</param>
         /// <param name="value">The output variable to populate.</param>
         /// <returns><c>true</c> if a suitable value for the field was found; <c>false</c> otherwise.</returns>
-        public bool TryGetFixed64(int field, out ulong value)
-        {
-            return TryGetUInt64(field, out value);
-        }
+        public bool TryGetFixed64(int field, out ulong value) => TryGetUInt64(field, out value);
 
         /// <summary>
         /// Retrieves a signed 32-bit integer value for the specified option field,
@@ -143,10 +137,7 @@ namespace Google.Protobuf.Reflection
         /// <param name="field">The field to fetch the value for.</param>
         /// <param name="value">The output variable to populate.</param>
         /// <returns><c>true</c> if a suitable value for the field was found; <c>false</c> otherwise.</returns>
-        public bool TryGetSFixed32(int field, out int value)
-        {
-            return TryGetInt32(field, out value);
-        }
+        public bool TryGetSFixed32(int field, out int value) => TryGetInt32(field, out value);
 
         /// <summary>
         /// Retrieves a signed 64-bit integer value for the specified option field,
@@ -155,10 +146,7 @@ namespace Google.Protobuf.Reflection
         /// <param name="field">The field to fetch the value for.</param>
         /// <param name="value">The output variable to populate.</param>
         /// <returns><c>true</c> if a suitable value for the field was found; <c>false</c> otherwise.</returns>
-        public bool TryGetSFixed64(int field, out long value)
-        {
-            return TryGetInt64(field, out value);
-        }
+        public bool TryGetSFixed64(int field, out long value) => TryGetInt64(field, out value);
         
         /// <summary>
         /// Retrieves a signed 32-bit integer value for the specified option field,
@@ -251,7 +239,7 @@ namespace Google.Protobuf.Reflection
         public bool TryGetString(int field, out string value)
         {
             ByteString bytes = GetLastByteStringValue(field);
-            value = bytes == null ? null : bytes.ToStringUtf8();
+            value = bytes?.ToStringUtf8();
             return bytes != null;
         }
 
@@ -383,8 +371,8 @@ namespace Google.Protobuf.Reflection
         /// </summary>
         private struct FieldValue
         {
-            internal readonly ulong Number;
-            internal readonly ByteString ByteString;
+            internal ulong Number { get; }
+            internal ByteString ByteString { get; }
 
             internal FieldValue(ulong number)
             {
