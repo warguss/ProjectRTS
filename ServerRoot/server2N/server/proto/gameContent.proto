@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package server2N;
+
+message UserConnection{
+	enum ConnectionType{
+		Connect = 0;
+		DisConnect = 1001;
+	}
+
+	int32 id = 1;
+	ConnectionType conType = 2;
+}
+
+message GameEvent{
+	enum action{
+		Nothing		= 0;
+		Move		= 100;
+		Stop		= 101;
+		Jump		= 102;
+		Shoot		= 103;
+		GetHit		= 104;
+		Spawn		= 105;
+	}
+
+	action act = 3;
+	float EventPositionX = 4;
+	float EventPositionY = 5;
+}
+
+
+
+
+message PacketBody{
+	enum messageType{
+		GameEvent		= 0;
+		UserConnection	= 10000;
+	}
+   messageType msgType = 10000; 
+   UserConnection connect = 6;
+   GameEvent event = 7;
+}
+
