@@ -13,7 +13,7 @@ public class NetworkModule : MonoBehaviour
 
     TcpClient client;
     NetworkStream ns;
-    byte[] msgBuffer = new byte[256];
+    byte[] msgBuffer = new byte[14];
     int testCount = 0;
 
     // Use this for initialization
@@ -69,25 +69,17 @@ public class NetworkModule : MonoBehaviour
      
         try
         {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                byte[] writeBuffer;
-                connectionPacket.WriteTo(ms);
-                writeBuffer = ms.ToArray();
+            byte[] writeBuffer;
+            writeBuffer = connectionPacket.ToByteArray();
 
-                //ns.Write(writeBuffer, 0, writeBuffer.Length);
-                TestUI.Instance.PrintText("sended connectionPacket, id = " + testCount + " Length : " + writeBuffer.Length);
-            }
+            ns.Write(writeBuffer, 0, writeBuffer.Length);
+            TestUI.Instance.PrintText("sended connectionPacket, id = " + testCount + " Length : " + writeBuffer.Length);
+                
+            byte[] writeBuffer2;
+            writeBuffer2 = eventPacket.ToByteArray();
 
-            using (MemoryStream ms = new MemoryStream())
-            {
-                byte[] writeBuffer;
-                eventPacket.WriteTo(ms);
-                writeBuffer = ms.ToArray();
-
-                //ns.Write(writeBuffer, 0, writeBuffer.Length);
-                TestUI.Instance.PrintText("sended eventPacket , XY = " + testCount + " Length : " + writeBuffer.Length);
-            }
+            ns.Write(writeBuffer2, 0, writeBuffer2.Length);
+            TestUI.Instance.PrintText("sended eventPacket , XY = " + testCount + " Length : " + writeBuffer2.Length);
         }
         catch (Exception e)
         {
@@ -99,6 +91,7 @@ public class NetworkModule : MonoBehaviour
 
     void DataReceive(System.IAsyncResult ar)
     {
+        TestUI.Instance.PrintText("DataReceive()");
         var parsed = PacketBody.Parser.ParseFrom(msgBuffer);
         ProcessPacketBody(parsed);
     }
@@ -139,7 +132,10 @@ public class NetworkModule : MonoBehaviour
                 message = "UserConnection Data Received. id=" + packetBody.Connect.Id;
                 break;
             case PacketBody.Types.messageType.GameEvent:
-                message = "GameEvent Data Received. position=" + packetBody.Event.EventPositionX;
+                message = "GameEvent Data Received. position=" + packetBody.Event.EventPositionX + " , " + packetBody.Event.EventPositionY;
+                break;
+            default:
+                message = "UnknownType : " + (int)packetBody.MsgType;
                 break;
         }
         Debug.Log(message);
