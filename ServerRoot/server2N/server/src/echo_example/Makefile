@@ -1,15 +1,15 @@
 
 APP_SRCS=$(wildcard *.cpp)
-PROTO_SRCS= ../proto/addressbook.pb.cc
+PROTO_SRCS= ../../proto/addressbook.pb.cc
 
 
 APP_OBJS=$(APP_SRCS:.cpp=.o)
-PROTO_OBJS= ../proto/addressbook.pb.o
+PROTO_OBJS= ../../proto/addressbook.pb.o
 
 
 
-INCLUDES=-I./ -I../proto -I../include -I../
-LIBRARY=-L../lib -lprotobuf-lite -lprotobuf -lprotoc
+INCLUDES=-I./ -I../../proto -I../../include -I../../
+LIBRARY=-L../../lib -lprotobuf-lite -lprotobuf -lprotoc
 
 
 all: Project
