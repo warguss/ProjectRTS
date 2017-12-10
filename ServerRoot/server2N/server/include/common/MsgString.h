@@ -12,3 +12,8 @@
 #define READ_TYPE 100
 #define WRITE_TYPE 101
 
+
+
+#define PROTOBUF_USER 0
+#define PROTOBUF_ADDRESSBOOK 1
+

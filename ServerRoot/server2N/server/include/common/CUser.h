@@ -22,6 +22,9 @@ class CUser
         char _buffer[BUFFER];
         int _fd;
 		int _length;
+		char _protoType;
+		int _protoLength;
+
         CUser();
         CUser(int fd, int32_t x, int32_t y);
         ~CUser();
