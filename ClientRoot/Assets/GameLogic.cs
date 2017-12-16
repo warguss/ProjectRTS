@@ -11,8 +11,6 @@ public class GameLogic : MonoBehaviour
     public GameObject PlayerPrefab;
     public CameraMove CameraScript;
 
-    TcpClient client;
-    NetworkStream ns;
     Dictionary<int, MainCharacter> playerCharacters;
     int myId = 1; 
     int testId = 2;

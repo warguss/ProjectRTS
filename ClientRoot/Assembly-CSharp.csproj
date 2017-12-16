@@ -131,6 +131,7 @@
      <Compile Include="Assets\Google.Protobuf\WireFormat.cs" />
      <Compile Include="Assets\Manager.cs" />
      <Compile Include="Assets\NetworkModule.cs" />
+     <Compile Include="Assets\Packet.cs" />
      <Compile Include="Assets\Server\proto\GameContent.cs" />
      <Compile Include="Assets\TestUI.cs" />
      <Compile Include="Assets\Utils.cs" />
