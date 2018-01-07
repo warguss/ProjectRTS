@@ -28,15 +28,15 @@ void CQueueManager::setType(int type)
 
 bool CQueueManager::enqueue(int fd, char* buf, int length)
 {
+	LOG("Enqueue Success[%s] length[%d]\n", buf, length);
     CUser* user = new CUser;
-    user->setData(fd, buf, length, _type);
+    user->setData(fd, _type);
 
     /* Auto Lock */
 	CThreadLockManager lock(_type);
     _queue.push_back(user);
     _queueSize++;
 
-	LOG("Dequeue Success\n");
     return true;
 }
 
