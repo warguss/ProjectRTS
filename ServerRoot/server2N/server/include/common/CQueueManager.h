@@ -11,9 +11,9 @@ using namespace std;
 class CQueueManager
 {
 private:
-    list<CUser*> _queue;
-    int _queueSize;
 	int _type;
+    int _queueSize;
+    list<CUser*> _queue;
 
     pthread_mutex_t queue_mutex;
     pthread_cond_t queue_cond;
