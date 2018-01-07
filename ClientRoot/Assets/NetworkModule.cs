@@ -80,9 +80,9 @@ public class NetworkModule : MonoBehaviour
 
     public void Connect(string ip, int port)
     {
+        TestUI.Instance.PrintText("Trying to connect " + ip + ":" + port);
         if (client == null)
         {
-            TestUI.Instance.PrintText("Trying to connect " + ip + ":" + port);
             try
             {
                 client = new TcpClient(ip, port);
@@ -95,6 +95,30 @@ public class NetworkModule : MonoBehaviour
             {
                 TestUI.Instance.PrintText(e.Message);
             }
+        }
+    }
+
+    public void Disconnect()
+    {
+        TestUI.Instance.PrintText("Trying to disconnect");
+        try
+        {
+            if (client != null)
+            {
+                ns.Close();
+                client.Close();
+                readThread.Abort();
+
+                ns = null;
+                client = null;
+                readThread = null;
+
+                TestUI.Instance.PrintText("Disconnected");
+            }
+        }
+        catch (Exception e)
+        {
+            TestUI.Instance.PrintText(e.Message);
         }
     }
  
@@ -117,16 +141,16 @@ public class NetworkModule : MonoBehaviour
 
             writePacket.Clean();
 
-            //byte[] writeBuffer2;
-            //writeBuffer2 = eventPacket.ToByteArray();
-            //writePacket.AllocateRawData(writeBuffer2.Length);
-            //writeBuffer2.CopyTo(writePacket.RawData, Packet.HEADER_LENGTH);
-            //writePacket.Encode_Header();
+            byte[] writeBuffer2;
+            writeBuffer2 = eventPacket.ToByteArray();
+            writePacket.AllocateRawData(writeBuffer2.Length);
+            writeBuffer2.CopyTo(writePacket.RawData, Packet.HEADER_LENGTH);
+            writePacket.Encode_Header();
 
-            //ns.Write(writePacket.RawData, 0, writePacket.RawData.Length);
-            //TestUI.Instance.PrintText("sended eventPacket , XY = " + testCount + " Body Length : " + writePacket.BodyLength + "Total Length : " + writePacket.RawData.Length);
+            ns.Write(writePacket.RawData, 0, writePacket.RawData.Length);
+            TestUI.Instance.PrintText("sended eventPacket , XY = " + testCount + " Body Length : " + writePacket.BodyLength + "Total Length : " + writePacket.RawData.Length);
 
-            //writePacket.Clean();
+            writePacket.Clean();
         }
         catch (Exception e)
         {

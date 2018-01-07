@@ -11,6 +11,7 @@ public class TestUI : MonoBehaviour {
     public InputField IpInput;
     public InputField PortInput;
     public Button ConnectButton;
+    public Button DisconnectButton;
 
     string consoleMessage;
     bool newMessage = false;
@@ -19,7 +20,8 @@ public class TestUI : MonoBehaviour {
 	void Start () {
         Instance = this;
         ConnectButton.onClick.AddListener(OnClickConnect);
-	}
+        DisconnectButton.onClick.AddListener(OnClickDisconnect);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -42,5 +44,10 @@ public class TestUI : MonoBehaviour {
         string ip = IpInput.text;
         int port = int.Parse(PortInput.text);
         NetworkModule.instance.Connect(ip, port);
+    }
+
+    void OnClickDisconnect()
+    {
+        NetworkModule.instance.Disconnect();
     }
 }
