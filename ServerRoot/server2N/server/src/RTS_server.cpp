@@ -10,63 +10,63 @@
 #include <netinet/in.h>
 #include <pthread.h>
 #include <sys/epoll.h>
-#include "google/protobuf/io/coded_stream.h"
-#include "google/protobuf/io/zero_copy_stream_impl.h"
-#include "proto/addressbook.pb.h"
-
-
+//#include "google/protobuf/io/coded_stream.h"
+//#include "google/protobuf/io/zero_copy_stream_impl.h"
+//#include "proto/gameContent.pb.h"
 #include "common/MsgString.h"
 #include "common/CSessionManager.h"
-//#include "common/CUserPool.h"
-//#include "common/CQueueManager.h"
-
-
 
 using namespace std;
-using namespace google::protobuf::io;
-
-
-bool decodingProtoBuf(CUser* user)
-{
-	tutorial::AddressBook addressBook;
-	google::protobuf::uint32 pbufSize;
-	google::protobuf::io::ArrayInputStream inputStream(user->_buffer, user->_length);
-
-	CodedInputStream codedStream(&inputStream);
-	codedStream.ReadVarint32(&pbufSize);
-
-	google::protobuf::io::CodedInputStream::Limit bufferLimit = codedStream.PushLimit(pbufSize);
-
-	addressBook.ParseFromCodedStream(&codedStream);
-	codedStream.PopLimit(bufferLimit);
-
-
-	LOG("\nBuffer[%s]\n", user->_buffer);
 
 #if 0 
-	int32_t writeSize = 0;
-	if ( writeSize = write(user->_fd, user->_buffer, (size_t)user->_length) < 0 )
+using namespace google::protobuf::io;
+bool decodingProtoBuf(CUser* user)
+{
+	char* ptr = user->_buffer;
+	for ( int idx = 0; idx < (user->_length - user->_protoLength); idx++ )
 	{
-		perror("Send");
-		LOG("Write Size[%d]\n",writeSize);
-		return false;
+		if ( !ptr )
+		{
+			return false;
+		}
+		ptr++;
 	} 
-	if ( (writeSize = send(user->_fd, user->_buffer, (size_t)user->_length, MSG_WAITALL)) < 0 )
+
+	google::protobuf::uint32 pbufSize;
+	ArrayInputStream inputStream(user->_buffer, user->_length);
+	CodedInputStream codedStream(&inputStream);
+
+
+	//google::protobuf::io::CodedInputStream::Limit bufferLimit = codedStream.PushLimit(pbufSize);
+
+	codedStream.ReadVarint32(&pbufSize);
+	server2N::PacketBody proto_packet;
+	//inputStream.Skip(proto_packet.size);
+
+	if ( !proto_packet.ParseFromCodedStream(&codedStream) )
 	{
-		perror("Send");
-		LOG("Write Size[%d]\n",writeSize);
+		LOG("ParseFromCodedStream False\n");
 		return false;
 	}
+
+	LOG("Packet Parsing\n");
+	if ( proto_packet.has_connect() ) 
+	{
+		server2N::UserConnection connect = proto_packet.connect();
+		LOG("Exist UserConnection id(%d)\n", connect.id());
+	} 
+	else if ( proto_packet.has_event() )
+	{
+		server2N::GameEvent event = proto_packet.event();
+		LOG("Exist GameEvent action id(%d)\n", event.act());
+	}
+
+	LOG("Buffer[%s]\n", user->_buffer);
+	//codedStream.PopLimit(bufferLimit);
+	return true;
+}
 #endif
 
-	return true;
-} 
-
-
-
-//CUserPool g_userPool;
-//extern pthread_mutex_t g_main_mutex = PTHREAD_MUTEX_INITIALIZER;
-//extern pthread_cond_t g_main_cond = PTHREAD_COND_INITIALIZER;
 int main(int argc, char* argv[]) 
 {
 	// Verify that the version of the library that we linked against is
@@ -77,7 +77,6 @@ int main(int argc, char* argv[])
 	pthread_t thread;
 	CSessionManager session(port);
 	
-	LOG("Test1\n");
 	if ( pthread_create(&thread, NULL, session.waitEvent, (void*)&port) < 0 )
 	{
 		exit(0);
@@ -97,9 +96,9 @@ int main(int argc, char* argv[])
 		 * Signal Wait가 필요할거 같기도하다. 
 		 */
 		CUser* data = NULL;
-		if ( data = session.m_readQ_Manager.dequeue(READ_TYPE) ) 
+		if ( data = session.m_readQ_Manager.dequeue() ) 
 		{
-			decodingProtoBuf(data);
+			LOG("Read DeQueue\n");
 			session.m_writeQ_Manager.enqueue(data);
 			/* 
 			 * 해석 로직이 필요함 buffer -> Object 
@@ -111,13 +110,8 @@ int main(int argc, char* argv[])
 	}
 	LOG("MainLogic4\n");
 
-
-
-	
-	
 	int status;
 	pthread_join(thread, (void**)&status);
-	LOG("Test2\n");
 	google::protobuf::ShutdownProtobufLibrary();
 	return -1;
 

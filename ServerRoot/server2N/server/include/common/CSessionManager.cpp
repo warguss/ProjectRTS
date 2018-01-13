@@ -121,26 +121,59 @@ static void* CSessionManager::waitEvent(void* val)
                  * Main Logic 전달 위해서
                  * Queue에 저장해야한다.
                  */
-				char buffer[BUFFER];
-				memset(buffer, '\0', sizeof(char) * BUFFER);
-		
 				int fd = _events[i].data.fd;
-				int readn = read(fd, buffer, BUFFER);
-				LOG("---waitEvent() Client Input [%d], read size[%d]", fd, readn);
+				char buffer[HEADER_SIZE];
+				memset(buffer, '\0', sizeof(char) * HEADER_SIZE);
+
+				CUser* user = new CUser;
+				user->setData(fd, READ_TYPE);
+				/******************************************
+				 * Read Header
+				 ******************************************/
+				int readn = read(fd, buffer, HEADER_SIZE);
+				LOG("Client Input [%d], read size[%d]", fd, readn);
 				if ( readn <= 0 )
 				{
-					LOG("---waitEvent() Error, Delete Socket[%d]", fd);    
+					LOG("Error, Delete Socket[%d]\n", fd);    
 					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
 					g_userPool.delUserInPool(fd);
 					close(fd);
+					continue;
 				}
 
-				/*
+				if ( !user->decodingHeader(buffer, readn) )
+				{
+					LOG("Error, Decoding Header Error[%d]\n", fd);
+					continue;
+				}
+
+				/******************************************
+				 * Read Body 
+				 ******************************************/
+				LOG("Body Set\n");
+				unsigned char bodyBuf[user->bodyLength];
+				memset(bodyBuf, '\0', sizeof(char) * user->bodyLength);
+				readn = read(fd, bodyBuf, user->bodyLength);
+				if ( readn <= 0 )
+				{
+					LOG("Error, Delete Socket[%d]\n", fd);    
+					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
+					g_userPool.delUserInPool(fd);
+					close(fd);
+					continue;
+				}
+
+				if ( !user->decodingBody(bodyBuf, readn) )
+				{
+					LOG("Error, Body Error[%d]\n", fd);
+					continue;
+				}
+				/******************************************
 				 * QueueManger에 넣는다.
 				 * QueueManager 내부에서 Lock 처리한다.
 				 * userPool 에서 꺼내야할듯
-				 */
-				m_readQ_Manager.enqueue(fd, buffer, readn);
+				 ******************************************/
+				m_readQ_Manager.enqueue(user);
             }
         }
     }
@@ -154,15 +187,48 @@ static void* CSessionManager::writeEvent(void* val)
 		CUser* user = NULL;
 		if ( user = m_writeQ_Manager.dequeue() )
 		{
+			LOG("Write User(%d)\n", user->_fd);
+			/***************************************
+			 * Write Header 
+			 ***************************************/ 
 			int32_t writeSize = 0;
-			if ( (writeSize = write(user->_fd, user->_buffer, (size_t)user->_length)) < 0 ) 
+			unsigned char header[HEADER_SIZE] = {'\0' , };
+			if ( !user->encodingHeader(header) )
+			{
+				continue;
+			}
+
+			if ( (writeSize = write(user->_fd, header, sizeof(unsigned char) * HEADER_SIZE )) < 0 ) 
 			{
 				perror("Send");
 				LOG("---writeEvent() Write Error Socket[%d] writeSize[%d]", user->_fd, writeSize);
-			}	
+				continue ; 
+			}
+			LOG("Write User WriteSize(%d)\n", writeSize);
+
+
+			/***************************************
+			 * Write Body 
+			 ***************************************/ 
+			unsigned char body[(int)user->bodyLength];
+			memset(body, '\0', user->bodyLength);
+			if ( !user->encodingBody(body) )
+			{
+				continue ;
+			}
+
+			if ( (writeSize = write(user->_fd, body, sizeof(unsigned char) * user->bodyLength )) < 0 ) 
+			{
+				perror("Send");
+				LOG("---writeEvent() Write Error Socket[%d] writeSize[%d]", user->_fd, writeSize);
+				continue ;
+			}
+
+			LOG("Write User WriteBody(%d)\n", writeSize);
+
+
 		}
 	}
-	 
 
 	return (void*)0;
 }

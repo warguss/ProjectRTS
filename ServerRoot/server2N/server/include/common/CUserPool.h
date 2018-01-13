@@ -21,9 +21,9 @@ class CUserPool
         bool delUserInPool(int fd);
         CUser* findUserInPool(int fd);
 
-        static bool allSendEvent();
-        bool sendUser(int fd);
         int32_t userCount();
+        bool sendUser(int fd);
+        static bool allSendEvent();
 };
 extern CUserPool g_userPool;
 
