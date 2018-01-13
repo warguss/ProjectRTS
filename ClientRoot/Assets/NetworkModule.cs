@@ -19,7 +19,8 @@ public class NetworkModule : MonoBehaviour
     Packet readPacket;
     Packet writePacket;
 
-    Queue<Packet> packetQueue;
+    Queue<PacketBody> RecevedPacketBodyQueue;
+    object QueueLock;
 
     int testCount = 0;
 
@@ -30,7 +31,8 @@ public class NetworkModule : MonoBehaviour
 
         readPacket = new Packet();
         writePacket = new Packet();
-        packetQueue = new Queue<Packet>();
+        RecevedPacketBodyQueue = new Queue<PacketBody>();
+        QueueLock = new object();
     }
 	
     // Update is called once per frame
@@ -49,7 +51,6 @@ public class NetworkModule : MonoBehaviour
             {
                 if (ns.DataAvailable)
                 {
-                    //ns.BeginRead(msgBuffer, 0, msgBuffer.Length, DataReceive, ns);
                     readPacket.AllocateRawData(0);
                     ns.Read(readPacket.RawData, 0, Packet.HEADER_LENGTH);
                     if (readPacket.Decode_Header())
@@ -57,11 +58,13 @@ public class NetworkModule : MonoBehaviour
                         byte[] packetBodyByteArray;
                         packetBodyByteArray = new byte[(int)readPacket.BodyLength];
                         ns.Read(packetBodyByteArray, 0, (int)readPacket.BodyLength);
-                        //packetQueue.Enqueue(readPacket);
 
-                        Debug.Log("Decode_Header : " + readPacket.BodyLength);
+                        //Debug.Log("Decode_Header : " + readPacket.BodyLength);
                         var parsed = PacketBody.Parser.ParseFrom(packetBodyByteArray);
-                        ProcessPacketBody(parsed);
+                        lock (QueueLock)
+                        {
+                            RecevedPacketBodyQueue.Enqueue(parsed);
+                        }
                     }
                     else
                     {
@@ -160,13 +163,6 @@ public class NetworkModule : MonoBehaviour
         testCount++;
     }
 
-    //void DataReceive(System.IAsyncResult ar)
-    //{
-    //    TestUI.Instance.PrintText("DataReceive()");
-    //    var parsed = PacketBody.Parser.ParseFrom(msgBuffer);
-    //    ProcessPacketBody(parsed);
-    //}
-
     PacketBody CreateConnectionPacket(int test)
     {
         UserConnection uesrConnection = new UserConnection();
@@ -194,23 +190,12 @@ public class NetworkModule : MonoBehaviour
         return packetBody;
     }
 
-    void ProcessPacketBody(PacketBody packetBody)
+    public PacketBody GetReceivedPacketBody()
     {
-        string message = "";
-        switch (packetBody.MsgType)
+        lock (QueueLock)
         {
-            case PacketBody.Types.messageType.UserConnection: 
-                message = "UserConnection Data Received. id=" + packetBody.Connect.Id;
-                break;
-            case PacketBody.Types.messageType.GameEvent:
-                message = "GameEvent Data Received. position=" + packetBody.Event.EventPositionX + " , " + packetBody.Event.EventPositionY;
-                break;
-            default:
-                message = "UnknownType : " + (int)packetBody.MsgType;
-                break;
+            return RecevedPacketBodyQueue.Dequeue();
         }
-        Debug.Log(message);
-        TestUI.Instance.PrintText(message);
     }
 }
 

@@ -38,8 +38,20 @@ public class MainCharacter : MonoBehaviour
 
     private PlayerInput currentInput;
 
-	// Use this for initialization
-	void Start()
+    public delegate void PlayerEventMove(bool isLeft);
+    public delegate void PlayerEventStop();
+    public delegate void PlayerEventJump();
+    public delegate void PlayerEventGetHit(int damage, int hitRecovery, int impact, int impactAngle);
+    public delegate void PlayerEventShoot(bool isLeft);
+
+    public PlayerEventMove MoveEvent;
+    public PlayerEventStop StopEvent;
+    public PlayerEventJump JumpEvent;
+    public PlayerEventGetHit GetHitEvent;
+    public PlayerEventShoot ShootEvent;
+
+    // Use this for initialization
+    void Start()
 	{
 		rb2d = GetComponent<Rigidbody2D>();
         PosInt gamePos = Utils.RbPosToGamePos(rb2d.position.x, rb2d.position.y);
@@ -113,6 +125,8 @@ public class MainCharacter : MonoBehaviour
         
         if (Mathf.Abs (rb2d.velocity.x) > MaxMoveSpeed)
             rb2d.velocity = new Vector2(Mathf.Sign (rb2d.velocity.x) * MaxMoveSpeed, rb2d.velocity.y);
+
+        MoveEvent(isLeft);
     }
 
     void MoveRight()
@@ -123,6 +137,8 @@ public class MainCharacter : MonoBehaviour
 
         if (Mathf.Abs (rb2d.velocity.x) > MaxMoveSpeed)
             rb2d.velocity = new Vector2(Mathf.Sign (rb2d.velocity.x) * MaxMoveSpeed, rb2d.velocity.y);
+
+        MoveEvent(isLeft);
     }
 
     void Jump()
@@ -130,6 +146,8 @@ public class MainCharacter : MonoBehaviour
         //rb2d.AddForce(Vector2.up*JumpForce);
         rb2d.velocity = new Vector2(rb2d.velocity.x, JumpForce);
         currentInput.jump = false;
+
+        JumpEvent();
     }
 
     void Fire()
@@ -145,6 +163,8 @@ public class MainCharacter : MonoBehaviour
             bulletScript.SetAngle(0);
 
         currentInput.fire = false;
+
+        ShootEvent(isLeft);
     }
 
     public void GetHit(int damage, int hitRecovery, int impact, int impactAngle)
@@ -156,11 +176,18 @@ public class MainCharacter : MonoBehaviour
         float impactX = Mathf.Cos(radian);
         float impactY = Mathf.Sin(radian);
         rb2d.AddForce(new Vector2(impactX, impactY) * impact);
+
+        GetHitEvent(damage, hitRecovery, impact, impactAngle);
     }
 
     public void Dead()
     {
         Destroy(gameObject);
+    }
+
+    public void MoveTo(float x, float y)
+    {
+        rb2d.position = new Vector2(x, y);
     }
 
     //void Networkinterpolation(float posX, float posY, float speedX, float speedY, CharacterStatus status)
