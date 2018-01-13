@@ -13,17 +13,17 @@ CUserPool::~CUserPool()
     userInfo.clear();
 }
 
-bool CUserPool::addUserInPool(int fd, int32_t x, int32_t y)
+bool CUserPool::addUserInPool(CUser* user)
 {
-    /* Lock  */
+	/***********************************
+	 * 추가 부는 Lock이 필요없다.
+	 ***********************************/
     if ( userInfo.size() >=  POOL_SIZE  )
     {
         return false;
     }
 
-    CUser *user = new CUser(fd, x, y);
     userInfo.insert(std::pair<int, CUser*>(fd, user));
-    /* UnLock  */
     return true;
 }
 

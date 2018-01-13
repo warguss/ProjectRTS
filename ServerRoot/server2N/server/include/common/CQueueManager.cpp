@@ -28,7 +28,6 @@ void CQueueManager::setType(int type)
 
 bool CQueueManager::enqueue(int fd, char* buf, int length)
 {
-	LOG("Enqueue Success[%s] length[%d]\n", buf, length);
     CUser* user = new CUser;
     user->setData(fd, _type);
 
@@ -42,12 +41,30 @@ bool CQueueManager::enqueue(int fd, char* buf, int length)
 
 bool CQueueManager::enqueue(CUser* user)
 {
+	if ( !user )
+	{
+		LOG("User Invalid\n");
+		return false; 
+	}
+
     /* Auto Lock */
 	CThreadLockManager lock(_type);
+	/*****************************
+	 * Type에 따라 enqueu가 틀림.
+	 *****************************/ 
+	if ( user->_sendType == ALL_SEND  )
+	{
+		g_userPool
+	}
+	else if ( user->_sendType == PART_SEND )
+	{
+
+
+	}
+
     _queue.push_back(user);
     _queueSize++;
 
-	LOG("Endeque Success\n");
     return true;
 }
 
@@ -67,8 +84,6 @@ CUser* CQueueManager::dequeue()
 	_queue.pop_front();
 	_queueSize--;
 
-
-	//LOG("dequeu user[%d]\n", user->_fd);
     return user;
 }
 

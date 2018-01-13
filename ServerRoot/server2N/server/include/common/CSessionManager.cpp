@@ -116,17 +116,23 @@ static void* CSessionManager::waitEvent(void* val)
             }
             else
             {
-                /*
-                 * Client Read
-                 * Main Logic 전달 위해서
-                 * Queue에 저장해야한다.
-                 */
 				int fd = _events[i].data.fd;
 				char buffer[HEADER_SIZE];
 				memset(buffer, '\0', sizeof(char) * HEADER_SIZE);
 
-				CUser* user = new CUser;
-				user->setData(fd, READ_TYPE);
+
+
+				/******************************************
+				 * fd해당하는 User를 Pool에서 먼저 찾는다.
+				 ******************************************/
+				CUser* user = g_userPool.findUserInPool(fd);
+				if ( !user )
+				{
+					user = new CUser;
+					user->setData(fd, READ_TYPE);
+					g_userPool.addUserInPool(user);
+				}
+
 				/******************************************
 				 * Read Header
 				 ******************************************/
@@ -168,12 +174,14 @@ static void* CSessionManager::waitEvent(void* val)
 					LOG("Error, Body Error[%d]\n", fd);
 					continue;
 				}
+
 				/******************************************
 				 * QueueManger에 넣는다.
 				 * QueueManager 내부에서 Lock 처리한다.
 				 * userPool 에서 꺼내야할듯
 				 ******************************************/
 				m_readQ_Manager.enqueue(user);
+				
             }
         }
     }
@@ -187,7 +195,6 @@ static void* CSessionManager::writeEvent(void* val)
 		CUser* user = NULL;
 		if ( user = m_writeQ_Manager.dequeue() )
 		{
-			LOG("Write User(%d)\n", user->_fd);
 			/***************************************
 			 * Write Header 
 			 ***************************************/ 
@@ -225,8 +232,6 @@ static void* CSessionManager::writeEvent(void* val)
 			}
 
 			LOG("Write User WriteBody(%d)\n", writeSize);
-
-
 		}
 	}
 

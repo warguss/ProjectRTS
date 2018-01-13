@@ -5,7 +5,6 @@ CUser::CUser()
 	tX = 0;
     tY = 0;
     _fd = 0;
-	_protoType = 0;
 	bodyLength = 0;
 }
 
@@ -14,7 +13,6 @@ CUser::CUser(int fd, int32_t x, int32_t y)
     _fd = fd;
     tX = x;
     tY = y;
- //   memset(_buffer, '\0', sizeof(char) * BUFFER);
 }
 
 CUser::~CUser()
@@ -113,13 +111,13 @@ bool CUser::decodingBody(unsigned char *buffer, uint32_t bufLength)
 	
 	LOG("Body Length Start\n");
 	google::protobuf::io::CodedInputStream is(buffer, bodyLength);
-
 	if ( !_protoPacket.MergeFromCodedStream(&is) ) 
 	{
 		LOG("Error CodedStream\n");
 		return false;
 	}
 
+	// 디버깅 용도, 있는지 없는 지만 체크하도 리턴해도 충분하다.
 	if ( _protoPacket.has_event() )
 	{
 		server2N::GameEvent tEvent = _protoPacket.event();
@@ -146,6 +144,7 @@ bool CUser::decodingBody(unsigned char *buffer, uint32_t bufLength)
 	return true;
 }
 
+#if 0 
 bool CUser::allocBody()
 {
 	if ( bodyLength <= 0 )
@@ -159,7 +158,7 @@ bool CUser::allocBody()
     	
 
 }
-
+#endif
 
 #if 0 
 static void* CUser::writeData(void* buf)
