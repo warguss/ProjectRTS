@@ -25,3 +25,7 @@
 
 #define ALL_SEND 1000
 #define PART_SEND 1001
+
+
+#define CONNECT 10000
+#define DISCONNECT 10001

@@ -11,6 +11,7 @@ static void* CSessionManager::waitEvent(void* val);
 static void* CSessionManager::writeEvent(void* val);
 
 CUserPool g_userPool;
+CProtoManager g_packetManager;
 
 CSessionManager::CSessionManager(int port)
 {
@@ -104,15 +105,16 @@ static void* CSessionManager::waitEvent(void* val)
 				_init_ev.events = EPOLLIN;
 				_init_ev.data.fd = clientSock;
 
+#if 0 
 				if ( !g_userPool.addUserInPool(clientSock, 0, 0) ) 
 				{
 					g_userPool.delUserInPool(clientSock);
 					close(clientSock);
 					continue ;
 				} 
+#endif
 				epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, clientSock, &_init_ev);
-				g_userPool.allSendEvent();
-                
+				//g_userPool.allSendEvent();
             }
             else
             {
@@ -146,20 +148,28 @@ static void* CSessionManager::waitEvent(void* val)
 					close(fd);
 					continue;
 				}
-
+#if 0 
 				if ( !user->decodingHeader(buffer, readn) )
 				{
 					LOG("Error, Decoding Header Error[%d]\n", fd);
 					continue;
 				}
+#endif
+				uint32_t bodyLength = 0;
+				if ( !g_packetManager.decodingHeader(buffer, readn, bodyLength) || bodyLength <= 0  )
+				{
+					LOG("Error, Decoding Header Error[%d]\n", fd);
+					continue;
+				}
+
 
 				/******************************************
 				 * Read Body 
 				 ******************************************/
 				LOG("Body Set\n");
-				unsigned char bodyBuf[user->bodyLength];
-				memset(bodyBuf, '\0', sizeof(char) * user->bodyLength);
-				readn = read(fd, bodyBuf, user->bodyLength);
+				unsigned char bodyBuf[bodyLength];
+				memset(bodyBuf, '\0', sizeof(unsigned char) * bodyLength);
+				readn = read(fd, bodyBuf, bodyLength);
 				if ( readn <= 0 )
 				{
 					LOG("Error, Delete Socket[%d]\n", fd);    
@@ -168,10 +178,10 @@ static void* CSessionManager::waitEvent(void* val)
 					close(fd);
 					continue;
 				}
-
-				if ( !user->decodingBody(bodyBuf, readn) )
+				
+				if ( !g_packetManager.decodingBody(buffer, readn, bodyLength, user->_protoPacket) )
 				{
-					LOG("Error, Body Error[%d]\n", fd);
+					LOG("Error, Decoding Header Error[%d]\n", fd);
 					continue;
 				}
 
@@ -198,10 +208,12 @@ static void* CSessionManager::writeEvent(void* val)
 			/***************************************
 			 * Write Header 
 			 ***************************************/ 
-			int32_t writeSize = 0;
+			uint32_t writeSize = 0;
+			uint32_t bodyLength = 0;
 			unsigned char header[HEADER_SIZE] = {'\0' , };
-			if ( !user->encodingHeader(header) )
+			if ( !g_packetManager.encodingHeader(header, user->_protoPacket, bodyLength) || bodyLength <= 0 )
 			{
+				LOG("Error User ProtoPacket Not Exist\n");
 				continue;
 			}
 
@@ -217,14 +229,15 @@ static void* CSessionManager::writeEvent(void* val)
 			/***************************************
 			 * Write Body 
 			 ***************************************/ 
-			unsigned char body[(int)user->bodyLength];
-			memset(body, '\0', user->bodyLength);
-			if ( !user->encodingBody(body) )
+			unsigned char body[(int)bodyLength];
+			memset(body, '\0', sizeof(unsigned char) * bodyLength);
+			if ( !g_packetManager.encodingBody(body, user->_protoPacket, bodyLength) ) 
 			{
+				LOG("Error Invalid Body Encoding");
 				continue ;
 			}
 
-			if ( (writeSize = write(user->_fd, body, sizeof(unsigned char) * user->bodyLength )) < 0 ) 
+			if ( (writeSize = write(user->_fd, body, sizeof(unsigned char) * bodyLength )) < 0 ) 
 			{
 				perror("Send");
 				LOG("---writeEvent() Write Error Socket[%d] writeSize[%d]", user->_fd, writeSize);
@@ -237,56 +250,3 @@ static void* CSessionManager::writeEvent(void* val)
 
 	return (void*)0;
 }
-
-
-
-#if 0 
-bool CSessionManager::_connectUserEvent(int clientSock)
-{
-    bool isSuccess = false;
-    _init_ev.events = EPOLLIN;
-    _init_ev.data.fd = clientSock;
-    /* Lock */
-    if ( isSuccess = rPool.addUserInPool(clientSock, 0, 0) )
-    {
-        epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, clientSock, &_init_ev);
-        g_userPool.allSendEvent();
-    }
-    /* unLock */
-
-    return isSuccess;
-}
-bool CSessionManager::_readUserEvent(int fd)
-{
-    char buffer[BUFFER];
-    memset(buffer, '\0', sizeof(char) * BUFFER);
-
-    int readn = read(fd, buffer, BUFFER);
-    if ( readn <= 0 )
-    {
-        LOG("Read Error, Delete Event\n");
-        _deleteUserEvent(fd);
-    }
-
-    /*
-     * QueueManger에 넣는다.
-     * QueueManager 내부에서 Lock 처리한다.
-     */
-    int type = READ_TYPE;
-    manager.enqueue(fd, buffer, type);
-
-    return true;
-}
-
-void CSessionManager::_deleteEvent(int fd)
-{
-    LOG("CSessionManager _deleteEvent[%d]\n", fd);
-    epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
-    close(fd);
-}
-
-#endif
-
-
-
-

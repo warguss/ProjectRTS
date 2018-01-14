@@ -1,5 +1,4 @@
 #include "CUserPool.h"
-static bool CUserPool::allSendEvent();
 
 CUserPool::CUserPool()
 {
@@ -18,6 +17,21 @@ bool CUserPool::addUserInPool(CUser* user)
 	/***********************************
 	 * 추가 부는 Lock이 필요없다.
 	 ***********************************/
+    if ( userInfo.size() >=  POOL_SIZE || !user )
+    {
+        return false;
+    }
+
+    userInfo.insert(std::pair<int, CUser*>(user->_fd, user));
+    return true;
+}
+
+#if 0
+bool CUserPool::addUserInPool(CUser* user)
+{
+	/***********************************
+	 * 추가 부는 Lock이 필요없다.
+	 ***********************************/
     if ( userInfo.size() >=  POOL_SIZE  )
     {
         return false;
@@ -26,6 +40,7 @@ bool CUserPool::addUserInPool(CUser* user)
     userInfo.insert(std::pair<int, CUser*>(fd, user));
     return true;
 }
+#endif
 
 bool CUserPool::delUserInPool(int fd)
 {
@@ -47,17 +62,18 @@ bool CUserPool::delUserInPool(int fd)
 
 CUser* CUserPool::findUserInPool(int fd)
 {
-    /* 이건 Lock 이 필요없을듯 */
-    CUser* user = NULL;
-    /* Lock */
-    /* find */
-
-    /* UnLock */
-    /* return */
-    return user;
+    it = userInfo.find(fd);
+	if ( it == userInfo.end() ) 
+	{
+		return NULL;
+	}
+    return (CUser*)it->second;
 }
 
+#if 0 
+static bool CUserPool::allSendEvent();
 static bool CUserPool::allSendEvent()
 {
 	return true;
 }
+#endif

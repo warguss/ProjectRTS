@@ -16,56 +16,69 @@
 #include "common/MsgString.h"
 #include "common/CSessionManager.h"
 
-using namespace std;
 
-#if 0 
-using namespace google::protobuf::io;
-bool decodingProtoBuf(CUser* user)
+using namespace std;
+//CUserPool g_userPool;
+//CProtoManager g_packetManager;
+
+typedef void (*CallBackFunc)(CSessionManager&, CUser*);
+bool ForAllSendFunc(CSessionManager& session, CUser* eventUser)
 {
-	char* ptr = user->_buffer;
-	for ( int idx = 0; idx < (user->_length - user->_protoLength); idx++ )
+	/*********************************
+	 * UserPool에서 전체 유저 가져옴
+	 *********************************/ 
+	//map::<int , CUser* >::iterator it = g_userPool.userInfo.begin();
+
+	//map::<int, CUser*>::iterator it
+	/*********************************
+	 * Event 발생시킨 User는 먼저넣음
+	 *********************************/
+	session.m_writeQ_Manager.enqueue(eventUser);
+
+	/*********************************
+	 * 그 중에서 EventUser는 제외
+	 *********************************/ 
+	int type;
+	for ( g_userPool.it = g_userPool.userInfo.begin();g_userPool.it != g_userPool.userInfo.end(); g_userPool.it++ )
 	{
-		if ( !ptr )
+		CUser* user = (CUser*)g_userPool.it->second;
+		if ( !user || user->_fd == eventUser->_fd )
+		{
+			continue ;
+		}
+
+		/*********************************
+		 * ProtoPacket할당
+		 *********************************/ 
+		if ( !user->setPacketBody(g_packetManager.getBroadCastProtoPacket(type)) )
 		{
 			return false;
-		}
-		ptr++;
-	} 
-
-	google::protobuf::uint32 pbufSize;
-	ArrayInputStream inputStream(user->_buffer, user->_length);
-	CodedInputStream codedStream(&inputStream);
-
-
-	//google::protobuf::io::CodedInputStream::Limit bufferLimit = codedStream.PushLimit(pbufSize);
-
-	codedStream.ReadVarint32(&pbufSize);
-	server2N::PacketBody proto_packet;
-	//inputStream.Skip(proto_packet.size);
-
-	if ( !proto_packet.ParseFromCodedStream(&codedStream) )
-	{
-		LOG("ParseFromCodedStream False\n");
-		return false;
+		} 
+		
+		/*********************************
+		 * Enqueue
+		 *********************************/
+		session.m_writeQ_Manager.enqueue(user);
 	}
-
-	LOG("Packet Parsing\n");
-	if ( proto_packet.has_connect() ) 
-	{
-		server2N::UserConnection connect = proto_packet.connect();
-		LOG("Exist UserConnection id(%d)\n", connect.id());
-	} 
-	else if ( proto_packet.has_event() )
-	{
-		server2N::GameEvent event = proto_packet.event();
-		LOG("Exist GameEvent action id(%d)\n", event.act());
-	}
-
-	LOG("Buffer[%s]\n", user->_buffer);
-	//codedStream.PopLimit(bufferLimit);
+	
 	return true;
 }
-#endif
+
+
+
+bool ForPartSendFunc(CSessionManager& session, CUser* eventUser)
+{
+	LOG("Part Send Event\n");
+
+
+
+	return true;
+}
+
+
+
+
+
 
 int main(int argc, char* argv[]) 
 {
@@ -77,6 +90,11 @@ int main(int argc, char* argv[])
 	pthread_t thread;
 	CSessionManager session(port);
 	
+	map<int, CallBackFunc> funcMap;
+	funcMap.insert( pair<int, CallBackFunc>(CONNECT, ForAllSendFunc) );
+	funcMap.insert( pair<int, CallBackFunc>(DISCONNECT, ForAllSendFunc) );
+
+
 	if ( pthread_create(&thread, NULL, session.waitEvent, (void*)&port) < 0 )
 	{
 		exit(0);
@@ -96,19 +114,25 @@ int main(int argc, char* argv[])
 		 * Signal Wait가 필요할거 같기도하다. 
 		 */
 		CUser* data = NULL;
-		if ( data = session.m_readQ_Manager.dequeue() ) 
+		if ( session.m_readQ_Manager.isQueueDataExist() &&  (data = session.m_readQ_Manager.dequeue()) && data ) 
 		{
-			LOG("Read DeQueue\n");
-			session.m_writeQ_Manager.enqueue(data);
-			/* 
-			 * 해석 로직이 필요함 buffer -> Object 
-			 * Buffer 내용에 따라, 일부 보낼 지, 전체 보낼 지 결정
-			 * QueueData -> 재 해석 -> CData로 재 변환.
-			 */
-			
+			/*************************************
+			 * Game Logic
+			 * ALL_SEND
+			 * PART_SEND
+			 *************************************/ 
+			void (*func)(CSessionManager&, CUser*) = NULL;
+			if ( func )
+			{
+				func(session, data);
+			}
+			else
+			{
+				LOG("Not Register Type(%d)\n", 1);
+			}
 		} 	
 	}
-	LOG("MainLogic4\n");
+	LOG("MainLogic\n");
 
 	int status;
 	pthread_join(thread, (void**)&status);

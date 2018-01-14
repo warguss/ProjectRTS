@@ -22,12 +22,10 @@ class CUser
 		/*******************************
 		 * BroadCase위해 ptr로 할당
 		 *******************************/
-		server2N::PacketBody* _protoPacket;
 
     public:
         int _fd;
-		int _sendType;
-		uint32_t bodyLength;
+		server2N::PacketBody* _protoPacket;
 
 	public:
         CUser();
@@ -38,14 +36,8 @@ class CUser
         bool moveY(int32_t tY);
 
         bool setData(int fd, int type);
-		//bool setHeader(unsigned char* buf);
-#if 0 
-		bool encodingHeader(unsigned char* outputBuf);
-		bool encodingBody(unsigned char* buffer);
+		bool setPacketBody(server2N::PacketBody* packet);
 
-		bool decodingHeader(unsigned char* buffer, uint32_t bufLength);
-		bool decodingBody(unsigned char* buffer, uint32_t bufLength);
-#endif
 
 	private:
 		bool _userConnectionEvent(int fd);

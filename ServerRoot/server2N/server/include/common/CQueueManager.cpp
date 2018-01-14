@@ -22,6 +22,11 @@ CQueueManager::~CQueueManager()
 
 void CQueueManager::setType(int type)
 {
+	/**********************
+	 * Lock에 대해
+	 * Send Q와
+	 * Recv Q가 다르게 동작
+	 **********************/
 	_type = type;
 }
 
@@ -49,19 +54,6 @@ bool CQueueManager::enqueue(CUser* user)
 
     /* Auto Lock */
 	CThreadLockManager lock(_type);
-	/*****************************
-	 * Type에 따라 enqueu가 틀림.
-	 *****************************/ 
-	if ( user->_sendType == ALL_SEND  )
-	{
-		g_userPool
-	}
-	else if ( user->_sendType == PART_SEND )
-	{
-
-
-	}
-
     _queue.push_back(user);
     _queueSize++;
 
@@ -79,7 +71,6 @@ CUser* CQueueManager::dequeue()
 	LOG("Dequeue Start\n");
 	/* Auto Lock */
 	CThreadLockManager lock(_type);
-
 	user = _queue.front();
 	_queue.pop_front();
 	_queueSize--;
@@ -95,7 +86,6 @@ bool CQueueManager::isQueueDataExist()
     {
         return true;
     }
-
     return false;
 }
 
