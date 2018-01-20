@@ -77,7 +77,9 @@ namespace server2N {
 
 enum UserConnection_ConnectionType {
   UserConnection_ConnectionType_Connect = 0,
-  UserConnection_ConnectionType_DisConnect = 1001,
+  UserConnection_ConnectionType_TryConnect = 1,
+  UserConnection_ConnectionType_AcceptConnect = 2,
+  UserConnection_ConnectionType_DisConnect = 3,
   UserConnection_ConnectionType_UserConnection_ConnectionType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   UserConnection_ConnectionType_UserConnection_ConnectionType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
@@ -232,6 +234,10 @@ class UserConnection : public ::google::protobuf::Message /* @@protoc_insertion_
   typedef UserConnection_ConnectionType ConnectionType;
   static const ConnectionType Connect =
     UserConnection_ConnectionType_Connect;
+  static const ConnectionType TryConnect =
+    UserConnection_ConnectionType_TryConnect;
+  static const ConnectionType AcceptConnect =
+    UserConnection_ConnectionType_AcceptConnect;
   static const ConnectionType DisConnect =
     UserConnection_ConnectionType_DisConnect;
   static inline bool ConnectionType_IsValid(int value) {
@@ -409,15 +415,27 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::server2N::GameEvent_action act() const;
   void set_act(::server2N::GameEvent_action value);
 
-  // float EventPositionX = 4;
+  // int32 id = 4;
+  void clear_id();
+  static const int kIdFieldNumber = 4;
+  ::google::protobuf::int32 id() const;
+  void set_id(::google::protobuf::int32 value);
+
+  // int32 actionProperty = 5;
+  void clear_actionproperty();
+  static const int kActionPropertyFieldNumber = 5;
+  ::google::protobuf::int32 actionproperty() const;
+  void set_actionproperty(::google::protobuf::int32 value);
+
+  // float EventPositionX = 6;
   void clear_eventpositionx();
-  static const int kEventPositionXFieldNumber = 4;
+  static const int kEventPositionXFieldNumber = 6;
   float eventpositionx() const;
   void set_eventpositionx(float value);
 
-  // float EventPositionY = 5;
+  // float EventPositionY = 7;
   void clear_eventpositiony();
-  static const int kEventPositionYFieldNumber = 5;
+  static const int kEventPositionYFieldNumber = 7;
   float eventpositiony() const;
   void set_eventpositiony(float value);
 
@@ -426,6 +444,8 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   int act_;
+  ::google::protobuf::int32 id_;
+  ::google::protobuf::int32 actionproperty_;
   float eventpositionx_;
   float eventpositiony_;
   mutable int _cached_size_;
@@ -638,7 +658,35 @@ inline void GameEvent::set_act(::server2N::GameEvent_action value) {
   // @@protoc_insertion_point(field_set:server2N.GameEvent.act)
 }
 
-// float EventPositionX = 4;
+// int32 id = 4;
+inline void GameEvent::clear_id() {
+  id_ = 0;
+}
+inline ::google::protobuf::int32 GameEvent::id() const {
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.id)
+  return id_;
+}
+inline void GameEvent::set_id(::google::protobuf::int32 value) {
+  
+  id_ = value;
+  // @@protoc_insertion_point(field_set:server2N.GameEvent.id)
+}
+
+// int32 actionProperty = 5;
+inline void GameEvent::clear_actionproperty() {
+  actionproperty_ = 0;
+}
+inline ::google::protobuf::int32 GameEvent::actionproperty() const {
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.actionProperty)
+  return actionproperty_;
+}
+inline void GameEvent::set_actionproperty(::google::protobuf::int32 value) {
+  
+  actionproperty_ = value;
+  // @@protoc_insertion_point(field_set:server2N.GameEvent.actionProperty)
+}
+
+// float EventPositionX = 6;
 inline void GameEvent::clear_eventpositionx() {
   eventpositionx_ = 0;
 }
@@ -652,7 +700,7 @@ inline void GameEvent::set_eventpositionx(float value) {
   // @@protoc_insertion_point(field_set:server2N.GameEvent.EventPositionX)
 }
 
-// float EventPositionY = 5;
+// float EventPositionY = 7;
 inline void GameEvent::clear_eventpositiony() {
   eventpositiony_ = 0;
 }
