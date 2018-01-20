@@ -15,3 +15,6 @@
 sysinfo.txt
 # Unity3D generated meta files
 *.pidb.meta
+*.ide-wal
+*.ide-shm
+*.ide
