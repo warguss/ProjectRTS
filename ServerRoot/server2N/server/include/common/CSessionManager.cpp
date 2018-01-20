@@ -119,7 +119,7 @@ static void* CSessionManager::waitEvent(void* val)
             else
             {
 				int fd = _events[i].data.fd;
-				char buffer[HEADER_SIZE];
+				unsigned char buffer[HEADER_SIZE];
 				memset(buffer, '\0', sizeof(char) * HEADER_SIZE);
 
 
@@ -166,9 +166,8 @@ static void* CSessionManager::waitEvent(void* val)
 				/******************************************
 				 * Read Body 
 				 ******************************************/
-				LOG("Body Set\n");
 				unsigned char bodyBuf[bodyLength];
-				memset(bodyBuf, '\0', sizeof(unsigned char) * bodyLength);
+				memset(bodyBuf, '\0', sizeof(bodyBuf));
 				readn = read(fd, bodyBuf, bodyLength);
 				if ( readn <= 0 )
 				{
@@ -179,9 +178,10 @@ static void* CSessionManager::waitEvent(void* val)
 					continue;
 				}
 				
+				LOG("Body Set headerSize(%d) readSize(%d)\n", bodyLength, readn);
 				if ( !g_packetManager.decodingBody(buffer, readn, bodyLength, user->_protoPacket) )
 				{
-					LOG("Error, Decoding Header Error[%d]\n", fd);
+					LOG("Error, Decoding Body Error[%d]\n", fd);
 					continue;
 				}
 

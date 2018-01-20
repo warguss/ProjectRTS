@@ -37,6 +37,10 @@ class CProtoManager
 
 
 		server2N::PacketBody* getBroadCastProtoPacket(int type);
+
+		int32_t typeReturn(server2N::PacketBody* protoPacket);
+		bool setActionType(server2N::PacketBody* protoPacket, int type);
+		bool setConnType(server2N::PacketBody* protoPacket, int type, int fd);
 };
 
 extern CProtoManager g_packetManager;

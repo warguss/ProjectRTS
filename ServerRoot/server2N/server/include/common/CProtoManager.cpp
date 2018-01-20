@@ -101,16 +101,25 @@ bool CProtoManager::decodingHeader(unsigned char* buffer, uint32_t bufLength, ui
 }
 
 
+bool printTest(unsigned char* buffer, int size);
+std::string hexStr(unsigned char*data, int len);
 bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint32_t bodyLength, server2N::PacketBody* protoPacket)
 {
-    if ( bufLength != bodyLength )
+    if ( bufLength != bodyLength || !buffer )
     {
-        LOG("Error length\n");
+        LOG("Error length or Buffer Not Exist\n");
         return false;
     }
 
-    LOG("Body Length Start\n");
-    google::protobuf::io::CodedInputStream is(buffer, bodyLength);
+	if ( protoPacket )
+	{
+		delete protoPacket;
+	}
+
+	printf("hex [%s]\n", hexStr(buffer, (int)bufLength).c_str());
+
+	protoPacket = new server2N::PacketBody;
+    google::protobuf::io::CodedInputStream is(buffer, (int)bodyLength);
     if ( !protoPacket->MergeFromCodedStream(&is) )
     {
         LOG("Error CodedStream\n");
@@ -132,10 +141,14 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
     }
     else
     {
+		cout << "Debug String" << protoPacket->DebugString() << endl;
+		cout << "Debug String" << protoPacket->Utf8DebugString() << endl;
+		protoPacket->PrintDebugString();
         LOG("Not Exist ProtoBuffer\n");
         return false;
     }
 
+	//protoPacket = packet;
     cout << "Debug String" << protoPacket->DebugString() << endl;
     LOG("Size : %d\n", protoPacket->ByteSizeLong());
     return true;
@@ -154,4 +167,88 @@ server2N::PacketBody* CProtoManager::getBroadCastProtoPacket(int type)
 	}
 
 	return packet;
-} 
+}
+
+
+int32_t CProtoManager::typeReturn(server2N::PacketBody* protoPacket)
+{
+	if ( !protoPacket )
+	{
+		return INVALID_USER;
+	}
+
+	int32_t type = -1;
+    if ( protoPacket->has_event() )
+    {
+        server2N::GameEvent tEvent = protoPacket->event();
+        cout << "Debug String" << tEvent.DebugString() << endl;
+        LOG("Has Event\n");
+    }
+    else if ( protoPacket->has_connect() )
+    {
+        server2N::UserConnection tConnect = protoPacket->connect();
+		server2N::UserConnection_ConnectionType conType = tConnect.contype();
+		if ( conType == server2N::UserConnection_ConnectionType_TryConnect )
+		{
+			type = (int32_t)TRYCONNECT;
+		}
+		else if ( conType == server2N::UserConnection_ConnectionType_DisConnect )
+		{
+			type = (int32_t)DISCONNECT;
+		}
+		
+        cout << "Debug String" << tConnect.DebugString() << endl;
+        LOG("Has Connect\n");
+    }
+    else
+    {
+        LOG("Not Exist ProtoBuffer\n");
+    }
+
+	return type;
+}
+
+
+bool CProtoManager::setConnType(server2N::PacketBody* protoPacket, int32_t type, int32_t fd)
+{
+	if ( !protoPacket )
+	{
+		LOG("Not Exist User , User ProtoPacket\n");
+		return false;
+	}
+
+
+	if ( !protoPacket->has_connect() ) 
+	{
+		LOG("Invalid ProtoPacket And Type\n");
+		return false;
+	}
+
+	if ( type == (int32_t)TRYCONNECT )
+	{
+		server2N::UserConnection tConnect = protoPacket->connect();
+		tConnect.set_contype(server2N::UserConnection_ConnectionType_Connect);
+		tConnect.set_id(fd);
+	}
+
+
+	return true;
+}
+
+
+bool CProtoManager::setActionType(server2N::PacketBody* protoPacket, int type)
+{
+
+	return true;
+}
+#include <sstream>
+std::string hexStr(unsigned char*data, int len)
+{
+    std::stringstream ss;
+    ss<<std::hex;
+    for(int i(0);i<len;++i)
+        ss<<(int)data[i];
+    return ss.str();
+}
+
+

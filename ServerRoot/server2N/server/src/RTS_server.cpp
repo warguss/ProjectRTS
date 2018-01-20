@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -10,23 +9,53 @@
 #include <netinet/in.h>
 #include <pthread.h>
 #include <sys/epoll.h>
-//#include "google/protobuf/io/coded_stream.h"
-//#include "google/protobuf/io/zero_copy_stream_impl.h"
-//#include "proto/gameContent.pb.h"
 #include "common/MsgString.h"
 #include "common/CSessionManager.h"
-
+#include "common/CProtoManager.h"
 
 using namespace std;
+bool ForAllSendFunc(CSessionManager& session, CUser* eventUser);
+bool ForPartSendFunc(CSessionManager& session, CUser* eventUser);
+int32_t UserActionType(CUser* user);
+typedef bool (*CallBackFunc)(CSessionManager&, CUser*);
 
-typedef void (*CallBackFunc)(CSessionManager&, CUser*);
+
+int32_t UserActionType(CUser* user)
+{
+	/******************************************
+	 * User Type을 분류해준다.
+	 * 이 단계에서 Move, Hit같은경우
+	 * 계산할 필요가 있으며 
+	 * Connect, DisConnect의 경우 바로 리턴
+	 ******************************************/
+	if ( !user || !user->_protoPacket )
+	{
+		return INVALID_USER;
+	}
+
+
+	/*****************************************
+	 * 대분류 형식으로 가야할듯
+	 * Conn & Event
+	 *****************************************/
+	int32_t type = g_packetManager.typeReturn(user->_protoPacket);
+	if ( type == TRYCONNECT )
+	{
+		/*******************************
+		 * User가 들어왔다고 판단.
+		 * _protoPacket의 id와
+		 * Data를 변경한다.
+		 *******************************/
+		g_packetManager.setConnType(user->_protoPacket, type, user->_fd);
+	}
+	
+	return type;
+}
+
+
+
 bool ForAllSendFunc(CSessionManager& session, CUser* eventUser)
 {
-	/*********************************
-	 * UserPool에서 전체 유저 가져옴
-	 *********************************/ 
-
-
 	/*********************************
 	 * Event 발생시킨 User는 먼저넣음
 	 *********************************/
@@ -88,8 +117,8 @@ int main(int argc, char* argv[])
 	CSessionManager session(port);
 	
 	map<int, CallBackFunc> funcMap;
-	funcMap.insert( pair<int, CallBackFunc>(CONNECT, ForAllSendFunc) );
-	funcMap.insert( pair<int, CallBackFunc>(DISCONNECT, ForAllSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)TRYCONNECT, ForAllSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)DISCONNECT, ForAllSendFunc) );
 
 
 	if ( pthread_create(&thread, NULL, session.waitEvent, (void*)&port) < 0 )
@@ -118,10 +147,15 @@ int main(int argc, char* argv[])
 			 * ALL_SEND
 			 * PART_SEND
 			 *************************************/ 
-			void (*func)(CSessionManager&, CUser*) = NULL;
+			bool (*func)(CSessionManager&, CUser*) = NULL;
+			int32_t type = UserActionType(data);
+			func = funcMap.find(type)->second;
 			if ( func )
 			{
-				func(session, data);
+				if ( !func(session, data) )
+				{
+					LOG("False Func\n");
+				} 
 			}
 			else
 			{
