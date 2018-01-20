@@ -18,8 +18,6 @@
 
 
 using namespace std;
-//CUserPool g_userPool;
-//CProtoManager g_packetManager;
 
 typedef void (*CallBackFunc)(CSessionManager&, CUser*);
 bool ForAllSendFunc(CSessionManager& session, CUser* eventUser)
@@ -27,9 +25,8 @@ bool ForAllSendFunc(CSessionManager& session, CUser* eventUser)
 	/*********************************
 	 * UserPool에서 전체 유저 가져옴
 	 *********************************/ 
-	//map::<int , CUser* >::iterator it = g_userPool.userInfo.begin();
 
-	//map::<int, CUser*>::iterator it
+
 	/*********************************
 	 * Event 발생시킨 User는 먼저넣음
 	 *********************************/
@@ -39,7 +36,7 @@ bool ForAllSendFunc(CSessionManager& session, CUser* eventUser)
 	 * 그 중에서 EventUser는 제외
 	 *********************************/ 
 	int type;
-	for ( g_userPool.it = g_userPool.userInfo.begin();g_userPool.it != g_userPool.userInfo.end(); g_userPool.it++ )
+	for ( g_userPool.it = g_userPool.userInfo.begin(); g_userPool.it != g_userPool.userInfo.end(); g_userPool.it++ )
 	{
 		CUser* user = (CUser*)g_userPool.it->second;
 		if ( !user || user->_fd == eventUser->_fd )
