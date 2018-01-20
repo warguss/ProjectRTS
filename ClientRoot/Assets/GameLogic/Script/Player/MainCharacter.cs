@@ -31,12 +31,15 @@ public class MainCharacter : MonoBehaviour
     private bool inAir = false;
     private bool isLeft = true;
 
-    private int posX;
-    private int posY;
-    //private int speedX;
-    //private int speedY;
-
     private PlayerInput currentInput;
+
+    public Vector2 CurrentPosition
+    {
+        get
+        {
+            return rb2d.position;
+        }
+    }
 
     public delegate void PlayerEventMove(bool isLeft);
     public delegate void PlayerEventStop();
@@ -54,17 +57,8 @@ public class MainCharacter : MonoBehaviour
     void Start()
 	{
 		rb2d = GetComponent<Rigidbody2D>();
-        PosInt gamePos = Utils.RbPosToGamePos(rb2d.position.x, rb2d.position.y);
-        posX = gamePos.x;
-        posY = gamePos.y;
 	}
 
-    void SetPosition(int posX, int posY)
-    {
-        PosFloat Rb2dPos = Utils.GamePosToRbPos(posX, posY);
-        rb2d.position.Set(Rb2dPos.x, Rb2dPos.y);
-    }
-	
 	// Update is called once per frame
 	void Update()
     {
@@ -81,17 +75,13 @@ public class MainCharacter : MonoBehaviour
             Jump();
 
         if (currentInput.fire && (status == CharacterStatus.Neutral || status == CharacterStatus.Moving))
-            Fire();
+            Shoot();
         
         if (currentInput.left && status != CharacterStatus.Attacked)
             MoveLeft();
         
         else if (currentInput.right && status != CharacterStatus.Attacked)
             MoveRight();
-        
-        PosInt gamePos = Utils.RbPosToGamePos(rb2d.position.x, rb2d.position.y);
-        posX = gamePos.x;
-        posY = gamePos.y;
 	}
 
     public void SetInput(PlayerAction action)
@@ -101,12 +91,15 @@ public class MainCharacter : MonoBehaviour
             case PlayerAction.Stop:
                 currentInput.left = false;
                 currentInput.right = false;
+                StopEvent();
                 break;
             case PlayerAction.Left:
                 currentInput.left = true;
+                MoveEvent(true);
                 break;
             case PlayerAction.Right:
                 currentInput.right = true;
+                MoveEvent(false);
                 break;
             case PlayerAction.Jump:
                 currentInput.jump = true;
@@ -125,8 +118,6 @@ public class MainCharacter : MonoBehaviour
         
         if (Mathf.Abs (rb2d.velocity.x) > MaxMoveSpeed)
             rb2d.velocity = new Vector2(Mathf.Sign (rb2d.velocity.x) * MaxMoveSpeed, rb2d.velocity.y);
-
-        MoveEvent(isLeft);
     }
 
     void MoveRight()
@@ -137,8 +128,6 @@ public class MainCharacter : MonoBehaviour
 
         if (Mathf.Abs (rb2d.velocity.x) > MaxMoveSpeed)
             rb2d.velocity = new Vector2(Mathf.Sign (rb2d.velocity.x) * MaxMoveSpeed, rb2d.velocity.y);
-
-        MoveEvent(isLeft);
     }
 
     void Jump()
@@ -150,7 +139,7 @@ public class MainCharacter : MonoBehaviour
         JumpEvent();
     }
 
-    void Fire()
+    void Shoot()
     {
         GameObject bullet = (GameObject)Instantiate(bulletPrefab, gameObject.transform.position, new Quaternion());
         Bullet bulletScript = bullet.GetComponent<Bullet>();
