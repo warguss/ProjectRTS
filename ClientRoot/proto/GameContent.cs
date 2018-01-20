@@ -22,24 +22,26 @@ namespace Server2N {
     static GameContentReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChFnYW1lQ29udGVudC5wcm90bxIIc2VydmVyMk4ihgEKDlVzZXJDb25uZWN0",
+            "ChFnYW1lQ29udGVudC5wcm90bxIIc2VydmVyMk4iqAEKDlVzZXJDb25uZWN0",
             "aW9uEgoKAmlkGAEgASgFEjgKB2NvblR5cGUYAiABKA4yJy5zZXJ2ZXIyTi5V",
-            "c2VyQ29ubmVjdGlvbi5Db25uZWN0aW9uVHlwZSIuCg5Db25uZWN0aW9uVHlw",
-            "ZRILCgdDb25uZWN0EAASDwoKRGlzQ29ubmVjdBDpByK7AQoJR2FtZUV2ZW50",
-            "EicKA2FjdBgDIAEoDjIaLnNlcnZlcjJOLkdhbWVFdmVudC5hY3Rpb24SFgoO",
-            "RXZlbnRQb3NpdGlvblgYBCABKAISFgoORXZlbnRQb3NpdGlvblkYBSABKAIi",
-            "VQoGYWN0aW9uEgsKB05vdGhpbmcQABIICgRNb3ZlEGQSCAoEU3RvcBBlEggK",
-            "BEp1bXAQZhIJCgVTaG9vdBBnEgoKBkdldEhpdBBoEgkKBVNwYXduEGkiwgEK",
-            "ClBhY2tldEJvZHkSMgoHbXNnVHlwZRiQTiABKA4yIC5zZXJ2ZXIyTi5QYWNr",
-            "ZXRCb2R5Lm1lc3NhZ2VUeXBlEikKB2Nvbm5lY3QYBiABKAsyGC5zZXJ2ZXIy",
-            "Ti5Vc2VyQ29ubmVjdGlvbhIiCgVldmVudBgHIAEoCzITLnNlcnZlcjJOLkdh",
-            "bWVFdmVudCIxCgttZXNzYWdlVHlwZRINCglHYW1lRXZlbnQQABITCg5Vc2Vy",
-            "Q29ubmVjdGlvbhCQTmIGcHJvdG8z"));
+            "c2VyQ29ubmVjdGlvbi5Db25uZWN0aW9uVHlwZSJQCg5Db25uZWN0aW9uVHlw",
+            "ZRILCgdDb25uZWN0EAASDgoKVHJ5Q29ubmVjdBABEhEKDUFjY2VwdENvbm5l",
+            "Y3QQAhIOCgpEaXNDb25uZWN0EAMi3wEKCUdhbWVFdmVudBInCgNhY3QYAyAB",
+            "KA4yGi5zZXJ2ZXIyTi5HYW1lRXZlbnQuYWN0aW9uEgoKAmlkGAQgASgFEhYK",
+            "DmFjdGlvblByb3BlcnR5GAUgASgFEhYKDkV2ZW50UG9zaXRpb25YGAYgASgC",
+            "EhYKDkV2ZW50UG9zaXRpb25ZGAcgASgCIlUKBmFjdGlvbhILCgdOb3RoaW5n",
+            "EAASCAoETW92ZRBkEggKBFN0b3AQZRIICgRKdW1wEGYSCQoFU2hvb3QQZxIK",
+            "CgZHZXRIaXQQaBIJCgVTcGF3bhBpIsIBCgpQYWNrZXRCb2R5EjIKB21zZ1R5",
+            "cGUYkE4gASgOMiAuc2VydmVyMk4uUGFja2V0Qm9keS5tZXNzYWdlVHlwZRIp",
+            "Cgdjb25uZWN0GAYgASgLMhguc2VydmVyMk4uVXNlckNvbm5lY3Rpb24SIgoF",
+            "ZXZlbnQYByABKAsyEy5zZXJ2ZXIyTi5HYW1lRXZlbnQiMQoLbWVzc2FnZVR5",
+            "cGUSDQoJR2FtZUV2ZW50EAASEwoOVXNlckNvbm5lY3Rpb24QkE5iBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.UserConnection), global::Server2N.UserConnection.Parser, new[]{ "Id", "ConType" }, null, new[]{ typeof(global::Server2N.UserConnection.Types.ConnectionType) }, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "Act", "EventPositionX", "EventPositionY" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.action) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "Act", "Id", "ActionProperty", "EventPositionX", "EventPositionY" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.action) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.PacketBody), global::Server2N.PacketBody.Parser, new[]{ "MsgType", "Connect", "Event" }, null, new[]{ typeof(global::Server2N.PacketBody.Types.messageType) }, null)
           }));
     }
@@ -196,7 +198,9 @@ namespace Server2N {
     public static partial class Types {
       public enum ConnectionType {
         [pbr::OriginalName("Connect")] Connect = 0,
-        [pbr::OriginalName("DisConnect")] DisConnect = 1001,
+        [pbr::OriginalName("TryConnect")] TryConnect = 1,
+        [pbr::OriginalName("AcceptConnect")] AcceptConnect = 2,
+        [pbr::OriginalName("DisConnect")] DisConnect = 3,
       }
 
     }
@@ -229,6 +233,8 @@ namespace Server2N {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public GameEvent(GameEvent other) : this() {
       act_ = other.act_;
+      id_ = other.id_;
+      actionProperty_ = other.actionProperty_;
       eventPositionX_ = other.eventPositionX_;
       eventPositionY_ = other.eventPositionY_;
     }
@@ -249,8 +255,30 @@ namespace Server2N {
       }
     }
 
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 4;
+    private int id_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Id {
+      get { return id_; }
+      set {
+        id_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "actionProperty" field.</summary>
+    public const int ActionPropertyFieldNumber = 5;
+    private int actionProperty_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ActionProperty {
+      get { return actionProperty_; }
+      set {
+        actionProperty_ = value;
+      }
+    }
+
     /// <summary>Field number for the "EventPositionX" field.</summary>
-    public const int EventPositionXFieldNumber = 4;
+    public const int EventPositionXFieldNumber = 6;
     private float eventPositionX_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float EventPositionX {
@@ -261,7 +289,7 @@ namespace Server2N {
     }
 
     /// <summary>Field number for the "EventPositionY" field.</summary>
-    public const int EventPositionYFieldNumber = 5;
+    public const int EventPositionYFieldNumber = 7;
     private float eventPositionY_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float EventPositionY {
@@ -285,6 +313,8 @@ namespace Server2N {
         return true;
       }
       if (Act != other.Act) return false;
+      if (Id != other.Id) return false;
+      if (ActionProperty != other.ActionProperty) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(EventPositionX, other.EventPositionX)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(EventPositionY, other.EventPositionY)) return false;
       return true;
@@ -294,6 +324,8 @@ namespace Server2N {
     public override int GetHashCode() {
       int hash = 1;
       if (Act != 0) hash ^= Act.GetHashCode();
+      if (Id != 0) hash ^= Id.GetHashCode();
+      if (ActionProperty != 0) hash ^= ActionProperty.GetHashCode();
       if (EventPositionX != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(EventPositionX);
       if (EventPositionY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(EventPositionY);
       return hash;
@@ -310,12 +342,20 @@ namespace Server2N {
         output.WriteRawTag(24);
         output.WriteEnum((int) Act);
       }
+      if (Id != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(Id);
+      }
+      if (ActionProperty != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(ActionProperty);
+      }
       if (EventPositionX != 0F) {
-        output.WriteRawTag(37);
+        output.WriteRawTag(53);
         output.WriteFloat(EventPositionX);
       }
       if (EventPositionY != 0F) {
-        output.WriteRawTag(45);
+        output.WriteRawTag(61);
         output.WriteFloat(EventPositionY);
       }
     }
@@ -325,6 +365,12 @@ namespace Server2N {
       int size = 0;
       if (Act != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Act);
+      }
+      if (Id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
+      }
+      if (ActionProperty != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ActionProperty);
       }
       if (EventPositionX != 0F) {
         size += 1 + 4;
@@ -342,6 +388,12 @@ namespace Server2N {
       }
       if (other.Act != 0) {
         Act = other.Act;
+      }
+      if (other.Id != 0) {
+        Id = other.Id;
+      }
+      if (other.ActionProperty != 0) {
+        ActionProperty = other.ActionProperty;
       }
       if (other.EventPositionX != 0F) {
         EventPositionX = other.EventPositionX;
@@ -363,11 +415,19 @@ namespace Server2N {
             act_ = (global::Server2N.GameEvent.Types.action) input.ReadEnum();
             break;
           }
-          case 37: {
+          case 32: {
+            Id = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            ActionProperty = input.ReadInt32();
+            break;
+          }
+          case 53: {
             EventPositionX = input.ReadFloat();
             break;
           }
-          case 45: {
+          case 61: {
             EventPositionY = input.ReadFloat();
             break;
           }

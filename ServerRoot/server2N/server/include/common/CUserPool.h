@@ -8,22 +8,21 @@ using namespace std;
 class CUserPool
 {
     private:
-        map<int , CUser* > userInfo;
-
         pthread_mutex_t pool_mutex;
         pthread_cond_t pool_cond;
 
+		
     public:
+        map<int , CUser* >::iterator it;
+        map<int , CUser* > userInfo;
         CUserPool();
         ~CUserPool();
 
-        bool addUserInPool(int fd, int32_t x, int32_t y);
+        bool addUserInPool(CUser* user);
         bool delUserInPool(int fd);
         CUser* findUserInPool(int fd);
 
         int32_t userCount();
-        bool sendUser(int fd);
-        static bool allSendEvent();
 };
 extern CUserPool g_userPool;
 

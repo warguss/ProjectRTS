@@ -4,13 +4,13 @@ package server2N;
 
 message UserConnection{
 	enum ConnectionType{
-		//TryConnect 추가하기
-		//AcceptConnect 추가하기
-		Connect = 0; 
-		DisConnect = 1001;
+		Connect = 0;
+		TryConnect = 1;
+		AcceptConnect = 2;
+		DisConnect = 3;
 	}
 
-	int32 id = 1; //TryConnect시 id는 무조건 0.
+	int32 id = 1;
 	ConnectionType conType = 2;
 }
 
@@ -26,11 +26,11 @@ message GameEvent{
 	}
 
 	action act = 3;
-	//플레이어 id(int) 추가
-	//액션별 특성값(int) 추가
+	int32 id = 4;
+	int32 actionProperty = 5;
+	float EventPositionX = 6;
+	float EventPositionY = 7;
 }
-
- 
 
 message PacketBody{
 	enum messageType{
@@ -41,3 +41,4 @@ message PacketBody{
    UserConnection connect = 6;
    GameEvent event = 7;
 }
+

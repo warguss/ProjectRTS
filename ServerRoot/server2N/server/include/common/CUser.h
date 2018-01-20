@@ -11,26 +11,21 @@
 #include "google/protobuf/io/coded_stream.h"
 #include "google/protobuf/io/zero_copy_stream_impl.h"
 
-//#include "CPacket.h"
-
 using namespace std;
 using namespace google::protobuf::io;
 class CUser
 {
     private:
-        int _sector;
 		int _type;
+        int _sector;
         int32_t tX,tY;
-				
-        pthread_t sendThread;
-		server2N::PacketBody _protoPacket;
-
+		/*******************************
+		 * BroadCase위해 ptr로 할당
+		 *******************************/
 
     public:
         int _fd;
-		char _protoType;
-		uint32_t bodyLength;
-		unsigned char* _body;
+		server2N::PacketBody* _protoPacket;
 
 	public:
         CUser();
@@ -40,17 +35,12 @@ class CUser
         bool moveX(int32_t tX);
         bool moveY(int32_t tY);
 
-        static void* writeData(void* buf);
         bool setData(int fd, int type);
+		bool setPacketBody(server2N::PacketBody* packet);
 
-		bool setHeader(unsigned char* buf);
 
-		bool encodingHeader(unsigned char* outputBuf);
-		bool encodingBody(unsigned char* buffer);
-
-		bool decodingHeader(unsigned char* buffer, uint32_t bufLength);
-		bool decodingBody(unsigned char* buffer, uint32_t bufLength);
-
-		bool allocBody();
+	private:
+		bool _userConnectionEvent(int fd);
+		bool _userDisConnectionEvent(int fd);
 };
 #endif
