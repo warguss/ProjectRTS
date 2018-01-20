@@ -52,11 +52,11 @@ public class GameLogic : MonoBehaviour
             myId = id;
             CameraScript.SetTarget(playerCharacters[myId].gameObject);
 
-            player.MoveEvent = PlayerEventMove;
-            player.StopEvent = PlayerEventStop;
-            player.JumpEvent = PlayerEventJump;
-            player.ShootEvent = PlayerEventShoot;
-            player.GetHitEvent = PlayerEventGetHit;
+            player.MoveEvent += PlayerEventMove;
+            player.StopEvent += PlayerEventStop;
+            player.JumpEvent += PlayerEventJump;
+            player.ShootEvent += PlayerEventShoot;
+            player.GetHitEvent += PlayerEventGetHit;
         }
     }
 

@@ -44,11 +44,11 @@ public class MainCharacter : MonoBehaviour
     public delegate void PlayerEventGetHit(int damage, int hitRecovery, int impact, int impactAngle);
     public delegate void PlayerEventShoot(bool isLeft);
 
-    public PlayerEventMove MoveEvent;
-    public PlayerEventStop StopEvent;
-    public PlayerEventJump JumpEvent;
-    public PlayerEventGetHit GetHitEvent;
-    public PlayerEventShoot ShootEvent;
+    public event PlayerEventMove MoveEvent;
+    public event PlayerEventStop StopEvent;
+    public event PlayerEventJump JumpEvent;
+    public event PlayerEventGetHit GetHitEvent;
+    public event PlayerEventShoot ShootEvent;
 
     // Use this for initialization
     void Start()
