@@ -15,26 +15,28 @@ void CProtoManager::initialize()
 	/************************************
 	 * Connect
 	 ************************************/ 
-	_connectCase = new server2N::PacketBody;
-
+	//_connectCase = new server2N::UserConnection;
+	_connectCase.set_contype(server2N::UserConnection_ConnectionType_Connect);
 
 	/************************************
 	 * DisConnect
 	 ************************************/
-	_disConnectCase = new server2N::PacketBody;
+	//_disConnectCase = new server2N::UserConnection;
 }
 
 void CProtoManager::close()
 {
+#if 0 
 	if ( _connectCase )
 	{
-		delete _connectCase;
+		//delete _connectCase;
 	}
 	
 	if ( _disConnectCase )
 	{
-		delete _disConnectCase;
+		//delete _disConnectCase;
 	}
+#endif
 }
 
 bool CProtoManager::encodingHeader(unsigned char* outputBuf, server2N::PacketBody* protoPacket, uint32_t& bodyLength)
@@ -86,6 +88,7 @@ bool CProtoManager::decodingHeader(unsigned char* buffer, uint32_t bufLength, ui
      * [0 - 3] Body Length
      * [4 - length] ProtoBuffer
      *******************************************/
+	bodyLength = 0;
     int bitDigit = 0;
     for ( int idx = 0 ; idx < HEADER_SIZE ; buffer++, idx++, bitDigit += 8 )
     {
@@ -103,6 +106,7 @@ bool CProtoManager::decodingHeader(unsigned char* buffer, uint32_t bufLength, ui
 
 bool printTest(unsigned char* buffer, int size);
 std::string hexStr(unsigned char*data, int len);
+//bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint32_t bodyLength, server2N::PacketBody** protoPacket)
 bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint32_t bodyLength, server2N::PacketBody* protoPacket)
 {
     if ( bufLength != bodyLength || !buffer )
@@ -111,52 +115,46 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
         return false;
     }
 
-	if ( protoPacket )
+	if ( protoPacket.has() )
 	{
-		delete protoPacket;
+		LOG("Delete ProtoPacket\n");
+		delete *protoPacket;
 	}
 
-	printf("hex [%s]\n", hexStr(buffer, (int)bufLength).c_str());
-
-	protoPacket = new server2N::PacketBody;
+	//*protoPacket = new server2N::PacketBody;
     google::protobuf::io::CodedInputStream is(buffer, (int)bodyLength);
-    if ( !protoPacket->MergeFromCodedStream(&is) )
+    if ( !(*protoPacket)->MergeFromCodedStream(&is) )
     {
         LOG("Error CodedStream\n");
         return false;
     }
 
     // 디버깅 용도, 있는지 없는 지만 체크하도 리턴해도 충분하다.
-    if ( protoPacket->has_event() )
+    if ( (*protoPacket)->has_event() )
     {
-        server2N::GameEvent tEvent = protoPacket->event();
+        server2N::GameEvent tEvent = (*protoPacket)->event();
         cout << "Debug String" << tEvent.DebugString() << endl;
         LOG("Has Event\n");
     }
-    else if ( protoPacket->has_connect() )
+    else if ( (*protoPacket)->has_connect() )
     {
-        server2N::UserConnection tConnect = protoPacket->connect();
+        server2N::UserConnection tConnect = (*protoPacket)->connect();
         cout << "Debug String" << tConnect.DebugString() << endl;
         LOG("Has Connect\n");
     }
     else
     {
-		cout << "Debug String" << protoPacket->DebugString() << endl;
-		cout << "Debug String" << protoPacket->Utf8DebugString() << endl;
-		protoPacket->PrintDebugString();
         LOG("Not Exist ProtoBuffer\n");
         return false;
     }
 
-	//protoPacket = packet;
-    cout << "Debug String" << protoPacket->DebugString() << endl;
-    LOG("Size : %d\n", protoPacket->ByteSizeLong());
     return true;
 }
 
 server2N::PacketBody* CProtoManager::getBroadCastProtoPacket(int type)
 {
 	server2N::PacketBody* packet = NULL;
+#if 0
 	if ( type == CONNECT )
 	{
 		packet = _connectCase;
@@ -165,6 +163,7 @@ server2N::PacketBody* CProtoManager::getBroadCastProtoPacket(int type)
 	{
 		packet = _disConnectCase;
 	}
+#endif
 
 	return packet;
 }
@@ -211,14 +210,13 @@ int32_t CProtoManager::typeReturn(server2N::PacketBody* protoPacket)
 
 bool CProtoManager::setConnType(server2N::PacketBody* protoPacket, int32_t type, int32_t fd)
 {
-	if ( !protoPacket )
+	if ( !(protoPacket) )
 	{
 		LOG("Not Exist User , User ProtoPacket\n");
 		return false;
 	}
 
-
-	if ( !protoPacket->has_connect() ) 
+	if ( !(protoPacket)->has_connect() ) 
 	{
 		LOG("Invalid ProtoPacket And Type\n");
 		return false;
@@ -226,9 +224,13 @@ bool CProtoManager::setConnType(server2N::PacketBody* protoPacket, int32_t type,
 
 	if ( type == (int32_t)TRYCONNECT )
 	{
-		server2N::UserConnection tConnect = protoPacket->connect();
-		tConnect.set_contype(server2N::UserConnection_ConnectionType_Connect);
-		tConnect.set_id(fd);
+		LOG("USERID(%d) TRYCONNECT Change To CONNECT\n", fd);
+		/**************************************
+		 * set_contype 안먹음
+		 * 0은 표시안함
+		 **************************************/
+		_connectCase.set_id(fd);
+		protoPacket->set_allocated_connect(&_connectCase);
 	}
 
 
@@ -241,6 +243,8 @@ bool CProtoManager::setActionType(server2N::PacketBody* protoPacket, int type)
 
 	return true;
 }
+
+#if 0 
 #include <sstream>
 std::string hexStr(unsigned char*data, int len)
 {
@@ -250,5 +254,4 @@ std::string hexStr(unsigned char*data, int len)
         ss<<(int)data[i];
     return ss.str();
 }
-
-
+#endif

@@ -9,6 +9,9 @@ CUserPool::CUserPool()
 
 CUserPool::~CUserPool()
 {
+	/****************************
+	 * Clear Logic 필요
+	 ****************************/
     userInfo.clear();
 }
 
@@ -45,7 +48,19 @@ bool CUserPool::addUserInPool(CUser* user)
 bool CUserPool::delUserInPool(int fd)
 {
     /* find */
-
+	it = userInfo.find(fd);
+	if ( it == userInfo.end() ) 
+	{
+		return NULL;
+	}
+	
+	CUser *user = (CUser*)it->second;
+	if ( user )
+	{
+		LOG("Delete User(%d)\n", user->_fd);
+		delete user;
+	}
+	user = NULL;
     /* memory delete */
 
 
@@ -53,7 +68,7 @@ bool CUserPool::delUserInPool(int fd)
 
 
     /* Map delete */
-
+	userInfo.erase(fd);
 
     /* UnLock */
 
