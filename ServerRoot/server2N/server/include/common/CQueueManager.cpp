@@ -22,6 +22,11 @@ CQueueManager::~CQueueManager()
 
 void CQueueManager::setType(int type)
 {
+	/**********************
+	 * Lock에 대해
+	 * Send Q와
+	 * Recv Q가 다르게 동작
+	 **********************/
 	_type = type;
 }
 
@@ -29,25 +34,29 @@ void CQueueManager::setType(int type)
 bool CQueueManager::enqueue(int fd, char* buf, int length)
 {
     CUser* user = new CUser;
-    user->setData(fd, buf, length, _type);
+    user->setData(fd, _type);
 
     /* Auto Lock */
 	CThreadLockManager lock(_type);
     _queue.push_back(user);
     _queueSize++;
 
-	LOG("Dequeue Success\n");
     return true;
 }
 
 bool CQueueManager::enqueue(CUser* user)
 {
+	if ( !user )
+	{
+		LOG("User Invalid\n");
+		return false; 
+	}
+
     /* Auto Lock */
 	CThreadLockManager lock(_type);
     _queue.push_back(user);
     _queueSize++;
 
-	LOG("Endeque Success\n");
     return true;
 }
 
@@ -62,13 +71,10 @@ CUser* CQueueManager::dequeue()
 	LOG("Dequeue Start\n");
 	/* Auto Lock */
 	CThreadLockManager lock(_type);
-
 	user = _queue.front();
 	_queue.pop_front();
 	_queueSize--;
 
-
-	//LOG("dequeu user[%d]\n", user->_fd);
     return user;
 }
 
@@ -80,7 +86,6 @@ bool CQueueManager::isQueueDataExist()
     {
         return true;
     }
-
     return false;
 }
 

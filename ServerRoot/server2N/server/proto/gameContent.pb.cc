@@ -119,6 +119,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, act_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, id_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, actionproperty_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, eventpositionx_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, eventpositiony_),
   ~0u,  // no _has_bits_
@@ -133,7 +135,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::server2N::UserConnection)},
   { 7, -1, sizeof(::server2N::GameEvent)},
-  { 15, -1, sizeof(::server2N::PacketBody)},
+  { 17, -1, sizeof(::server2N::PacketBody)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -164,24 +166,25 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\021gameContent.proto\022\010server2N\"\206\001\n\016UserCo"
+      "\n\021gameContent.proto\022\010server2N\"\250\001\n\016UserCo"
       "nnection\022\n\n\002id\030\001 \001(\005\0228\n\007conType\030\002 \001(\0162\'."
-      "server2N.UserConnection.ConnectionType\"."
-      "\n\016ConnectionType\022\013\n\007Connect\020\000\022\017\n\nDisConn"
-      "ect\020\351\007\"\273\001\n\tGameEvent\022\'\n\003act\030\003 \001(\0162\032.serv"
-      "er2N.GameEvent.action\022\026\n\016EventPositionX\030"
-      "\004 \001(\002\022\026\n\016EventPositionY\030\005 \001(\002\"U\n\006action\022"
-      "\013\n\007Nothing\020\000\022\010\n\004Move\020d\022\010\n\004Stop\020e\022\010\n\004Jump"
-      "\020f\022\t\n\005Shoot\020g\022\n\n\006GetHit\020h\022\t\n\005Spawn\020i\"\302\001\n"
-      "\nPacketBody\0222\n\007msgType\030\220N \001(\0162 .server2N"
-      ".PacketBody.messageType\022)\n\007connect\030\006 \001(\013"
-      "2\030.server2N.UserConnection\022\"\n\005event\030\007 \001("
-      "\0132\023.server2N.GameEvent\"1\n\013messageType\022\r\n"
-      "\tGameEvent\020\000\022\023\n\016UserConnection\020\220Nb\006proto"
-      "3"
+      "server2N.UserConnection.ConnectionType\"P"
+      "\n\016ConnectionType\022\013\n\007Connect\020\000\022\016\n\nTryConn"
+      "ect\020\001\022\021\n\rAcceptConnect\020\002\022\016\n\nDisConnect\020\003"
+      "\"\337\001\n\tGameEvent\022\'\n\003act\030\003 \001(\0162\032.server2N.G"
+      "ameEvent.action\022\n\n\002id\030\004 \001(\005\022\026\n\016actionPro"
+      "perty\030\005 \001(\005\022\026\n\016EventPositionX\030\006 \001(\002\022\026\n\016E"
+      "ventPositionY\030\007 \001(\002\"U\n\006action\022\013\n\007Nothing"
+      "\020\000\022\010\n\004Move\020d\022\010\n\004Stop\020e\022\010\n\004Jump\020f\022\t\n\005Shoo"
+      "t\020g\022\n\n\006GetHit\020h\022\t\n\005Spawn\020i\"\302\001\n\nPacketBod"
+      "y\0222\n\007msgType\030\220N \001(\0162 .server2N.PacketBod"
+      "y.messageType\022)\n\007connect\030\006 \001(\0132\030.server2"
+      "N.UserConnection\022\"\n\005event\030\007 \001(\0132\023.server"
+      "2N.GameEvent\"1\n\013messageType\022\r\n\tGameEvent"
+      "\020\000\022\023\n\016UserConnection\020\220Nb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 561);
+      descriptor, 631);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "gameContent.proto", &protobuf_RegisterTypes);
 }
@@ -205,7 +208,9 @@ const ::google::protobuf::EnumDescriptor* UserConnection_ConnectionType_descript
 bool UserConnection_ConnectionType_IsValid(int value) {
   switch (value) {
     case 0:
-    case 1001:
+    case 1:
+    case 2:
+    case 3:
       return true;
     default:
       return false;
@@ -214,6 +219,8 @@ bool UserConnection_ConnectionType_IsValid(int value) {
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const UserConnection_ConnectionType UserConnection::Connect;
+const UserConnection_ConnectionType UserConnection::TryConnect;
+const UserConnection_ConnectionType UserConnection::AcceptConnect;
 const UserConnection_ConnectionType UserConnection::DisConnect;
 const UserConnection_ConnectionType UserConnection::ConnectionType_MIN;
 const UserConnection_ConnectionType UserConnection::ConnectionType_MAX;
@@ -553,6 +560,8 @@ void GameEvent::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int GameEvent::kActFieldNumber;
+const int GameEvent::kIdFieldNumber;
+const int GameEvent::kActionPropertyFieldNumber;
 const int GameEvent::kEventPositionXFieldNumber;
 const int GameEvent::kEventPositionYFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -644,10 +653,38 @@ bool GameEvent::MergePartialFromCodedStream(
         break;
       }
 
-      // float EventPositionX = 4;
+      // int32 id = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(37u /* 37 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &id_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 actionProperty = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &actionproperty_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // float EventPositionX = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(53u /* 53 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
@@ -658,10 +695,10 @@ bool GameEvent::MergePartialFromCodedStream(
         break;
       }
 
-      // float EventPositionY = 5;
-      case 5: {
+      // float EventPositionY = 7;
+      case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(45u /* 45 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(61u /* 61 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
@@ -704,14 +741,24 @@ void GameEvent::SerializeWithCachedSizes(
       3, this->act(), output);
   }
 
-  // float EventPositionX = 4;
-  if (this->eventpositionx() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->eventpositionx(), output);
+  // int32 id = 4;
+  if (this->id() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->id(), output);
   }
 
-  // float EventPositionY = 5;
+  // int32 actionProperty = 5;
+  if (this->actionproperty() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->actionproperty(), output);
+  }
+
+  // float EventPositionX = 6;
+  if (this->eventpositionx() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(6, this->eventpositionx(), output);
+  }
+
+  // float EventPositionY = 7;
   if (this->eventpositiony() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->eventpositiony(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(7, this->eventpositiony(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -734,14 +781,24 @@ void GameEvent::SerializeWithCachedSizes(
       3, this->act(), target);
   }
 
-  // float EventPositionX = 4;
-  if (this->eventpositionx() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(4, this->eventpositionx(), target);
+  // int32 id = 4;
+  if (this->id() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->id(), target);
   }
 
-  // float EventPositionY = 5;
+  // int32 actionProperty = 5;
+  if (this->actionproperty() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->actionproperty(), target);
+  }
+
+  // float EventPositionX = 6;
+  if (this->eventpositionx() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(6, this->eventpositionx(), target);
+  }
+
+  // float EventPositionY = 7;
   if (this->eventpositiony() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(5, this->eventpositiony(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(7, this->eventpositiony(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -767,12 +824,26 @@ size_t GameEvent::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->act());
   }
 
-  // float EventPositionX = 4;
+  // int32 id = 4;
+  if (this->id() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->id());
+  }
+
+  // int32 actionProperty = 5;
+  if (this->actionproperty() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->actionproperty());
+  }
+
+  // float EventPositionX = 6;
   if (this->eventpositionx() != 0) {
     total_size += 1 + 4;
   }
 
-  // float EventPositionY = 5;
+  // float EventPositionY = 7;
   if (this->eventpositiony() != 0) {
     total_size += 1 + 4;
   }
@@ -809,6 +880,12 @@ void GameEvent::MergeFrom(const GameEvent& from) {
   if (from.act() != 0) {
     set_act(from.act());
   }
+  if (from.id() != 0) {
+    set_id(from.id());
+  }
+  if (from.actionproperty() != 0) {
+    set_actionproperty(from.actionproperty());
+  }
   if (from.eventpositionx() != 0) {
     set_eventpositionx(from.eventpositionx());
   }
@@ -842,6 +919,8 @@ void GameEvent::Swap(GameEvent* other) {
 void GameEvent::InternalSwap(GameEvent* other) {
   using std::swap;
   swap(act_, other->act_);
+  swap(id_, other->id_);
+  swap(actionproperty_, other->actionproperty_);
   swap(eventpositionx_, other->eventpositionx_);
   swap(eventpositiony_, other->eventpositiony_);
   _internal_metadata_.Swap(&other->_internal_metadata_);

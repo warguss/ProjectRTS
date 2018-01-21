@@ -1,4 +1,6 @@
 
+#define HEADER_SIZE 4
+#define HEADER_BUFFER 1024
 #define BUFFER 8096
 #define POOL_SIZE 300
 #define EPOLL_SIZE 301
@@ -17,3 +19,13 @@
 #define PROTOBUF_USER 0
 #define PROTOBUF_ADDRESSBOOK 1
 
+#define HEADER 2
+#define BODY 3
+
+
+#define ALL_SEND 1000
+#define PART_SEND 1001
+
+
+#define CONNECT 10000
+#define DISCONNECT 10001

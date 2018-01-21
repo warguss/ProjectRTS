@@ -11,6 +11,7 @@
 #include "CQueueManager.h"
 #include "MsgString.h"
 #include "CUserPool.h"
+#include "CProtoManager.h"
 
 using namespace std;
 

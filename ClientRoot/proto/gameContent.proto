@@ -5,7 +5,9 @@ package server2N;
 message UserConnection{
 	enum ConnectionType{
 		Connect = 0;
-		DisConnect = 1001;
+		TryConnect = 1;
+		AcceptConnect = 2;
+		DisConnect = 3;
 	}
 
 	int32 id = 1;
@@ -24,12 +26,11 @@ message GameEvent{
 	}
 
 	action act = 3;
-	float EventPositionX = 4;
-	float EventPositionY = 5;
+	int32 id = 4;
+	int32 actionProperty = 5;
+	float EventPositionX = 6;
+	float EventPositionY = 7;
 }
-
-
-
 
 message PacketBody{
 	enum messageType{

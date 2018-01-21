@@ -10,63 +10,73 @@
 #include <netinet/in.h>
 #include <pthread.h>
 #include <sys/epoll.h>
-#include "google/protobuf/io/coded_stream.h"
-#include "google/protobuf/io/zero_copy_stream_impl.h"
-#include "proto/addressbook.pb.h"
-
-
+//#include "google/protobuf/io/coded_stream.h"
+//#include "google/protobuf/io/zero_copy_stream_impl.h"
+//#include "proto/gameContent.pb.h"
 #include "common/MsgString.h"
 #include "common/CSessionManager.h"
-//#include "common/CUserPool.h"
-//#include "common/CQueueManager.h"
-
 
 
 using namespace std;
-using namespace google::protobuf::io;
 
-
-bool decodingProtoBuf(CUser* user)
+typedef void (*CallBackFunc)(CSessionManager&, CUser*);
+bool ForAllSendFunc(CSessionManager& session, CUser* eventUser)
 {
-	tutorial::AddressBook addressBook;
-	google::protobuf::uint32 pbufSize;
-	google::protobuf::io::ArrayInputStream inputStream(user->_buffer, user->_length);
-
-	CodedInputStream codedStream(&inputStream);
-	codedStream.ReadVarint32(&pbufSize);
-
-	google::protobuf::io::CodedInputStream::Limit bufferLimit = codedStream.PushLimit(pbufSize);
-
-	addressBook.ParseFromCodedStream(&codedStream);
-	codedStream.PopLimit(bufferLimit);
+	/*********************************
+	 * UserPool에서 전체 유저 가져옴
+	 *********************************/ 
 
 
-	LOG("\nBuffer[%s]\n", user->_buffer);
+	/*********************************
+	 * Event 발생시킨 User는 먼저넣음
+	 *********************************/
+	session.m_writeQ_Manager.enqueue(eventUser);
 
-#if 0 
-	int32_t writeSize = 0;
-	if ( writeSize = write(user->_fd, user->_buffer, (size_t)user->_length) < 0 )
+	/*********************************
+	 * 그 중에서 EventUser는 제외
+	 *********************************/ 
+	int type;
+	for ( g_userPool.it = g_userPool.userInfo.begin(); g_userPool.it != g_userPool.userInfo.end(); g_userPool.it++ )
 	{
-		perror("Send");
-		LOG("Write Size[%d]\n",writeSize);
-		return false;
-	} 
-	if ( (writeSize = send(user->_fd, user->_buffer, (size_t)user->_length, MSG_WAITALL)) < 0 )
-	{
-		perror("Send");
-		LOG("Write Size[%d]\n",writeSize);
-		return false;
+		CUser* user = (CUser*)g_userPool.it->second;
+		if ( !user || user->_fd == eventUser->_fd )
+		{
+			continue ;
+		}
+
+		/*********************************
+		 * ProtoPacket할당
+		 *********************************/ 
+		if ( !user->setPacketBody(g_packetManager.getBroadCastProtoPacket(type)) )
+		{
+			return false;
+		} 
+		
+		/*********************************
+		 * Enqueue
+		 *********************************/
+		session.m_writeQ_Manager.enqueue(user);
 	}
-#endif
+	
+	return true;
+}
+
+
+
+bool ForPartSendFunc(CSessionManager& session, CUser* eventUser)
+{
+	LOG("Part Send Event\n");
+
+
 
 	return true;
-} 
+}
 
 
 
-//CUserPool g_userPool;
-//extern pthread_mutex_t g_main_mutex = PTHREAD_MUTEX_INITIALIZER;
-//extern pthread_cond_t g_main_cond = PTHREAD_COND_INITIALIZER;
+
+
+
 int main(int argc, char* argv[]) 
 {
 	// Verify that the version of the library that we linked against is
@@ -77,7 +87,11 @@ int main(int argc, char* argv[])
 	pthread_t thread;
 	CSessionManager session(port);
 	
-	LOG("Test1\n");
+	map<int, CallBackFunc> funcMap;
+	funcMap.insert( pair<int, CallBackFunc>(CONNECT, ForAllSendFunc) );
+	funcMap.insert( pair<int, CallBackFunc>(DISCONNECT, ForAllSendFunc) );
+
+
 	if ( pthread_create(&thread, NULL, session.waitEvent, (void*)&port) < 0 )
 	{
 		exit(0);
@@ -97,27 +111,28 @@ int main(int argc, char* argv[])
 		 * Signal Wait가 필요할거 같기도하다. 
 		 */
 		CUser* data = NULL;
-		if ( data = session.m_readQ_Manager.dequeue(READ_TYPE) ) 
+		if ( session.m_readQ_Manager.isQueueDataExist() &&  (data = session.m_readQ_Manager.dequeue()) && data ) 
 		{
-			decodingProtoBuf(data);
-			session.m_writeQ_Manager.enqueue(data);
-			/* 
-			 * 해석 로직이 필요함 buffer -> Object 
-			 * Buffer 내용에 따라, 일부 보낼 지, 전체 보낼 지 결정
-			 * QueueData -> 재 해석 -> CData로 재 변환.
-			 */
-			
+			/*************************************
+			 * Game Logic
+			 * ALL_SEND
+			 * PART_SEND
+			 *************************************/ 
+			void (*func)(CSessionManager&, CUser*) = NULL;
+			if ( func )
+			{
+				func(session, data);
+			}
+			else
+			{
+				LOG("Not Register Type(%d)\n", 1);
+			}
 		} 	
 	}
-	LOG("MainLogic4\n");
+	LOG("MainLogic\n");
 
-
-
-	
-	
 	int status;
 	pthread_join(thread, (void**)&status);
-	LOG("Test2\n");
 	google::protobuf::ShutdownProtobufLibrary();
 	return -1;
 
