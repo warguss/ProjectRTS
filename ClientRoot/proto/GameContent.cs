@@ -22,27 +22,27 @@ namespace Server2N {
     static GameContentReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChFnYW1lQ29udGVudC5wcm90bxIIc2VydmVyMk4iqAEKDlVzZXJDb25uZWN0",
-            "aW9uEgoKAmlkGAEgASgFEjgKB2NvblR5cGUYAiABKA4yJy5zZXJ2ZXIyTi5V",
-            "c2VyQ29ubmVjdGlvbi5Db25uZWN0aW9uVHlwZSJQCg5Db25uZWN0aW9uVHlw",
-            "ZRILCgdDb25uZWN0EAASDgoKVHJ5Q29ubmVjdBABEhEKDUFjY2VwdENvbm5l",
-            "Y3QQAhIOCgpEaXNDb25uZWN0EAMi3wEKCUdhbWVFdmVudBInCgNhY3QYAyAB",
-            "KA4yGi5zZXJ2ZXIyTi5HYW1lRXZlbnQuYWN0aW9uEgoKAmlkGAQgASgFEhYK",
-            "DmFjdGlvblByb3BlcnR5GAUgASgFEhYKDkV2ZW50UG9zaXRpb25YGAYgASgC",
-            "EhYKDkV2ZW50UG9zaXRpb25ZGAcgASgCIlUKBmFjdGlvbhILCgdOb3RoaW5n",
-            "EAASCAoETW92ZRBkEggKBFN0b3AQZRIICgRKdW1wEGYSCQoFU2hvb3QQZxIK",
-            "CgZHZXRIaXQQaBIJCgVTcGF3bhBpIsIBCgpQYWNrZXRCb2R5EjIKB21zZ1R5",
-            "cGUYkE4gASgOMiAuc2VydmVyMk4uUGFja2V0Qm9keS5tZXNzYWdlVHlwZRIp",
-            "Cgdjb25uZWN0GAYgASgLMhguc2VydmVyMk4uVXNlckNvbm5lY3Rpb24SIgoF",
-            "ZXZlbnQYByABKAsyEy5zZXJ2ZXIyTi5HYW1lRXZlbnQiMQoLbWVzc2FnZVR5",
-            "cGUSDQoJR2FtZUV2ZW50EAASEwoOVXNlckNvbm5lY3Rpb24QkE5iBnByb3Rv",
-            "Mw=="));
+            "ChFnYW1lQ29udGVudC5wcm90bxIIc2VydmVyMk4iqQEKDlVzZXJDb25uZWN0",
+            "aW9uEjgKB2NvblR5cGUYASABKA4yJy5zZXJ2ZXIyTi5Vc2VyQ29ubmVjdGlv",
+            "bi5Db25uZWN0aW9uVHlwZSJdCg5Db25uZWN0aW9uVHlwZRILCgdOb3RoaW5n",
+            "EAASCwoHQ29ubmVjdBABEg4KClRyeUNvbm5lY3QQAhIRCg1BY2NlcHRDb25u",
+            "ZWN0EAMSDgoKRGlzQ29ubmVjdBAEIvkBCglHYW1lRXZlbnQSJwoDYWN0GAMg",
+            "ASgOMhouc2VydmVyMk4uR2FtZUV2ZW50LmFjdGlvbhIWCg5hY3Rpb25Qcm9w",
+            "ZXJ0eRgFIAEoBRIWCg5FdmVudFBvc2l0aW9uWBgGIAEoAhIWCg5FdmVudFBv",
+            "c2l0aW9uWRgHIAEoAhIRCglWZWxvY2l0eVgYCCABKAISEQoJVmVsb2NpdHlZ",
+            "GAkgASgCIlUKBmFjdGlvbhILCgdOb3RoaW5nEAASCAoETW92ZRBkEggKBFN0",
+            "b3AQZRIICgRKdW1wEGYSCQoFU2hvb3QQZxIKCgZHZXRIaXQQaBIJCgVTcGF3",
+            "bhBpIs4BCgpQYWNrZXRCb2R5EjIKB21zZ1R5cGUYkE4gASgOMiAuc2VydmVy",
+            "Mk4uUGFja2V0Qm9keS5tZXNzYWdlVHlwZRIpCgdjb25uZWN0GAYgASgLMhgu",
+            "c2VydmVyMk4uVXNlckNvbm5lY3Rpb24SIgoFZXZlbnQYByABKAsyEy5zZXJ2",
+            "ZXIyTi5HYW1lRXZlbnQSCgoCaWQYCCABKAUiMQoLbWVzc2FnZVR5cGUSDQoJ",
+            "R2FtZUV2ZW50EAASEwoOVXNlckNvbm5lY3Rpb24QkE5iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.UserConnection), global::Server2N.UserConnection.Parser, new[]{ "Id", "ConType" }, null, new[]{ typeof(global::Server2N.UserConnection.Types.ConnectionType) }, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "Act", "Id", "ActionProperty", "EventPositionX", "EventPositionY" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.action) }, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.PacketBody), global::Server2N.PacketBody.Parser, new[]{ "MsgType", "Connect", "Event" }, null, new[]{ typeof(global::Server2N.PacketBody.Types.messageType) }, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.UserConnection), global::Server2N.UserConnection.Parser, new[]{ "ConType" }, null, new[]{ typeof(global::Server2N.UserConnection.Types.ConnectionType) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "Act", "ActionProperty", "EventPositionX", "EventPositionY", "VelocityX", "VelocityY" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.action) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.PacketBody), global::Server2N.PacketBody.Parser, new[]{ "MsgType", "Connect", "Event", "Id" }, null, new[]{ typeof(global::Server2N.PacketBody.Types.messageType) }, null)
           }));
     }
     #endregion
@@ -73,7 +73,6 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public UserConnection(UserConnection other) : this() {
-      id_ = other.id_;
       conType_ = other.conType_;
     }
 
@@ -82,19 +81,8 @@ namespace Server2N {
       return new UserConnection(this);
     }
 
-    /// <summary>Field number for the "id" field.</summary>
-    public const int IdFieldNumber = 1;
-    private int id_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int Id {
-      get { return id_; }
-      set {
-        id_ = value;
-      }
-    }
-
     /// <summary>Field number for the "conType" field.</summary>
-    public const int ConTypeFieldNumber = 2;
+    public const int ConTypeFieldNumber = 1;
     private global::Server2N.UserConnection.Types.ConnectionType conType_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Server2N.UserConnection.Types.ConnectionType ConType {
@@ -117,7 +105,6 @@ namespace Server2N {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Id != other.Id) return false;
       if (ConType != other.ConType) return false;
       return true;
     }
@@ -125,7 +112,6 @@ namespace Server2N {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Id != 0) hash ^= Id.GetHashCode();
       if (ConType != 0) hash ^= ConType.GetHashCode();
       return hash;
     }
@@ -137,12 +123,8 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Id != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(Id);
-      }
       if (ConType != 0) {
-        output.WriteRawTag(16);
+        output.WriteRawTag(8);
         output.WriteEnum((int) ConType);
       }
     }
@@ -150,9 +132,6 @@ namespace Server2N {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Id != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
-      }
       if (ConType != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ConType);
       }
@@ -163,9 +142,6 @@ namespace Server2N {
     public void MergeFrom(UserConnection other) {
       if (other == null) {
         return;
-      }
-      if (other.Id != 0) {
-        Id = other.Id;
       }
       if (other.ConType != 0) {
         ConType = other.ConType;
@@ -181,10 +157,6 @@ namespace Server2N {
             input.SkipLastField();
             break;
           case 8: {
-            Id = input.ReadInt32();
-            break;
-          }
-          case 16: {
             conType_ = (global::Server2N.UserConnection.Types.ConnectionType) input.ReadEnum();
             break;
           }
@@ -197,10 +169,11 @@ namespace Server2N {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static partial class Types {
       public enum ConnectionType {
-        [pbr::OriginalName("Connect")] Connect = 0,
-        [pbr::OriginalName("TryConnect")] TryConnect = 1,
-        [pbr::OriginalName("AcceptConnect")] AcceptConnect = 2,
-        [pbr::OriginalName("DisConnect")] DisConnect = 3,
+        [pbr::OriginalName("Nothing")] Nothing = 0,
+        [pbr::OriginalName("Connect")] Connect = 1,
+        [pbr::OriginalName("TryConnect")] TryConnect = 2,
+        [pbr::OriginalName("AcceptConnect")] AcceptConnect = 3,
+        [pbr::OriginalName("DisConnect")] DisConnect = 4,
       }
 
     }
@@ -233,10 +206,11 @@ namespace Server2N {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public GameEvent(GameEvent other) : this() {
       act_ = other.act_;
-      id_ = other.id_;
       actionProperty_ = other.actionProperty_;
       eventPositionX_ = other.eventPositionX_;
       eventPositionY_ = other.eventPositionY_;
+      velocityX_ = other.velocityX_;
+      velocityY_ = other.velocityY_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -252,17 +226,6 @@ namespace Server2N {
       get { return act_; }
       set {
         act_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "id" field.</summary>
-    public const int IdFieldNumber = 4;
-    private int id_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int Id {
-      get { return id_; }
-      set {
-        id_ = value;
       }
     }
 
@@ -299,6 +262,28 @@ namespace Server2N {
       }
     }
 
+    /// <summary>Field number for the "VelocityX" field.</summary>
+    public const int VelocityXFieldNumber = 8;
+    private float velocityX_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float VelocityX {
+      get { return velocityX_; }
+      set {
+        velocityX_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "VelocityY" field.</summary>
+    public const int VelocityYFieldNumber = 9;
+    private float velocityY_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float VelocityY {
+      get { return velocityY_; }
+      set {
+        velocityY_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as GameEvent);
@@ -313,10 +298,11 @@ namespace Server2N {
         return true;
       }
       if (Act != other.Act) return false;
-      if (Id != other.Id) return false;
       if (ActionProperty != other.ActionProperty) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(EventPositionX, other.EventPositionX)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(EventPositionY, other.EventPositionY)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(VelocityX, other.VelocityX)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(VelocityY, other.VelocityY)) return false;
       return true;
     }
 
@@ -324,10 +310,11 @@ namespace Server2N {
     public override int GetHashCode() {
       int hash = 1;
       if (Act != 0) hash ^= Act.GetHashCode();
-      if (Id != 0) hash ^= Id.GetHashCode();
       if (ActionProperty != 0) hash ^= ActionProperty.GetHashCode();
       if (EventPositionX != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(EventPositionX);
       if (EventPositionY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(EventPositionY);
+      if (VelocityX != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(VelocityX);
+      if (VelocityY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(VelocityY);
       return hash;
     }
 
@@ -342,10 +329,6 @@ namespace Server2N {
         output.WriteRawTag(24);
         output.WriteEnum((int) Act);
       }
-      if (Id != 0) {
-        output.WriteRawTag(32);
-        output.WriteInt32(Id);
-      }
       if (ActionProperty != 0) {
         output.WriteRawTag(40);
         output.WriteInt32(ActionProperty);
@@ -358,6 +341,14 @@ namespace Server2N {
         output.WriteRawTag(61);
         output.WriteFloat(EventPositionY);
       }
+      if (VelocityX != 0F) {
+        output.WriteRawTag(69);
+        output.WriteFloat(VelocityX);
+      }
+      if (VelocityY != 0F) {
+        output.WriteRawTag(77);
+        output.WriteFloat(VelocityY);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -366,9 +357,6 @@ namespace Server2N {
       if (Act != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Act);
       }
-      if (Id != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
-      }
       if (ActionProperty != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(ActionProperty);
       }
@@ -376,6 +364,12 @@ namespace Server2N {
         size += 1 + 4;
       }
       if (EventPositionY != 0F) {
+        size += 1 + 4;
+      }
+      if (VelocityX != 0F) {
+        size += 1 + 4;
+      }
+      if (VelocityY != 0F) {
         size += 1 + 4;
       }
       return size;
@@ -389,9 +383,6 @@ namespace Server2N {
       if (other.Act != 0) {
         Act = other.Act;
       }
-      if (other.Id != 0) {
-        Id = other.Id;
-      }
       if (other.ActionProperty != 0) {
         ActionProperty = other.ActionProperty;
       }
@@ -400,6 +391,12 @@ namespace Server2N {
       }
       if (other.EventPositionY != 0F) {
         EventPositionY = other.EventPositionY;
+      }
+      if (other.VelocityX != 0F) {
+        VelocityX = other.VelocityX;
+      }
+      if (other.VelocityY != 0F) {
+        VelocityY = other.VelocityY;
       }
     }
 
@@ -415,10 +412,6 @@ namespace Server2N {
             act_ = (global::Server2N.GameEvent.Types.action) input.ReadEnum();
             break;
           }
-          case 32: {
-            Id = input.ReadInt32();
-            break;
-          }
           case 40: {
             ActionProperty = input.ReadInt32();
             break;
@@ -429,6 +422,14 @@ namespace Server2N {
           }
           case 61: {
             EventPositionY = input.ReadFloat();
+            break;
+          }
+          case 69: {
+            VelocityX = input.ReadFloat();
+            break;
+          }
+          case 77: {
+            VelocityY = input.ReadFloat();
             break;
           }
         }
@@ -481,6 +482,7 @@ namespace Server2N {
       msgType_ = other.msgType_;
       Connect = other.connect_ != null ? other.Connect.Clone() : null;
       Event = other.event_ != null ? other.Event.Clone() : null;
+      id_ = other.id_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -521,6 +523,17 @@ namespace Server2N {
       }
     }
 
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 8;
+    private int id_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Id {
+      get { return id_; }
+      set {
+        id_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as PacketBody);
@@ -537,6 +550,7 @@ namespace Server2N {
       if (MsgType != other.MsgType) return false;
       if (!object.Equals(Connect, other.Connect)) return false;
       if (!object.Equals(Event, other.Event)) return false;
+      if (Id != other.Id) return false;
       return true;
     }
 
@@ -546,6 +560,7 @@ namespace Server2N {
       if (MsgType != 0) hash ^= MsgType.GetHashCode();
       if (connect_ != null) hash ^= Connect.GetHashCode();
       if (event_ != null) hash ^= Event.GetHashCode();
+      if (Id != 0) hash ^= Id.GetHashCode();
       return hash;
     }
 
@@ -564,6 +579,10 @@ namespace Server2N {
         output.WriteRawTag(58);
         output.WriteMessage(Event);
       }
+      if (Id != 0) {
+        output.WriteRawTag(64);
+        output.WriteInt32(Id);
+      }
       if (MsgType != 0) {
         output.WriteRawTag(128, 241, 4);
         output.WriteEnum((int) MsgType);
@@ -581,6 +600,9 @@ namespace Server2N {
       }
       if (event_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Event);
+      }
+      if (Id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
       }
       return size;
     }
@@ -605,6 +627,9 @@ namespace Server2N {
         }
         Event.MergeFrom(other.Event);
       }
+      if (other.Id != 0) {
+        Id = other.Id;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -627,6 +652,10 @@ namespace Server2N {
               event_ = new global::Server2N.GameEvent();
             }
             input.ReadMessage(event_);
+            break;
+          }
+          case 64: {
+            Id = input.ReadInt32();
             break;
           }
           case 80000: {

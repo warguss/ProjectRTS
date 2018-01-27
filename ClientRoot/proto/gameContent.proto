@@ -4,14 +4,14 @@ package server2N;
 
 message UserConnection{
 	enum ConnectionType{
-		Connect = 0;
-		TryConnect = 1;
-		AcceptConnect = 2;
-		DisConnect = 3;
+		Nothing = 0;
+		Connect = 1;
+		TryConnect = 2;
+		AcceptConnect = 3;
+		DisConnect = 4;
 	}
 
-	int32 id = 1;
-	ConnectionType conType = 2;
+	ConnectionType conType = 1;
 }
 
 message GameEvent{
@@ -26,10 +26,11 @@ message GameEvent{
 	}
 
 	action act = 3;
-	int32 id = 4;
 	int32 actionProperty = 5;
 	float EventPositionX = 6;
 	float EventPositionY = 7;
+	float VelocityX = 8;
+	float VelocityY = 9;
 }
 
 message PacketBody{
@@ -40,5 +41,6 @@ message PacketBody{
    messageType msgType = 10000; 
    UserConnection connect = 6;
    GameEvent event = 7;
+   int32 id = 8;
 }
 
