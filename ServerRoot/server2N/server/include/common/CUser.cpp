@@ -5,7 +5,7 @@ CUser::CUser()
 	tX = 0;
     tY = 0;
     _fd = 0;
-	//_protoPacket = NULL;
+	_protoPacket = NULL;
 }
 
 CUser::CUser(int fd, int32_t x, int32_t y)
@@ -13,11 +13,11 @@ CUser::CUser(int fd, int32_t x, int32_t y)
     _fd = fd;
     tX = x;
     tY = y;
+	_protoPacket = NULL;
 }
 
 CUser::~CUser()
 {
-#if 0 
 	if ( _protoPacket )
 	{
 		_protoPacket->clear_connect();
@@ -25,8 +25,9 @@ CUser::~CUser()
 		delete _protoPacket;
 	}
 	_protoPacket = NULL;
-#endif
-	_protoPacket.clear();
+	//_protoPacket.clear();
+	//
+
 }
 
 bool CUser::moveX(int32_t tX)

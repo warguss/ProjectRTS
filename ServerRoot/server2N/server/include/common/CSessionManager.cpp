@@ -105,16 +105,7 @@ static void* CSessionManager::waitEvent(void* val)
 				_init_ev.events = EPOLLIN;
 				_init_ev.data.fd = clientSock;
 
-#if 0 
-				if ( !g_userPool.addUserInPool(clientSock, 0, 0) ) 
-				{
-					g_userPool.delUserInPool(clientSock);
-					close(clientSock);
-					continue ;
-				} 
-#endif
 				epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, clientSock, &_init_ev);
-				//g_userPool.allSendEvent();
             }
             else
             {
@@ -185,7 +176,6 @@ static void* CSessionManager::waitEvent(void* val)
 				 * userPool 에서 꺼내야할듯
 				 ******************************************/
 				m_readQ_Manager.enqueue(user);
-				
             }
         }
     }
@@ -237,7 +227,8 @@ static void* CSessionManager::writeEvent(void* val)
 				LOG("---writeEvent() Write Error Socket[%d] writeSize[%d]", user->_fd, writeSize);
 				continue ;
 			}
-
+			
+			//g_packetManager.resetProtoPacket(&user->_protoPacket);
 			LOG("Write User WriteBody(%d)\n", writeSize);
 		}
 	}
