@@ -14,8 +14,9 @@ public class GameLogic : MonoBehaviour
     public GameObject PlayerPrefab;
     public CameraMove CameraScript;
 
-    Dictionary<int, MainCharacter> playerCharacters;
-    int myId = -1; 
+    public int myId = -1;
+
+    Dictionary<int, MainCharacter> playerCharacters; 
     //int testId = 2;
 
     byte[] msgBuffer = new byte[256];
@@ -47,10 +48,9 @@ public class GameLogic : MonoBehaviour
     void userJoin(int id, bool isMe = false)
     {
         AddPlayer(id);
-        if(isMe)
+        MainCharacter player = playerCharacters[id];
+        if (isMe)
         {
-            MainCharacter player = playerCharacters[id];
-
             myId = id;
             CameraScript.SetTarget(playerCharacters[myId].gameObject);
 
@@ -60,6 +60,8 @@ public class GameLogic : MonoBehaviour
             player.ShootEvent += PlayerEventShoot;
             player.GetHitEvent += PlayerEventGetHit;
         }
+
+        TestUI.Instance.PrintText("User Join : " + id + isMe);
     }
 
     void userLeave(int id)
@@ -96,7 +98,6 @@ public class GameLogic : MonoBehaviour
                 SendInputToCharacter(myId, PlayerAction.Jump);
             if (Input.GetKeyDown(KeyCode.RightShift))
                 SendInputToCharacter(myId, PlayerAction.Fire);
-
         }
 
         //if (Input.GetKeyDown(KeyCode.A))
@@ -116,35 +117,40 @@ public class GameLogic : MonoBehaviour
     void ProcessPacketBody(PacketBody packetBody)
     {
         string message = "";
+        int SenderId = packetBody.SenderId;
         switch (packetBody.MsgType)
         {
             case PacketBody.Types.messageType.UserConnection:
-                message = "UserConnection Data Received. id=" + packetBody.Connect.Id;
+                message = "UserConnection Data Received. id=" + packetBody.Connect.ConnectorId;
+                TestUI.Instance.PrintText(message);
                 ProcessConnectionPacket(packetBody.Connect);
                 break;
             case PacketBody.Types.messageType.GameEvent:
-                message = "GameEvent Data Received. position=" + packetBody.Event.EventPositionX + " , " + packetBody.Event.EventPositionY;
+                message = "GameEvent Data Received. id=" + packetBody.Event.InvokerId + ", position = " + packetBody.Event.EventPositionX + " , " + packetBody.Event.EventPositionY;
+                TestUI.Instance.PrintText(message);
                 ProcessEventPacket(packetBody.Event);
                 break;
             default:
                 message = "UnknownType : " + (int)packetBody.MsgType;
+                TestUI.Instance.PrintText(message);
                 break;
         }
-        Debug.Log(message);
-        //TestUI.Instance.PrintText(message);
+        
     }
 
     void ProcessConnectionPacket(UserConnection ConnectionPacket)
     {
+        int connectorId = ConnectionPacket.ConnectorId;
+
         if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.AcceptConnect)
         {
             isConnected = true;
-            NetworkModule.instance.myId = ConnectionPacket.Id;
-            userJoin(ConnectionPacket.Id, true);
+            NetworkModule.instance.myId = connectorId;
+            userJoin(connectorId, true);
         }
         else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.Connect)
         {
-            userJoin(ConnectionPacket.Id);
+            userJoin(connectorId);
         }
         else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.DisConnect)
         {
@@ -152,42 +158,44 @@ public class GameLogic : MonoBehaviour
         }
         else
         {
-            Debug.Log("wrong Packet Received: " + ConnectionPacket.ConType);
+            TestUI.Instance.PrintText("wrong Packet Received: " + ConnectionPacket.ConType);
         }
     }
 
     void ProcessEventPacket(GameEvent ConnectionPacket)
     {
-        int id = ConnectionPacket.Id;
+        int invokerId = ConnectionPacket.InvokerId;
         int actionProperty = ConnectionPacket.ActionProperty;
-        playerCharacters[id].MoveTo(ConnectionPacket.EventPositionX, ConnectionPacket.EventPositionY);
+        playerCharacters[invokerId].MoveTo(ConnectionPacket.EventPositionX, ConnectionPacket.EventPositionY,
+                                          ConnectionPacket.VelocityX, ConnectionPacket.VelocityY);
+
         switch (ConnectionPacket.Act)
         {
             case GameEvent.Types.action.Move:
                 if(actionProperty == 0)
                 {
-                    SendInputToCharacter(id, PlayerAction.Left);
+                    SendInputToCharacter(invokerId, PlayerAction.Left);
                 }
                 else
                 {
-                    SendInputToCharacter(id, PlayerAction.Right);
+                    SendInputToCharacter(invokerId, PlayerAction.Right);
                 }
                 break;
 
             case GameEvent.Types.action.Stop:
-                SendInputToCharacter(id, PlayerAction.Stop);
+                SendInputToCharacter(invokerId, PlayerAction.Stop);
                 break;
 
             case GameEvent.Types.action.Jump:
-                SendInputToCharacter(id, PlayerAction.Jump);
+                SendInputToCharacter(invokerId, PlayerAction.Jump);
                 break;
 
             case GameEvent.Types.action.Shoot:
-                SendInputToCharacter(id, PlayerAction.Fire);
+                SendInputToCharacter(invokerId, PlayerAction.Fire);
                 break;
 
             case GameEvent.Types.action.GetHit:
-                playerCharacters[id].GetHit(10, 10, 50, 0);//////////////////
+                playerCharacters[invokerId].GetHit(10, 10, 50, 0);//////////////////
                 break;
         }
     }
@@ -204,31 +212,36 @@ public class GameLogic : MonoBehaviour
     void PlayerEventMove(bool isLeft)
     {
         var currentPosition = playerCharacters[myId].CurrentPosition;
-        NetworkModule.instance.WriteEventMove(currentPosition, isLeft);
+        var currentVelocity = playerCharacters[myId].CurrentVelocity;
+        NetworkModule.instance.WriteEventMove(currentPosition, currentVelocity, isLeft);
     }
 
     void PlayerEventStop()
     {
         var currentPosition = playerCharacters[myId].CurrentPosition;
-        NetworkModule.instance.WriteEventStop(currentPosition);
+        var currentVelocity = playerCharacters[myId].CurrentVelocity;
+        NetworkModule.instance.WriteEventStop(currentPosition, currentVelocity);
     }
 
     void PlayerEventGetHit(int damage, int hitRecovery, int impact, int impactAngle)
     {
         var currentPosition = playerCharacters[myId].CurrentPosition;
-        NetworkModule.instance.WriteEventMove(currentPosition, damage, hitRecovery, impact, impactAngle);
+        var currentVelocity = playerCharacters[myId].CurrentVelocity;
+        NetworkModule.instance.WriteEventGetHit(currentPosition, currentVelocity, damage, hitRecovery, impact, impactAngle);
     }
 
     void PlayerEventJump()
     {
         var currentPosition = playerCharacters[myId].CurrentPosition;
-        NetworkModule.instance.PlayerEventJump(currentPosition);
+        var currentVelocity = playerCharacters[myId].CurrentVelocity;
+        NetworkModule.instance.PlayerEventJump(currentPosition, currentVelocity);
     }
 
     void PlayerEventShoot(bool isLeft)
     {
         var currentPosition = playerCharacters[myId].CurrentPosition;
-        NetworkModule.instance.WriteEventMove(currentPosition, isLeft);
+        var currentVelocity = playerCharacters[myId].CurrentVelocity;
+        NetworkModule.instance.WriteEventMove(currentPosition, currentVelocity,isLeft);
     }
 }
    

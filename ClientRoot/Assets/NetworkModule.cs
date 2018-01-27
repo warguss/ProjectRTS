@@ -132,44 +132,6 @@ public class NetworkModule : MonoBehaviour
         }
     }
 
-    //public void TestSend()
-    //{
-    //    TestUI.Instance.PrintText("Sending ConnectionPacket, EventPacket");
-    //    PacketBody connectionPacket = CreateConnectionPacket(testCount);
-    //    PacketBody eventPacket = CreateEventPacket((float)testCount);
-
-    //    try
-    //    {
-    //        byte[] writeBuffer;
-    //        writeBuffer = connectionPacket.ToByteArray();
-    //        writePacket.AllocateRawData(writeBuffer.Length);
-    //        writeBuffer.CopyTo(writePacket.RawData, Packet.HEADER_LENGTH);
-    //        writePacket.Encode_Header();
-
-    //        ns.Write(writePacket.RawData, 0, writePacket.RawData.Length);
-    //        TestUI.Instance.PrintText("sended connectionPacket, id = " + testCount + " Body Length : " + writePacket.BodyLength + "Total Length : " + writePacket.RawData.Length);
-
-    //        writePacket.Clean();
-
-    //        byte[] writeBuffer2;
-    //        writeBuffer2 = eventPacket.ToByteArray();
-    //        writePacket.AllocateRawData(writeBuffer2.Length);
-    //        writeBuffer2.CopyTo(writePacket.RawData, Packet.HEADER_LENGTH);
-    //        writePacket.Encode_Header();
-
-    //        ns.Write(writePacket.RawData, 0, writePacket.RawData.Length);
-    //        TestUI.Instance.PrintText("sended eventPacket , XY = " + testCount + " Body Length : " + writePacket.BodyLength + "Total Length : " + writePacket.RawData.Length);
-
-    //        writePacket.Clean();
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        TestUI.Instance.PrintText("Send Failed : " + e.Message + "\n" + e.StackTrace);
-    //    }
-
-    //    testCount++;
-    //}
-
     public void SendPacket(PacketBody packet)
     {
         try
@@ -184,7 +146,8 @@ public class NetworkModule : MonoBehaviour
             //Debug.Log("packetBody : " + hex);
 
             ns.Write(writePacket.RawData, 0, writePacket.RawData.Length);
-            TestUI.Instance.PrintText("PacketSended type : " + packet.MsgType + ", BodyLength : " + writePacket.BodyLength);
+            //TestUI.Instance.PrintText("PacketSended type : " + packet.MsgType + ", BodyLength : " + writePacket.BodyLength);
+            Debug.Log("PacketSended type : " + packet.MsgType + ", BodyLength : " + writePacket.BodyLength);
 
             writePacket.Clean();
 
@@ -200,32 +163,34 @@ public class NetworkModule : MonoBehaviour
         UserConnection uesrConnection = new UserConnection
         {
             ConType = type,
-            Id = id
+            ConnectorId = id
         };
 
         PacketBody packetBody = new PacketBody
         {
             MsgType = PacketBody.Types.messageType.UserConnection,
-            Connect = uesrConnection
+            Connect = uesrConnection,
         };
 
         return packetBody;
     }
 
-    PacketBody CreateEventPacket(GameEvent.Types.action type, int id, Vector2 position, int actionProperty=0)
+    PacketBody CreateEventPacket(GameEvent.Types.action type, int id, Vector2 position, Vector2 velocity, int actionProperty = 0)
     {
         GameEvent gameEvent = new GameEvent
         {
             Act = GameEvent.Types.action.Move,
-            Id = id,
             EventPositionX = position.x,
             EventPositionY = position.y,
-            ActionProperty = actionProperty
+            ActionProperty = actionProperty,
+            InvokerId = id,
         };
 
-        PacketBody packetBody = new PacketBody();
-        packetBody.MsgType = PacketBody.Types.messageType.GameEvent;
-        packetBody.Event = gameEvent;
+        PacketBody packetBody = new PacketBody()
+        {
+            MsgType = PacketBody.Types.messageType.GameEvent,
+            Event = gameEvent,
+        };
 
         return packetBody;
     }
@@ -248,32 +213,43 @@ public class NetworkModule : MonoBehaviour
         SendPacket(packet);
     }
 
-    public void WriteEventMove(Vector2 position, bool isLeft)
+    public void WriteEventMove(Vector2 position, Vector2 velocity, bool isLeft)
     {
         int property = 0;
         if (!isLeft)
             property = 1;
 
-        var packet = CreateEventPacket(GameEvent.Types.action.Move, myId, position, property);
+        var packet = CreateEventPacket(GameEvent.Types.action.Move, myId, position, velocity, property);
+
+        SendPacket(packet);
     }
 
-    public void WriteEventStop(Vector2 position)
+    public void WriteEventStop(Vector2 position, Vector2 velocity)
     {
+        var packet = CreateEventPacket(GameEvent.Types.action.Stop, myId, position, velocity);
 
+        SendPacket(packet);
     }
 
-    public void WriteEventMove(Vector2 position, int damage, int hitRecovery, int impact, int impactAngle)
+    public void WriteEventGetHit(Vector2 position, Vector2 velocity, int damage, int hitRecovery, int impact, int impactAngle)
     {
+        ////////////////////////////////////
+        var packet = CreateEventPacket(GameEvent.Types.action.GetHit, myId, position, velocity);
 
+        SendPacket(packet);
     }
 
-    public void PlayerEventJump(Vector2 position)
+    public void PlayerEventJump(Vector2 position, Vector2 velocity)
     {
+        var packet = CreateEventPacket(GameEvent.Types.action.Jump, myId, position, velocity);
 
+        SendPacket(packet);
     }
 
-    public void PlayerEventShoot(Vector2 position, bool isLeft)
+    public void PlayerEventShoot(Vector2 position, Vector2 velocity, bool isLeft)
     {
+        var packet = CreateEventPacket(GameEvent.Types.action.Shoot, myId, position, velocity);
 
+        SendPacket(packet);
     }
 }

@@ -37,6 +37,7 @@ public class TestUI : MonoBehaviour {
     {
         consoleMessage += (message + "\n");
         newMessage = true;
+        Debug.Log(message);
     }
 
     void OnClickConnect()

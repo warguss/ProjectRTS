@@ -41,6 +41,14 @@ public class MainCharacter : MonoBehaviour
         }
     }
 
+    public Vector2 CurrentVelocity
+    {
+        get
+        {
+            return rb2d.velocity;
+        }
+    }
+
     public delegate void PlayerEventMove(bool isLeft);
     public delegate void PlayerEventStop();
     public delegate void PlayerEventJump();
@@ -113,21 +121,25 @@ public class MainCharacter : MonoBehaviour
     void MoveLeft()
     {
         isLeft = true;
+
+        //rb2d.velocity = new Vector2(-MaxMoveSpeed, rb2d.velocity.y);
         if (-1 * rb2d.velocity.x < MaxMoveSpeed)
             rb2d.AddForce(Vector2.right * -1 * MoveForce);
-        
-        if (Mathf.Abs (rb2d.velocity.x) > MaxMoveSpeed)
-            rb2d.velocity = new Vector2(Mathf.Sign (rb2d.velocity.x) * MaxMoveSpeed, rb2d.velocity.y);
+
+        if (Mathf.Abs(rb2d.velocity.x) > MaxMoveSpeed)
+            rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * MaxMoveSpeed, rb2d.velocity.y);
     }
 
     void MoveRight()
     {
         isLeft = false;
+
+        //rb2d.velocity = new Vector2(MaxMoveSpeed, rb2d.velocity.y);
         if (1 * rb2d.velocity.x < MaxMoveSpeed)
             rb2d.AddForce(Vector2.right * 1 * MoveForce);
 
-        if (Mathf.Abs (rb2d.velocity.x) > MaxMoveSpeed)
-            rb2d.velocity = new Vector2(Mathf.Sign (rb2d.velocity.x) * MaxMoveSpeed, rb2d.velocity.y);
+        if (Mathf.Abs(rb2d.velocity.x) > MaxMoveSpeed)
+            rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * MaxMoveSpeed, rb2d.velocity.y);
     }
 
     void Jump()
@@ -176,7 +188,15 @@ public class MainCharacter : MonoBehaviour
 
     public void MoveTo(float x, float y)
     {
-        rb2d.position = new Vector2(x, y);
+        //rb2d.position = new Vector2(x, y);
+        rb2d.MovePosition(new Vector2(x, y));
+    }
+
+    public void MoveTo(float x, float y, float velocityX, float velocityY)
+    {
+        //rb2d.position = new Vector2(x, y);
+        rb2d.MovePosition(new Vector2(x, y));
+        rb2d.velocity = new Vector2(velocityX, velocityY);
     }
 
     //void Networkinterpolation(float posX, float posY, float speedX, float speedY, CharacterStatus status)
