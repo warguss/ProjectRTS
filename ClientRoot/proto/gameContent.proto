@@ -11,7 +11,8 @@ message UserConnection{
 		DisConnect = 4;
 	}
 
-	ConnectionType conType = 1;
+	int32 connectorId = 1;
+	ConnectionType conType = 2;
 }
 
 message GameEvent{
@@ -31,6 +32,7 @@ message GameEvent{
 	float EventPositionY = 7;
 	float VelocityX = 8;
 	float VelocityY = 9;
+	int32 invokerId = 10;
 }
 
 message PacketBody{
@@ -41,6 +43,6 @@ message PacketBody{
    messageType msgType = 10000; 
    UserConnection connect = 6;
    GameEvent event = 7;
-   int32 id = 8;
+   int32 senderId = 8;
 }
 
