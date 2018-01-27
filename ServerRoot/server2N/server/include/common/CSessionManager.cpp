@@ -119,11 +119,6 @@ static void* CSessionManager::waitEvent(void* val)
             else
             {
 				int fd = _events[i].data.fd;
-				char buffer[HEADER_SIZE];
-				memset(buffer, '\0', sizeof(char) * HEADER_SIZE);
-
-
-
 				/******************************************
 				 * fd해당하는 User를 Pool에서 먼저 찾는다.
 				 ******************************************/
@@ -138,25 +133,24 @@ static void* CSessionManager::waitEvent(void* val)
 				/******************************************
 				 * Read Header
 				 ******************************************/
-				int readn = read(fd, buffer, HEADER_SIZE);
+				unsigned char header[HEADER_SIZE];
+				memset(header, '\0', sizeof(header));
+				int readn = read(fd, header, HEADER_SIZE);
 				LOG("Client Input [%d], read size[%d]", fd, readn);
 				if ( readn <= 0 )
 				{
 					LOG("Error, Delete Socket[%d]\n", fd);    
 					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
 					g_userPool.delUserInPool(fd);
+					/**********************************
+					 * Disconnect Event 보내야함
+					 **********************************/
 					close(fd);
 					continue;
 				}
-#if 0 
-				if ( !user->decodingHeader(buffer, readn) )
-				{
-					LOG("Error, Decoding Header Error[%d]\n", fd);
-					continue;
-				}
-#endif
+
 				uint32_t bodyLength = 0;
-				if ( !g_packetManager.decodingHeader(buffer, readn, bodyLength) || bodyLength <= 0  )
+				if ( !g_packetManager.decodingHeader(header, readn, bodyLength) || bodyLength <= 0  )
 				{
 					LOG("Error, Decoding Header Error[%d]\n", fd);
 					continue;
@@ -166,9 +160,8 @@ static void* CSessionManager::waitEvent(void* val)
 				/******************************************
 				 * Read Body 
 				 ******************************************/
-				LOG("Body Set\n");
 				unsigned char bodyBuf[bodyLength];
-				memset(bodyBuf, '\0', sizeof(unsigned char) * bodyLength);
+				memset(bodyBuf, '\0', sizeof(bodyBuf));
 				readn = read(fd, bodyBuf, bodyLength);
 				if ( readn <= 0 )
 				{
@@ -179,9 +172,10 @@ static void* CSessionManager::waitEvent(void* val)
 					continue;
 				}
 				
-				if ( !g_packetManager.decodingBody(buffer, readn, bodyLength, user->_protoPacket) )
+				LOG("Body Set headerSize(%d) readSize(%d)\n", bodyLength, readn);
+				if ( !g_packetManager.decodingBody(bodyBuf, readn, bodyLength, &user->_protoPacket) )
 				{
-					LOG("Error, Decoding Header Error[%d]\n", fd);
+					LOG("Error, Decoding Body Error[%d]\n", fd);
 					continue;
 				}
 

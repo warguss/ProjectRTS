@@ -15,8 +15,8 @@ class CProtoManager
 		 * 전체 유저에게 보여줘야 할 상황은
 		 * 미리 만들어두고 사용한다.
 		 *********************************/
-		server2N::PacketBody* _connectCase;
-		server2N::PacketBody* _disConnectCase;
+		server2N::UserConnection _connectCase;
+		server2N::UserConnection _disConnectCase;
 
 	public:
 		CProtoManager();
@@ -33,10 +33,14 @@ class CProtoManager
 		bool encodingBody(unsigned char* buffer, server2N::PacketBody* protoPacket, uint32_t bodyLength);
 
 		bool decodingHeader(unsigned char* buffer, uint32_t bufLength, uint32_t& bodyLength);
-		bool decodingBody(unsigned char* buffer, uint32_t bufLength, uint32_t bodyLength, server2N::PacketBody* protoPacket);
+		bool decodingBody(unsigned char* buffer, uint32_t bufLength, uint32_t bodyLength, server2N::PacketBody** protoPacket);
 
 
 		server2N::PacketBody* getBroadCastProtoPacket(int type);
+
+		int32_t typeReturn(server2N::PacketBody* protoPacket);
+		bool setActionType(server2N::PacketBody* protoPacket, int type);
+		bool setConnType(server2N::PacketBody* protoPacket, int type, int fd);
 };
 
 extern CProtoManager g_packetManager;
