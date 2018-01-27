@@ -6,6 +6,7 @@ rm -f *../../../../ClientRoot/proto/*.cs
 
 echo " ----------------------- CSharp Proto Buffer Message Create -----------------------"
 ./protoc -I=./ --csharp_out=../../../../ClientRoot/proto ./gameContent.proto
+cp ./gameContent.proto ../../../../ClientRoot/proto
 
 
 echo " ----------------------- Proto Buffer Message Create -----------------------"
