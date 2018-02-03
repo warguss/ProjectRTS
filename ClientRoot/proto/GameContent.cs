@@ -23,14 +23,14 @@ namespace Server2N {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChFnYW1lQ29udGVudC5wcm90bxIIc2VydmVyMk4ivgEKDlVzZXJDb25uZWN0",
-            "aW9uEhMKC2Nvbm5lY3RvcklkGAEgASgFEjgKB2NvblR5cGUYAiABKA4yJy5z",
+            "aW9uEhMKC2Nvbm5lY3RvcklkGAEgAygFEjgKB2NvblR5cGUYAiABKA4yJy5z",
             "ZXJ2ZXIyTi5Vc2VyQ29ubmVjdGlvbi5Db25uZWN0aW9uVHlwZSJdCg5Db25u",
             "ZWN0aW9uVHlwZRILCgdOb3RoaW5nEAASCwoHQ29ubmVjdBABEg4KClRyeUNv",
             "bm5lY3QQAhIRCg1BY2NlcHRDb25uZWN0EAMSDgoKRGlzQ29ubmVjdBAEIowC",
             "CglHYW1lRXZlbnQSJwoDYWN0GAMgASgOMhouc2VydmVyMk4uR2FtZUV2ZW50",
             "LmFjdGlvbhIWCg5hY3Rpb25Qcm9wZXJ0eRgFIAEoBRIWCg5FdmVudFBvc2l0",
             "aW9uWBgGIAEoAhIWCg5FdmVudFBvc2l0aW9uWRgHIAEoAhIRCglWZWxvY2l0",
-            "eVgYCCABKAISEQoJVmVsb2NpdHlZGAkgASgCEhEKCWludm9rZXJJZBgKIAEo",
+            "eVgYCCABKAISEQoJVmVsb2NpdHlZGAkgASgCEhEKCWludm9rZXJJZBgKIAMo",
             "BSJVCgZhY3Rpb24SCwoHTm90aGluZxAAEggKBE1vdmUQZBIICgRTdG9wEGUS",
             "CAoESnVtcBBmEgkKBVNob290EGcSCgoGR2V0SGl0EGgSCQoFU3Bhd24QaSLU",
             "AQoKUGFja2V0Qm9keRIyCgdtc2dUeXBlGJBOIAEoDjIgLnNlcnZlcjJOLlBh",
@@ -74,7 +74,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public UserConnection(UserConnection other) : this() {
-      connectorId_ = other.connectorId_;
+      connectorId_ = other.connectorId_.Clone();
       conType_ = other.conType_;
     }
 
@@ -85,13 +85,12 @@ namespace Server2N {
 
     /// <summary>Field number for the "connectorId" field.</summary>
     public const int ConnectorIdFieldNumber = 1;
-    private int connectorId_;
+    private static readonly pb::FieldCodec<int> _repeated_connectorId_codec
+        = pb::FieldCodec.ForInt32(10);
+    private readonly pbc::RepeatedField<int> connectorId_ = new pbc::RepeatedField<int>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int ConnectorId {
+    public pbc::RepeatedField<int> ConnectorId {
       get { return connectorId_; }
-      set {
-        connectorId_ = value;
-      }
     }
 
     /// <summary>Field number for the "conType" field.</summary>
@@ -118,7 +117,7 @@ namespace Server2N {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (ConnectorId != other.ConnectorId) return false;
+      if(!connectorId_.Equals(other.connectorId_)) return false;
       if (ConType != other.ConType) return false;
       return true;
     }
@@ -126,7 +125,7 @@ namespace Server2N {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (ConnectorId != 0) hash ^= ConnectorId.GetHashCode();
+      hash ^= connectorId_.GetHashCode();
       if (ConType != 0) hash ^= ConType.GetHashCode();
       return hash;
     }
@@ -138,10 +137,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (ConnectorId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(ConnectorId);
-      }
+      connectorId_.WriteTo(output, _repeated_connectorId_codec);
       if (ConType != 0) {
         output.WriteRawTag(16);
         output.WriteEnum((int) ConType);
@@ -151,9 +147,7 @@ namespace Server2N {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (ConnectorId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ConnectorId);
-      }
+      size += connectorId_.CalculateSize(_repeated_connectorId_codec);
       if (ConType != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ConType);
       }
@@ -165,9 +159,7 @@ namespace Server2N {
       if (other == null) {
         return;
       }
-      if (other.ConnectorId != 0) {
-        ConnectorId = other.ConnectorId;
-      }
+      connectorId_.Add(other.connectorId_);
       if (other.ConType != 0) {
         ConType = other.ConType;
       }
@@ -181,8 +173,9 @@ namespace Server2N {
           default:
             input.SkipLastField();
             break;
+          case 10:
           case 8: {
-            ConnectorId = input.ReadInt32();
+            connectorId_.AddEntriesFrom(input, _repeated_connectorId_codec);
             break;
           }
           case 16: {
@@ -240,7 +233,7 @@ namespace Server2N {
       eventPositionY_ = other.eventPositionY_;
       velocityX_ = other.velocityX_;
       velocityY_ = other.velocityY_;
-      invokerId_ = other.invokerId_;
+      invokerId_ = other.invokerId_.Clone();
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -316,13 +309,12 @@ namespace Server2N {
 
     /// <summary>Field number for the "invokerId" field.</summary>
     public const int InvokerIdFieldNumber = 10;
-    private int invokerId_;
+    private static readonly pb::FieldCodec<int> _repeated_invokerId_codec
+        = pb::FieldCodec.ForInt32(82);
+    private readonly pbc::RepeatedField<int> invokerId_ = new pbc::RepeatedField<int>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int InvokerId {
+    public pbc::RepeatedField<int> InvokerId {
       get { return invokerId_; }
-      set {
-        invokerId_ = value;
-      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -344,7 +336,7 @@ namespace Server2N {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(EventPositionY, other.EventPositionY)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(VelocityX, other.VelocityX)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(VelocityY, other.VelocityY)) return false;
-      if (InvokerId != other.InvokerId) return false;
+      if(!invokerId_.Equals(other.invokerId_)) return false;
       return true;
     }
 
@@ -357,7 +349,7 @@ namespace Server2N {
       if (EventPositionY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(EventPositionY);
       if (VelocityX != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(VelocityX);
       if (VelocityY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(VelocityY);
-      if (InvokerId != 0) hash ^= InvokerId.GetHashCode();
+      hash ^= invokerId_.GetHashCode();
       return hash;
     }
 
@@ -392,10 +384,7 @@ namespace Server2N {
         output.WriteRawTag(77);
         output.WriteFloat(VelocityY);
       }
-      if (InvokerId != 0) {
-        output.WriteRawTag(80);
-        output.WriteInt32(InvokerId);
-      }
+      invokerId_.WriteTo(output, _repeated_invokerId_codec);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -419,9 +408,7 @@ namespace Server2N {
       if (VelocityY != 0F) {
         size += 1 + 4;
       }
-      if (InvokerId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(InvokerId);
-      }
+      size += invokerId_.CalculateSize(_repeated_invokerId_codec);
       return size;
     }
 
@@ -448,9 +435,7 @@ namespace Server2N {
       if (other.VelocityY != 0F) {
         VelocityY = other.VelocityY;
       }
-      if (other.InvokerId != 0) {
-        InvokerId = other.InvokerId;
-      }
+      invokerId_.Add(other.invokerId_);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -485,8 +470,9 @@ namespace Server2N {
             VelocityY = input.ReadFloat();
             break;
           }
+          case 82:
           case 80: {
-            InvokerId = input.ReadInt32();
+            invokerId_.AddEntriesFrom(input, _repeated_invokerId_codec);
             break;
           }
         }
