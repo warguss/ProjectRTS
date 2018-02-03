@@ -76,15 +76,16 @@ template<> ::server2N::UserConnection* Arena::Create< ::server2N::UserConnection
 namespace server2N {
 
 enum UserConnection_ConnectionType {
-  UserConnection_ConnectionType_Connect = 0,
-  UserConnection_ConnectionType_TryConnect = 1,
-  UserConnection_ConnectionType_AcceptConnect = 2,
-  UserConnection_ConnectionType_DisConnect = 3,
+  UserConnection_ConnectionType_Nothing = 0,
+  UserConnection_ConnectionType_Connect = 1,
+  UserConnection_ConnectionType_TryConnect = 2,
+  UserConnection_ConnectionType_AcceptConnect = 3,
+  UserConnection_ConnectionType_DisConnect = 4,
   UserConnection_ConnectionType_UserConnection_ConnectionType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   UserConnection_ConnectionType_UserConnection_ConnectionType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool UserConnection_ConnectionType_IsValid(int value);
-const UserConnection_ConnectionType UserConnection_ConnectionType_ConnectionType_MIN = UserConnection_ConnectionType_Connect;
+const UserConnection_ConnectionType UserConnection_ConnectionType_ConnectionType_MIN = UserConnection_ConnectionType_Nothing;
 const UserConnection_ConnectionType UserConnection_ConnectionType_ConnectionType_MAX = UserConnection_ConnectionType_DisConnect;
 const int UserConnection_ConnectionType_ConnectionType_ARRAYSIZE = UserConnection_ConnectionType_ConnectionType_MAX + 1;
 
@@ -232,6 +233,8 @@ class UserConnection : public ::google::protobuf::Message /* @@protoc_insertion_
   // nested types ----------------------------------------------------
 
   typedef UserConnection_ConnectionType ConnectionType;
+  static const ConnectionType Nothing =
+    UserConnection_ConnectionType_Nothing;
   static const ConnectionType Connect =
     UserConnection_ConnectionType_Connect;
   static const ConnectionType TryConnect =
@@ -263,11 +266,11 @@ class UserConnection : public ::google::protobuf::Message /* @@protoc_insertion_
 
   // accessors -------------------------------------------------------
 
-  // int32 id = 1;
-  void clear_id();
-  static const int kIdFieldNumber = 1;
-  ::google::protobuf::int32 id() const;
-  void set_id(::google::protobuf::int32 value);
+  // int32 connectorId = 1;
+  void clear_connectorid();
+  static const int kConnectorIdFieldNumber = 1;
+  ::google::protobuf::int32 connectorid() const;
+  void set_connectorid(::google::protobuf::int32 value);
 
   // .server2N.UserConnection.ConnectionType conType = 2;
   void clear_contype();
@@ -279,7 +282,7 @@ class UserConnection : public ::google::protobuf::Message /* @@protoc_insertion_
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::int32 id_;
+  ::google::protobuf::int32 connectorid_;
   int contype_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
@@ -415,12 +418,6 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::server2N::GameEvent_action act() const;
   void set_act(::server2N::GameEvent_action value);
 
-  // int32 id = 4;
-  void clear_id();
-  static const int kIdFieldNumber = 4;
-  ::google::protobuf::int32 id() const;
-  void set_id(::google::protobuf::int32 value);
-
   // int32 actionProperty = 5;
   void clear_actionproperty();
   static const int kActionPropertyFieldNumber = 5;
@@ -439,15 +436,35 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   float eventpositiony() const;
   void set_eventpositiony(float value);
 
+  // int32 invokerId = 10;
+  void clear_invokerid();
+  static const int kInvokerIdFieldNumber = 10;
+  ::google::protobuf::int32 invokerid() const;
+  void set_invokerid(::google::protobuf::int32 value);
+
+  // float VelocityX = 8;
+  void clear_velocityx();
+  static const int kVelocityXFieldNumber = 8;
+  float velocityx() const;
+  void set_velocityx(float value);
+
+  // float VelocityY = 9;
+  void clear_velocityy();
+  static const int kVelocityYFieldNumber = 9;
+  float velocityy() const;
+  void set_velocityy(float value);
+
   // @@protoc_insertion_point(class_scope:server2N.GameEvent)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   int act_;
-  ::google::protobuf::int32 id_;
   ::google::protobuf::int32 actionproperty_;
   float eventpositionx_;
   float eventpositiony_;
+  ::google::protobuf::int32 invokerid_;
+  float velocityx_;
+  float velocityy_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsGameEventImpl();
@@ -584,6 +601,12 @@ class PacketBody : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::server2N::GameEvent* mutable_event();
   void set_allocated_event(::server2N::GameEvent* event);
 
+  // int32 senderId = 8;
+  void clear_senderid();
+  static const int kSenderIdFieldNumber = 8;
+  ::google::protobuf::int32 senderid() const;
+  void set_senderid(::google::protobuf::int32 value);
+
   // .server2N.PacketBody.messageType msgType = 10000;
   void clear_msgtype();
   static const int kMsgTypeFieldNumber = 10000;
@@ -596,6 +619,7 @@ class PacketBody : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::server2N::UserConnection* connect_;
   ::server2N::GameEvent* event_;
+  ::google::protobuf::int32 senderid_;
   int msgtype_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
@@ -612,18 +636,18 @@ class PacketBody : public ::google::protobuf::Message /* @@protoc_insertion_poin
 #endif  // __GNUC__
 // UserConnection
 
-// int32 id = 1;
-inline void UserConnection::clear_id() {
-  id_ = 0;
+// int32 connectorId = 1;
+inline void UserConnection::clear_connectorid() {
+  connectorid_ = 0;
 }
-inline ::google::protobuf::int32 UserConnection::id() const {
-  // @@protoc_insertion_point(field_get:server2N.UserConnection.id)
-  return id_;
+inline ::google::protobuf::int32 UserConnection::connectorid() const {
+  // @@protoc_insertion_point(field_get:server2N.UserConnection.connectorId)
+  return connectorid_;
 }
-inline void UserConnection::set_id(::google::protobuf::int32 value) {
+inline void UserConnection::set_connectorid(::google::protobuf::int32 value) {
   
-  id_ = value;
-  // @@protoc_insertion_point(field_set:server2N.UserConnection.id)
+  connectorid_ = value;
+  // @@protoc_insertion_point(field_set:server2N.UserConnection.connectorId)
 }
 
 // .server2N.UserConnection.ConnectionType conType = 2;
@@ -656,20 +680,6 @@ inline void GameEvent::set_act(::server2N::GameEvent_action value) {
   
   act_ = value;
   // @@protoc_insertion_point(field_set:server2N.GameEvent.act)
-}
-
-// int32 id = 4;
-inline void GameEvent::clear_id() {
-  id_ = 0;
-}
-inline ::google::protobuf::int32 GameEvent::id() const {
-  // @@protoc_insertion_point(field_get:server2N.GameEvent.id)
-  return id_;
-}
-inline void GameEvent::set_id(::google::protobuf::int32 value) {
-  
-  id_ = value;
-  // @@protoc_insertion_point(field_set:server2N.GameEvent.id)
 }
 
 // int32 actionProperty = 5;
@@ -712,6 +722,48 @@ inline void GameEvent::set_eventpositiony(float value) {
   
   eventpositiony_ = value;
   // @@protoc_insertion_point(field_set:server2N.GameEvent.EventPositionY)
+}
+
+// float VelocityX = 8;
+inline void GameEvent::clear_velocityx() {
+  velocityx_ = 0;
+}
+inline float GameEvent::velocityx() const {
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.VelocityX)
+  return velocityx_;
+}
+inline void GameEvent::set_velocityx(float value) {
+  
+  velocityx_ = value;
+  // @@protoc_insertion_point(field_set:server2N.GameEvent.VelocityX)
+}
+
+// float VelocityY = 9;
+inline void GameEvent::clear_velocityy() {
+  velocityy_ = 0;
+}
+inline float GameEvent::velocityy() const {
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.VelocityY)
+  return velocityy_;
+}
+inline void GameEvent::set_velocityy(float value) {
+  
+  velocityy_ = value;
+  // @@protoc_insertion_point(field_set:server2N.GameEvent.VelocityY)
+}
+
+// int32 invokerId = 10;
+inline void GameEvent::clear_invokerid() {
+  invokerid_ = 0;
+}
+inline ::google::protobuf::int32 GameEvent::invokerid() const {
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.invokerId)
+  return invokerid_;
+}
+inline void GameEvent::set_invokerid(::google::protobuf::int32 value) {
+  
+  invokerid_ = value;
+  // @@protoc_insertion_point(field_set:server2N.GameEvent.invokerId)
 }
 
 // -------------------------------------------------------------------
@@ -832,6 +884,20 @@ inline void PacketBody::set_allocated_event(::server2N::GameEvent* event) {
   }
   event_ = event;
   // @@protoc_insertion_point(field_set_allocated:server2N.PacketBody.event)
+}
+
+// int32 senderId = 8;
+inline void PacketBody::clear_senderid() {
+  senderid_ = 0;
+}
+inline ::google::protobuf::int32 PacketBody::senderid() const {
+  // @@protoc_insertion_point(field_get:server2N.PacketBody.senderId)
+  return senderid_;
+}
+inline void PacketBody::set_senderid(::google::protobuf::int32 value) {
+  
+  senderid_ = value;
+  // @@protoc_insertion_point(field_set:server2N.PacketBody.senderId)
 }
 
 #ifdef __GNUC__

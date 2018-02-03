@@ -16,7 +16,17 @@ void CProtoManager::initialize()
 	 * Connect
 	 ************************************/ 
 	//_connectCase = new server2N::UserConnection;
-	_connectCase.set_contype(server2N::UserConnection_ConnectionType_Connect);
+	_tryConnectCase = new server2N::UserConnection; 	
+	_tryConnectCase->set_contype(server2N::UserConnection_ConnectionType_AcceptConnect);
+	_tryConnectPacket.set_allocated_connect(_tryConnectCase);
+
+	_connectCase = new server2N::UserConnection;
+	_connectCase->set_contype(server2N::UserConnection_ConnectionType_Connect);
+	_connectPacket.set_allocated_connect(_connectCase);
+
+
+	_disConnectCase = new server2N::UserConnection;
+	_disConnectCase->set_contype(server2N::UserConnection_ConnectionType_DisConnect);
 
 	/************************************
 	 * DisConnect
@@ -45,6 +55,12 @@ bool CProtoManager::encodingHeader(unsigned char* outputBuf, server2N::PacketBod
      * unsigned Char의 단위 계산을 위해
      * 256 나머지와 나누기를 병행
      *************************************/
+	if ( !protoPacket ) 
+	{
+		LOG("Invalid ProtoPacket");
+		return false;
+	} 
+
     int bitDigit = 256;
     uint32_t headerSize = (uint32_t)protoPacket->ByteSizeLong();
     bodyLength = headerSize;
@@ -105,9 +121,7 @@ bool CProtoManager::decodingHeader(unsigned char* buffer, uint32_t bufLength, ui
 
 
 bool printTest(unsigned char* buffer, int size);
-std::string hexStr(unsigned char*data, int len);
-//bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint32_t bodyLength, server2N::PacketBody** protoPacket)
-bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint32_t bodyLength, server2N::PacketBody* protoPacket)
+bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint32_t bodyLength, server2N::PacketBody** protoPacket)
 {
     if ( bufLength != bodyLength || !buffer )
     {
@@ -115,13 +129,9 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
         return false;
     }
 
-	if ( protoPacket.has() )
-	{
-		LOG("Delete ProtoPacket\n");
-		delete *protoPacket;
-	}
+	resetProtoPacket(protoPacket);
 
-	//*protoPacket = new server2N::PacketBody;
+	*protoPacket = new server2N::PacketBody;
     google::protobuf::io::CodedInputStream is(buffer, (int)bodyLength);
     if ( !(*protoPacket)->MergeFromCodedStream(&is) )
     {
@@ -180,7 +190,6 @@ int32_t CProtoManager::typeReturn(server2N::PacketBody* protoPacket)
     if ( protoPacket->has_event() )
     {
         server2N::GameEvent tEvent = protoPacket->event();
-        cout << "Debug String" << tEvent.DebugString() << endl;
         LOG("Has Event\n");
     }
     else if ( protoPacket->has_connect() )
@@ -195,8 +204,11 @@ int32_t CProtoManager::typeReturn(server2N::PacketBody* protoPacket)
 		{
 			type = (int32_t)DISCONNECT;
 		}
+		else if ( conType == server2N::UserConnection_ConnectionType_Connect )
+		{
+			type = (int32_t)CONNECT;
+		}
 		
-        cout << "Debug String" << tConnect.DebugString() << endl;
         LOG("Has Connect\n");
     }
     else
@@ -206,9 +218,29 @@ int32_t CProtoManager::typeReturn(server2N::PacketBody* protoPacket)
 
 	return type;
 }
+#if 0 
+int32_t CProtoManager::typeReturn(server2N::UserConnection_ConnectionType conType)
+{
+	int32_t type = 0;
+	server2N::UserConnection_ConnectionType conType = tConnect.contype();
+	if ( conType == server2N::UserConnection_ConnectionType_TryConnect )
+	{
+		type = (int32_t)TRYCONNECT;
+	}
+	else if ( conType == server2N::UserConnection_ConnectionType_DisConnect )
+	{
+		type = (int32_t)DISCONNECT;
+	}
+	else if ( conType == server2N::UserConnection_ConnectionType_Connect )
+	{
+		type = (int32_t)CONNECT;
+	}
 
+	return type;
+}
+#endif
 
-bool CProtoManager::setConnType(server2N::PacketBody* protoPacket, int32_t type, int32_t fd)
+bool CProtoManager::setConnType(server2N::PacketBody* protoPacket, int32_t type, int32_t senderFd, int32_t eventFd)
 {
 	if ( !(protoPacket) )
 	{
@@ -224,17 +256,50 @@ bool CProtoManager::setConnType(server2N::PacketBody* protoPacket, int32_t type,
 
 	if ( type == (int32_t)TRYCONNECT )
 	{
-		LOG("USERID(%d) TRYCONNECT Change To CONNECT\n", fd);
+		LOG("USERID(%d) TRYCONNECT Change To AccepConnect\n", senderFd);
 		/**************************************
 		 * set_contype 안먹음
 		 * 0은 표시안함
 		 **************************************/
-		_connectCase.set_id(fd);
-		protoPacket->set_allocated_connect(&_connectCase);
+		_tryConnectCase->set_connectorid(eventFd);
+
+		_tryConnectPacket.clear_senderid();
+		_tryConnectPacket.set_senderid(senderFd);
+		_tryConnectPacket.set_msgtype(server2N::PacketBody_messageType_UserConnection);
+		cout << "TRYCONNECT PACKET " << _tryConnectPacket.DebugString() << endl;
+		protoPacket->CopyFrom(_tryConnectPacket);
+		//protoPacket = &_tryConnectPacket;
+
+	}
+	else if ( type == (int32_t)CONNECT )
+	{
+		LOG("USERID(%d) TRYCONNECT Change To CONNECT\n", senderFd);
+		/**************************************
+		 * set_contype 안먹음
+		 * 0은 표시안함
+		 **************************************/
+		_connectCase->set_connectorid(eventFd);
+
+		_connectPacket.clear_senderid();
+		_connectPacket.set_senderid(senderFd);
+		_connectPacket.set_msgtype(server2N::PacketBody_messageType_UserConnection);
+
+		cout << "CONNECT PACKET " << _connectPacket.DebugString() << endl;
+		protoPacket->CopyFrom(_connectPacket);
 	}
 
-
 	return true;
+}
+
+void CProtoManager::resetProtoPacket(server2N::PacketBody** protoPacket)
+{
+	if ( *protoPacket )
+	{
+		LOG("Reset ProtoPacket Delete");
+		delete (*protoPacket);
+	}
+
+	*protoPacket = NULL;
 }
 
 

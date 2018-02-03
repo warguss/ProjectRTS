@@ -15,8 +15,13 @@ class CProtoManager
 		 * 전체 유저에게 보여줘야 할 상황은
 		 * 미리 만들어두고 사용한다.
 		 *********************************/
-		server2N::UserConnection _connectCase;
-		server2N::UserConnection _disConnectCase;
+		server2N::PacketBody _tryConnectPacket;
+		server2N::PacketBody _connectPacket;
+		server2N::PacketBody _disConnectPacket;
+
+		server2N::UserConnection* _tryConnectCase;
+		server2N::UserConnection* _connectCase;
+		server2N::UserConnection* _disConnectCase;
 
 	public:
 		CProtoManager();
@@ -40,7 +45,9 @@ class CProtoManager
 
 		int32_t typeReturn(server2N::PacketBody* protoPacket);
 		bool setActionType(server2N::PacketBody* protoPacket, int type);
-		bool setConnType(server2N::PacketBody* protoPacket, int type, int fd);
+		bool setConnType(server2N::PacketBody* protoPacket, int type, int senderFd, int eventFd);
+
+		void resetProtoPacket(server2N::PacketBody** protoPacket);
 };
 
 extern CProtoManager g_packetManager;

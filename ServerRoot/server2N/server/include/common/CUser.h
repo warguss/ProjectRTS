@@ -25,7 +25,7 @@ class CUser
 
     public:
         int _fd;
-		server2N::PacketBody _protoPacket;
+		server2N::PacketBody* _protoPacket;
 
 	public:
         CUser();

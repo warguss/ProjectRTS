@@ -53,14 +53,12 @@ int32_t UserActionType(CUser* user)
 		 * _protoPacket의 id와
 		 * Data를 변경한다.
 		 *******************************/
-		LOG("User[%d] TRYCONNECT\n", user->_fd);
-		g_packetManager.setConnType(user->_protoPacket, type, user->_fd);
+		LOG("User[%d] TryConnect To AcceptConnect\n", user->_fd);
+		//g_packetManager.setConnType(user->_protoPacket, type, user->_fd);
 	}
-	
+
 	return type;
 }
-
-
 
 bool ForAllSendFunc(CSessionManager& session, CUser* eventUser)
 {
@@ -69,12 +67,16 @@ bool ForAllSendFunc(CSessionManager& session, CUser* eventUser)
 	 *********************************/
 	LOG("User[%d] Event All Send\n", eventUser->_fd);
 	cout << eventUser->_protoPacket->DebugString() << endl;
+
+	int32_t type = UserActionType(eventUser);
+	g_packetManager.setConnType(eventUser->_protoPacket, type, eventUser->_fd, eventUser->_fd);
 	session.m_writeQ_Manager.enqueue(eventUser);
 
 	/*********************************
 	 * 그 중에서 EventUser는 제외
 	 *********************************/ 
-	int type;
+
+
 	for ( g_userPool.it = g_userPool.userInfo.begin(); g_userPool.it != g_userPool.userInfo.end(); g_userPool.it++ )
 	{
 		CUser* user = (CUser*)g_userPool.it->second;
@@ -82,15 +84,20 @@ bool ForAllSendFunc(CSessionManager& session, CUser* eventUser)
 		{
 			continue ;
 		}
+		
+		type = CONNECT;
+		g_packetManager.setConnType(user->_protoPacket, type, user->_fd, eventUser->_fd);
 
 		LOG("User(%d) Send Noti\n", user->_fd);
 		/*********************************
 		 * ProtoPacket할당
 		 *********************************/ 
+#if 0 
 		if ( !user->setPacketBody(g_packetManager.getBroadCastProtoPacket(type)) )
 		{
 			return false;
-		} 
+		}
+#endif	
 		
 		/*********************************
 		 * Enqueue
@@ -102,8 +109,6 @@ bool ForAllSendFunc(CSessionManager& session, CUser* eventUser)
 	return true;
 }
 
-
-
 bool ForPartSendFunc(CSessionManager& session, CUser* eventUser)
 {
 	LOG("Part Send Event\n");
@@ -112,11 +117,6 @@ bool ForPartSendFunc(CSessionManager& session, CUser* eventUser)
 
 	return true;
 }
-
-
-
-
-
 
 int main(int argc, char* argv[]) 
 {
@@ -130,7 +130,8 @@ int main(int argc, char* argv[])
 	
 	map<int, CallBackFunc> funcMap;
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)TRYCONNECT, ForAllSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)DISCONNECT, ForAllSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)CONNECT, ForAllSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)ACCEPTCONNECT, ForAllSendFunc) );
 
 
 	if ( pthread_create(&thread, NULL, session.waitEvent, (void*)&port) < 0 )
