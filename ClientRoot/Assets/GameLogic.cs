@@ -70,9 +70,16 @@ public class GameLogic : MonoBehaviour
 
     void AddPlayer(int playerId)
     {
-        MainCharacter characterScript = Instantiate(PlayerPrefab).GetComponent<MainCharacter>();
-        playerCharacters.Add(playerId, characterScript);
-        characterScript.playerId = playerId;
+        if (!playerCharacters.ContainsKey(playerId))
+        {
+            MainCharacter characterScript = Instantiate(PlayerPrefab).GetComponent<MainCharacter>();
+            playerCharacters.Add(playerId, characterScript);
+            characterScript.playerId = playerId;
+        }
+        else
+        {
+            TestUI.Instance.PrintText("Trying to add duplicate user");
+        }
     }
 
     void SendInputToCharacter(int player, PlayerAction action)
@@ -140,63 +147,67 @@ public class GameLogic : MonoBehaviour
 
     void ProcessConnectionPacket(UserConnection ConnectionPacket)
     {
-        int connectorId = ConnectionPacket.ConnectorId;
-
-        if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.AcceptConnect)
+        foreach (int connectorId in ConnectionPacket.ConnectorId)
         {
-            isConnected = true;
-            NetworkModule.instance.myId = connectorId;
-            userJoin(connectorId, true);
-        }
-        else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.Connect)
-        {
-            userJoin(connectorId);
-        }
-        else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.DisConnect)
-        {
-            //DeletePlayer(ConnectionPacket.Id);
-        }
-        else
-        {
-            TestUI.Instance.PrintText("wrong Packet Received: " + ConnectionPacket.ConType);
+            //TestUI.Instance.PrintText("Connection Type : " + ConnectionPacket.ConType);
+            if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.AcceptConnect)
+            {
+                isConnected = true;
+                NetworkModule.instance.myId = connectorId;
+                userJoin(connectorId, true);
+            }
+            else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.Connect)
+            {
+                userJoin(connectorId);
+            }
+            else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.DisConnect)
+            {
+                //DeletePlayer(ConnectionPacket.Id);
+            }
+            else
+            {
+                TestUI.Instance.PrintText("wrong Packet Received: " + ConnectionPacket.ConType);
+            }
         }
     }
 
-    void ProcessEventPacket(GameEvent ConnectionPacket)
+    void ProcessEventPacket(GameEvent EventPacket)
     {
-        int invokerId = ConnectionPacket.InvokerId;
-        int actionProperty = ConnectionPacket.ActionProperty;
-        playerCharacters[invokerId].MoveTo(ConnectionPacket.EventPositionX, ConnectionPacket.EventPositionY,
-                                          ConnectionPacket.VelocityX, ConnectionPacket.VelocityY);
-
-        switch (ConnectionPacket.Act)
+        foreach (int invokerId in EventPacket.InvokerId)
         {
-            case GameEvent.Types.action.Move:
-                if(actionProperty == 0)
-                {
-                    SendInputToCharacter(invokerId, PlayerAction.Left);
-                }
-                else
-                {
-                    SendInputToCharacter(invokerId, PlayerAction.Right);
-                }
-                break;
+            int actionProperty = EventPacket.ActionProperty;
+            playerCharacters[invokerId].MoveTo(EventPacket.EventPositionX, EventPacket.EventPositionY,
+                                              EventPacket.VelocityX, EventPacket.VelocityY);
 
-            case GameEvent.Types.action.Stop:
-                SendInputToCharacter(invokerId, PlayerAction.Stop);
-                break;
+            switch (EventPacket.Act)
+            {
+                case GameEvent.Types.action.Move:
+                    if (actionProperty == 0)
+                    {
+                        SendInputToCharacter(invokerId, PlayerAction.Left);
+                    }
+                    else
+                    {
+                        SendInputToCharacter(invokerId, PlayerAction.Right);
+                    }
+                    break;
 
-            case GameEvent.Types.action.Jump:
-                SendInputToCharacter(invokerId, PlayerAction.Jump);
-                break;
+                case GameEvent.Types.action.Stop:
+                    SendInputToCharacter(invokerId, PlayerAction.Stop);
+                    break;
 
-            case GameEvent.Types.action.Shoot:
-                SendInputToCharacter(invokerId, PlayerAction.Fire);
-                break;
+                case GameEvent.Types.action.Jump:
+                    SendInputToCharacter(invokerId, PlayerAction.Jump);
+                    break;
 
-            case GameEvent.Types.action.GetHit:
-                playerCharacters[invokerId].GetHit(10, 10, 50, 0);//////////////////
-                break;
+                case GameEvent.Types.action.Shoot:
+                    SendInputToCharacter(invokerId, PlayerAction.Fire);
+                    break;
+
+                case GameEvent.Types.action.GetHit:
+                    playerCharacters[invokerId].GetHit(10, 10, 50, 0);//////////////////
+                    break;
+            }
         }
     }
 

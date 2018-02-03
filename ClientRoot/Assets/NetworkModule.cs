@@ -163,8 +163,9 @@ public class NetworkModule : MonoBehaviour
         UserConnection uesrConnection = new UserConnection
         {
             ConType = type,
-            ConnectorId = id
         };
+
+        uesrConnection.ConnectorId.Add(id);
 
         PacketBody packetBody = new PacketBody
         {
@@ -183,8 +184,8 @@ public class NetworkModule : MonoBehaviour
             EventPositionX = position.x,
             EventPositionY = position.y,
             ActionProperty = actionProperty,
-            InvokerId = id,
         };
+        gameEvent.InvokerId.Add(id);
 
         PacketBody packetBody = new PacketBody()
         {
