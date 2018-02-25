@@ -15,11 +15,12 @@ public class MainCharacter : MonoBehaviour
     public float MaxMoveSpeed;
     public float MoveForce;
     public float JumpForce;
-    public int airJumpCount = 1;
+    public int MaxJumpCount = 2;
 
     public GameObject bulletPrefab;
 
     private Rigidbody2D rb2d;
+    private Collider2D collider2D;
      
     public int playerId{ get; set; }
 
@@ -27,8 +28,9 @@ public class MainCharacter : MonoBehaviour
     private int hitRecovery = 0;
 
     private float hp = 100;
+    private int jumpCount = 0;
 
-    private bool inAir = false;
+    private bool isGrounded = true;
     private bool isLeft = true;
 
     private PlayerInput currentInput;
@@ -65,7 +67,9 @@ public class MainCharacter : MonoBehaviour
     void Start()
 	{
 		rb2d = GetComponent<Rigidbody2D>();
-	}
+        collider2D = GetComponent<Collider2D>();
+
+    }
 
 	// Update is called once per frame
 	void Update()
@@ -84,12 +88,15 @@ public class MainCharacter : MonoBehaviour
 
         if (currentInput.fire && (status == CharacterStatus.Neutral || status == CharacterStatus.Moving))
             Shoot();
-        
+
         if (currentInput.left && status != CharacterStatus.Attacked)
             MoveLeft();
-        
         else if (currentInput.right && status != CharacterStatus.Attacked)
             MoveRight();
+        else if (!currentInput.left && !currentInput.right)
+            MoveStop();
+
+        checkLand();
 	}
 
     public void SetInput(PlayerAction action)
@@ -102,10 +109,12 @@ public class MainCharacter : MonoBehaviour
                 StopEvent();
                 break;
             case PlayerAction.Left:
+                currentInput.right = false;
                 currentInput.left = true;
                 MoveEvent(true);
                 break;
             case PlayerAction.Right:
+                currentInput.left = false;
                 currentInput.right = true;
                 MoveEvent(false);
                 break;
@@ -128,6 +137,8 @@ public class MainCharacter : MonoBehaviour
 
         if (Mathf.Abs(rb2d.velocity.x) > MaxMoveSpeed)
             rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * MaxMoveSpeed, rb2d.velocity.y);
+
+        status = CharacterStatus.Moving;
     }
 
     void MoveRight()
@@ -140,15 +151,32 @@ public class MainCharacter : MonoBehaviour
 
         if (Mathf.Abs(rb2d.velocity.x) > MaxMoveSpeed)
             rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * MaxMoveSpeed, rb2d.velocity.y);
+
+        status = CharacterStatus.Moving;
+    }
+
+    void MoveStop()
+    {
+        if(isGrounded)
+        {
+            rb2d.velocity = new Vector2(rb2d.velocity.x * (float)0.8, rb2d.velocity.y);
+
+            status = CharacterStatus.Neutral;
+        }
     }
 
     void Jump()
     {
-        //rb2d.AddForce(Vector2.up*JumpForce);
-        rb2d.velocity = new Vector2(rb2d.velocity.x, JumpForce);
         currentInput.jump = false;
+        if (jumpCount < MaxJumpCount)
+        {
+            jumpCount++;
 
-        JumpEvent();
+            //rb2d.AddForce(Vector2.up*JumpForce);
+            rb2d.velocity = new Vector2(rb2d.velocity.x, JumpForce);
+
+            JumpEvent();
+        }
     }
 
     void Shoot()
@@ -168,6 +196,41 @@ public class MainCharacter : MonoBehaviour
         ShootEvent(isLeft);
     }
 
+    void checkLand()
+    {
+        float distToGround = collider2D.bounds.extents.y;
+        bool checkGrounded = Physics2D.Raycast(transform.position, -Vector2.up, distToGround + (float)0.1, 1 << LayerMask.NameToLayer("Wall"));
+
+        if (checkGrounded)
+        {
+            if (isGrounded)
+            {
+
+            }
+            else
+            {
+                Land();
+            }
+        }
+        else
+        {
+            if (isGrounded)
+            {
+                isGrounded = false;
+            }
+            else
+            {
+
+            }
+        }
+    }
+
+    void Land()
+    {
+        isGrounded = true;
+        jumpCount = 0;
+    }
+
     public void GetHit(int damage, int hitRecovery, int impact, int impactAngle)
     {
         hp -= damage;
@@ -182,6 +245,11 @@ public class MainCharacter : MonoBehaviour
     }
 
     public void Dead()
+    {
+        Destroy(gameObject);
+    }
+
+    public void LeaveGame()
     {
         Destroy(gameObject);
     }

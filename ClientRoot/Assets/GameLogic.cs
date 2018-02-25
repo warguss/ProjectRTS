@@ -66,6 +66,9 @@ public class GameLogic : MonoBehaviour
 
     void userLeave(int id)
     {
+        MainCharacter player = playerCharacters[id];
+        player.LeaveGame();
+        playerCharacters.Remove(id);
     }
 
     void AddPlayer(int playerId)
@@ -96,10 +99,17 @@ public class GameLogic : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow))
                 SendInputToCharacter(myId, PlayerAction.Left);
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            if (Input.GetKeyDown(KeyCode.RightArrow))
                 SendInputToCharacter(myId, PlayerAction.Right);
-            else if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
-                SendInputToCharacter(myId, PlayerAction.Stop);
+            if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
+            {
+                if (Input.GetKey(KeyCode.LeftArrow))
+                    SendInputToCharacter(myId, PlayerAction.Left);
+                else if (Input.GetKey(KeyCode.RightArrow))
+                    SendInputToCharacter(myId, PlayerAction.Right);
+                else
+                    SendInputToCharacter(myId, PlayerAction.Stop);
+            }
 
             if (Input.GetKeyDown(KeyCode.UpArrow))
                 SendInputToCharacter(myId, PlayerAction.Jump);
@@ -147,9 +157,9 @@ public class GameLogic : MonoBehaviour
 
     void ProcessConnectionPacket(UserConnection ConnectionPacket)
     {
+        TestUI.Instance.PrintText("Connection Type : " + ConnectionPacket.ConType);
         foreach (int connectorId in ConnectionPacket.ConnectorId)
         {
-            //TestUI.Instance.PrintText("Connection Type : " + ConnectionPacket.ConType);
             if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.AcceptConnect)
             {
                 isConnected = true;
@@ -162,7 +172,7 @@ public class GameLogic : MonoBehaviour
             }
             else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.DisConnect)
             {
-                //DeletePlayer(ConnectionPacket.Id);
+                userLeave(connectorId);
             }
             else
             {
@@ -224,35 +234,50 @@ public class GameLogic : MonoBehaviour
     {
         var currentPosition = playerCharacters[myId].CurrentPosition;
         var currentVelocity = playerCharacters[myId].CurrentVelocity;
-        NetworkModule.instance.WriteEventMove(currentPosition, currentVelocity, isLeft);
+        if (isConnected)
+        {
+            NetworkModule.instance.WriteEventMove(currentPosition, currentVelocity, isLeft);
+        }
     }
 
     void PlayerEventStop()
     {
         var currentPosition = playerCharacters[myId].CurrentPosition;
         var currentVelocity = playerCharacters[myId].CurrentVelocity;
-        NetworkModule.instance.WriteEventStop(currentPosition, currentVelocity);
+        if (isConnected)
+        {
+            NetworkModule.instance.WriteEventStop(currentPosition, currentVelocity);
+        }
     }
 
     void PlayerEventGetHit(int damage, int hitRecovery, int impact, int impactAngle)
     {
         var currentPosition = playerCharacters[myId].CurrentPosition;
         var currentVelocity = playerCharacters[myId].CurrentVelocity;
-        NetworkModule.instance.WriteEventGetHit(currentPosition, currentVelocity, damage, hitRecovery, impact, impactAngle);
+        if (isConnected)
+        {
+            NetworkModule.instance.WriteEventGetHit(currentPosition, currentVelocity, damage, hitRecovery, impact, impactAngle);
+        }
     }
 
     void PlayerEventJump()
     {
         var currentPosition = playerCharacters[myId].CurrentPosition;
         var currentVelocity = playerCharacters[myId].CurrentVelocity;
-        NetworkModule.instance.PlayerEventJump(currentPosition, currentVelocity);
+        if (isConnected)
+        {
+            NetworkModule.instance.PlayerEventJump(currentPosition, currentVelocity);
+        }
     }
 
     void PlayerEventShoot(bool isLeft)
     {
         var currentPosition = playerCharacters[myId].CurrentPosition;
         var currentVelocity = playerCharacters[myId].CurrentVelocity;
-        NetworkModule.instance.WriteEventMove(currentPosition, currentVelocity,isLeft);
+        if (isConnected)
+        {
+            NetworkModule.instance.WriteEventMove(currentPosition, currentVelocity, isLeft);
+        }
     }
 }
    

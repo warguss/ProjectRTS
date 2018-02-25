@@ -61,7 +61,7 @@ public class NetworkModule : MonoBehaviour
                         packetBodyByteArray = new byte[(int)readPacket.BodyLength];
                         ns.Read(packetBodyByteArray, 0, (int)readPacket.BodyLength);
 
-                        //Debug.Log("Decode_Header : " + readPacket.BodyLength);
+                        Debug.Log("Decode_Header : " + readPacket.BodyLength);
                         var parsed = PacketBody.Parser.ParseFrom(packetBodyByteArray);
                         lock (QueueLock)
                         {
