@@ -15,7 +15,6 @@ void CProtoManager::initialize()
 	/************************************
 	 * Connect
 	 ************************************/ 
-	//_connectCase = new server2N::UserConnection;
 	_tryConnectCase = new server2N::UserConnection; 	
 	_tryConnectCase->set_contype(server2N::UserConnection_ConnectionType_AcceptConnect);
 	_tryConnectPacket.set_allocated_connect(_tryConnectCase);
@@ -36,6 +35,10 @@ void CProtoManager::initialize()
 
 void CProtoManager::close()
 {
+	//_connectPacket.clear();
+	//_tryConnectPacket.clear();
+	//_disConnectPacket.clear();
+
 #if 0 
 	if ( _connectCase )
 	{
@@ -120,8 +123,7 @@ bool CProtoManager::decodingHeader(unsigned char* buffer, uint32_t bufLength, ui
 }
 
 
-bool printTest(unsigned char* buffer, int size);
-bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint32_t bodyLength, server2N::PacketBody** protoPacket)
+bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint32_t bodyLength, CProtoPacket** protoPacket)
 {
     if ( bufLength != bodyLength || !buffer )
     {
@@ -129,28 +131,31 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
         return false;
     }
 
-	resetProtoPacket(protoPacket);
+	//resetProtoPacket(protoPacket*);
 
-	*protoPacket = new server2N::PacketBody;
+	(*protoPacket) = new CProtoPacket();
     google::protobuf::io::CodedInputStream is(buffer, (int)bodyLength);
-    if ( !(*protoPacket)->MergeFromCodedStream(&is) )
+    if ( !(*protoPacket)->_proto->MergeFromCodedStream(&is) )
     {
         LOG("Error CodedStream\n");
         return false;
     }
 
     // 디버깅 용도, 있는지 없는 지만 체크하도 리턴해도 충분하다.
-    if ( (*protoPacket)->has_event() )
+    if ( (*protoPacket)->_proto->has_event() )
     {
-        server2N::GameEvent tEvent = (*protoPacket)->event();
+        server2N::GameEvent tEvent = (*protoPacket)->_proto->event();
         cout << "Debug String" << tEvent.DebugString() << endl;
         LOG("Has Event\n");
+		(*protoPacket)->_type = tEvent.act();
+
     }
-    else if ( (*protoPacket)->has_connect() )
+    else if ( (*protoPacket)->_proto->has_connect() )
     {
-        server2N::UserConnection tConnect = (*protoPacket)->connect();
+        server2N::UserConnection tConnect = (*protoPacket)->_proto->connect();
         cout << "Debug String" << tConnect.DebugString() << endl;
         LOG("Has Connect\n");
+		(*protoPacket)->_type = tConnect.contype();
     }
     else
     {
@@ -158,27 +163,12 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
         return false;
     }
 
+
+
     return true;
 }
 
-server2N::PacketBody* CProtoManager::getBroadCastProtoPacket(int type)
-{
-	server2N::PacketBody* packet = NULL;
-#if 0
-	if ( type == CONNECT )
-	{
-		packet = _connectCase;
-	}
-	else if ( type == DISCONNECT )
-	{
-		packet = _disConnectCase;
-	}
-#endif
-
-	return packet;
-}
-
-
+#if 0 
 int32_t CProtoManager::typeReturn(server2N::PacketBody* protoPacket)
 {
 	if ( !protoPacket )
@@ -187,12 +177,41 @@ int32_t CProtoManager::typeReturn(server2N::PacketBody* protoPacket)
 	}
 
 	int32_t type = -1;
-    if ( protoPacket->has_event() )
+    if ( protoPacket->_proto->has_event() )
     {
-        server2N::GameEvent tEvent = protoPacket->event();
+        server2N::GameEvent tEvent = protoPacket->_proto->event();
+		server2N::GameEvent_action actType = tEvent.act();
+		if ( actType == server2N::GameEvent_action_Nothing )
+		{
+			type = NOTHING;
+		}
+		else if ( actType == server2N::GameEvent_action_Move )
+		{
+			type = MOVE;
+		} 
+		else if ( actType == server2N::GameEvent_action_Stop )
+		{
+			type = STOP;
+		}
+		else if ( actType == server2N::GameEvent_action_Jump )
+		{
+			type = JUMP;
+		}
+		else if ( actType == server2N::GameEvent_action_Shoot )
+		{
+			type = SHOOT;
+		}
+		else if ( actType == server2N::GameEvent_action_GetHit )
+		{
+			type = SHOOT;
+		}
+		else if ( actType == server2N::GameEvent_action_Spawn )
+		{
+			type = SPAWN;
+		}
         LOG("Has Event\n");
     }
-    else if ( protoPacket->has_connect() )
+    else if ( protoPacket->_proto->has_connect() )
     {
         server2N::UserConnection tConnect = protoPacket->connect();
 		server2N::UserConnection_ConnectionType conType = tConnect.contype();
@@ -218,88 +237,110 @@ int32_t CProtoManager::typeReturn(server2N::PacketBody* protoPacket)
 
 	return type;
 }
-#if 0 
-int32_t CProtoManager::typeReturn(server2N::UserConnection_ConnectionType conType)
-{
-	int32_t type = 0;
-	server2N::UserConnection_ConnectionType conType = tConnect.contype();
-	if ( conType == server2N::UserConnection_ConnectionType_TryConnect )
-	{
-		type = (int32_t)TRYCONNECT;
-	}
-	else if ( conType == server2N::UserConnection_ConnectionType_DisConnect )
-	{
-		type = (int32_t)DISCONNECT;
-	}
-	else if ( conType == server2N::UserConnection_ConnectionType_Connect )
-	{
-		type = (int32_t)CONNECT;
-	}
-
-	return type;
-}
 #endif
 
-bool CProtoManager::setConnType(server2N::PacketBody* protoPacket, int32_t type, int32_t senderFd, int32_t eventFd)
+bool CProtoManager::setConnectType(int32_t type, int32_t senderFd, int32_t eventFd, list<int32_t> allUser, CProtoPacket** packet)
 {
-	if ( !(protoPacket) )
+	if ( type < 0 || eventFd <= 0 || senderFd <= 0 )
 	{
 		LOG("Not Exist User , User ProtoPacket\n");
 		return false;
 	}
 
-	if ( !(protoPacket)->has_connect() ) 
-	{
-		LOG("Invalid ProtoPacket And Type\n");
-		return false;
-	}
-
-	if ( type == (int32_t)TRYCONNECT )
+	(*packet) = new CProtoPacket();
+	(*packet)->_protoConnect = new server2N::UserConnection; 
+	if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect )
 	{
 		LOG("USERID(%d) TRYCONNECT Change To AccepConnect\n", senderFd);
-		/**************************************
-		 * set_contype 안먹음
-		 * 0은 표시안함
-		 **************************************/
-		_tryConnectCase->set_connectorid(eventFd);
+		
+		(*packet)->_fd = senderFd;
+		(*packet)->_proto->set_senderid(senderFd);
+		(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_UserConnection);
+		(*packet)->_type = server2N::PacketBody_messageType_UserConnection;
 
-		_tryConnectPacket.clear_senderid();
-		_tryConnectPacket.set_senderid(senderFd);
-		_tryConnectPacket.set_msgtype(server2N::PacketBody_messageType_UserConnection);
-		cout << "TRYCONNECT PACKET " << _tryConnectPacket.DebugString() << endl;
-		protoPacket->CopyFrom(_tryConnectPacket);
-		//protoPacket = &_tryConnectPacket;
-
+		(*packet)->_protoConnect->set_contype((int32_t)server2N::UserConnection_ConnectionType_AcceptConnect);
+		(*packet)->_protoConnect->add_connectorid(eventFd);
+		
+		(*packet)->_proto->set_allocated_connect((*packet)->_protoConnect);
+		cout << "TRYCONNECT PACKET " << (*packet)->_proto->DebugString() << endl;
 	}
-	else if ( type == (int32_t)CONNECT )
+	else if ( type == (int32_t)server2N::UserConnection_ConnectionType_Connect )
 	{
+		(*packet)->_type = server2N::PacketBody_messageType_UserConnection;
+		(*packet)->_fd = senderFd;
+		(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_UserConnection);
+		(*packet)->_protoConnect->set_contype((int32_t)server2N::UserConnection_ConnectionType_Connect);
 		LOG("USERID(%d) TRYCONNECT Change To CONNECT\n", senderFd);
+
 		/**************************************
-		 * set_contype 안먹음
-		 * 0은 표시안함
+		 * id에 대해 list조회 전달
+		 * (신규 유저일 경우 조회전달)
 		 **************************************/
-		_connectCase->set_connectorid(eventFd);
+		if ( senderFd == eventFd ) 
+		{
+			list<int32_t>::iterator it = allUser.begin(); 
+			/* Add 시점 생각해야할듯, 아니며 여기서 자기자신 예외처리필요함 */
+			for ( ; it != allUser.end(); it++ )
+			{
+				if ( (int32_t)*it == senderFd )
+				{
+					LOG("Same User\n");
+					continue ; 
+				}
+				(*packet)->_protoConnect->add_connectorid((int32_t)*it);
+			}
+			(*packet)->_proto->set_allocated_connect((*packet)->_protoConnect);
+			LOG("Set Connect\n");
+		}
+		else
+		{
+			/**************************************
+			 * 기존 유저일 경우 eventFd만 전달
+			 **************************************/
+			(*packet)->_protoConnect->add_connectorid((int32_t)eventFd);
+			(*packet)->_proto->set_allocated_connect((*packet)->_protoConnect);
+		}
 
-		_connectPacket.clear_senderid();
-		_connectPacket.set_senderid(senderFd);
-		_connectPacket.set_msgtype(server2N::PacketBody_messageType_UserConnection);
-
-		cout << "CONNECT PACKET " << _connectPacket.DebugString() << endl;
-		protoPacket->CopyFrom(_connectPacket);
+		cout << "CONNECT PACKET " << (*packet)->_proto->DebugString() << endl;
+	}
+	else if ( type == (int32_t)server2N::UserConnection_ConnectionType_DisConnect )
+	{
+		/**************************************
+		 * 기존 유저일 경우 eventFd만 전달
+		 **************************************/
+		LOG("USERID(%d) DisConnect\n", senderFd);
+		
+		(*packet)->_fd = senderFd;
+		(*packet)->_proto->set_senderid(senderFd);
+		(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_UserConnection);
+		(*packet)->_type = (int32_t)server2N::UserConnection_ConnectionType_DisConnect;
+		(*packet)->_protoConnect->set_contype((int32_t)server2N::UserConnection_ConnectionType_DisConnect);
+		(*packet)->_protoConnect->add_connectorid(eventFd);
+		
+		(*packet)->_proto->set_allocated_connect((*packet)->_protoConnect);
+	}
+	else
+	{
+		LOG("Error Not Exist Type\n");
+		if ( *packet ) 
+		{
+			delete *packet;
+			*packet = NULL;
+		}
+		return false;
 	}
 
 	return true;
 }
 
-void CProtoManager::resetProtoPacket(server2N::PacketBody** protoPacket)
+void CProtoManager::resetProtoPacket(CProtoPacket* protoPacket)
 {
-	if ( *protoPacket )
+	if ( protoPacket )
 	{
 		LOG("Reset ProtoPacket Delete");
-		delete (*protoPacket);
+		delete protoPacket;
 	}
-
-	*protoPacket = NULL;
+	protoPacket = NULL;
 }
 
 
