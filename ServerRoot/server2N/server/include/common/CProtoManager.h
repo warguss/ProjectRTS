@@ -1,9 +1,11 @@
 #ifndef _PROTO_MANAGER_H_
 #define _PROTO_MANAGER_H_
+#include <list>
 #include "MsgString.h"
 #include "proto/gameContent.pb.h"
 #include "google/protobuf/io/coded_stream.h"
 #include "google/protobuf/io/zero_copy_stream_impl.h"
+#include "common/CProtoPacket.h"
 
 using namespace std;
 using namespace google::protobuf::io;
@@ -38,16 +40,15 @@ class CProtoManager
 		bool encodingBody(unsigned char* buffer, server2N::PacketBody* protoPacket, uint32_t bodyLength);
 
 		bool decodingHeader(unsigned char* buffer, uint32_t bufLength, uint32_t& bodyLength);
-		bool decodingBody(unsigned char* buffer, uint32_t bufLength, uint32_t bodyLength, server2N::PacketBody** protoPacket);
-
+		bool decodingBody(unsigned char* buffer, uint32_t bufLength, uint32_t bodyLength, CProtoPacket** protoPacket);
 
 		server2N::PacketBody* getBroadCastProtoPacket(int type);
 
 		int32_t typeReturn(server2N::PacketBody* protoPacket);
 		bool setActionType(server2N::PacketBody* protoPacket, int type);
-		bool setConnType(server2N::PacketBody* protoPacket, int type, int senderFd, int eventFd);
+		bool setConnectType(int type, int senderFd, int eventFd, list<int32_t> allUser, CProtoPacket** packet);
 
-		void resetProtoPacket(server2N::PacketBody** protoPacket);
+		void resetProtoPacket(CProtoPacket* protoPacket);
 };
 
 extern CProtoManager g_packetManager;

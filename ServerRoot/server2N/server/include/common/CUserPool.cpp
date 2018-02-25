@@ -29,22 +29,6 @@ bool CUserPool::addUserInPool(CUser* user)
     return true;
 }
 
-#if 0
-bool CUserPool::addUserInPool(CUser* user)
-{
-	/***********************************
-	 * 추가 부는 Lock이 필요없다.
-	 ***********************************/
-    if ( userInfo.size() >=  POOL_SIZE  )
-    {
-        return false;
-    }
-
-    userInfo.insert(std::pair<int, CUser*>(fd, user));
-    return true;
-}
-#endif
-
 bool CUserPool::delUserInPool(int fd)
 {
     /* find */
@@ -85,10 +69,15 @@ CUser* CUserPool::findUserInPool(int fd)
     return (CUser*)it->second;
 }
 
-#if 0 
-static bool CUserPool::allSendEvent();
-static bool CUserPool::allSendEvent()
+void CUserPool::getUserList(list<int32_t>& userConnection)
 {
-	return true;
-}
-#endif
+	/* Lock */ 
+	it = userInfo.begin();
+	for (  ; it != userInfo.end(); it++ )
+	{
+		CUser* user = (CUser*)it->second;
+		userConnection.push_back(user->_fd);
+	} 
+	/* UnLock */
+} 
+
