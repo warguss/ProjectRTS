@@ -105,22 +105,15 @@ static void* CSessionManager::waitEvent(void* val)
 				_init_ev.events = EPOLLIN;
 				_init_ev.data.fd = clientSock;
 
-#if 0 
-				if ( !g_userPool.addUserInPool(clientSock, 0, 0) ) 
-				{
-					g_userPool.delUserInPool(clientSock);
-					close(clientSock);
-					continue ;
-				} 
-#endif
 				epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, clientSock, &_init_ev);
-				//g_userPool.allSendEvent();
             }
             else
             {
 				int fd = _events[i].data.fd;
 				/******************************************
 				 * fd해당하는 User를 Pool에서 먼저 찾는다.
+				 * 이건 필요함, 
+				 * Sector를 위해서도
 				 ******************************************/
 				CUser* user = g_userPool.findUserInPool(fd);
 				if ( !user )
@@ -145,6 +138,10 @@ static void* CSessionManager::waitEvent(void* val)
 					/**********************************
 					 * Disconnect Event 보내야함
 					 **********************************/
+					CProtoPacket* disConnPacket = new CProtoPacket;
+					disConnPacket->_type = (int32_t)server2N::UserConnection_ConnectionType_DisConnect;
+					disConnPacket->_fd = fd;
+					m_readQ_Manager.enqueue(disConnPacket);
 					close(fd);
 					continue;
 				}
@@ -173,19 +170,20 @@ static void* CSessionManager::waitEvent(void* val)
 				}
 				
 				LOG("Body Set headerSize(%d) readSize(%d)\n", bodyLength, readn);
-				if ( !g_packetManager.decodingBody(bodyBuf, readn, bodyLength, &user->_protoPacket) )
+				CProtoPacket* packet = NULL;
+				if ( !g_packetManager.decodingBody(bodyBuf, readn, bodyLength, &packet) )
 				{
 					LOG("Error, Decoding Body Error[%d]\n", fd);
 					continue;
 				}
 
+				packet->_fd = fd;
 				/******************************************
 				 * QueueManger에 넣는다.
 				 * QueueManager 내부에서 Lock 처리한다.
 				 * userPool 에서 꺼내야할듯
 				 ******************************************/
-				m_readQ_Manager.enqueue(user);
-				
+				m_readQ_Manager.enqueue(packet);
             }
         }
     }
@@ -196,8 +194,9 @@ static void* CSessionManager::writeEvent(void* val)
 	while(1) 
 	{
 		/* signal ... */
-		CUser* user = NULL;
-		if ( user = m_writeQ_Manager.dequeue() )
+		//CUser* user = NULL;
+		CProtoPacket* packet = NULL;
+		if ( packet = m_writeQ_Manager.dequeue() )
 		{
 			/***************************************
 			 * Write Header 
@@ -205,16 +204,19 @@ static void* CSessionManager::writeEvent(void* val)
 			uint32_t writeSize = 0;
 			uint32_t bodyLength = 0;
 			unsigned char header[HEADER_SIZE] = {'\0' , };
-			if ( !g_packetManager.encodingHeader(header, user->_protoPacket, bodyLength) || bodyLength <= 0 )
+			//cout << user->_protoPacket->DebugString() << endl;
+			cout << "Write proto : " << packet->_proto->DebugString() << endl;
+			cout << "Write proto Conenct : " << packet->_proto->connect().DebugString() << endl;
+			if ( !g_packetManager.encodingHeader(header, packet->_proto, bodyLength) || bodyLength <= 0 )
 			{
 				LOG("Error User ProtoPacket Not Exist\n");
 				continue;
 			}
 
-			if ( (writeSize = write(user->_fd, header, sizeof(unsigned char) * HEADER_SIZE )) < 0 ) 
+			if ( (writeSize = write(packet->_fd, header, sizeof(unsigned char) * HEADER_SIZE )) < 0 ) 
 			{
 				perror("Send");
-				LOG("---writeEvent() Write Error Socket[%d] writeSize[%d]", user->_fd, writeSize);
+				LOG("---writeEvent() Write Error Socket[%d] writeSize[%d]", packet->_fd, writeSize);
 				continue ; 
 			}
 			LOG("Write User WriteSize(%d)\n", writeSize);
@@ -225,19 +227,20 @@ static void* CSessionManager::writeEvent(void* val)
 			 ***************************************/ 
 			unsigned char body[(int)bodyLength];
 			memset(body, '\0', sizeof(unsigned char) * bodyLength);
-			if ( !g_packetManager.encodingBody(body, user->_protoPacket, bodyLength) ) 
+			if ( !g_packetManager.encodingBody(body, packet->_proto, bodyLength) ) 
 			{
 				LOG("Error Invalid Body Encoding");
 				continue ;
 			}
 
-			if ( (writeSize = write(user->_fd, body, sizeof(unsigned char) * bodyLength )) < 0 ) 
+			if ( (writeSize = write(packet->_fd, body, sizeof(unsigned char) * bodyLength )) < 0 ) 
 			{
 				perror("Send");
-				LOG("---writeEvent() Write Error Socket[%d] writeSize[%d]", user->_fd, writeSize);
+				LOG("---writeEvent() Write Error Socket[%d] writeSize[%d]", packet->_fd, writeSize);
 				continue ;
 			}
-
+			
+			//g_packetManager.resetProtoPacket(&user->_protoPacket);
 			LOG("Write User WriteBody(%d)\n", writeSize);
 		}
 	}

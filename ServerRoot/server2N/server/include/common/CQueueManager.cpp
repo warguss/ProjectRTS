@@ -9,13 +9,13 @@ CQueueManager::CQueueManager()
 
 CQueueManager::~CQueueManager()
 {
-    list<CUser*>::iterator it;
+    list<CProtoPacket*>::iterator it;
     for ( it = _queue.begin(); it != _queue.end(); it++ )
     {
-        CUser *User = *it;
-        if ( User )
+        CProtoPacket *packet = *it;
+        if ( packet )
         {
-            delete User;
+            delete packet;
         }
     }
 }
@@ -30,7 +30,7 @@ void CQueueManager::setType(int type)
 	_type = type;
 }
 
-
+#if 0 
 bool CQueueManager::enqueue(int fd, char* buf, int length)
 {
     CUser* user = new CUser;
@@ -43,10 +43,11 @@ bool CQueueManager::enqueue(int fd, char* buf, int length)
 
     return true;
 }
+#endif
 
-bool CQueueManager::enqueue(CUser* user)
+bool CQueueManager::enqueue(CProtoPacket* packet)
 {
-	if ( !user )
+	if ( !packet )
 	{
 		LOG("User Invalid\n");
 		return false; 
@@ -54,28 +55,47 @@ bool CQueueManager::enqueue(CUser* user)
 
     /* Auto Lock */
 	CThreadLockManager lock(_type);
-    _queue.push_back(user);
+    _queue.push_back(packet);
     _queueSize++;
 
     return true;
 }
-
+#if 0 
 CUser* CQueueManager::dequeue()
 {
-    CUser* user = NULL;
+    CProtoPacket* packet = NULL;
 	if ( !isQueueDataExist() ) 
 	{
-		return user;
+		return packet;
 	}
 
 	LOG("Dequeue Start\n");
 	/* Auto Lock */
 	CThreadLockManager lock(_type);
-	user = _queue.front();
+	packet = _queue.front();
 	_queue.pop_front();
 	_queueSize--;
 
-    return user;
+    return packet;
+}
+#endif
+
+CProtoPacket* CQueueManager::dequeue()
+{
+    CProtoPacket* packet = NULL;
+	if ( !isQueueDataExist() ) 
+	{
+		return packet;
+	}
+
+	LOG("Dequeue Start\n");
+	/* Auto Lock */
+	CThreadLockManager lock(_type);
+	packet = _queue.front();
+	_queue.pop_front();
+	_queueSize--;
+
+    return packet;
 }
 
 bool CQueueManager::isQueueDataExist()
@@ -88,4 +108,3 @@ bool CQueueManager::isQueueDataExist()
     }
     return false;
 }
-

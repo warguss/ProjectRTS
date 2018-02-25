@@ -32,15 +32,22 @@
 //#define CONNECT 0 
 //#define DISCONNECT 10001
 
-//enum ConnectionType
-//{
-#define CONNECT 0
-#define TRYCONNECT 1
-#define DISCONNECT 2
-#define ACCEPTCONNECT 3
-//};
-
 #if 0 
+#define CONNECT 1
+#define TRYCONNECT 2
+#define DISCONNECT 3
+#define ACCEPTCONNECT 4
+
+
+#define NOTHING 0
+#define MOVE 100
+#define STOP 101
+#define JUMP 102
+#define SHOOT 103
+#define GETHIT 104
+#define SPAWN 105
+
+
 enum ConnectionType enum_conType;
 enum Action
 {

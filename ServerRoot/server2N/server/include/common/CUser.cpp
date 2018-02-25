@@ -5,7 +5,6 @@ CUser::CUser()
 	tX = 0;
     tY = 0;
     _fd = 0;
-	//_protoPacket = NULL;
 }
 
 CUser::CUser(int fd, int32_t x, int32_t y)
@@ -26,7 +25,6 @@ CUser::~CUser()
 	}
 	_protoPacket = NULL;
 #endif
-	_protoPacket.clear();
 }
 
 bool CUser::moveX(int32_t tX)
@@ -48,9 +46,9 @@ bool CUser::setData(int fd, int type)
 	return true;
 }
 
+#if 0 
 bool CUser::setPacketBody(server2N::PacketBody* packet)
 {
-#if 0 
 	if ( !packet )
 	{
 		LOG("Error invalid Packet Body\n");
@@ -64,5 +62,6 @@ bool CUser::setPacketBody(server2N::PacketBody* packet)
 	}
 
 	_protoPacket = packet;
-#endif
+	return true;
 }
+#endif

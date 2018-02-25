@@ -22,12 +22,8 @@ class CUser
 		/*******************************
 		 * BroadCase위해 ptr로 할당
 		 *******************************/
-
-    public:
-        int _fd;
-		server2N::PacketBody _protoPacket;
-
 	public:
+		int _fd;
         CUser();
         CUser(int fd, int32_t x, int32_t y);
         ~CUser();
@@ -36,7 +32,6 @@ class CUser
         bool moveY(int32_t tY);
 
         bool setData(int fd, int type);
-		bool setPacketBody(server2N::PacketBody* packet);
 
 
 	private:

@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <list>
 #include "CUser.h"
+#include "CProtoPacket.h"
 #include "CThreadLockManager.h"
 
 using namespace std;
@@ -13,7 +14,7 @@ class CQueueManager
 private:
 	int _type;
     int _queueSize;
-    list<CUser*> _queue;
+    list<CProtoPacket*> _queue;
 
     pthread_mutex_t queue_mutex;
     pthread_cond_t queue_cond;
@@ -22,12 +23,10 @@ public:
     ~CQueueManager();
 
     bool enqueue(int fd, char* buf, int length);
-    bool enqueue(CUser* user);
-    CUser* dequeue();
+    bool enqueue(CProtoPacket* packet);
+    CProtoPacket* dequeue();
 
     bool isQueueDataExist();
     void setType(int type);
 };
-
 #endif
-
