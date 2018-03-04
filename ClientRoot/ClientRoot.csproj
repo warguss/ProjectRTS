@@ -316,6 +316,7 @@
     <Compile Include="Assets\Google.Protobuf\WellKnownTypes\WrappersPartial.cs" />
     <Compile Include="Assets\Google.Protobuf\WireFormat.cs" />
     <Compile Include="Assets\Manager.cs" />
+    <Compile Include="Assets\MapData.cs" />
     <Compile Include="Assets\NetworkModule.cs" />
     <Compile Include="Assets\Packet.cs" />
     <Compile Include="Assets\Server\proto\GameContent.cs" />

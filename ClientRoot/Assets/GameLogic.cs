@@ -12,26 +12,36 @@ public class GameLogic : MonoBehaviour
     static public GameLogic Instance;
 
     public GameObject PlayerPrefab;
+    public GameObject MapDataPrefab;
     public CameraMove CameraScript;
 
     public int myId = -1;
 
-    Dictionary<int, MainCharacter> playerCharacters; 
-    //int testId = 2;
+    Dictionary<int, MainCharacter> playerCharacters;
+    MapData mapData;
+    int testId2P = 1;
 
     byte[] msgBuffer = new byte[256];
 
     bool isConnected = false;
+
+    bool TestMode = true;
 
     // Use this for initialization
     void Start()
     {
         Instance = this;
         playerCharacters = new Dictionary<int, MainCharacter>();
+        mapData = Instantiate(MapDataPrefab).GetComponent<MapData>();
 
-        //userJoin(0, true);
+        mapData.LoadMap();
+        mapData.DrawMap();
 
-        //CameraScript.SetTarget(playerCharacters[myId].gameObject);
+        if (TestMode)
+        {
+            userJoin(0, true);
+            userJoin(testId2P, false);
+        }
     }
 	
     // Update is called once per frame
@@ -75,7 +85,7 @@ public class GameLogic : MonoBehaviour
     {
         if (!playerCharacters.ContainsKey(playerId))
         {
-            MainCharacter characterScript = Instantiate(PlayerPrefab).GetComponent<MainCharacter>();
+            MainCharacter characterScript = Instantiate(PlayerPrefab, new Vector3(1,3,0), new Quaternion()).GetComponent<MainCharacter>();
             playerCharacters.Add(playerId, characterScript);
             characterScript.playerId = playerId;
         }
@@ -117,18 +127,21 @@ public class GameLogic : MonoBehaviour
                 SendInputToCharacter(myId, PlayerAction.Fire);
         }
 
-        //if (Input.GetKeyDown(KeyCode.A))
-        //    SendInputToCharacter(testId, PlayerAction.Left);
-        //else if (Input.GetKeyDown(KeyCode.D))
-        //    SendInputToCharacter(testId, PlayerAction.Right);
-        //else if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
-        //    SendInputToCharacter(testId, PlayerAction.Stop);
+        if(TestMode)
+        {
+            if (Input.GetKeyDown(KeyCode.A))
+                SendInputToCharacter(testId2P, PlayerAction.Left);
+            else if (Input.GetKeyDown(KeyCode.D))
+                SendInputToCharacter(testId2P, PlayerAction.Right);
+            else if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+                SendInputToCharacter(testId2P, PlayerAction.Stop);
 
-        //if (Input.GetKeyDown(KeyCode.W))
-        //    SendInputToCharacter(testId, PlayerAction.Jump);
-        //if (Input.GetKeyDown(KeyCode.Q))
-        //    SendInputToCharacter(testId, PlayerAction.Fire);
-        
+            if (Input.GetKeyDown(KeyCode.W))
+                SendInputToCharacter(testId2P, PlayerAction.Jump);
+            if (Input.GetKeyDown(KeyCode.Q))
+                SendInputToCharacter(testId2P, PlayerAction.Fire);
+        }
+
     }
 
     void ProcessPacketBody(PacketBody packetBody)

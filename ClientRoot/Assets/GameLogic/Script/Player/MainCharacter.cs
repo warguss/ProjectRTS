@@ -5,7 +5,6 @@ using RTS;
 public enum CharacterStatus
 {
 	Neutral,
-    Moving,
     Attacking,
 	Attacked,
 }
@@ -19,8 +18,8 @@ public class MainCharacter : MonoBehaviour
 
     public GameObject bulletPrefab;
 
-    private Rigidbody2D rb2d;
-    private Collider2D collider2D;
+    private Rigidbody2D charRigidbody;
+    private Collider2D charCollider;
      
     public int playerId{ get; set; }
 
@@ -39,7 +38,7 @@ public class MainCharacter : MonoBehaviour
     {
         get
         {
-            return rb2d.position;
+            return charRigidbody.position;
         }
     }
 
@@ -47,7 +46,7 @@ public class MainCharacter : MonoBehaviour
     {
         get
         {
-            return rb2d.velocity;
+            return charRigidbody.velocity;
         }
     }
 
@@ -66,8 +65,8 @@ public class MainCharacter : MonoBehaviour
     // Use this for initialization
     void Start()
 	{
-		rb2d = GetComponent<Rigidbody2D>();
-        collider2D = GetComponent<Collider2D>();
+		charRigidbody = GetComponent<Rigidbody2D>();
+        charCollider = GetComponent<Collider2D>();
 
     }
 
@@ -83,10 +82,10 @@ public class MainCharacter : MonoBehaviour
 
 	void FixedUpdate()
 	{
-        if (currentInput.jump && (status == CharacterStatus.Neutral || status == CharacterStatus.Moving))
+        if (currentInput.jump && (status == CharacterStatus.Neutral))
             Jump();
 
-        if (currentInput.fire && (status == CharacterStatus.Neutral || status == CharacterStatus.Moving))
+        if (currentInput.fire && (status == CharacterStatus.Neutral))
             Shoot();
 
         if (currentInput.left && status != CharacterStatus.Attacked)
@@ -132,13 +131,11 @@ public class MainCharacter : MonoBehaviour
         isLeft = true;
 
         //rb2d.velocity = new Vector2(-MaxMoveSpeed, rb2d.velocity.y);
-        if (-1 * rb2d.velocity.x < MaxMoveSpeed)
-            rb2d.AddForce(Vector2.right * -1 * MoveForce);
+        if (-1 * charRigidbody.velocity.x < MaxMoveSpeed)
+            charRigidbody.AddForce(Vector2.right * -1 * MoveForce);
 
-        if (Mathf.Abs(rb2d.velocity.x) > MaxMoveSpeed)
-            rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * MaxMoveSpeed, rb2d.velocity.y);
-
-        status = CharacterStatus.Moving;
+        if (Mathf.Abs(charRigidbody.velocity.x) > MaxMoveSpeed)
+            charRigidbody.velocity = new Vector2(Mathf.Sign(charRigidbody.velocity.x) * MaxMoveSpeed, charRigidbody.velocity.y);
     }
 
     void MoveRight()
@@ -146,20 +143,18 @@ public class MainCharacter : MonoBehaviour
         isLeft = false;
 
         //rb2d.velocity = new Vector2(MaxMoveSpeed, rb2d.velocity.y);
-        if (1 * rb2d.velocity.x < MaxMoveSpeed)
-            rb2d.AddForce(Vector2.right * 1 * MoveForce);
+        if (1 * charRigidbody.velocity.x < MaxMoveSpeed)
+            charRigidbody.AddForce(Vector2.right * 1 * MoveForce);
 
-        if (Mathf.Abs(rb2d.velocity.x) > MaxMoveSpeed)
-            rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * MaxMoveSpeed, rb2d.velocity.y);
-
-        status = CharacterStatus.Moving;
+        if (Mathf.Abs(charRigidbody.velocity.x) > MaxMoveSpeed)
+            charRigidbody.velocity = new Vector2(Mathf.Sign(charRigidbody.velocity.x) * MaxMoveSpeed, charRigidbody.velocity.y);
     }
 
     void MoveStop()
     {
-        if(isGrounded)
+        if(status == CharacterStatus.Neutral)
         {
-            rb2d.velocity = new Vector2(rb2d.velocity.x * (float)0.8, rb2d.velocity.y);
+            charRigidbody.velocity = new Vector2(charRigidbody.velocity.x * (float)0.8, charRigidbody.velocity.y);
 
             status = CharacterStatus.Neutral;
         }
@@ -173,7 +168,7 @@ public class MainCharacter : MonoBehaviour
             jumpCount++;
 
             //rb2d.AddForce(Vector2.up*JumpForce);
-            rb2d.velocity = new Vector2(rb2d.velocity.x, JumpForce);
+            charRigidbody.velocity = new Vector2(charRigidbody.velocity.x, JumpForce);
 
             JumpEvent();
         }
@@ -198,7 +193,7 @@ public class MainCharacter : MonoBehaviour
 
     void checkLand()
     {
-        float distToGround = collider2D.bounds.extents.y;
+        float distToGround = charCollider.bounds.extents.y;
         bool checkGrounded = Physics2D.Raycast(transform.position, -Vector2.up, distToGround + (float)0.1, 1 << LayerMask.NameToLayer("Wall"));
 
         if (checkGrounded)
@@ -239,7 +234,7 @@ public class MainCharacter : MonoBehaviour
         float radian = Mathf.PI * (float)impactAngle / 180f;
         float impactX = Mathf.Cos(radian);
         float impactY = Mathf.Sin(radian);
-        rb2d.AddForce(new Vector2(impactX, impactY) * impact);
+        charRigidbody.AddForce(new Vector2(impactX, impactY) * impact);
 
         GetHitEvent(damage, hitRecovery, impact, impactAngle);
     }
@@ -257,14 +252,14 @@ public class MainCharacter : MonoBehaviour
     public void MoveTo(float x, float y)
     {
         //rb2d.position = new Vector2(x, y);
-        rb2d.MovePosition(new Vector2(x, y));
+        charRigidbody.MovePosition(new Vector2(x, y));
     }
 
     public void MoveTo(float x, float y, float velocityX, float velocityY)
     {
         //rb2d.position = new Vector2(x, y);
-        rb2d.MovePosition(new Vector2(x, y));
-        rb2d.velocity = new Vector2(velocityX, velocityY);
+        charRigidbody.MovePosition(new Vector2(x, y));
+        charRigidbody.velocity = new Vector2(velocityX, velocityY);
     }
 
     //void Networkinterpolation(float posX, float posY, float speedX, float speedY, CharacterStatus status)
