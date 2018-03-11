@@ -1,4 +1,6 @@
 #include "CSessionManager.h"
+#include "CUserPool.h"
+
 int CSessionManager::_serverSock = 0;
 int CSessionManager::_epoll_fd = 0;
 struct epoll_event CSessionManager::_init_ev;
@@ -10,8 +12,8 @@ CQueueManager CSessionManager::m_writeQ_Manager;
 static void* CSessionManager::waitEvent(void* val);
 static void* CSessionManager::writeEvent(void* val);
 
-CUserPool g_userPool;
 CProtoManager g_packetManager;
+//extern CUserPool g_userPool;
 
 CSessionManager::CSessionManager(int port)
 {
@@ -239,8 +241,6 @@ static void* CSessionManager::writeEvent(void* val)
 				LOG("---writeEvent() Write Error Socket[%d] writeSize[%d]", packet->_fd, writeSize);
 				continue ;
 			}
-			
-			//g_packetManager.resetProtoPacket(&user->_protoPacket);
 			LOG("Write User WriteBody(%d)\n", writeSize);
 		}
 	}

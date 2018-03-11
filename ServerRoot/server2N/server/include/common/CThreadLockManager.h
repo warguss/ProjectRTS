@@ -10,9 +10,9 @@ class CThreadLockManager
 {
 private:
 	int _type;
-
+	int _sectorNo;
 public:
-	CThreadLockManager(int type);
+	CThreadLockManager(int type, int idx = -1);
 	~CThreadLockManager();
 };
 

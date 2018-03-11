@@ -15,14 +15,11 @@ using namespace std;
 using namespace google::protobuf::io;
 class CUser
 {
-    private:
+	public:
 		int _type;
         int _sector;
         int32_t tX,tY;
-		/*******************************
-		 * BroadCase위해 ptr로 할당
-		 *******************************/
-	public:
+
 		int _fd;
         CUser();
         CUser(int fd, int32_t x, int32_t y);

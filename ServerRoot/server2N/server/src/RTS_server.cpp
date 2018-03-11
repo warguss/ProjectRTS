@@ -13,13 +13,14 @@
 #include "common/CSessionManager.h"
 #include "common/CProtoManager.h"
 #include "common/CProtoPacket.h"
+#include "common/CUserPool.h"
 
 using namespace std;
 bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventUser);
 bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser);
-//bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser);
 typedef bool (*CallBackFunc)(CSessionManager&, CProtoPacket*);
 
+//extern int32_t g_sectorIdx;
 
 bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 {
@@ -27,7 +28,7 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 	 * 전체 유저 연결 정보 획득
 	 *************************************/
 	list<int32_t> userConnector;
-	g_userPool.getUserList(userConnector);
+	g_userPool.getAllUserList(userConnector);
 
 	/*************************************
 	 * TryConnect 
@@ -118,6 +119,11 @@ int main(int argc, char* argv[])
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_GetHit, ActionPartSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_Spawn, ActionPartSendFunc) );
 
+
+	/*******************************************************
+	 * Sector Index Setting 
+	 *******************************************************/
+	g_sectorIdx = ((X_GAME_MAX * Y_GAME_MAX)) / ((X_SECTOR_MAX * Y_SECTOR_MAX));
 	if ( pthread_create(&thread, NULL, session.waitEvent, (void*)&port) < 0 )
 	{
 		exit(0);
