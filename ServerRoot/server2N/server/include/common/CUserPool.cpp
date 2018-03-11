@@ -124,6 +124,7 @@ bool CUserPool::delUserInPool(int fd, int sector)
 CUser* CUserPool::findUserInPool(int fd, int sector)
 {
 	CUser* user = NULL;
+	bool isFind = false;
 	if ( sector < 0 ) 
 	{
 		for ( itVal = userInfo.begin(); itVal != userInfo.end(); itVal++ )
@@ -135,6 +136,7 @@ CUser* CUserPool::findUserInPool(int fd, int sector)
 				continue;
 			}
 
+			isFind = true;
 			break;
 		}
 	}	
@@ -148,14 +150,21 @@ CUser* CUserPool::findUserInPool(int fd, int sector)
 
 		map<int, CUser*>* tMap = (map<int, CUser*>*)itVal->second;
 		it = tMap->find(fd);	
+		if ( it == tMap->end() )
+		{
+			isFind = true;
+		}
+
 	} 
 	
-
-	user = (CUser*)it->second;
-	if ( !user )
+	if ( isFind ) 
 	{
-		LOG("User Not Exist\n");
-		return NULL;
+		user = (CUser*)it->second;
+		if ( !user )
+		{
+			LOG("User Not Exist\n");
+			return NULL;
+		}
 	}
 
 	return user;
