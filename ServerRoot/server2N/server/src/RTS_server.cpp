@@ -20,7 +20,8 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventUser);
 bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser);
 typedef bool (*CallBackFunc)(CSessionManager&, CProtoPacket*);
 
-//extern int32_t g_sectorIdx;
+extern int32_t g_sectorIdx;
+extern CUserPool g_userPool;
 
 bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 {

@@ -2,6 +2,7 @@
 #define _MODULE_CTHREAD_LOCK_
 
 #include <stdio.h>
+#include <stdint.h>
 #include <pthread.h>
 
 #include "MsgString.h"

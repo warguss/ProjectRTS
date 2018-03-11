@@ -1,6 +1,9 @@
 #include "CUserPool.h"
 
 
+int32_t g_sectorIdx;
+CUserPool g_userPool;
+
 CUserPool::CUserPool()
 {
 	initialize();

@@ -1,5 +1,4 @@
 #include "CThreadLockManager.h"
-#include "CUserPool.h"
 
 pthread_mutex_t _rMutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t _rCond = PTHREAD_COND_INITIALIZER;

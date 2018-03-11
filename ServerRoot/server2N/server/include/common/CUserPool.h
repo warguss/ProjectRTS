@@ -40,6 +40,4 @@ class CUserPool
 
 };
 
-int32_t g_sectorIdx;
-CUserPool g_userPool;
 #endif

@@ -13,7 +13,7 @@ static void* CSessionManager::waitEvent(void* val);
 static void* CSessionManager::writeEvent(void* val);
 
 CProtoManager g_packetManager;
-//extern CUserPool g_userPool;
+extern CUserPool g_userPool;
 
 CSessionManager::CSessionManager(int port)
 {
