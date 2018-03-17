@@ -15,50 +15,19 @@
 #define READ_TYPE 100
 #define WRITE_TYPE 101
 
-
-
 #define PROTOBUF_USER 0
 #define PROTOBUF_ADDRESSBOOK 1
 
 #define HEADER 2
 #define BODY 3
 
-
 #define ALL_SEND 1000
 #define PART_SEND 1001
 
 #define INVALID_USER 10001
- 
-//#define CONNECT 0 
-//#define DISCONNECT 10001
+#define X_SECTOR_MAX 10
+#define Y_SECTOR_MAX 10
+#define X_GAME_MAX 100
+#define Y_GAME_MAX 100
 
-#if 0 
-#define CONNECT 1
-#define TRYCONNECT 2
-#define DISCONNECT 3
-#define ACCEPTCONNECT 4
-
-
-#define NOTHING 0
-#define MOVE 100
-#define STOP 101
-#define JUMP 102
-#define SHOOT 103
-#define GETHIT 104
-#define SPAWN 105
-
-
-enum ConnectionType enum_conType;
-enum Action
-{
-	Noting = 0,
-	Move = 100,
-	Stop = 101,
-	Jump = 102,
-	Shoot = 103,
-	GetHit = 104,
-	Spawn = 105
-};
-enum Action enum_Action;
-#endif
 #endif

@@ -10,7 +10,6 @@
 #include <string.h>
 #include "CQueueManager.h"
 #include "MsgString.h"
-#include "CUserPool.h"
 #include "CProtoManager.h"
 
 using namespace std;
@@ -40,5 +39,6 @@ private:
     bool _deleteUserEvent(int fd);
     bool _readUserEvent(int fd);
 };
+
 #endif
 

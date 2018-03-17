@@ -131,8 +131,6 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
         return false;
     }
 
-	//resetProtoPacket(protoPacket*);
-
 	(*protoPacket) = new CProtoPacket();
     google::protobuf::io::CodedInputStream is(buffer, (int)bodyLength);
     if ( !(*protoPacket)->_proto->MergeFromCodedStream(&is) )
@@ -343,21 +341,28 @@ void CProtoManager::resetProtoPacket(CProtoPacket* protoPacket)
 	protoPacket = NULL;
 }
 
-
-bool CProtoManager::setActionType(server2N::PacketBody* protoPacket, int type)
+bool CProtoManager::setActionType(int32_t type, int32_t senderFd, CProtoPacket* eventUser, list<int32_t> userList, CProtoPacket** packet)
 {
+	if ( type < 0 || !eventUser || eventUser->_fd <= 0 || senderFd <= 0 )
+	{
+		LOG("Not Exist User , User ProtoPacket\n");
+		return false;
+	}
+
+	(*packet) = new CProtoPacket();
+	(*packet)->_protoEvent = new server2N::GameEvent();
+	server2N::GameEvent tEvent = eventUser->_proto->event(); 
+	if ( type == (int32_t)server2N::GameEvent_action_Move || type == server2N::GameEvent_action_Stop || type == (int32_t)server2N::GameEvent_action_Jump )
+	{
+		/* Copy From이 나을지, getset하는게 나을지 모르겠음 */
+		(*packet)->_protoEvent->CopyFrom(tEvent);
+
+		(*packet)->_fd = senderFd;
+		(*packet)->_proto->set_senderid(senderFd);
+		(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_GameEvent);
+		(*packet)->_type = (int32_t)type;
+		(*packet)->_proto->set_allocated_event((*packet)->_protoEvent);
+	} 
 
 	return true;
 }
-
-#if 0 
-#include <sstream>
-std::string hexStr(unsigned char*data, int len)
-{
-    std::stringstream ss;
-    ss<<std::hex;
-    for(int i(0);i<len;++i)
-        ss<<(int)data[i];
-    return ss.str();
-}
-#endif

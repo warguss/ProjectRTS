@@ -1,4 +1,6 @@
 #include "CSessionManager.h"
+#include "CUserPool.h"
+
 int CSessionManager::_serverSock = 0;
 int CSessionManager::_epoll_fd = 0;
 struct epoll_event CSessionManager::_init_ev;
@@ -10,8 +12,8 @@ CQueueManager CSessionManager::m_writeQ_Manager;
 static void* CSessionManager::waitEvent(void* val);
 static void* CSessionManager::writeEvent(void* val);
 
-CUserPool g_userPool;
 CProtoManager g_packetManager;
+extern CUserPool g_userPool;
 
 CSessionManager::CSessionManager(int port)
 {
@@ -41,6 +43,12 @@ int CSessionManager::connectInitialize()
         perror("socket:");
         return -1;
     }
+
+	/************************
+	 * SO_REUSEADDR Option
+	 ************************/ 
+	int option = 1;
+	setsockopt(_serverSock, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option));
 
 	LOG("---ConnectInitialize() serverSock [%d]\n", _serverSock);
     memset(&serverAddr, '\0', sizeof(serverAddr));
@@ -120,7 +128,6 @@ static void* CSessionManager::waitEvent(void* val)
 				{
 					user = new CUser;
 					user->setData(fd, READ_TYPE);
-					g_userPool.addUserInPool(user);
 				}
 
 				/******************************************
@@ -177,6 +184,7 @@ static void* CSessionManager::waitEvent(void* val)
 					continue;
 				}
 
+				g_userPool.addUserInPool(user);
 				packet->_fd = fd;
 				/******************************************
 				 * QueueManger에 넣는다.
@@ -204,7 +212,6 @@ static void* CSessionManager::writeEvent(void* val)
 			uint32_t writeSize = 0;
 			uint32_t bodyLength = 0;
 			unsigned char header[HEADER_SIZE] = {'\0' , };
-			//cout << user->_protoPacket->DebugString() << endl;
 			cout << "Write proto : " << packet->_proto->DebugString() << endl;
 			cout << "Write proto Conenct : " << packet->_proto->connect().DebugString() << endl;
 			if ( !g_packetManager.encodingHeader(header, packet->_proto, bodyLength) || bodyLength <= 0 )
@@ -239,8 +246,6 @@ static void* CSessionManager::writeEvent(void* val)
 				LOG("---writeEvent() Write Error Socket[%d] writeSize[%d]", packet->_fd, writeSize);
 				continue ;
 			}
-			
-			//g_packetManager.resetProtoPacket(&user->_protoPacket);
 			LOG("Write User WriteBody(%d)\n", writeSize);
 		}
 	}
