@@ -29,29 +29,15 @@
 
 #define INVALID_USER 10001
  
-//#define CONNECT 0 
-//#define DISCONNECT 10001
 
-//enum ConnectionType
-//{
-#define CONNECT 0
-#define TRYCONNECT 1
-#define DISCONNECT 2
-#define ACCEPTCONNECT 3
-//};
 
-#if 0 
-enum ConnectionType enum_conType;
-enum Action
-{
-	Noting = 0,
-	Move = 100,
-	Stop = 101,
-	Jump = 102,
-	Shoot = 103,
-	GetHit = 104,
-	Spawn = 105
-};
-enum Action enum_Action;
-#endif
+#define X_SECTOR_MAX 10
+#define Y_SECTOR_MAX 10
+
+
+#define X_GAME_MAX 1000
+#define Y_GAME_MAX 1000
+
+
+
 #endif
