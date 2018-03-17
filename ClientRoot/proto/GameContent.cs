@@ -22,34 +22,249 @@ namespace Server2N {
     static GameContentReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChFnYW1lQ29udGVudC5wcm90bxIIc2VydmVyMk4ivgEKDlVzZXJDb25uZWN0",
-            "aW9uEhMKC2Nvbm5lY3RvcklkGAEgAygFEjgKB2NvblR5cGUYAiABKA4yJy5z",
+            "ChFnYW1lQ29udGVudC5wcm90bxIIc2VydmVyMk4ipwEKDEdsb2JhbE5vdGlj",
+            "ZRIvCgRub3RpGAEgASgOMiEuc2VydmVyMk4uR2xvYmFsTm90aWNlLk5vdGlj",
+            "ZUluZm8SDgoGbm90aWNlGAIgASgJEhEKCXBlcmZvcm1lchgDIAEoBRIOCgZ2",
+            "aWN0aW0YBCADKAUiMwoKTm90aWNlSW5mbxILCgdOb3RoaW5nEAASDAoIS2ls",
+            "bEluZm8QARIKCgZOb3RpY2UQAiL1AQoOVXNlckNvbm5lY3Rpb24SEwoLY29u",
+            "bmVjdG9ySWQYASADKAUSEAoIa2lsbEluZm8YAiADKAUSEQoJZGVhdGhJbmZv",
+            "GAMgAygFEhAKCG5pY2tuYW1lGAQgAygJEjgKB2NvblR5cGUYBSABKA4yJy5z",
             "ZXJ2ZXIyTi5Vc2VyQ29ubmVjdGlvbi5Db25uZWN0aW9uVHlwZSJdCg5Db25u",
             "ZWN0aW9uVHlwZRILCgdOb3RoaW5nEAASCwoHQ29ubmVjdBABEg4KClRyeUNv",
             "bm5lY3QQAhIRCg1BY2NlcHRDb25uZWN0EAMSDgoKRGlzQ29ubmVjdBAEIowC",
-            "CglHYW1lRXZlbnQSJwoDYWN0GAMgASgOMhouc2VydmVyMk4uR2FtZUV2ZW50",
+            "CglHYW1lRXZlbnQSJwoDYWN0GAEgASgOMhouc2VydmVyMk4uR2FtZUV2ZW50",
             "LmFjdGlvbhIWCg5hY3Rpb25Qcm9wZXJ0eRgFIAEoBRIWCg5FdmVudFBvc2l0",
             "aW9uWBgGIAEoAhIWCg5FdmVudFBvc2l0aW9uWRgHIAEoAhIRCglWZWxvY2l0",
             "eVgYCCABKAISEQoJVmVsb2NpdHlZGAkgASgCEhEKCWludm9rZXJJZBgKIAMo",
             "BSJVCgZhY3Rpb24SCwoHTm90aGluZxAAEggKBE1vdmUQZBIICgRTdG9wEGUS",
-            "CAoESnVtcBBmEgkKBVNob290EGcSCgoGR2V0SGl0EGgSCQoFU3Bhd24QaSLU",
-            "AQoKUGFja2V0Qm9keRIyCgdtc2dUeXBlGJBOIAEoDjIgLnNlcnZlcjJOLlBh",
+            "CAoESnVtcBBmEgkKBVNob290EGcSCgoGR2V0SGl0EGgSCQoFU3Bhd24QaSKQ",
+            "AgoKUGFja2V0Qm9keRIyCgdtc2dUeXBlGJBOIAEoDjIgLnNlcnZlcjJOLlBh",
             "Y2tldEJvZHkubWVzc2FnZVR5cGUSKQoHY29ubmVjdBgGIAEoCzIYLnNlcnZl",
-            "cjJOLlVzZXJDb25uZWN0aW9uEiIKBWV2ZW50GAcgASgLMhMuc2VydmVyMk4u",
-            "R2FtZUV2ZW50EhAKCHNlbmRlcklkGAggASgFIjEKC21lc3NhZ2VUeXBlEg0K",
-            "CUdhbWVFdmVudBAAEhMKDlVzZXJDb25uZWN0aW9uEJBOYgZwcm90bzM="));
+            "cjJOLlVzZXJDb25uZWN0aW9uEicKBm5vdGljZRiRTiABKAsyFi5zZXJ2ZXIy",
+            "Ti5HbG9iYWxOb3RpY2USIgoFZXZlbnQYByABKAsyEy5zZXJ2ZXIyTi5HYW1l",
+            "RXZlbnQSEAoIc2VuZGVySWQYCCABKAUiRAoLbWVzc2FnZVR5cGUSDQoJR2Ft",
+            "ZUV2ZW50EAASEwoOVXNlckNvbm5lY3Rpb24QkE4SEQoMR2xvYmFsTm90aWNl",
+            "EJFOYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.UserConnection), global::Server2N.UserConnection.Parser, new[]{ "ConnectorId", "ConType" }, null, new[]{ typeof(global::Server2N.UserConnection.Types.ConnectionType) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GlobalNotice), global::Server2N.GlobalNotice.Parser, new[]{ "Noti", "Notice", "Performer", "Victim" }, null, new[]{ typeof(global::Server2N.GlobalNotice.Types.NoticeInfo) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.UserConnection), global::Server2N.UserConnection.Parser, new[]{ "ConnectorId", "KillInfo", "DeathInfo", "Nickname", "ConType" }, null, new[]{ typeof(global::Server2N.UserConnection.Types.ConnectionType) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "Act", "ActionProperty", "EventPositionX", "EventPositionY", "VelocityX", "VelocityY", "InvokerId" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.action) }, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.PacketBody), global::Server2N.PacketBody.Parser, new[]{ "MsgType", "Connect", "Event", "SenderId" }, null, new[]{ typeof(global::Server2N.PacketBody.Types.messageType) }, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.PacketBody), global::Server2N.PacketBody.Parser, new[]{ "MsgType", "Connect", "Notice", "Event", "SenderId" }, null, new[]{ typeof(global::Server2N.PacketBody.Types.messageType) }, null)
           }));
     }
     #endregion
 
   }
   #region Messages
+  public sealed partial class GlobalNotice : pb::IMessage<GlobalNotice> {
+    private static readonly pb::MessageParser<GlobalNotice> _parser = new pb::MessageParser<GlobalNotice>(() => new GlobalNotice());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<GlobalNotice> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[0]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public GlobalNotice() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public GlobalNotice(GlobalNotice other) : this() {
+      noti_ = other.noti_;
+      notice_ = other.notice_;
+      performer_ = other.performer_;
+      victim_ = other.victim_.Clone();
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public GlobalNotice Clone() {
+      return new GlobalNotice(this);
+    }
+
+    /// <summary>Field number for the "noti" field.</summary>
+    public const int NotiFieldNumber = 1;
+    private global::Server2N.GlobalNotice.Types.NoticeInfo noti_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.GlobalNotice.Types.NoticeInfo Noti {
+      get { return noti_; }
+      set {
+        noti_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "notice" field.</summary>
+    public const int NoticeFieldNumber = 2;
+    private string notice_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Notice {
+      get { return notice_; }
+      set {
+        notice_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "performer" field.</summary>
+    public const int PerformerFieldNumber = 3;
+    private int performer_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Performer {
+      get { return performer_; }
+      set {
+        performer_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "victim" field.</summary>
+    public const int VictimFieldNumber = 4;
+    private static readonly pb::FieldCodec<int> _repeated_victim_codec
+        = pb::FieldCodec.ForInt32(34);
+    private readonly pbc::RepeatedField<int> victim_ = new pbc::RepeatedField<int>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<int> Victim {
+      get { return victim_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as GlobalNotice);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(GlobalNotice other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Noti != other.Noti) return false;
+      if (Notice != other.Notice) return false;
+      if (Performer != other.Performer) return false;
+      if(!victim_.Equals(other.victim_)) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Noti != 0) hash ^= Noti.GetHashCode();
+      if (Notice.Length != 0) hash ^= Notice.GetHashCode();
+      if (Performer != 0) hash ^= Performer.GetHashCode();
+      hash ^= victim_.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Noti != 0) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) Noti);
+      }
+      if (Notice.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Notice);
+      }
+      if (Performer != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Performer);
+      }
+      victim_.WriteTo(output, _repeated_victim_codec);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Noti != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Noti);
+      }
+      if (Notice.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Notice);
+      }
+      if (Performer != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Performer);
+      }
+      size += victim_.CalculateSize(_repeated_victim_codec);
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(GlobalNotice other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Noti != 0) {
+        Noti = other.Noti;
+      }
+      if (other.Notice.Length != 0) {
+        Notice = other.Notice;
+      }
+      if (other.Performer != 0) {
+        Performer = other.Performer;
+      }
+      victim_.Add(other.victim_);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            noti_ = (global::Server2N.GlobalNotice.Types.NoticeInfo) input.ReadEnum();
+            break;
+          }
+          case 18: {
+            Notice = input.ReadString();
+            break;
+          }
+          case 24: {
+            Performer = input.ReadInt32();
+            break;
+          }
+          case 34:
+          case 32: {
+            victim_.AddEntriesFrom(input, _repeated_victim_codec);
+            break;
+          }
+        }
+      }
+    }
+
+    #region Nested types
+    /// <summary>Container for nested types declared in the GlobalNotice message type.</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static partial class Types {
+      public enum NoticeInfo {
+        [pbr::OriginalName("Nothing")] Nothing = 0,
+        [pbr::OriginalName("KillInfo")] KillInfo = 1,
+        [pbr::OriginalName("Notice")] Notice = 2,
+      }
+
+    }
+    #endregion
+
+  }
+
   public sealed partial class UserConnection : pb::IMessage<UserConnection> {
     private static readonly pb::MessageParser<UserConnection> _parser = new pb::MessageParser<UserConnection>(() => new UserConnection());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -57,7 +272,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -75,6 +290,9 @@ namespace Server2N {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public UserConnection(UserConnection other) : this() {
       connectorId_ = other.connectorId_.Clone();
+      killInfo_ = other.killInfo_.Clone();
+      deathInfo_ = other.deathInfo_.Clone();
+      nickname_ = other.nickname_.Clone();
       conType_ = other.conType_;
     }
 
@@ -93,8 +311,38 @@ namespace Server2N {
       get { return connectorId_; }
     }
 
+    /// <summary>Field number for the "killInfo" field.</summary>
+    public const int KillInfoFieldNumber = 2;
+    private static readonly pb::FieldCodec<int> _repeated_killInfo_codec
+        = pb::FieldCodec.ForInt32(18);
+    private readonly pbc::RepeatedField<int> killInfo_ = new pbc::RepeatedField<int>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<int> KillInfo {
+      get { return killInfo_; }
+    }
+
+    /// <summary>Field number for the "deathInfo" field.</summary>
+    public const int DeathInfoFieldNumber = 3;
+    private static readonly pb::FieldCodec<int> _repeated_deathInfo_codec
+        = pb::FieldCodec.ForInt32(26);
+    private readonly pbc::RepeatedField<int> deathInfo_ = new pbc::RepeatedField<int>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<int> DeathInfo {
+      get { return deathInfo_; }
+    }
+
+    /// <summary>Field number for the "nickname" field.</summary>
+    public const int NicknameFieldNumber = 4;
+    private static readonly pb::FieldCodec<string> _repeated_nickname_codec
+        = pb::FieldCodec.ForString(34);
+    private readonly pbc::RepeatedField<string> nickname_ = new pbc::RepeatedField<string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<string> Nickname {
+      get { return nickname_; }
+    }
+
     /// <summary>Field number for the "conType" field.</summary>
-    public const int ConTypeFieldNumber = 2;
+    public const int ConTypeFieldNumber = 5;
     private global::Server2N.UserConnection.Types.ConnectionType conType_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Server2N.UserConnection.Types.ConnectionType ConType {
@@ -118,6 +366,9 @@ namespace Server2N {
         return true;
       }
       if(!connectorId_.Equals(other.connectorId_)) return false;
+      if(!killInfo_.Equals(other.killInfo_)) return false;
+      if(!deathInfo_.Equals(other.deathInfo_)) return false;
+      if(!nickname_.Equals(other.nickname_)) return false;
       if (ConType != other.ConType) return false;
       return true;
     }
@@ -126,6 +377,9 @@ namespace Server2N {
     public override int GetHashCode() {
       int hash = 1;
       hash ^= connectorId_.GetHashCode();
+      hash ^= killInfo_.GetHashCode();
+      hash ^= deathInfo_.GetHashCode();
+      hash ^= nickname_.GetHashCode();
       if (ConType != 0) hash ^= ConType.GetHashCode();
       return hash;
     }
@@ -138,8 +392,11 @@ namespace Server2N {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
       connectorId_.WriteTo(output, _repeated_connectorId_codec);
+      killInfo_.WriteTo(output, _repeated_killInfo_codec);
+      deathInfo_.WriteTo(output, _repeated_deathInfo_codec);
+      nickname_.WriteTo(output, _repeated_nickname_codec);
       if (ConType != 0) {
-        output.WriteRawTag(16);
+        output.WriteRawTag(40);
         output.WriteEnum((int) ConType);
       }
     }
@@ -148,6 +405,9 @@ namespace Server2N {
     public int CalculateSize() {
       int size = 0;
       size += connectorId_.CalculateSize(_repeated_connectorId_codec);
+      size += killInfo_.CalculateSize(_repeated_killInfo_codec);
+      size += deathInfo_.CalculateSize(_repeated_deathInfo_codec);
+      size += nickname_.CalculateSize(_repeated_nickname_codec);
       if (ConType != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ConType);
       }
@@ -160,6 +420,9 @@ namespace Server2N {
         return;
       }
       connectorId_.Add(other.connectorId_);
+      killInfo_.Add(other.killInfo_);
+      deathInfo_.Add(other.deathInfo_);
+      nickname_.Add(other.nickname_);
       if (other.ConType != 0) {
         ConType = other.ConType;
       }
@@ -178,7 +441,21 @@ namespace Server2N {
             connectorId_.AddEntriesFrom(input, _repeated_connectorId_codec);
             break;
           }
+          case 18:
           case 16: {
+            killInfo_.AddEntriesFrom(input, _repeated_killInfo_codec);
+            break;
+          }
+          case 26:
+          case 24: {
+            deathInfo_.AddEntriesFrom(input, _repeated_deathInfo_codec);
+            break;
+          }
+          case 34: {
+            nickname_.AddEntriesFrom(input, _repeated_nickname_codec);
+            break;
+          }
+          case 40: {
             conType_ = (global::Server2N.UserConnection.Types.ConnectionType) input.ReadEnum();
             break;
           }
@@ -210,7 +487,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -242,7 +519,7 @@ namespace Server2N {
     }
 
     /// <summary>Field number for the "act" field.</summary>
-    public const int ActFieldNumber = 3;
+    public const int ActFieldNumber = 1;
     private global::Server2N.GameEvent.Types.action act_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Server2N.GameEvent.Types.action Act {
@@ -361,7 +638,7 @@ namespace Server2N {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
       if (Act != 0) {
-        output.WriteRawTag(24);
+        output.WriteRawTag(8);
         output.WriteEnum((int) Act);
       }
       if (ActionProperty != 0) {
@@ -446,7 +723,7 @@ namespace Server2N {
           default:
             input.SkipLastField();
             break;
-          case 24: {
+          case 8: {
             act_ = (global::Server2N.GameEvent.Types.action) input.ReadEnum();
             break;
           }
@@ -505,7 +782,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -524,6 +801,7 @@ namespace Server2N {
     public PacketBody(PacketBody other) : this() {
       msgType_ = other.msgType_;
       Connect = other.connect_ != null ? other.Connect.Clone() : null;
+      Notice = other.notice_ != null ? other.Notice.Clone() : null;
       Event = other.event_ != null ? other.Event.Clone() : null;
       senderId_ = other.senderId_;
     }
@@ -552,6 +830,17 @@ namespace Server2N {
       get { return connect_; }
       set {
         connect_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "notice" field.</summary>
+    public const int NoticeFieldNumber = 10001;
+    private global::Server2N.GlobalNotice notice_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.GlobalNotice Notice {
+      get { return notice_; }
+      set {
+        notice_ = value;
       }
     }
 
@@ -592,6 +881,7 @@ namespace Server2N {
       }
       if (MsgType != other.MsgType) return false;
       if (!object.Equals(Connect, other.Connect)) return false;
+      if (!object.Equals(Notice, other.Notice)) return false;
       if (!object.Equals(Event, other.Event)) return false;
       if (SenderId != other.SenderId) return false;
       return true;
@@ -602,6 +892,7 @@ namespace Server2N {
       int hash = 1;
       if (MsgType != 0) hash ^= MsgType.GetHashCode();
       if (connect_ != null) hash ^= Connect.GetHashCode();
+      if (notice_ != null) hash ^= Notice.GetHashCode();
       if (event_ != null) hash ^= Event.GetHashCode();
       if (SenderId != 0) hash ^= SenderId.GetHashCode();
       return hash;
@@ -630,6 +921,10 @@ namespace Server2N {
         output.WriteRawTag(128, 241, 4);
         output.WriteEnum((int) MsgType);
       }
+      if (notice_ != null) {
+        output.WriteRawTag(138, 241, 4);
+        output.WriteMessage(Notice);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -640,6 +935,9 @@ namespace Server2N {
       }
       if (connect_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Connect);
+      }
+      if (notice_ != null) {
+        size += 3 + pb::CodedOutputStream.ComputeMessageSize(Notice);
       }
       if (event_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Event);
@@ -663,6 +961,12 @@ namespace Server2N {
           connect_ = new global::Server2N.UserConnection();
         }
         Connect.MergeFrom(other.Connect);
+      }
+      if (other.notice_ != null) {
+        if (notice_ == null) {
+          notice_ = new global::Server2N.GlobalNotice();
+        }
+        Notice.MergeFrom(other.Notice);
       }
       if (other.event_ != null) {
         if (event_ == null) {
@@ -705,6 +1009,13 @@ namespace Server2N {
             msgType_ = (global::Server2N.PacketBody.Types.messageType) input.ReadEnum();
             break;
           }
+          case 80010: {
+            if (notice_ == null) {
+              notice_ = new global::Server2N.GlobalNotice();
+            }
+            input.ReadMessage(notice_);
+            break;
+          }
         }
       }
     }
@@ -716,6 +1027,7 @@ namespace Server2N {
       public enum messageType {
         [pbr::OriginalName("GameEvent")] GameEvent = 0,
         [pbr::OriginalName("UserConnection")] UserConnection = 10000,
+        [pbr::OriginalName("GlobalNotice")] GlobalNotice = 10001,
       }
 
     }
