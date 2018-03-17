@@ -178,11 +178,14 @@ public class NetworkModule : MonoBehaviour
 
     PacketBody CreateEventPacket(GameEvent.Types.action type, int id, Vector2 position, Vector2 velocity, int actionProperty = 0)
     {
+
         GameEvent gameEvent = new GameEvent
         {
-            Act = GameEvent.Types.action.Move,
+            Act = type,
             EventPositionX = position.x,
             EventPositionY = position.y,
+            VelocityX = velocity.x,
+            VelocityY = velocity.y,
             ActionProperty = actionProperty,
         };
         gameEvent.InvokerId.Add(id);
@@ -240,14 +243,14 @@ public class NetworkModule : MonoBehaviour
         SendPacket(packet);
     }
 
-    public void PlayerEventJump(Vector2 position, Vector2 velocity)
+    public void WriteEventJump(Vector2 position, Vector2 velocity)
     {
         var packet = CreateEventPacket(GameEvent.Types.action.Jump, myId, position, velocity);
 
         SendPacket(packet);
     }
 
-    public void PlayerEventShoot(Vector2 position, Vector2 velocity, bool isLeft)
+    public void WriteEventShoot(Vector2 position, Vector2 velocity, bool isLeft)
     {
         var packet = CreateEventPacket(GameEvent.Types.action.Shoot, myId, position, velocity);
 

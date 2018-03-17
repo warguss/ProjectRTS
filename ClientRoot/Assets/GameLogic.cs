@@ -25,7 +25,7 @@ public class GameLogic : MonoBehaviour
 
     bool isConnected = false;
 
-    bool TestMode = true;
+    bool TestMode = false;
 
     // Use this for initialization
     void Start()
@@ -158,7 +158,8 @@ public class GameLogic : MonoBehaviour
             case PacketBody.Types.messageType.GameEvent:
                 message = "GameEvent Data Received. id=" + packetBody.Event.InvokerId + ", position = " + packetBody.Event.EventPositionX + " , " + packetBody.Event.EventPositionY;
                 TestUI.Instance.PrintText(message);
-                ProcessEventPacket(packetBody.Event);
+                if (myId != packetBody.Event.InvokerId[0])
+                    ProcessEventPacket(packetBody.Event);
                 break;
             default:
                 message = "UnknownType : " + (int)packetBody.MsgType;
@@ -204,6 +205,9 @@ public class GameLogic : MonoBehaviour
 
             switch (EventPacket.Act)
             {
+                case GameEvent.Types.action.Nothing:
+                    break;
+
                 case GameEvent.Types.action.Move:
                     if (actionProperty == 0)
                     {
@@ -279,7 +283,7 @@ public class GameLogic : MonoBehaviour
         var currentVelocity = playerCharacters[myId].CurrentVelocity;
         if (isConnected)
         {
-            NetworkModule.instance.PlayerEventJump(currentPosition, currentVelocity);
+            NetworkModule.instance.WriteEventJump(currentPosition, currentVelocity);
         }
     }
 
@@ -289,7 +293,7 @@ public class GameLogic : MonoBehaviour
         var currentVelocity = playerCharacters[myId].CurrentVelocity;
         if (isConnected)
         {
-            NetworkModule.instance.WriteEventMove(currentPosition, currentVelocity, isLeft);
+            NetworkModule.instance.WriteEventShoot(currentPosition, currentVelocity, isLeft);
         }
     }
 }
