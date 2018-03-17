@@ -35,7 +35,6 @@ class CProtoManager
 		void initialize(); 
 		void close();
 
-
 		bool encodingHeader(unsigned char* outputBuf, server2N::PacketBody* protoPacket, uint32_t& bodyLength);
 		bool encodingBody(unsigned char* buffer, server2N::PacketBody* protoPacket, uint32_t bodyLength);
 
@@ -45,7 +44,7 @@ class CProtoManager
 		server2N::PacketBody* getBroadCastProtoPacket(int type);
 
 		int32_t typeReturn(server2N::PacketBody* protoPacket);
-		bool setActionType(server2N::PacketBody* protoPacket, int type);
+		bool setActionType(int type, int senderFd, CProtoPacket* eventUser, list<int32_t> allUser, CProtoPacket** packet);
 		bool setConnectType(int type, int senderFd, int eventFd, list<int32_t> allUser, CProtoPacket** packet);
 
 		void resetProtoPacket(CProtoPacket* protoPacket);

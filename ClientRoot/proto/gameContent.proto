@@ -2,6 +2,19 @@ syntax = "proto3";
 
 package server2N;
 
+message GlobalNotice{
+	enum NoticeInfo{
+		Nothing = 0;
+		KillInfo = 1;
+		Notice = 2;
+	}
+
+	NoticeInfo noti = 1;
+	string notice = 2;
+	int32 performer = 3;
+	repeated int32 victim = 4;
+}
+
 message UserConnection{
 	enum ConnectionType{
 		Nothing = 0;
@@ -12,7 +25,11 @@ message UserConnection{
 	}
 
 	repeated int32 connectorId = 1;
-	ConnectionType conType = 2;
+	repeated int32 killInfo = 2;
+	repeated int32 deathInfo = 3;
+	repeated string nickname = 4;
+
+	ConnectionType conType = 5;
 }
 
 message GameEvent{
@@ -26,7 +43,7 @@ message GameEvent{
 		Spawn		= 105;
 	}
 
-	action act = 3;
+	action act = 1;
 	int32 actionProperty = 5;
 	float EventPositionX = 6;
 	float EventPositionY = 7;
@@ -39,10 +56,11 @@ message PacketBody{
 	enum messageType{
 		GameEvent		= 0;
 		UserConnection	= 10000;
+		GlobalNotice	= 10001;
 	}
-   messageType msgType = 10000; 
-   UserConnection connect = 6;
-   GameEvent event = 7;
-   int32 senderId = 8;
+	messageType msgType = 10000; 
+	UserConnection connect = 6;
+	GlobalNotice notice	= 10001;
+	GameEvent event = 7;
+	int32 senderId = 8;
 }
-

@@ -1,9 +1,10 @@
-#ifndef _MODULE_USERPOOL_H
-#define _MODULE_UESRPOOL_H
+#ifndef _MODULE_USERPOOL_H_
+#define _MODULE_UESRPOOL_H_
 
 #include <map>
 #include <list>
 #include "CUser.h"
+#include "CThreadLockManager.h"
 
 using namespace std;
 class CUserPool
@@ -13,19 +14,30 @@ class CUserPool
         pthread_cond_t pool_cond;
 		
     public:
-        map<int , CUser* >::iterator it;
-        map<int , CUser* > userInfo;
+		/***********************************
+		 * first Map Key	= Sector
+		 * second Map Key	= fd
+		 ***********************************/
+		int totalUser;
+        map<int , map<int, CUser*>* > userInfo;
+		map<int , map<int, CUser*>* >::iterator itVal;
+		map<int, CUser*>::iterator it;
+
         CUserPool();
         ~CUserPool();
 
         bool addUserInPool(CUser* user);
-        bool delUserInPool(int fd);
-        CUser* findUserInPool(int fd);
+        bool delUserInPool(int fd, int sector = -1);
+        CUser* findUserInPool(int fd, int sector = -1);
 
         int32_t userCount();
-		void getUserList(list<int32_t>& userConnection);
-};
+		void getAllUserList(list<int32_t>& userConnection);
+		void getPartUserList(list<int32_t>& userConnection, int sector);
+		int getSectionNo(CUser* user);
 
-extern CUserPool g_userPool;
+		void initialize();
+		void clear();
+
+};
 
 #endif
