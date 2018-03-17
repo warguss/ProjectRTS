@@ -37,12 +37,14 @@ namespace protobuf_gameContent_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[3];
+  static const ::google::protobuf::internal::ParseTable schema[4];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
 void AddDescriptors();
+void InitDefaultsGlobalNoticeImpl();
+void InitDefaultsGlobalNotice();
 void InitDefaultsUserConnectionImpl();
 void InitDefaultsUserConnection();
 void InitDefaultsGameEventImpl();
@@ -50,6 +52,7 @@ void InitDefaultsGameEvent();
 void InitDefaultsPacketBodyImpl();
 void InitDefaultsPacketBody();
 inline void InitDefaults() {
+  InitDefaultsGlobalNotice();
   InitDefaultsUserConnection();
   InitDefaultsGameEvent();
   InitDefaultsPacketBody();
@@ -59,6 +62,9 @@ namespace server2N {
 class GameEvent;
 class GameEventDefaultTypeInternal;
 extern GameEventDefaultTypeInternal _GameEvent_default_instance_;
+class GlobalNotice;
+class GlobalNoticeDefaultTypeInternal;
+extern GlobalNoticeDefaultTypeInternal _GlobalNotice_default_instance_;
 class PacketBody;
 class PacketBodyDefaultTypeInternal;
 extern PacketBodyDefaultTypeInternal _PacketBody_default_instance_;
@@ -69,12 +75,35 @@ extern UserConnectionDefaultTypeInternal _UserConnection_default_instance_;
 namespace google {
 namespace protobuf {
 template<> ::server2N::GameEvent* Arena::Create< ::server2N::GameEvent>(Arena*);
+template<> ::server2N::GlobalNotice* Arena::Create< ::server2N::GlobalNotice>(Arena*);
 template<> ::server2N::PacketBody* Arena::Create< ::server2N::PacketBody>(Arena*);
 template<> ::server2N::UserConnection* Arena::Create< ::server2N::UserConnection>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace server2N {
 
+enum GlobalNotice_NoticeInfo {
+  GlobalNotice_NoticeInfo_Nothing = 0,
+  GlobalNotice_NoticeInfo_KillInfo = 1,
+  GlobalNotice_NoticeInfo_Notice = 2,
+  GlobalNotice_NoticeInfo_GlobalNotice_NoticeInfo_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  GlobalNotice_NoticeInfo_GlobalNotice_NoticeInfo_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool GlobalNotice_NoticeInfo_IsValid(int value);
+const GlobalNotice_NoticeInfo GlobalNotice_NoticeInfo_NoticeInfo_MIN = GlobalNotice_NoticeInfo_Nothing;
+const GlobalNotice_NoticeInfo GlobalNotice_NoticeInfo_NoticeInfo_MAX = GlobalNotice_NoticeInfo_Notice;
+const int GlobalNotice_NoticeInfo_NoticeInfo_ARRAYSIZE = GlobalNotice_NoticeInfo_NoticeInfo_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* GlobalNotice_NoticeInfo_descriptor();
+inline const ::std::string& GlobalNotice_NoticeInfo_Name(GlobalNotice_NoticeInfo value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    GlobalNotice_NoticeInfo_descriptor(), value);
+}
+inline bool GlobalNotice_NoticeInfo_Parse(
+    const ::std::string& name, GlobalNotice_NoticeInfo* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<GlobalNotice_NoticeInfo>(
+    GlobalNotice_NoticeInfo_descriptor(), name, value);
+}
 enum UserConnection_ConnectionType {
   UserConnection_ConnectionType_Nothing = 0,
   UserConnection_ConnectionType_Connect = 1,
@@ -128,12 +157,13 @@ inline bool GameEvent_action_Parse(
 enum PacketBody_messageType {
   PacketBody_messageType_GameEvent = 0,
   PacketBody_messageType_UserConnection = 10000,
+  PacketBody_messageType_GlobalNotice = 10001,
   PacketBody_messageType_PacketBody_messageType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   PacketBody_messageType_PacketBody_messageType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool PacketBody_messageType_IsValid(int value);
 const PacketBody_messageType PacketBody_messageType_messageType_MIN = PacketBody_messageType_GameEvent;
-const PacketBody_messageType PacketBody_messageType_messageType_MAX = PacketBody_messageType_UserConnection;
+const PacketBody_messageType PacketBody_messageType_messageType_MAX = PacketBody_messageType_GlobalNotice;
 const int PacketBody_messageType_messageType_ARRAYSIZE = PacketBody_messageType_messageType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* PacketBody_messageType_descriptor();
@@ -147,6 +177,173 @@ inline bool PacketBody_messageType_Parse(
     PacketBody_messageType_descriptor(), name, value);
 }
 // ===================================================================
+
+class GlobalNotice : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.GlobalNotice) */ {
+ public:
+  GlobalNotice();
+  virtual ~GlobalNotice();
+
+  GlobalNotice(const GlobalNotice& from);
+
+  inline GlobalNotice& operator=(const GlobalNotice& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  GlobalNotice(GlobalNotice&& from) noexcept
+    : GlobalNotice() {
+    *this = ::std::move(from);
+  }
+
+  inline GlobalNotice& operator=(GlobalNotice&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const GlobalNotice& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GlobalNotice* internal_default_instance() {
+    return reinterpret_cast<const GlobalNotice*>(
+               &_GlobalNotice_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    0;
+
+  void Swap(GlobalNotice* other);
+  friend void swap(GlobalNotice& a, GlobalNotice& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GlobalNotice* New() const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<GlobalNotice>(NULL);
+  }
+
+  GlobalNotice* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<GlobalNotice>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const GlobalNotice& from);
+  void MergeFrom(const GlobalNotice& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(GlobalNotice* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  typedef GlobalNotice_NoticeInfo NoticeInfo;
+  static const NoticeInfo Nothing =
+    GlobalNotice_NoticeInfo_Nothing;
+  static const NoticeInfo KillInfo =
+    GlobalNotice_NoticeInfo_KillInfo;
+  static const NoticeInfo Notice =
+    GlobalNotice_NoticeInfo_Notice;
+  static inline bool NoticeInfo_IsValid(int value) {
+    return GlobalNotice_NoticeInfo_IsValid(value);
+  }
+  static const NoticeInfo NoticeInfo_MIN =
+    GlobalNotice_NoticeInfo_NoticeInfo_MIN;
+  static const NoticeInfo NoticeInfo_MAX =
+    GlobalNotice_NoticeInfo_NoticeInfo_MAX;
+  static const int NoticeInfo_ARRAYSIZE =
+    GlobalNotice_NoticeInfo_NoticeInfo_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  NoticeInfo_descriptor() {
+    return GlobalNotice_NoticeInfo_descriptor();
+  }
+  static inline const ::std::string& NoticeInfo_Name(NoticeInfo value) {
+    return GlobalNotice_NoticeInfo_Name(value);
+  }
+  static inline bool NoticeInfo_Parse(const ::std::string& name,
+      NoticeInfo* value) {
+    return GlobalNotice_NoticeInfo_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // repeated int32 victim = 4;
+  int victim_size() const;
+  void clear_victim();
+  static const int kVictimFieldNumber = 4;
+  ::google::protobuf::int32 victim(int index) const;
+  void set_victim(int index, ::google::protobuf::int32 value);
+  void add_victim(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      victim() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_victim();
+
+  // string notice = 2;
+  void clear_notice();
+  static const int kNoticeFieldNumber = 2;
+  const ::std::string& notice() const;
+  void set_notice(const ::std::string& value);
+  #if LANG_CXX11
+  void set_notice(::std::string&& value);
+  #endif
+  void set_notice(const char* value);
+  void set_notice(const char* value, size_t size);
+  ::std::string* mutable_notice();
+  ::std::string* release_notice();
+  void set_allocated_notice(::std::string* notice);
+
+  // .server2N.GlobalNotice.NoticeInfo noti = 1;
+  void clear_noti();
+  static const int kNotiFieldNumber = 1;
+  ::server2N::GlobalNotice_NoticeInfo noti() const;
+  void set_noti(::server2N::GlobalNotice_NoticeInfo value);
+
+  // int32 performer = 3;
+  void clear_performer();
+  static const int kPerformerFieldNumber = 3;
+  ::google::protobuf::int32 performer() const;
+  void set_performer(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:server2N.GlobalNotice)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > victim_;
+  mutable int _victim_cached_byte_size_;
+  ::google::protobuf::internal::ArenaStringPtr notice_;
+  int noti_;
+  ::google::protobuf::int32 performer_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_gameContent_2eproto::TableStruct;
+  friend void ::protobuf_gameContent_2eproto::InitDefaultsGlobalNoticeImpl();
+};
+// -------------------------------------------------------------------
 
 class UserConnection : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.UserConnection) */ {
  public:
@@ -183,7 +380,7 @@ class UserConnection : public ::google::protobuf::Message /* @@protoc_insertion_
                &_UserConnection_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    0;
+    1;
 
   void Swap(UserConnection* other);
   friend void swap(UserConnection& a, UserConnection& b) {
@@ -266,15 +463,67 @@ class UserConnection : public ::google::protobuf::Message /* @@protoc_insertion_
 
   // accessors -------------------------------------------------------
 
-  // int32 connectorId = 1;
+  // repeated int32 connectorId = 1;
+  int connectorid_size() const;
   void clear_connectorid();
   static const int kConnectorIdFieldNumber = 1;
-  ::google::protobuf::int32 connectorid() const;
-  void set_connectorid(::google::protobuf::int32 value);
+  ::google::protobuf::int32 connectorid(int index) const;
+  void set_connectorid(int index, ::google::protobuf::int32 value);
+  void add_connectorid(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      connectorid() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_connectorid();
 
-  // .server2N.UserConnection.ConnectionType conType = 2;
+  // repeated int32 killInfo = 2;
+  int killinfo_size() const;
+  void clear_killinfo();
+  static const int kKillInfoFieldNumber = 2;
+  ::google::protobuf::int32 killinfo(int index) const;
+  void set_killinfo(int index, ::google::protobuf::int32 value);
+  void add_killinfo(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      killinfo() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_killinfo();
+
+  // repeated int32 deathInfo = 3;
+  int deathinfo_size() const;
+  void clear_deathinfo();
+  static const int kDeathInfoFieldNumber = 3;
+  ::google::protobuf::int32 deathinfo(int index) const;
+  void set_deathinfo(int index, ::google::protobuf::int32 value);
+  void add_deathinfo(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      deathinfo() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_deathinfo();
+
+  // repeated string nickname = 4;
+  int nickname_size() const;
+  void clear_nickname();
+  static const int kNicknameFieldNumber = 4;
+  const ::std::string& nickname(int index) const;
+  ::std::string* mutable_nickname(int index);
+  void set_nickname(int index, const ::std::string& value);
+  #if LANG_CXX11
+  void set_nickname(int index, ::std::string&& value);
+  #endif
+  void set_nickname(int index, const char* value);
+  void set_nickname(int index, const char* value, size_t size);
+  ::std::string* add_nickname();
+  void add_nickname(const ::std::string& value);
+  #if LANG_CXX11
+  void add_nickname(::std::string&& value);
+  #endif
+  void add_nickname(const char* value);
+  void add_nickname(const char* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& nickname() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_nickname();
+
+  // .server2N.UserConnection.ConnectionType conType = 5;
   void clear_contype();
-  static const int kConTypeFieldNumber = 2;
+  static const int kConTypeFieldNumber = 5;
   ::server2N::UserConnection_ConnectionType contype() const;
   void set_contype(::server2N::UserConnection_ConnectionType value);
 
@@ -282,7 +531,13 @@ class UserConnection : public ::google::protobuf::Message /* @@protoc_insertion_
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::int32 connectorid_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > connectorid_;
+  mutable int _connectorid_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > killinfo_;
+  mutable int _killinfo_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > deathinfo_;
+  mutable int _deathinfo_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> nickname_;
   int contype_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
@@ -325,7 +580,7 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_GameEvent_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    1;
+    2;
 
   void Swap(GameEvent* other);
   friend void swap(GameEvent& a, GameEvent& b) {
@@ -412,9 +667,21 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   // accessors -------------------------------------------------------
 
-  // .server2N.GameEvent.action act = 3;
+  // repeated int32 invokerId = 10;
+  int invokerid_size() const;
+  void clear_invokerid();
+  static const int kInvokerIdFieldNumber = 10;
+  ::google::protobuf::int32 invokerid(int index) const;
+  void set_invokerid(int index, ::google::protobuf::int32 value);
+  void add_invokerid(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      invokerid() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_invokerid();
+
+  // .server2N.GameEvent.action act = 1;
   void clear_act();
-  static const int kActFieldNumber = 3;
+  static const int kActFieldNumber = 1;
   ::server2N::GameEvent_action act() const;
   void set_act(::server2N::GameEvent_action value);
 
@@ -436,12 +703,6 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   float eventpositiony() const;
   void set_eventpositiony(float value);
 
-  // int32 invokerId = 10;
-  void clear_invokerid();
-  static const int kInvokerIdFieldNumber = 10;
-  ::google::protobuf::int32 invokerid() const;
-  void set_invokerid(::google::protobuf::int32 value);
-
   // float VelocityX = 8;
   void clear_velocityx();
   static const int kVelocityXFieldNumber = 8;
@@ -458,11 +719,12 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > invokerid_;
+  mutable int _invokerid_cached_byte_size_;
   int act_;
   ::google::protobuf::int32 actionproperty_;
   float eventpositionx_;
   float eventpositiony_;
-  ::google::protobuf::int32 invokerid_;
   float velocityx_;
   float velocityy_;
   mutable int _cached_size_;
@@ -506,7 +768,7 @@ class PacketBody : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_PacketBody_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    2;
+    3;
 
   void Swap(PacketBody* other);
   friend void swap(PacketBody& a, PacketBody& b) {
@@ -560,6 +822,8 @@ class PacketBody : public ::google::protobuf::Message /* @@protoc_insertion_poin
     PacketBody_messageType_GameEvent;
   static const messageType UserConnection =
     PacketBody_messageType_UserConnection;
+  static const messageType GlobalNotice =
+    PacketBody_messageType_GlobalNotice;
   static inline bool messageType_IsValid(int value) {
     return PacketBody_messageType_IsValid(value);
   }
@@ -601,6 +865,15 @@ class PacketBody : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::server2N::GameEvent* mutable_event();
   void set_allocated_event(::server2N::GameEvent* event);
 
+  // .server2N.GlobalNotice notice = 10001;
+  bool has_notice() const;
+  void clear_notice();
+  static const int kNoticeFieldNumber = 10001;
+  const ::server2N::GlobalNotice& notice() const;
+  ::server2N::GlobalNotice* release_notice();
+  ::server2N::GlobalNotice* mutable_notice();
+  void set_allocated_notice(::server2N::GlobalNotice* notice);
+
   // int32 senderId = 8;
   void clear_senderid();
   static const int kSenderIdFieldNumber = 8;
@@ -619,6 +892,7 @@ class PacketBody : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::server2N::UserConnection* connect_;
   ::server2N::GameEvent* event_;
+  ::server2N::GlobalNotice* notice_;
   ::google::protobuf::int32 senderid_;
   int msgtype_;
   mutable int _cached_size_;
@@ -634,23 +908,283 @@ class PacketBody : public ::google::protobuf::Message /* @@protoc_insertion_poin
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// GlobalNotice
+
+// .server2N.GlobalNotice.NoticeInfo noti = 1;
+inline void GlobalNotice::clear_noti() {
+  noti_ = 0;
+}
+inline ::server2N::GlobalNotice_NoticeInfo GlobalNotice::noti() const {
+  // @@protoc_insertion_point(field_get:server2N.GlobalNotice.noti)
+  return static_cast< ::server2N::GlobalNotice_NoticeInfo >(noti_);
+}
+inline void GlobalNotice::set_noti(::server2N::GlobalNotice_NoticeInfo value) {
+  
+  noti_ = value;
+  // @@protoc_insertion_point(field_set:server2N.GlobalNotice.noti)
+}
+
+// string notice = 2;
+inline void GlobalNotice::clear_notice() {
+  notice_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& GlobalNotice::notice() const {
+  // @@protoc_insertion_point(field_get:server2N.GlobalNotice.notice)
+  return notice_.GetNoArena();
+}
+inline void GlobalNotice::set_notice(const ::std::string& value) {
+  
+  notice_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:server2N.GlobalNotice.notice)
+}
+#if LANG_CXX11
+inline void GlobalNotice::set_notice(::std::string&& value) {
+  
+  notice_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:server2N.GlobalNotice.notice)
+}
+#endif
+inline void GlobalNotice::set_notice(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  notice_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:server2N.GlobalNotice.notice)
+}
+inline void GlobalNotice::set_notice(const char* value, size_t size) {
+  
+  notice_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:server2N.GlobalNotice.notice)
+}
+inline ::std::string* GlobalNotice::mutable_notice() {
+  
+  // @@protoc_insertion_point(field_mutable:server2N.GlobalNotice.notice)
+  return notice_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* GlobalNotice::release_notice() {
+  // @@protoc_insertion_point(field_release:server2N.GlobalNotice.notice)
+  
+  return notice_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void GlobalNotice::set_allocated_notice(::std::string* notice) {
+  if (notice != NULL) {
+    
+  } else {
+    
+  }
+  notice_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), notice);
+  // @@protoc_insertion_point(field_set_allocated:server2N.GlobalNotice.notice)
+}
+
+// int32 performer = 3;
+inline void GlobalNotice::clear_performer() {
+  performer_ = 0;
+}
+inline ::google::protobuf::int32 GlobalNotice::performer() const {
+  // @@protoc_insertion_point(field_get:server2N.GlobalNotice.performer)
+  return performer_;
+}
+inline void GlobalNotice::set_performer(::google::protobuf::int32 value) {
+  
+  performer_ = value;
+  // @@protoc_insertion_point(field_set:server2N.GlobalNotice.performer)
+}
+
+// repeated int32 victim = 4;
+inline int GlobalNotice::victim_size() const {
+  return victim_.size();
+}
+inline void GlobalNotice::clear_victim() {
+  victim_.Clear();
+}
+inline ::google::protobuf::int32 GlobalNotice::victim(int index) const {
+  // @@protoc_insertion_point(field_get:server2N.GlobalNotice.victim)
+  return victim_.Get(index);
+}
+inline void GlobalNotice::set_victim(int index, ::google::protobuf::int32 value) {
+  victim_.Set(index, value);
+  // @@protoc_insertion_point(field_set:server2N.GlobalNotice.victim)
+}
+inline void GlobalNotice::add_victim(::google::protobuf::int32 value) {
+  victim_.Add(value);
+  // @@protoc_insertion_point(field_add:server2N.GlobalNotice.victim)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+GlobalNotice::victim() const {
+  // @@protoc_insertion_point(field_list:server2N.GlobalNotice.victim)
+  return victim_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+GlobalNotice::mutable_victim() {
+  // @@protoc_insertion_point(field_mutable_list:server2N.GlobalNotice.victim)
+  return &victim_;
+}
+
+// -------------------------------------------------------------------
+
 // UserConnection
 
-// int32 connectorId = 1;
+// repeated int32 connectorId = 1;
+inline int UserConnection::connectorid_size() const {
+  return connectorid_.size();
+}
 inline void UserConnection::clear_connectorid() {
-  connectorid_ = 0;
+  connectorid_.Clear();
 }
-inline ::google::protobuf::int32 UserConnection::connectorid() const {
+inline ::google::protobuf::int32 UserConnection::connectorid(int index) const {
   // @@protoc_insertion_point(field_get:server2N.UserConnection.connectorId)
-  return connectorid_;
+  return connectorid_.Get(index);
 }
-inline void UserConnection::set_connectorid(::google::protobuf::int32 value) {
-  
-  connectorid_ = value;
+inline void UserConnection::set_connectorid(int index, ::google::protobuf::int32 value) {
+  connectorid_.Set(index, value);
   // @@protoc_insertion_point(field_set:server2N.UserConnection.connectorId)
 }
+inline void UserConnection::add_connectorid(::google::protobuf::int32 value) {
+  connectorid_.Add(value);
+  // @@protoc_insertion_point(field_add:server2N.UserConnection.connectorId)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+UserConnection::connectorid() const {
+  // @@protoc_insertion_point(field_list:server2N.UserConnection.connectorId)
+  return connectorid_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+UserConnection::mutable_connectorid() {
+  // @@protoc_insertion_point(field_mutable_list:server2N.UserConnection.connectorId)
+  return &connectorid_;
+}
 
-// .server2N.UserConnection.ConnectionType conType = 2;
+// repeated int32 killInfo = 2;
+inline int UserConnection::killinfo_size() const {
+  return killinfo_.size();
+}
+inline void UserConnection::clear_killinfo() {
+  killinfo_.Clear();
+}
+inline ::google::protobuf::int32 UserConnection::killinfo(int index) const {
+  // @@protoc_insertion_point(field_get:server2N.UserConnection.killInfo)
+  return killinfo_.Get(index);
+}
+inline void UserConnection::set_killinfo(int index, ::google::protobuf::int32 value) {
+  killinfo_.Set(index, value);
+  // @@protoc_insertion_point(field_set:server2N.UserConnection.killInfo)
+}
+inline void UserConnection::add_killinfo(::google::protobuf::int32 value) {
+  killinfo_.Add(value);
+  // @@protoc_insertion_point(field_add:server2N.UserConnection.killInfo)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+UserConnection::killinfo() const {
+  // @@protoc_insertion_point(field_list:server2N.UserConnection.killInfo)
+  return killinfo_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+UserConnection::mutable_killinfo() {
+  // @@protoc_insertion_point(field_mutable_list:server2N.UserConnection.killInfo)
+  return &killinfo_;
+}
+
+// repeated int32 deathInfo = 3;
+inline int UserConnection::deathinfo_size() const {
+  return deathinfo_.size();
+}
+inline void UserConnection::clear_deathinfo() {
+  deathinfo_.Clear();
+}
+inline ::google::protobuf::int32 UserConnection::deathinfo(int index) const {
+  // @@protoc_insertion_point(field_get:server2N.UserConnection.deathInfo)
+  return deathinfo_.Get(index);
+}
+inline void UserConnection::set_deathinfo(int index, ::google::protobuf::int32 value) {
+  deathinfo_.Set(index, value);
+  // @@protoc_insertion_point(field_set:server2N.UserConnection.deathInfo)
+}
+inline void UserConnection::add_deathinfo(::google::protobuf::int32 value) {
+  deathinfo_.Add(value);
+  // @@protoc_insertion_point(field_add:server2N.UserConnection.deathInfo)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+UserConnection::deathinfo() const {
+  // @@protoc_insertion_point(field_list:server2N.UserConnection.deathInfo)
+  return deathinfo_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+UserConnection::mutable_deathinfo() {
+  // @@protoc_insertion_point(field_mutable_list:server2N.UserConnection.deathInfo)
+  return &deathinfo_;
+}
+
+// repeated string nickname = 4;
+inline int UserConnection::nickname_size() const {
+  return nickname_.size();
+}
+inline void UserConnection::clear_nickname() {
+  nickname_.Clear();
+}
+inline const ::std::string& UserConnection::nickname(int index) const {
+  // @@protoc_insertion_point(field_get:server2N.UserConnection.nickname)
+  return nickname_.Get(index);
+}
+inline ::std::string* UserConnection::mutable_nickname(int index) {
+  // @@protoc_insertion_point(field_mutable:server2N.UserConnection.nickname)
+  return nickname_.Mutable(index);
+}
+inline void UserConnection::set_nickname(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:server2N.UserConnection.nickname)
+  nickname_.Mutable(index)->assign(value);
+}
+#if LANG_CXX11
+inline void UserConnection::set_nickname(int index, ::std::string&& value) {
+  // @@protoc_insertion_point(field_set:server2N.UserConnection.nickname)
+  nickname_.Mutable(index)->assign(std::move(value));
+}
+#endif
+inline void UserConnection::set_nickname(int index, const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  nickname_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:server2N.UserConnection.nickname)
+}
+inline void UserConnection::set_nickname(int index, const char* value, size_t size) {
+  nickname_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:server2N.UserConnection.nickname)
+}
+inline ::std::string* UserConnection::add_nickname() {
+  // @@protoc_insertion_point(field_add_mutable:server2N.UserConnection.nickname)
+  return nickname_.Add();
+}
+inline void UserConnection::add_nickname(const ::std::string& value) {
+  nickname_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:server2N.UserConnection.nickname)
+}
+#if LANG_CXX11
+inline void UserConnection::add_nickname(::std::string&& value) {
+  nickname_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:server2N.UserConnection.nickname)
+}
+#endif
+inline void UserConnection::add_nickname(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  nickname_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:server2N.UserConnection.nickname)
+}
+inline void UserConnection::add_nickname(const char* value, size_t size) {
+  nickname_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:server2N.UserConnection.nickname)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+UserConnection::nickname() const {
+  // @@protoc_insertion_point(field_list:server2N.UserConnection.nickname)
+  return nickname_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+UserConnection::mutable_nickname() {
+  // @@protoc_insertion_point(field_mutable_list:server2N.UserConnection.nickname)
+  return &nickname_;
+}
+
+// .server2N.UserConnection.ConnectionType conType = 5;
 inline void UserConnection::clear_contype() {
   contype_ = 0;
 }
@@ -668,7 +1202,7 @@ inline void UserConnection::set_contype(::server2N::UserConnection_ConnectionTyp
 
 // GameEvent
 
-// .server2N.GameEvent.action act = 3;
+// .server2N.GameEvent.action act = 1;
 inline void GameEvent::clear_act() {
   act_ = 0;
 }
@@ -752,18 +1286,34 @@ inline void GameEvent::set_velocityy(float value) {
   // @@protoc_insertion_point(field_set:server2N.GameEvent.VelocityY)
 }
 
-// int32 invokerId = 10;
-inline void GameEvent::clear_invokerid() {
-  invokerid_ = 0;
+// repeated int32 invokerId = 10;
+inline int GameEvent::invokerid_size() const {
+  return invokerid_.size();
 }
-inline ::google::protobuf::int32 GameEvent::invokerid() const {
+inline void GameEvent::clear_invokerid() {
+  invokerid_.Clear();
+}
+inline ::google::protobuf::int32 GameEvent::invokerid(int index) const {
   // @@protoc_insertion_point(field_get:server2N.GameEvent.invokerId)
+  return invokerid_.Get(index);
+}
+inline void GameEvent::set_invokerid(int index, ::google::protobuf::int32 value) {
+  invokerid_.Set(index, value);
+  // @@protoc_insertion_point(field_set:server2N.GameEvent.invokerId)
+}
+inline void GameEvent::add_invokerid(::google::protobuf::int32 value) {
+  invokerid_.Add(value);
+  // @@protoc_insertion_point(field_add:server2N.GameEvent.invokerId)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+GameEvent::invokerid() const {
+  // @@protoc_insertion_point(field_list:server2N.GameEvent.invokerId)
   return invokerid_;
 }
-inline void GameEvent::set_invokerid(::google::protobuf::int32 value) {
-  
-  invokerid_ = value;
-  // @@protoc_insertion_point(field_set:server2N.GameEvent.invokerId)
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+GameEvent::mutable_invokerid() {
+  // @@protoc_insertion_point(field_mutable_list:server2N.GameEvent.invokerId)
+  return &invokerid_;
 }
 
 // -------------------------------------------------------------------
@@ -833,6 +1383,57 @@ inline void PacketBody::set_allocated_connect(::server2N::UserConnection* connec
   }
   connect_ = connect;
   // @@protoc_insertion_point(field_set_allocated:server2N.PacketBody.connect)
+}
+
+// .server2N.GlobalNotice notice = 10001;
+inline bool PacketBody::has_notice() const {
+  return this != internal_default_instance() && notice_ != NULL;
+}
+inline void PacketBody::clear_notice() {
+  if (GetArenaNoVirtual() == NULL && notice_ != NULL) {
+    delete notice_;
+  }
+  notice_ = NULL;
+}
+inline const ::server2N::GlobalNotice& PacketBody::notice() const {
+  const ::server2N::GlobalNotice* p = notice_;
+  // @@protoc_insertion_point(field_get:server2N.PacketBody.notice)
+  return p != NULL ? *p : *reinterpret_cast<const ::server2N::GlobalNotice*>(
+      &::server2N::_GlobalNotice_default_instance_);
+}
+inline ::server2N::GlobalNotice* PacketBody::release_notice() {
+  // @@protoc_insertion_point(field_release:server2N.PacketBody.notice)
+  
+  ::server2N::GlobalNotice* temp = notice_;
+  notice_ = NULL;
+  return temp;
+}
+inline ::server2N::GlobalNotice* PacketBody::mutable_notice() {
+  
+  if (notice_ == NULL) {
+    notice_ = ::google::protobuf::Arena::Create< ::server2N::GlobalNotice >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:server2N.PacketBody.notice)
+  return notice_;
+}
+inline void PacketBody::set_allocated_notice(::server2N::GlobalNotice* notice) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete notice_;
+  }
+  if (notice) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      notice = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, notice, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  notice_ = notice;
+  // @@protoc_insertion_point(field_set_allocated:server2N.PacketBody.notice)
 }
 
 // .server2N.GameEvent event = 7;
@@ -907,6 +1508,8 @@ inline void PacketBody::set_senderid(::google::protobuf::int32 value) {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -915,6 +1518,11 @@ inline void PacketBody::set_senderid(::google::protobuf::int32 value) {
 namespace google {
 namespace protobuf {
 
+template <> struct is_proto_enum< ::server2N::GlobalNotice_NoticeInfo> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::server2N::GlobalNotice_NoticeInfo>() {
+  return ::server2N::GlobalNotice_NoticeInfo_descriptor();
+}
 template <> struct is_proto_enum< ::server2N::UserConnection_ConnectionType> : ::google::protobuf::internal::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::server2N::UserConnection_ConnectionType>() {
