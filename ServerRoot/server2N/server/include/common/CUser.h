@@ -19,6 +19,10 @@ class CUser
 		int _type;
         int _sector;
         int32_t tX,tY;
+		string _nickname;
+
+		int32_t killInfo;
+		int32_t deathInfo;
 
 		int _fd;
         CUser();
@@ -27,9 +31,7 @@ class CUser
 
         bool moveX(int32_t tX);
         bool moveY(int32_t tY);
-
         bool setData(int fd, int type);
-
 
 	private:
 		bool _userConnectionEvent(int fd);

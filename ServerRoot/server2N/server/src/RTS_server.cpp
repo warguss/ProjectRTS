@@ -54,6 +54,7 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 
 	int userConnectSize = userConnector.size(); 
 	list<int32_t>::iterator it = userConnector.begin();
+	LOG("Connector User Size(%d)", userConnectSize);
 	for ( ; it != userConnector.end(); it++ )
 	{
 		int32_t fd = *it;
@@ -78,18 +79,44 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 {
 	LOG("Part Send Event\n");
+	/*************************************
+	 * 파트 유저 연결 정보 획득
+	 *************************************/
+	list<int32_t> connectList;
+	g_userPool.getAllUserList(connectList);
+
+	/*************************************
+	 * Event Send 
+	 *************************************/
+	int32_t type = eventUser->_type;
+	list<int32_t>::iterator it = connectList.begin();
+	for ( ; it != connectList.end(); it++ )
+	{
+		int32_t fd = *it;
+		CProtoPacket *packet = NULL;
+		if ( fd == eventUser->_fd )
+		{
+			continue ;
+		}
+
+		if ( !g_packetManager.setActionType(type, fd, eventUser, connectList, &packet) || !packet )
+		{
+			LOG("Error Connector Type\n");
+			return false;
+		} 
+
+		/*********************************
+		 * Enqueue
+		 *********************************/
+		cout << "Test: " <<  packet->_proto->DebugString() << endl;
+		session.m_writeQ_Manager.enqueue(packet);
+		LOG("User(%d) Send Noti\n", packet->_fd);
+	}
+	LOG("End All Send\n");
 
 	return true;
 }
 
-#if 0 
-bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
-{
-	LOG("All Send Event\n");
-
-	return true;
-}
-#endif
 int main(int argc, char* argv[]) 
 {
 	// Verify that the version of the library that we linked against is
@@ -125,6 +152,8 @@ int main(int argc, char* argv[])
 	 * Sector Index Setting 
 	 *******************************************************/
 	g_sectorIdx = ((X_GAME_MAX * Y_GAME_MAX)) / ((X_SECTOR_MAX * Y_SECTOR_MAX));
+	g_userPool.initialize();
+	LOG("g_sector initialize(%d)", g_sectorIdx);
 	if ( pthread_create(&thread, NULL, session.waitEvent, (void*)&port) < 0 )
 	{
 		exit(0);
@@ -150,6 +179,8 @@ int main(int argc, char* argv[])
 			 * Game Logic
 			 * ALL_SEND
 			 * PART_SEND
+			 *
+			 * Type은 이벤트 형식
 			 *************************************/ 
 			LOG("Dequeue Start\n");
 			int32_t type = data->_type;

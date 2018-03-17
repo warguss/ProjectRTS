@@ -6,7 +6,6 @@ CUserPool g_userPool;
 
 CUserPool::CUserPool()
 {
-	initialize();
 }
 
 void CUserPool::initialize()
@@ -14,10 +13,12 @@ void CUserPool::initialize()
 	int idx = 0;
 	totalUser = 0;
 	userInfo.clear();
+	LOG("total Sector(%d)\n", g_sectorIdx);
 	while ( idx < g_sectorIdx )
 	{
 		map<int, CUser*>* tmp = new map<int, CUser*>;
 		userInfo.insert(std::pair<int, map<int, CUser*>* >(idx, tmp));
+		idx++;
 	}
 } 
 
@@ -53,8 +54,9 @@ bool CUserPool::addUserInPool(CUser* user)
 	int idx = getSectionNo(user);
 	user->_sector = idx;
 	itVal = userInfo.find(idx);
-    if ( totalUser >=  POOL_SIZE || itVal == userInfo.end() || !itVal->second )
+    if ( totalUser >= POOL_SIZE || itVal == userInfo.end() )
     {
+		LOG("Error User In Pool\n");
         return false;
     }
 

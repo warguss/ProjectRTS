@@ -44,6 +44,12 @@ int CSessionManager::connectInitialize()
         return -1;
     }
 
+	/************************
+	 * SO_REUSEADDR Option
+	 ************************/ 
+	int option = 1;
+	setsockopt(_serverSock, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option));
+
 	LOG("---ConnectInitialize() serverSock [%d]\n", _serverSock);
     memset(&serverAddr, '\0', sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
@@ -122,7 +128,6 @@ static void* CSessionManager::waitEvent(void* val)
 				{
 					user = new CUser;
 					user->setData(fd, READ_TYPE);
-					g_userPool.addUserInPool(user);
 				}
 
 				/******************************************
@@ -179,6 +184,7 @@ static void* CSessionManager::waitEvent(void* val)
 					continue;
 				}
 
+				g_userPool.addUserInPool(user);
 				packet->_fd = fd;
 				/******************************************
 				 * QueueManger에 넣는다.
@@ -206,7 +212,6 @@ static void* CSessionManager::writeEvent(void* val)
 			uint32_t writeSize = 0;
 			uint32_t bodyLength = 0;
 			unsigned char header[HEADER_SIZE] = {'\0' , };
-			//cout << user->_protoPacket->DebugString() << endl;
 			cout << "Write proto : " << packet->_proto->DebugString() << endl;
 			cout << "Write proto Conenct : " << packet->_proto->connect().DebugString() << endl;
 			if ( !g_packetManager.encodingHeader(header, packet->_proto, bodyLength) || bodyLength <= 0 )
