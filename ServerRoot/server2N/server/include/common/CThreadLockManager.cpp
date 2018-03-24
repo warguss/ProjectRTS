@@ -56,6 +56,11 @@ CThreadLockManager::CThreadLockManager(int type, int sectorNo)
 
 CThreadLockManager::~CThreadLockManager()
 {
+	release();
+}
+
+void CThreadLockManager::release()
+{
 	pthread_mutex_t* mutex;
 	pthread_cond_t* cond;
 	if ( _sectorNo < 0 )
@@ -74,4 +79,6 @@ CThreadLockManager::~CThreadLockManager()
 		pthread_mutex_unlock(mutex);
 		pthread_cond_signal(cond);	
 	}
-}
+} 
+
+
