@@ -18,19 +18,17 @@ class CUser
 	public:
 		int _type;
         int _sector;
-        int32_t tX,tY;
-		string _nickname;
+        int64_t _x,_y;
+        int64_t _accelX,_accelY;
+		string _nickName;
 
-		int32_t killInfo;
-		int32_t deathInfo;
+		int32_t _killInfo;
+		int32_t _deathInfo;
 
 		int _fd;
         CUser();
         CUser(int fd, int32_t x, int32_t y);
         ~CUser();
-
-        bool moveX(int32_t tX);
-        bool moveY(int32_t tY);
         bool setData(int fd, int type);
 
 	private:

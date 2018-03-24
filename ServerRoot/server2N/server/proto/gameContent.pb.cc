@@ -222,24 +222,24 @@ void AddDescriptorsImpl() {
       "2N.UserConnection.ConnectionType\"]\n\016Conn"
       "ectionType\022\013\n\007Nothing\020\000\022\013\n\007Connect\020\001\022\016\n\n"
       "TryConnect\020\002\022\021\n\rAcceptConnect\020\003\022\016\n\nDisCo"
-      "nnect\020\004\"\214\002\n\tGameEvent\022\'\n\003act\030\001 \001(\0162\032.ser"
+      "nnect\020\004\"\232\002\n\tGameEvent\022\'\n\003act\030\001 \001(\0162\032.ser"
       "ver2N.GameEvent.action\022\026\n\016actionProperty"
       "\030\005 \001(\005\022\026\n\016EventPositionX\030\006 \001(\002\022\026\n\016EventP"
       "ositionY\030\007 \001(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVel"
-      "ocityY\030\t \001(\002\022\021\n\tinvokerId\030\n \003(\005\"U\n\006actio"
+      "ocityY\030\t \001(\002\022\021\n\tinvokerId\030\n \003(\005\"c\n\006actio"
       "n\022\013\n\007Nothing\020\000\022\010\n\004Move\020d\022\010\n\004Stop\020e\022\010\n\004Ju"
-      "mp\020f\022\t\n\005Shoot\020g\022\n\n\006GetHit\020h\022\t\n\005Spawn\020i\"\220"
-      "\002\n\nPacketBody\0222\n\007msgType\030\220N \001(\0162 .server"
-      "2N.PacketBody.messageType\022)\n\007connect\030\006 \001"
-      "(\0132\030.server2N.UserConnection\022\'\n\006notice\030\221"
-      "N \001(\0132\026.server2N.GlobalNotice\022\"\n\005event\030\007"
-      " \001(\0132\023.server2N.GameEvent\022\020\n\010senderId\030\010 "
-      "\001(\005\"D\n\013messageType\022\r\n\tGameEvent\020\000\022\023\n\016Use"
-      "rConnection\020\220N\022\021\n\014GlobalNotice\020\221Nb\006proto"
-      "3"
+      "mp\020f\022\t\n\005Shoot\020g\022\n\n\006GetHit\020h\022\t\n\005Spawn\020i\022\014"
+      "\n\010UserSync\020j\"\220\002\n\nPacketBody\0222\n\007msgType\030\220"
+      "N \001(\0162 .server2N.PacketBody.messageType\022"
+      ")\n\007connect\030\006 \001(\0132\030.server2N.UserConnecti"
+      "on\022\'\n\006notice\030\221N \001(\0132\026.server2N.GlobalNot"
+      "ice\022\"\n\005event\030\007 \001(\0132\023.server2N.GameEvent\022"
+      "\020\n\010senderId\030\010 \001(\005\"D\n\013messageType\022\r\n\tGame"
+      "Event\020\000\022\023\n\016UserConnection\020\220N\022\021\n\014GlobalNo"
+      "tice\020\221Nb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1001);
+      descriptor, 1015);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "gameContent.proto", &protobuf_RegisterTypes);
 }
@@ -319,6 +319,7 @@ bool GameEvent_action_IsValid(int value) {
     case 103:
     case 104:
     case 105:
+    case 106:
       return true;
     default:
       return false;
@@ -333,6 +334,7 @@ const GameEvent_action GameEvent::Jump;
 const GameEvent_action GameEvent::Shoot;
 const GameEvent_action GameEvent::GetHit;
 const GameEvent_action GameEvent::Spawn;
+const GameEvent_action GameEvent::UserSync;
 const GameEvent_action GameEvent::action_MIN;
 const GameEvent_action GameEvent::action_MAX;
 const int GameEvent::action_ARRAYSIZE;

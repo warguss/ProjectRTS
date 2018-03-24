@@ -31,20 +31,20 @@ namespace Server2N {
             "GAMgAygFEhAKCG5pY2tuYW1lGAQgAygJEjgKB2NvblR5cGUYBSABKA4yJy5z",
             "ZXJ2ZXIyTi5Vc2VyQ29ubmVjdGlvbi5Db25uZWN0aW9uVHlwZSJdCg5Db25u",
             "ZWN0aW9uVHlwZRILCgdOb3RoaW5nEAASCwoHQ29ubmVjdBABEg4KClRyeUNv",
-            "bm5lY3QQAhIRCg1BY2NlcHRDb25uZWN0EAMSDgoKRGlzQ29ubmVjdBAEIowC",
+            "bm5lY3QQAhIRCg1BY2NlcHRDb25uZWN0EAMSDgoKRGlzQ29ubmVjdBAEIpoC",
             "CglHYW1lRXZlbnQSJwoDYWN0GAEgASgOMhouc2VydmVyMk4uR2FtZUV2ZW50",
             "LmFjdGlvbhIWCg5hY3Rpb25Qcm9wZXJ0eRgFIAEoBRIWCg5FdmVudFBvc2l0",
             "aW9uWBgGIAEoAhIWCg5FdmVudFBvc2l0aW9uWRgHIAEoAhIRCglWZWxvY2l0",
             "eVgYCCABKAISEQoJVmVsb2NpdHlZGAkgASgCEhEKCWludm9rZXJJZBgKIAMo",
-            "BSJVCgZhY3Rpb24SCwoHTm90aGluZxAAEggKBE1vdmUQZBIICgRTdG9wEGUS",
-            "CAoESnVtcBBmEgkKBVNob290EGcSCgoGR2V0SGl0EGgSCQoFU3Bhd24QaSKQ",
-            "AgoKUGFja2V0Qm9keRIyCgdtc2dUeXBlGJBOIAEoDjIgLnNlcnZlcjJOLlBh",
-            "Y2tldEJvZHkubWVzc2FnZVR5cGUSKQoHY29ubmVjdBgGIAEoCzIYLnNlcnZl",
-            "cjJOLlVzZXJDb25uZWN0aW9uEicKBm5vdGljZRiRTiABKAsyFi5zZXJ2ZXIy",
-            "Ti5HbG9iYWxOb3RpY2USIgoFZXZlbnQYByABKAsyEy5zZXJ2ZXIyTi5HYW1l",
-            "RXZlbnQSEAoIc2VuZGVySWQYCCABKAUiRAoLbWVzc2FnZVR5cGUSDQoJR2Ft",
-            "ZUV2ZW50EAASEwoOVXNlckNvbm5lY3Rpb24QkE4SEQoMR2xvYmFsTm90aWNl",
-            "EJFOYgZwcm90bzM="));
+            "BSJjCgZhY3Rpb24SCwoHTm90aGluZxAAEggKBE1vdmUQZBIICgRTdG9wEGUS",
+            "CAoESnVtcBBmEgkKBVNob290EGcSCgoGR2V0SGl0EGgSCQoFU3Bhd24QaRIM",
+            "CghVc2VyU3luYxBqIpACCgpQYWNrZXRCb2R5EjIKB21zZ1R5cGUYkE4gASgO",
+            "MiAuc2VydmVyMk4uUGFja2V0Qm9keS5tZXNzYWdlVHlwZRIpCgdjb25uZWN0",
+            "GAYgASgLMhguc2VydmVyMk4uVXNlckNvbm5lY3Rpb24SJwoGbm90aWNlGJFO",
+            "IAEoCzIWLnNlcnZlcjJOLkdsb2JhbE5vdGljZRIiCgVldmVudBgHIAEoCzIT",
+            "LnNlcnZlcjJOLkdhbWVFdmVudBIQCghzZW5kZXJJZBgIIAEoBSJECgttZXNz",
+            "YWdlVHlwZRINCglHYW1lRXZlbnQQABITCg5Vc2VyQ29ubmVjdGlvbhCQThIR",
+            "CgxHbG9iYWxOb3RpY2UQkU5iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -768,6 +768,7 @@ namespace Server2N {
         [pbr::OriginalName("Shoot")] Shoot = 103,
         [pbr::OriginalName("GetHit")] GetHit = 104,
         [pbr::OriginalName("Spawn")] Spawn = 105,
+        [pbr::OriginalName("UserSync")] UserSync = 106,
       }
 
     }

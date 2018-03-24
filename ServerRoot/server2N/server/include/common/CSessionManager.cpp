@@ -178,7 +178,7 @@ static void* CSessionManager::waitEvent(void* val)
 				
 				LOG("Body Set headerSize(%d) readSize(%d)\n", bodyLength, readn);
 				CProtoPacket* packet = NULL;
-				if ( !g_packetManager.decodingBody(bodyBuf, readn, bodyLength, &packet) )
+				if ( !g_packetManager.decodingBody(bodyBuf, readn, bodyLength, &packet) || !packet )
 				{
 					LOG("Error, Decoding Body Error[%d]\n", fd);
 					continue;
