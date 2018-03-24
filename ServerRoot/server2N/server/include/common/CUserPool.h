@@ -28,11 +28,12 @@ class CUserPool
 
         bool addUserInPool(CUser* user);
         bool delUserInPool(int fd, int sector = -1);
+        bool changeUserInPool(CUser* user, int preSector, int curSector);
         CUser* findUserInPool(int fd, int sector = -1);
 
         int32_t userCount();
-		void getAllUserList(list<int32_t>& userConnection);
-		void getPartUserList(list<int32_t>& userConnection, int sector);
+		void getAllUserList(list<CUser*>& userConnection);
+		void getPartUserList(list<CUser*>& userConnection, int sector);
 		int getSectionNo(CUser* user);
 
 		void initialize();
