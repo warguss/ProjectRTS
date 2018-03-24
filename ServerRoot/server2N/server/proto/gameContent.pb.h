@@ -136,12 +136,13 @@ enum GameEvent_action {
   GameEvent_action_Shoot = 103,
   GameEvent_action_GetHit = 104,
   GameEvent_action_Spawn = 105,
+  GameEvent_action_UserSync = 106,
   GameEvent_action_GameEvent_action_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   GameEvent_action_GameEvent_action_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool GameEvent_action_IsValid(int value);
 const GameEvent_action GameEvent_action_action_MIN = GameEvent_action_Nothing;
-const GameEvent_action GameEvent_action_action_MAX = GameEvent_action_Spawn;
+const GameEvent_action GameEvent_action_action_MAX = GameEvent_action_UserSync;
 const int GameEvent_action_action_ARRAYSIZE = GameEvent_action_action_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* GameEvent_action_descriptor();
@@ -644,6 +645,8 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
     GameEvent_action_GetHit;
   static const action Spawn =
     GameEvent_action_Spawn;
+  static const action UserSync =
+    GameEvent_action_UserSync;
   static inline bool action_IsValid(int value) {
     return GameEvent_action_IsValid(value);
   }
