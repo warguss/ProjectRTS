@@ -235,7 +235,7 @@ public class NetworkModule : MonoBehaviour
         SendPacket(packet);
     }
 
-    public void WriteEventGetHit(Vector2 position, Vector2 velocity, int damage, int hitRecovery, int impact, int impactAngle)
+    public void WriteEventGetHit(Vector2 position, Vector2 velocity, HitInfo info)
     {
         ////////////////////////////////////
         var packet = CreateEventPacket(GameEvent.Types.action.GetHit, myId, position, velocity);

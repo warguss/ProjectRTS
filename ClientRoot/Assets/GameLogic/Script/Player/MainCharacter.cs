@@ -9,8 +9,10 @@ public enum CharacterStatus
 	Attacked,
 }
 
-public class MainCharacter : MonoBehaviour
+public class MainCharacter : MonoBehaviour, IControllableCharacter
 {
+    public int OwnerId { get; set; }
+
     public float MaxMoveSpeed;
     public float MoveForce;
     public float JumpForce;
@@ -20,8 +22,6 @@ public class MainCharacter : MonoBehaviour
 
     private Rigidbody2D charRigidbody;
     private Collider2D charCollider;
-     
-    public int playerId{ get; set; }
 
     private CharacterStatus status = CharacterStatus.Neutral;
     private int hitRecovery = 0;
@@ -31,8 +31,31 @@ public class MainCharacter : MonoBehaviour
 
     private bool isGrounded = true;
     private bool isLeft = true;
+    private bool isMoving = false;
+    private bool isDead = false;
 
-    private PlayerInput currentInput;
+    public event CharEventMove MoveEvent;
+    public event CharEventStop StopEvent;
+    public event CharEventJump JumpEvent;
+    public event CharEventGetHit GetHitEvent;
+    public event CharEventShoot ShootEvent;
+    public event CharEventSpawn SpawnEvent;
+    public event CharEventDead DeadEvent;
+
+    public void SetOwner(int owner)
+    {
+        OwnerId = owner;
+    }
+
+    public void Spawn(Vector2 position)
+    {
+        gameObject.SetActive(true);
+        isDead = false;
+        hp = 100;
+        SetLocation(position);
+
+        SpawnEvent?.Invoke(position);
+    }
 
     public Vector2 CurrentPosition
     {
@@ -50,24 +73,17 @@ public class MainCharacter : MonoBehaviour
         }
     }
 
-    public delegate void PlayerEventMove(bool isLeft);
-    public delegate void PlayerEventStop();
-    public delegate void PlayerEventJump();
-    public delegate void PlayerEventGetHit(int damage, int hitRecovery, int impact, int impactAngle);
-    public delegate void PlayerEventShoot(bool isLeft);
-
-    public event PlayerEventMove MoveEvent;
-    public event PlayerEventStop StopEvent;
-    public event PlayerEventJump JumpEvent;
-    public event PlayerEventGetHit GetHitEvent;
-    public event PlayerEventShoot ShootEvent;
-
     // Use this for initialization
+    void Awake()
+    {
+        isDead = true;
+        charRigidbody = GetComponent<Rigidbody2D>();
+        charCollider = GetComponent<Collider2D>();
+        gameObject.SetActive(false);
+    }
+
     void Start()
 	{
-		charRigidbody = GetComponent<Rigidbody2D>();
-        charCollider = GetComponent<Collider2D>();
-
     }
 
 	// Update is called once per frame
@@ -80,54 +96,20 @@ public class MainCharacter : MonoBehaviour
         }
 	}
 
-	void FixedUpdate()
-	{
-        if (currentInput.jump && (status == CharacterStatus.Neutral))
-            Jump();
-
-        if (currentInput.fire && (status == CharacterStatus.Neutral))
-            Shoot();
-
-        if (currentInput.left && status != CharacterStatus.Attacked)
-            MoveLeft();
-        else if (currentInput.right && status != CharacterStatus.Attacked)
-            MoveRight();
-        else if (!currentInput.left && !currentInput.right)
-            MoveStop();
-
-        checkLand();
-	}
-
-    public void SetInput(PlayerAction action)
+    void FixedUpdate()
     {
-        switch (action)
-        {
-            case PlayerAction.Stop:
-                currentInput.left = false;
-                currentInput.right = false;
-                StopEvent();
-                break;
-            case PlayerAction.Left:
-                currentInput.right = false;
-                currentInput.left = true;
-                MoveEvent(true);
-                break;
-            case PlayerAction.Right:
-                currentInput.left = false;
-                currentInput.right = true;
-                MoveEvent(false);
-                break;
-            case PlayerAction.Jump:
-                currentInput.jump = true;
-                break;
-            case PlayerAction.Fire:
-                currentInput.fire = true;
-                break;
-        }
+        CheckLand();
+
+        if (status == CharacterStatus.Neutral && !isMoving)
+            Brake();
     }
 
-    void MoveLeft()
+        public void MoveLeft()
     {
+        if (!isMoving || !isLeft)
+            MoveEvent?.Invoke(CurrentPosition, CurrentVelocity, true);
+
+        isMoving = true;
         isLeft = true;
 
         //rb2d.velocity = new Vector2(-MaxMoveSpeed, rb2d.velocity.y);
@@ -136,10 +118,18 @@ public class MainCharacter : MonoBehaviour
 
         if (Mathf.Abs(charRigidbody.velocity.x) > MaxMoveSpeed)
             charRigidbody.velocity = new Vector2(Mathf.Sign(charRigidbody.velocity.x) * MaxMoveSpeed, charRigidbody.velocity.y);
+
+
     }
 
-    void MoveRight()
+    public void MoveRight()
     {
+        if (!isMoving || isLeft)
+        {
+            MoveEvent?.Invoke(CurrentPosition, CurrentVelocity, false);
+        }
+
+        isMoving = true;
         isLeft = false;
 
         //rb2d.velocity = new Vector2(MaxMoveSpeed, rb2d.velocity.y);
@@ -150,19 +140,26 @@ public class MainCharacter : MonoBehaviour
             charRigidbody.velocity = new Vector2(Mathf.Sign(charRigidbody.velocity.x) * MaxMoveSpeed, charRigidbody.velocity.y);
     }
 
-    void MoveStop()
+    public void MoveStop()
     {
         if(status == CharacterStatus.Neutral)
         {
-            charRigidbody.velocity = new Vector2(charRigidbody.velocity.x * (float)0.8, charRigidbody.velocity.y);
+            if (isMoving)
+                StopEvent?.Invoke(CurrentPosition, CurrentVelocity);
+
+            isMoving = false;
 
             status = CharacterStatus.Neutral;
         }
     }
 
-    void Jump()
+    void Brake()
     {
-        currentInput.jump = false;
+        charRigidbody.velocity = new Vector2(charRigidbody.velocity.x * (float)0.8, charRigidbody.velocity.y);
+    }
+
+    public void Jump()
+    {
         if (jumpCount < MaxJumpCount)
         {
             jumpCount++;
@@ -170,28 +167,26 @@ public class MainCharacter : MonoBehaviour
             //rb2d.AddForce(Vector2.up*JumpForce);
             charRigidbody.velocity = new Vector2(charRigidbody.velocity.x, JumpForce);
 
-            JumpEvent();
+            JumpEvent?.Invoke(CurrentPosition, CurrentVelocity);
         }
     }
 
-    void Shoot()
+    public void Shoot()
     {
         GameObject bullet = (GameObject)Instantiate(bulletPrefab, gameObject.transform.position, new Quaternion());
         Bullet bulletScript = bullet.GetComponent<Bullet>();
 
-        bulletScript.SetOwner(playerId);
+        bulletScript.SetOwner(OwnerId);
 
         if (isLeft)
             bulletScript.SetAngle(180);
         else
             bulletScript.SetAngle(0);
 
-        currentInput.fire = false;
-
-        ShootEvent(isLeft);
+        ShootEvent?.Invoke(CurrentPosition, CurrentVelocity, isLeft);
     }
 
-    void checkLand()
+    void CheckLand()
     {
         float distToGround = charCollider.bounds.extents.y;
         bool checkGrounded = Physics2D.Raycast(transform.position, -Vector2.up, distToGround + (float)0.1, 1 << LayerMask.NameToLayer("Wall"));
@@ -226,42 +221,46 @@ public class MainCharacter : MonoBehaviour
         jumpCount = 0;
     }
 
-    public void GetHit(int damage, int hitRecovery, int impact, int impactAngle)
+    public void GetHit(HitInfo info)
     {
-        hp -= damage;
-        Debug.Log("player" + playerId + "hp : " + hp);
+        hp -= info.Damage;
+        Debug.Log("player" + OwnerId + "hp : " + hp);
 
-        float radian = Mathf.PI * (float)impactAngle / 180f;
+        float radian = Mathf.PI * (float)info.ImpactAngle / 180f;
         float impactX = Mathf.Cos(radian);
         float impactY = Mathf.Sin(radian);
-        charRigidbody.AddForce(new Vector2(impactX, impactY) * impact);
+        charRigidbody.AddForce(new Vector2(impactX, impactY) * info.Impact);
 
-        GetHitEvent(damage, hitRecovery, impact, impactAngle);
+        GetHitEvent?.Invoke(CurrentPosition, CurrentVelocity, info);
     }
 
     public void Dead()
     {
-        Destroy(gameObject);
+        if (!isDead)
+        {
+            isDead = true;
+            DeadEvent(OwnerId);
+            gameObject.SetActive(false);
+        }
     }
 
-    public void LeaveGame()
+    public void SetLocation(Vector2 position)
     {
-        Destroy(gameObject);
+        gameObject.transform.position = position;
+        //charRigidbody.MovePosition(position);
     }
 
-    public void MoveTo(float x, float y)
+    public void MoveTo(Vector2 position, Vector2 velocity)
     {
         //rb2d.position = new Vector2(x, y);
-        charRigidbody.MovePosition(new Vector2(x, y));
+        charRigidbody.MovePosition(position);
+        charRigidbody.velocity = velocity;
     }
 
-    public void MoveTo(float x, float y, float velocityX, float velocityY)
+    public GameObject GetGameObject()
     {
-        //rb2d.position = new Vector2(x, y);
-        charRigidbody.MovePosition(new Vector2(x, y));
-        charRigidbody.velocity = new Vector2(velocityX, velocityY);
+        return gameObject;
     }
-
     //void Networkinterpolation(float posX, float posY, float speedX, float speedY, CharacterStatus status)
     //{
     //}

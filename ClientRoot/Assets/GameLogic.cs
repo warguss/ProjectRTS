@@ -17,7 +17,7 @@ public class GameLogic : MonoBehaviour
 
     public int myId = -1;
 
-    Dictionary<int, MainCharacter> playerCharacters;
+    Dictionary<int, PlayerController> playerControllers;
     MapData mapData;
     int testId2P = 1;
 
@@ -25,13 +25,13 @@ public class GameLogic : MonoBehaviour
 
     bool isConnected = false;
 
-    bool TestMode = false;
+    bool TestMode = true;
 
     // Use this for initialization
     void Start()
     {
         Instance = this;
-        playerCharacters = new Dictionary<int, MainCharacter>();
+        playerControllers = new Dictionary<int, PlayerController>();
         mapData = Instantiate(MapDataPrefab).GetComponent<MapData>();
 
         mapData.LoadMap();
@@ -48,47 +48,54 @@ public class GameLogic : MonoBehaviour
     void Update()
     {
         CheckPacket();
-        ProcessInput();
     }
 
     void FixedUpdate()
     {
+        ProcessInput();
     }
 
     void userJoin(int id, bool isMe = false)
     {
         AddPlayer(id);
-        MainCharacter player = playerCharacters[id];
+        PlayerController player = playerControllers[id];
         if (isMe)
         {
             myId = id;
-            CameraScript.SetTarget(playerCharacters[myId].gameObject);
+            CameraScript.SetTarget(playerControllers[myId].Character.GetGameObject());
 
-            player.MoveEvent += PlayerEventMove;
-            player.StopEvent += PlayerEventStop;
-            player.JumpEvent += PlayerEventJump;
-            player.ShootEvent += PlayerEventShoot;
-            player.GetHitEvent += PlayerEventGetHit;
+            player.Character.MoveEvent += PlayerEventMove;
+            player.Character.StopEvent += PlayerEventStop;
+            player.Character.JumpEvent += PlayerEventJump;
+            player.Character.ShootEvent += PlayerEventShoot;
+            player.Character.GetHitEvent += PlayerEventGetHit;
+            player.Character.SpawnEvent += PlayerEventSpawn;
         }
+        player.Character.DeadEvent += PlayerEventDead;
 
         TestUI.Instance.PrintText("User Join : " + id + isMe);
     }
 
     void userLeave(int id)
     {
-        MainCharacter player = playerCharacters[id];
+        PlayerController player = playerControllers[id];
         player.LeaveGame();
-        playerCharacters.Remove(id);
+        playerControllers.Remove(id);
     }
 
     void AddPlayer(int playerId)
     {
-        if (!playerCharacters.ContainsKey(playerId))
+        if (!playerControllers.ContainsKey(playerId))
         {
             MainCharacter characterScript = Instantiate(PlayerPrefab, new Vector3(1,3,0), new Quaternion()).GetComponent<MainCharacter>();
-            playerCharacters.Add(playerId, characterScript);
-            characterScript.playerId = playerId;
-        }
+            PlayerController controller = new PlayerController();
+            controller.Character = characterScript;
+            controller.PlayerId = playerId;
+
+            playerControllers.Add(playerId, controller);
+
+            SpawnPlayer(playerId, new Vector2(2, 2));
+        }            
         else
         {
             TestUI.Instance.PrintText("Trying to add duplicate user");
@@ -97,9 +104,9 @@ public class GameLogic : MonoBehaviour
 
     void SendInputToCharacter(int player, PlayerAction action)
     {
-        if (playerCharacters.ContainsKey(player))
+        if (playerControllers.ContainsKey(player))
         {
-            playerCharacters[player].SetInput(action);
+            playerControllers[player].SetInput(action);
         }
     }
 
@@ -200,8 +207,10 @@ public class GameLogic : MonoBehaviour
         foreach (int invokerId in EventPacket.InvokerId)
         {
             int actionProperty = EventPacket.ActionProperty;
-            playerCharacters[invokerId].MoveTo(EventPacket.EventPositionX, EventPacket.EventPositionY,
-                                              EventPacket.VelocityX, EventPacket.VelocityY);
+            Vector2 position = new Vector2(EventPacket.EventPositionX, EventPacket.EventPositionY);
+            Vector2 velocity = new Vector2(EventPacket.VelocityX, EventPacket.VelocityY);
+
+            playerControllers[invokerId].MoveTo(position, velocity);
 
             switch (EventPacket.Act)
             {
@@ -232,8 +241,17 @@ public class GameLogic : MonoBehaviour
                     break;
 
                 case GameEvent.Types.action.GetHit:
-                    playerCharacters[invokerId].GetHit(10, 10, 50, 0);//////////////////
-                    break;
+                    {
+                        HitInfo info = new HitInfo
+                        {
+                            Damage = 10,
+                            HitRecovery = 10,
+                            Impact = 50,
+                            ImpactAngle = 0
+                        };
+                        playerControllers[invokerId].GetHit(info);//////////////////
+                        break;
+                    }
             }
         }
     }
@@ -247,54 +265,72 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void PlayerEventMove(bool isLeft)
+    void PlayerEventMove(Vector2 position, Vector2 velocity, bool isLeft)
     {
-        var currentPosition = playerCharacters[myId].CurrentPosition;
-        var currentVelocity = playerCharacters[myId].CurrentVelocity;
         if (isConnected)
         {
-            NetworkModule.instance.WriteEventMove(currentPosition, currentVelocity, isLeft);
+            NetworkModule.instance.WriteEventMove(position, velocity, isLeft);
         }
     }
 
-    void PlayerEventStop()
+    void PlayerEventStop(Vector2 position, Vector2 velocity)
     {
-        var currentPosition = playerCharacters[myId].CurrentPosition;
-        var currentVelocity = playerCharacters[myId].CurrentVelocity;
         if (isConnected)
         {
-            NetworkModule.instance.WriteEventStop(currentPosition, currentVelocity);
+            NetworkModule.instance.WriteEventStop(position, velocity);
         }
     }
 
-    void PlayerEventGetHit(int damage, int hitRecovery, int impact, int impactAngle)
+    void PlayerEventGetHit(Vector2 position, Vector2 velocity, HitInfo info)
     {
-        var currentPosition = playerCharacters[myId].CurrentPosition;
-        var currentVelocity = playerCharacters[myId].CurrentVelocity;
         if (isConnected)
         {
-            NetworkModule.instance.WriteEventGetHit(currentPosition, currentVelocity, damage, hitRecovery, impact, impactAngle);
+            NetworkModule.instance.WriteEventGetHit(position, velocity, info);
         }
     }
 
-    void PlayerEventJump()
+    void PlayerEventJump(Vector2 position, Vector2 velocity)
     {
-        var currentPosition = playerCharacters[myId].CurrentPosition;
-        var currentVelocity = playerCharacters[myId].CurrentVelocity;
         if (isConnected)
         {
-            NetworkModule.instance.WriteEventJump(currentPosition, currentVelocity);
+            NetworkModule.instance.WriteEventJump(position, velocity);
         }
     }
 
-    void PlayerEventShoot(bool isLeft)
+    void PlayerEventShoot(Vector2 position, Vector2 velocity, bool isLeft)
     {
-        var currentPosition = playerCharacters[myId].CurrentPosition;
-        var currentVelocity = playerCharacters[myId].CurrentVelocity;
         if (isConnected)
         {
-            NetworkModule.instance.WriteEventShoot(currentPosition, currentVelocity, isLeft);
+            NetworkModule.instance.WriteEventShoot(position, velocity, isLeft);
         }
+    }
+
+    void PlayerEventSpawn(Vector2 position)
+    {
+        if (isConnected)
+        {
+            //NetworkModule.instance.WriteEvenSpawn(position);
+        }
+    }
+
+    void PlayerEventDead(int playerId)
+    {
+        StartCoroutine(SpawnAfterSeconds(playerId, new Vector2(2, 2), 5));
+        if (isConnected)
+        {
+            //NetworkModule.instance.WriteEventShoot();
+        }
+    }
+
+    void SpawnPlayer(int playerId, Vector2 position)
+    {
+        playerControllers[playerId].Spawn(position);
+    }
+
+    IEnumerator SpawnAfterSeconds(int playerId, Vector2 position, int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        SpawnPlayer(playerId, position);
     }
 }
    

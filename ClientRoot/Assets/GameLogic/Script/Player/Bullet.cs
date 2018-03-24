@@ -43,10 +43,17 @@ public class Bullet : MonoBehaviour {
         if (other.tag == "Player")
         {
             MainCharacter targetPlayer = other.gameObject.GetComponent<MainCharacter>();
-            if (targetPlayer.playerId != OwnerPlayer)
+            if (targetPlayer.OwnerId != OwnerPlayer)
             {
-                if (targetPlayer.playerId == GameLogic.Instance.myId)
-                    targetPlayer.GetHit(10, 10, 50, angle);
+                //if (targetPlayer.OwnerId == GameLogic.Instance.myId)
+                HitInfo info = new HitInfo
+                {
+                    Damage = 10,
+                    HitRecovery = 10,
+                    Impact = 50,
+                    ImpactAngle = angle
+                };
+                targetPlayer.GetHit(info);
 
                 Destroy(gameObject);
             }
