@@ -138,7 +138,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GlobalNotice, noti_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GlobalNotice, notitype_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GlobalNotice, notice_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GlobalNotice, performer_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GlobalNotice, victim_),
@@ -211,35 +211,35 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\021gameContent.proto\022\010server2N\"\247\001\n\014Global"
-      "Notice\022/\n\004noti\030\001 \001(\0162!.server2N.GlobalNo"
-      "tice.NoticeInfo\022\016\n\006notice\030\002 \001(\t\022\021\n\tperfo"
-      "rmer\030\003 \001(\005\022\016\n\006victim\030\004 \003(\005\"3\n\nNoticeInfo"
-      "\022\013\n\007Nothing\020\000\022\014\n\010KillInfo\020\001\022\n\n\006Notice\020\002\""
-      "\365\001\n\016UserConnection\022\023\n\013connectorId\030\001 \003(\005\022"
-      "\020\n\010killInfo\030\002 \003(\005\022\021\n\tdeathInfo\030\003 \003(\005\022\020\n\010"
-      "nickname\030\004 \003(\t\0228\n\007conType\030\005 \001(\0162\'.server"
-      "2N.UserConnection.ConnectionType\"]\n\016Conn"
-      "ectionType\022\013\n\007Nothing\020\000\022\013\n\007Connect\020\001\022\016\n\n"
-      "TryConnect\020\002\022\021\n\rAcceptConnect\020\003\022\016\n\nDisCo"
-      "nnect\020\004\"\232\002\n\tGameEvent\022\'\n\003act\030\001 \001(\0162\032.ser"
-      "ver2N.GameEvent.action\022\026\n\016actionProperty"
-      "\030\005 \001(\005\022\026\n\016EventPositionX\030\006 \001(\002\022\026\n\016EventP"
-      "ositionY\030\007 \001(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVel"
-      "ocityY\030\t \001(\002\022\021\n\tinvokerId\030\n \003(\005\"c\n\006actio"
-      "n\022\013\n\007Nothing\020\000\022\010\n\004Move\020d\022\010\n\004Stop\020e\022\010\n\004Ju"
-      "mp\020f\022\t\n\005Shoot\020g\022\n\n\006GetHit\020h\022\t\n\005Spawn\020i\022\014"
-      "\n\010UserSync\020j\"\220\002\n\nPacketBody\0222\n\007msgType\030\220"
-      "N \001(\0162 .server2N.PacketBody.messageType\022"
-      ")\n\007connect\030\006 \001(\0132\030.server2N.UserConnecti"
-      "on\022\'\n\006notice\030\221N \001(\0132\026.server2N.GlobalNot"
-      "ice\022\"\n\005event\030\007 \001(\0132\023.server2N.GameEvent\022"
-      "\020\n\010senderId\030\010 \001(\005\"D\n\013messageType\022\r\n\tGame"
-      "Event\020\000\022\023\n\016UserConnection\020\220N\022\021\n\014GlobalNo"
-      "tice\020\221Nb\006proto3"
+      "\n\021gameContent.proto\022\010server2N\"\253\001\n\014Global"
+      "Notice\0223\n\010notiType\030\001 \001(\0162!.server2N.Glob"
+      "alNotice.NoticeInfo\022\016\n\006notice\030\002 \001(\t\022\021\n\tp"
+      "erformer\030\003 \001(\005\022\016\n\006victim\030\004 \003(\005\"3\n\nNotice"
+      "Info\022\013\n\007Nothing\020\000\022\014\n\010KillInfo\020\001\022\n\n\006Notic"
+      "e\020\002\"\365\001\n\016UserConnection\022\023\n\013connectorId\030\001 "
+      "\003(\005\022\020\n\010killInfo\030\002 \003(\005\022\021\n\tdeathInfo\030\003 \003(\005"
+      "\022\020\n\010nickname\030\004 \003(\t\0228\n\007conType\030\005 \001(\0162\'.se"
+      "rver2N.UserConnection.ConnectionType\"]\n\016"
+      "ConnectionType\022\013\n\007Nothing\020\000\022\013\n\007Connect\020\001"
+      "\022\016\n\nTryConnect\020\002\022\021\n\rAcceptConnect\020\003\022\016\n\nD"
+      "isConnect\020\004\"\232\002\n\tGameEvent\022\'\n\003act\030\001 \001(\0162\032"
+      ".server2N.GameEvent.action\022\026\n\016actionProp"
+      "erty\030\005 \001(\005\022\026\n\016EventPositionX\030\006 \001(\002\022\026\n\016Ev"
+      "entPositionY\030\007 \001(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n"
+      "\tVelocityY\030\t \001(\002\022\021\n\tinvokerId\030\n \003(\005\"c\n\006a"
+      "ction\022\013\n\007Nothing\020\000\022\010\n\004Move\020d\022\010\n\004Stop\020e\022\010"
+      "\n\004Jump\020f\022\t\n\005Shoot\020g\022\n\n\006GetHit\020h\022\t\n\005Spawn"
+      "\020i\022\014\n\010UserSync\020j\"\220\002\n\nPacketBody\0222\n\007msgTy"
+      "pe\030\220N \001(\0162 .server2N.PacketBody.messageT"
+      "ype\022)\n\007connect\030\006 \001(\0132\030.server2N.UserConn"
+      "ection\022\'\n\006notice\030\221N \001(\0132\026.server2N.Globa"
+      "lNotice\022\"\n\005event\030\007 \001(\0132\023.server2N.GameEv"
+      "ent\022\020\n\010senderId\030\010 \001(\005\"D\n\013messageType\022\r\n\t"
+      "GameEvent\020\000\022\023\n\016UserConnection\020\220N\022\021\n\014Glob"
+      "alNotice\020\221Nb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1015);
+      descriptor, 1019);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "gameContent.proto", &protobuf_RegisterTypes);
 }
@@ -368,7 +368,7 @@ const int PacketBody::messageType_ARRAYSIZE;
 void GlobalNotice::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int GlobalNotice::kNotiFieldNumber;
+const int GlobalNotice::kNotiTypeFieldNumber;
 const int GlobalNotice::kNoticeFieldNumber;
 const int GlobalNotice::kPerformerFieldNumber;
 const int GlobalNotice::kVictimFieldNumber;
@@ -392,17 +392,17 @@ GlobalNotice::GlobalNotice(const GlobalNotice& from)
   if (from.notice().size() > 0) {
     notice_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.notice_);
   }
-  ::memcpy(&noti_, &from.noti_,
+  ::memcpy(&notitype_, &from.notitype_,
     static_cast<size_t>(reinterpret_cast<char*>(&performer_) -
-    reinterpret_cast<char*>(&noti_)) + sizeof(performer_));
+    reinterpret_cast<char*>(&notitype_)) + sizeof(performer_));
   // @@protoc_insertion_point(copy_constructor:server2N.GlobalNotice)
 }
 
 void GlobalNotice::SharedCtor() {
   notice_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&noti_, 0, static_cast<size_t>(
+  ::memset(&notitype_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&performer_) -
-      reinterpret_cast<char*>(&noti_)) + sizeof(performer_));
+      reinterpret_cast<char*>(&notitype_)) + sizeof(performer_));
   _cached_size_ = 0;
 }
 
@@ -439,9 +439,9 @@ void GlobalNotice::Clear() {
 
   victim_.Clear();
   notice_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&noti_, 0, static_cast<size_t>(
+  ::memset(&notitype_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&performer_) -
-      reinterpret_cast<char*>(&noti_)) + sizeof(performer_));
+      reinterpret_cast<char*>(&notitype_)) + sizeof(performer_));
   _internal_metadata_.Clear();
 }
 
@@ -455,7 +455,7 @@ bool GlobalNotice::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .server2N.GlobalNotice.NoticeInfo noti = 1;
+      // .server2N.GlobalNotice.NoticeInfo notiType = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
@@ -463,7 +463,7 @@ bool GlobalNotice::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_noti(static_cast< ::server2N::GlobalNotice_NoticeInfo >(value));
+          set_notitype(static_cast< ::server2N::GlobalNotice_NoticeInfo >(value));
         } else {
           goto handle_unusual;
         }
@@ -545,10 +545,10 @@ void GlobalNotice::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .server2N.GlobalNotice.NoticeInfo noti = 1;
-  if (this->noti() != 0) {
+  // .server2N.GlobalNotice.NoticeInfo notiType = 1;
+  if (this->notitype() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      1, this->noti(), output);
+      1, this->notitype(), output);
   }
 
   // string notice = 2;
@@ -591,10 +591,10 @@ void GlobalNotice::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .server2N.GlobalNotice.NoticeInfo noti = 1;
-  if (this->noti() != 0) {
+  // .server2N.GlobalNotice.NoticeInfo notiType = 1;
+  if (this->notitype() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      1, this->noti(), target);
+      1, this->notitype(), target);
   }
 
   // string notice = 2;
@@ -666,10 +666,10 @@ size_t GlobalNotice::ByteSizeLong() const {
         this->notice());
   }
 
-  // .server2N.GlobalNotice.NoticeInfo noti = 1;
-  if (this->noti() != 0) {
+  // .server2N.GlobalNotice.NoticeInfo notiType = 1;
+  if (this->notitype() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->noti());
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->notitype());
   }
 
   // int32 performer = 3;
@@ -713,8 +713,8 @@ void GlobalNotice::MergeFrom(const GlobalNotice& from) {
 
     notice_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.notice_);
   }
-  if (from.noti() != 0) {
-    set_noti(from.noti());
+  if (from.notitype() != 0) {
+    set_notitype(from.notitype());
   }
   if (from.performer() != 0) {
     set_performer(from.performer());
@@ -747,7 +747,7 @@ void GlobalNotice::InternalSwap(GlobalNotice* other) {
   using std::swap;
   victim_.InternalSwap(&other->victim_);
   notice_.Swap(&other->notice_);
-  swap(noti_, other->noti_);
+  swap(notitype_, other->notitype_);
   swap(performer_, other->performer_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
