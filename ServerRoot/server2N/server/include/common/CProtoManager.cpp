@@ -38,10 +38,6 @@ void CProtoManager::initialize()
 
 void CProtoManager::close()
 {
-	//_connectPacket.clear();
-	//_tryConnectPacket.clear();
-	//_disConnectPacket.clear();
-
 #if 0 
 	if ( _connectCase )
 	{
@@ -158,13 +154,18 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
         LOG("Has Connect\n");
 		(*protoPacket)->_type = tConnect.contype();
     }
+	else if ( (*protoPacket)->_proto->has_notice() )
+    {
+        server2N::GlobalNotice tNoti = (*protoPacket)->_proto->notice();
+        cout << "Debug String" << tNoti.DebugString() << endl;
+        LOG("Has Connect\n");
+		(*protoPacket)->_type = tNoti.notitype();
+    }
     else
     {
         LOG("Not Exist ProtoBuffer\n");
         return false;
     }
-
-
 
     return true;
 }
@@ -341,3 +342,56 @@ bool CProtoManager::setActionType(int32_t type, CUser* senderUser, CProtoPacket*
 
 	return true;
 }
+
+
+//bool CProtoManager::setNotiType(int32_t type, CUser* senderUser, CProtoPacket* eventUser, list<CUser*> userList, CProtoPacket** packet)
+bool CProtoManager::setNotiType(int type, CUser* senderUser, CProtoPacket* eventUser, list<CUser*> allUser, CProtoPacket** packet)
+{
+	if ( type < 0 || !eventUser || eventUser->_fd <= 0 || senderUser <= 0 )
+	{
+		LOG("Not Exist User , User ProtoPacket\n");
+		return false;
+	}
+
+	(*packet) = new CProtoPacket();
+	(*packet)->_protoNoti = new server2N::GlobalNotice();
+	server2N::GlobalNotice tNoti = eventUser->_proto->notice(); 
+	if ( type == (int32_t)server2N::GlobalNotice_NoticeInfo_KillInfo  )
+	{
+		/********************************
+		 * Kill 
+		 * eventUser_fd -> victim
+		 * A User KillInfo Add
+		 * B User DeathInfo Add
+		 ********************************/
+		int32_t eventFd = eventUser->_fd;
+		CUser* triggerUser = g_userPool.findUserInPool(eventFd);
+		if ( !triggerUser ) 
+		{
+			/*********************************
+			 * 전체 조회이기 때문에, 
+			 * 찾지 못했다면 close(fd)로 종료
+			 *********************************/
+			LOG("Not Exist TriggerUser(%d)\n", triggerUser->_fd);
+			return false;
+		}
+		triggerUser->_killInfo++;
+		int victimSize = tNoti.victim_size();
+		for ( int idx = 0;  idx < victimSize; idx++ )
+		{
+			int victimFd = tNoti.victim(idx);
+			CUser* victimUser = g_userPool.findUserInPool(victimFd);
+			if ( !victimUser )
+			{
+				LOG("Not Exist VictimUser(%d)\n", victimUser->_fd);
+			}
+			victimUser->_deathInfo++;
+		} 
+	}
+
+	(*packet)->_protoNoti->CopyFrom(tNoti);
+	(*packet)->_proto->set_allocated_notice((*packet)->_protoNoti);
+
+	return true;
+}
+

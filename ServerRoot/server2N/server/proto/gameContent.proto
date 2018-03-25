@@ -9,7 +9,7 @@ message GlobalNotice{
 		Notice = 2;
 	}
 
-	NoticeInfo noti = 1;
+	NoticeInfo notiType = 1;
 	string notice = 2;
 	int32 performer = 3;
 	repeated int32 victim = 4;
@@ -41,6 +41,7 @@ message GameEvent{
 		Shoot		= 103;
 		GetHit		= 104;
 		Spawn		= 105;
+		UserSync	= 106;
 	}
 
 	action act = 1;
