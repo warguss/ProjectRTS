@@ -136,12 +136,13 @@ enum GameEvent_action {
   GameEvent_action_Shoot = 103,
   GameEvent_action_GetHit = 104,
   GameEvent_action_Spawn = 105,
+  GameEvent_action_UserSync = 106,
   GameEvent_action_GameEvent_action_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   GameEvent_action_GameEvent_action_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool GameEvent_action_IsValid(int value);
 const GameEvent_action GameEvent_action_action_MIN = GameEvent_action_Nothing;
-const GameEvent_action GameEvent_action_action_MAX = GameEvent_action_Spawn;
+const GameEvent_action GameEvent_action_action_MAX = GameEvent_action_UserSync;
 const int GameEvent_action_action_ARRAYSIZE = GameEvent_action_action_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* GameEvent_action_descriptor();
@@ -318,11 +319,11 @@ class GlobalNotice : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::std::string* release_notice();
   void set_allocated_notice(::std::string* notice);
 
-  // .server2N.GlobalNotice.NoticeInfo noti = 1;
-  void clear_noti();
-  static const int kNotiFieldNumber = 1;
-  ::server2N::GlobalNotice_NoticeInfo noti() const;
-  void set_noti(::server2N::GlobalNotice_NoticeInfo value);
+  // .server2N.GlobalNotice.NoticeInfo notiType = 1;
+  void clear_notitype();
+  static const int kNotiTypeFieldNumber = 1;
+  ::server2N::GlobalNotice_NoticeInfo notitype() const;
+  void set_notitype(::server2N::GlobalNotice_NoticeInfo value);
 
   // int32 performer = 3;
   void clear_performer();
@@ -337,7 +338,7 @@ class GlobalNotice : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > victim_;
   mutable int _victim_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr notice_;
-  int noti_;
+  int notitype_;
   ::google::protobuf::int32 performer_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
@@ -644,6 +645,8 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
     GameEvent_action_GetHit;
   static const action Spawn =
     GameEvent_action_Spawn;
+  static const action UserSync =
+    GameEvent_action_UserSync;
   static inline bool action_IsValid(int value) {
     return GameEvent_action_IsValid(value);
   }
@@ -910,18 +913,18 @@ class PacketBody : public ::google::protobuf::Message /* @@protoc_insertion_poin
 #endif  // __GNUC__
 // GlobalNotice
 
-// .server2N.GlobalNotice.NoticeInfo noti = 1;
-inline void GlobalNotice::clear_noti() {
-  noti_ = 0;
+// .server2N.GlobalNotice.NoticeInfo notiType = 1;
+inline void GlobalNotice::clear_notitype() {
+  notitype_ = 0;
 }
-inline ::server2N::GlobalNotice_NoticeInfo GlobalNotice::noti() const {
-  // @@protoc_insertion_point(field_get:server2N.GlobalNotice.noti)
-  return static_cast< ::server2N::GlobalNotice_NoticeInfo >(noti_);
+inline ::server2N::GlobalNotice_NoticeInfo GlobalNotice::notitype() const {
+  // @@protoc_insertion_point(field_get:server2N.GlobalNotice.notiType)
+  return static_cast< ::server2N::GlobalNotice_NoticeInfo >(notitype_);
 }
-inline void GlobalNotice::set_noti(::server2N::GlobalNotice_NoticeInfo value) {
+inline void GlobalNotice::set_notitype(::server2N::GlobalNotice_NoticeInfo value) {
   
-  noti_ = value;
-  // @@protoc_insertion_point(field_set:server2N.GlobalNotice.noti)
+  notitype_ = value;
+  // @@protoc_insertion_point(field_set:server2N.GlobalNotice.notiType)
 }
 
 // string notice = 2;

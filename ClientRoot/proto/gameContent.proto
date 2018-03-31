@@ -41,6 +41,7 @@ message GameEvent{
 		Shoot		= 103;
 		GetHit		= 104;
 		Spawn		= 105;
+		UserSync	= 106;
 	}
 
 	action act = 1;

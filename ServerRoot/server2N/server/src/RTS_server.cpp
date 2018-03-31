@@ -18,6 +18,7 @@
 using namespace std;
 bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventUser);
 bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser);
+bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser);
 typedef bool (*CallBackFunc)(CSessionManager&, CProtoPacket*);
 
 extern int32_t g_sectorIdx;
@@ -28,7 +29,8 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 	/*************************************
 	 * 전체 유저 연결 정보 획득
 	 *************************************/
-	list<int32_t> userConnector;
+	LOG("All Send Connect\n");
+	list<CUser*> userConnector;
 	g_userPool.getAllUserList(userConnector);
 
 	/*************************************
@@ -49,16 +51,16 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 		session.m_writeQ_Manager.enqueue(connectPacket);
 
 		type = server2N::UserConnection_ConnectionType_Connect;
-		
 	}
 
 	int userConnectSize = userConnector.size(); 
-	list<int32_t>::iterator it = userConnector.begin();
+	list<CUser*>::iterator it = userConnector.begin();
+	LOG("Connector User Size(%d)", userConnectSize);
 	for ( ; it != userConnector.end(); it++ )
 	{
-		int32_t fd = *it;
+		CUser* user = *it;
 		CProtoPacket *packet = NULL;
-		if ( !g_packetManager.setConnectType(type, fd, eventPacket->_fd, userConnector, &packet) || !packet )
+		if ( !g_packetManager.setConnectType(type, user, eventPacket->_fd, userConnector, &packet) ||  !packet )
 		{
 			LOG("Error Connector Type\n");
 			return false;
@@ -78,18 +80,121 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 {
 	LOG("Part Send Event\n");
+	/*************************************
+	 * 파트 유저 연결 정보 획득
+	 *************************************/
+	list<CUser*> connectList;
+	g_userPool.getAllUserList(connectList);
+
+	/*************************************
+	 * Event Send 
+	 *************************************/
+	int32_t type = eventUser->_type;
+	list<CUser*>::iterator it = connectList.begin();
+	for ( ; it != connectList.end(); it++ )
+	{
+		CUser* user = (CUser*)*it;
+		CProtoPacket *packet = NULL;
+		if ( user && (user->_fd == eventUser->_fd) )
+		{
+			continue ;
+		}
+
+		if ( !g_packetManager.setActionType(type, user, eventUser, connectList, &packet) || !packet )
+		{
+			LOG("Error Connector Type\n");
+			return false;
+		} 
+
+		/*********************************
+		 * Enqueue
+		 *********************************/
+		cout << "Test: " <<  packet->_proto->DebugString() << endl;
+		session.m_writeQ_Manager.enqueue(packet);
+		LOG("User(%d) Send Noti\n", packet->_fd);
+	}
+	LOG("End All Send\n");
 
 	return true;
 }
 
-#if 0 
+
 bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 {
-	LOG("All Send Event\n");
+	/*************************************
+	 * 파트 유저 연결 정보 획득
+	 *************************************/
+	LOG("Action All Send Connect\n");
+	list<CUser*> connectList;
+	g_userPool.getAllUserList(connectList);
+
+	/*************************************
+	 * Event Send 
+	 *************************************/
+	int32_t type = eventUser->_type;
+	list<CUser*>::iterator it = connectList.begin();
+	for ( ; it != connectList.end(); it++ )
+	{
+		CUser* user = (CUser*)*it;
+		CProtoPacket *packet = NULL;
+		if ( !g_packetManager.setActionType(type, user, eventUser, connectList, &packet) || !packet )
+		{
+			LOG("Error Connector Type\n");
+			return false;
+		} 
+
+		if ( user->_fd == eventUser->_fd )
+		{
+			continue ;
+		}
+
+		/*********************************
+		 * Enqueue
+		 *********************************/
+		session.m_writeQ_Manager.enqueue(packet);
+		LOG("User(%d) Send Noti\n", packet->_fd);
+	}
+	LOG("End All Send\n");
 
 	return true;
 }
-#endif
+
+bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
+{
+	/*************************************
+	 * 파트 유저 연결 정보 획득
+	 *************************************/
+	LOG("Noti All Send Connect\n");
+	list<CUser*> connectList;
+	g_userPool.getAllUserList(connectList);
+
+	/*************************************
+	 * Event Send 
+	 *************************************/
+	int32_t type = eventUser->_type;
+	list<CUser*>::iterator it = connectList.begin();
+	for ( ; it != connectList.end(); it++ )
+	{
+		CUser* user = (CUser*)*it;
+		CProtoPacket *packet = NULL;
+		if ( !g_packetManager.setNotiType(type, user, eventUser, connectList, &packet) || !packet )
+		{
+			LOG("Error Connector Type\n");
+			return false;
+		} 
+
+		/*********************************
+		 * Enqueue
+		 *********************************/
+		session.m_writeQ_Manager.enqueue(packet);
+		LOG("User(%d) Send Noti\n", packet->_fd);
+	}
+	LOG("End All Send\n");
+
+	return true;
+}
+
+
 int main(int argc, char* argv[]) 
 {
 	// Verify that the version of the library that we linked against is
@@ -106,7 +211,6 @@ int main(int argc, char* argv[])
 	 *******************************************************/
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserConnection_ConnectionType_TryConnect, ConnectAllSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserConnection_ConnectionType_Connect, ConnectAllSendFunc) );
-	//funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserConnection_ConnectionType_AcceptConnect, ConnectAllSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserConnection_ConnectionType_DisConnect, ConnectAllSendFunc) );
 
 	
@@ -119,12 +223,20 @@ int main(int argc, char* argv[])
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_Shoot, ActionPartSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_GetHit, ActionPartSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_Spawn, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_UserSync, ActionAllSendFunc) );
 
+	/*******************************************************
+	 * Noti 관련 함수 Add
+	 *******************************************************/
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GlobalNotice_NoticeInfo_KillInfo, NotiAllSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GlobalNotice_NoticeInfo_Notice, NotiAllSendFunc) );
 
 	/*******************************************************
 	 * Sector Index Setting 
 	 *******************************************************/
 	g_sectorIdx = ((X_GAME_MAX * Y_GAME_MAX)) / ((X_SECTOR_MAX * Y_SECTOR_MAX));
+	g_userPool.initialize();
+	LOG("g_sector initialize(%d)", g_sectorIdx);
 	if ( pthread_create(&thread, NULL, session.waitEvent, (void*)&port) < 0 )
 	{
 		exit(0);
@@ -150,8 +262,9 @@ int main(int argc, char* argv[])
 			 * Game Logic
 			 * ALL_SEND
 			 * PART_SEND
+			 *
+			 * Type은 이벤트 형식
 			 *************************************/ 
-			LOG("Dequeue Start\n");
 			int32_t type = data->_type;
 			if ( type < 0 )
 			{

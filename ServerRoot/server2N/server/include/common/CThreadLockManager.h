@@ -15,6 +15,8 @@ private:
 public:
 	CThreadLockManager(int type, int idx = -1);
 	~CThreadLockManager();
+
+	void release();
 };
 
 #endif

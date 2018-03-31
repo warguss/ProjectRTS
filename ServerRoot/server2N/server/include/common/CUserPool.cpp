@@ -6,7 +6,6 @@ CUserPool g_userPool;
 
 CUserPool::CUserPool()
 {
-	initialize();
 }
 
 void CUserPool::initialize()
@@ -14,10 +13,12 @@ void CUserPool::initialize()
 	int idx = 0;
 	totalUser = 0;
 	userInfo.clear();
+	LOG("total Sector(%d)\n", g_sectorIdx);
 	while ( idx < g_sectorIdx )
 	{
 		map<int, CUser*>* tmp = new map<int, CUser*>;
 		userInfo.insert(std::pair<int, map<int, CUser*>* >(idx, tmp));
+		idx++;
 	}
 } 
 
@@ -34,10 +35,10 @@ CUserPool::~CUserPool()
 int CUserPool::getSectionNo(CUser* user)
 {
 	int idx = 0;
-	int yIdx = user->tY / Y_SECTOR_MAX;
+	int yIdx = user->_y / Y_SECTOR_MAX;
 	yIdx = yIdx * Y_SECTOR_MAX;
 
-	int xIdx = user->tX / X_SECTOR_MAX;
+	int xIdx = user->_x / X_SECTOR_MAX;
 	idx = yIdx + xIdx;
 	LOG("User Sector xIdx(%d) + yIdx(%d) = idx(%d)\n", xIdx, yIdx, idx);
 
@@ -53,11 +54,11 @@ bool CUserPool::addUserInPool(CUser* user)
 	int idx = getSectionNo(user);
 	user->_sector = idx;
 	itVal = userInfo.find(idx);
-    if ( totalUser >=  POOL_SIZE || itVal == userInfo.end() || !itVal->second )
+    if ( totalUser >= POOL_SIZE || itVal == userInfo.end() )
     {
+		LOG("Error User In Pool\n");
         return false;
     }
-
 	map<int, CUser*>* tMap = (map<int, CUser*>*)itVal->second;
 	CThreadLockManager lock(NOT_SET, idx);
 	tMap->insert(std::pair<int, CUser*>(user->_fd, user));
@@ -94,7 +95,7 @@ bool CUserPool::delUserInPool(int fd, int sector)
 	else
 	{
 		it_sectorMap = userInfo.find(sector);
-		if ( totalUser >=  POOL_SIZE || it_sectorMap == userInfo.end() || !it_sectorMap->second )
+		if ( it_sectorMap == userInfo.end() || !it_sectorMap->second )
 		{
 		    return isDelete;
 		}
@@ -120,6 +121,47 @@ bool CUserPool::delUserInPool(int fd, int sector)
 
     return isDelete;
 }
+
+bool CUserPool::changeUserInPool(CUser* user, int preSector, int curSector)
+{
+	if ( !user || preSector <= 0 || curSector <= 0 )
+	{
+		LOG("Invalid Sector Info\n");
+		return false;
+	}
+
+	bool isSuccess = false;
+	do
+	{
+		map<int, map<int, CUser*>* >::iterator it_preSectorMap;
+		map<int, map<int, CUser*>* >::iterator it_postSectorMap;
+		map<int, CUser*>* preMap = NULL;
+		map<int, CUser*>* postMap = NULL;
+		int idx = 0;
+		it_preSectorMap = userInfo.find(preSector);
+		it_postSectorMap = userInfo.find(curSector);
+		if ( it_preSectorMap == userInfo.end() || !it_preSectorMap->second || it_postSectorMap == userInfo.end() || it_postSectorMap->second )
+		{
+			LOG("Invalid Sector No pre(%d) post(%d)\n", preSector, curSector);
+			break;
+		}
+
+		preMap = (map<int, CUser*>*)it_preSectorMap->second;
+		postMap = (map<int, CUser*>*)it_postSectorMap->second;
+		CThreadLockManager preLock(NOT_SET, preSector);
+		CThreadLockManager postLock(NOT_SET, curSector);
+		if ( preMap && postMap )
+		{
+			LOG("Delete User(%d)\n", user->_fd);
+			preMap->erase(user->_fd);
+			postMap->insert(std::pair<int, CUser*>(user->_fd, user));
+			isSuccess = true;
+		} 
+	}while(false);
+
+	return isSuccess;
+}
+
 
 CUser* CUserPool::findUserInPool(int fd, int sector)
 {
@@ -154,7 +196,6 @@ CUser* CUserPool::findUserInPool(int fd, int sector)
 		{
 			isFind = true;
 		}
-
 	} 
 	
 	if ( isFind ) 
@@ -166,12 +207,11 @@ CUser* CUserPool::findUserInPool(int fd, int sector)
 			return NULL;
 		}
 	}
-
 	return user;
 }
 
 
-void CUserPool::getAllUserList(list<int32_t>& userConnection)
+void CUserPool::getAllUserList(list<CUser*>& userConnection)
 {
 	/***********************************
 	 * 전체 순회
@@ -186,12 +226,12 @@ void CUserPool::getAllUserList(list<int32_t>& userConnection)
 			{
 				continue ; 
 			}
-			userConnection.push_back(user->_fd);
+			userConnection.push_back(user);
 		}
 	}
 } 
 
-void CUserPool::getPartUserList(list<int32_t>& userConnection, int sector)
+void CUserPool::getPartUserList(list<CUser*>& userConnection, int sector)
 {
 	/***********************************
 	 * 구역 순회
@@ -214,7 +254,7 @@ void CUserPool::getPartUserList(list<int32_t>& userConnection, int sector)
 		{
 			continue ; 
 		}
-		userConnection.push_back(user->_fd);
+		userConnection.push_back(user);
 	}
 }
 

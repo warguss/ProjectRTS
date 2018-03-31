@@ -15,29 +15,19 @@
 #define READ_TYPE 100
 #define WRITE_TYPE 101
 
-
-
 #define PROTOBUF_USER 0
 #define PROTOBUF_ADDRESSBOOK 1
 
 #define HEADER 2
 #define BODY 3
 
-
 #define ALL_SEND 1000
 #define PART_SEND 1001
 
 #define INVALID_USER 10001
- 
-
-
 #define X_SECTOR_MAX 10
 #define Y_SECTOR_MAX 10
-
-
-#define X_GAME_MAX 1000
-#define Y_GAME_MAX 1000
-
-
+#define X_GAME_MAX 100
+#define Y_GAME_MAX 100
 
 #endif
