@@ -34,6 +34,8 @@ public:
     static void* waitEvent(void* val);
     static void* writeEvent(void* val);
 
+	bool isLock();
+
 private:
     bool _connectUserEvent(int fd);
     bool _deleteUserEvent(int fd);
@@ -41,4 +43,3 @@ private:
 };
 
 #endif
-

@@ -4,8 +4,10 @@ CQueueManager::CQueueManager()
 {
     _queue.clear();
     _queueSize = 0;
-}
 
+	pthread_mutex_init(&_queue_mutex, (const pthread_mutexattr_t*)NULL);
+	pthread_cond_init(&_queue_cond, (const pthread_condattr_t*)NULL);
+}
 
 CQueueManager::~CQueueManager()
 {
@@ -30,21 +32,6 @@ void CQueueManager::setType(int type)
 	_type = type;
 }
 
-#if 0 
-bool CQueueManager::enqueue(int fd, char* buf, int length)
-{
-    CUser* user = new CUser;
-    user->setData(fd, _type);
-
-    /* Auto Lock */
-	CThreadLockManager lock(_type);
-    _queue.push_back(user);
-    _queueSize++;
-
-    return true;
-}
-#endif
-
 bool CQueueManager::enqueue(CProtoPacket* packet)
 {
 	if ( !packet )
@@ -60,25 +47,6 @@ bool CQueueManager::enqueue(CProtoPacket* packet)
 
     return true;
 }
-#if 0 
-CUser* CQueueManager::dequeue()
-{
-    CProtoPacket* packet = NULL;
-	if ( !isQueueDataExist() ) 
-	{
-		return packet;
-	}
-
-	LOG("Dequeue Start\n");
-	/* Auto Lock */
-	CThreadLockManager lock(_type);
-	packet = _queue.front();
-	_queue.pop_front();
-	_queueSize--;
-
-    return packet;
-}
-#endif
 
 CProtoPacket* CQueueManager::dequeue()
 {
@@ -100,11 +68,39 @@ CProtoPacket* CQueueManager::dequeue()
 
 bool CQueueManager::isQueueDataExist()
 {
-	/* Auto Lock */
-	CThreadLockManager lock(_type);
     if ( _queueSize > 0 )
     {
         return true;
     }
+
     return false;
 }
+
+bool CQueueManager::unLock()
+{
+	if ( _queueSize > 0 )
+	{
+		return false;
+	} 
+	pthread_mutex_unlock(&_queue_mutex);
+	pthread_cond_signal(&_queue_cond);
+	
+	return true;
+}
+
+bool CQueueManager::lock()
+{
+	if ( _queueSize == 0 )
+	{
+		LOG("Thread Lock\n");
+		pthread_mutex_lock(&_queue_mutex);
+		return true;
+	}
+	return false;
+}
+
+int CQueueManager::queueSize()
+{
+	return _queueSize;
+}
+

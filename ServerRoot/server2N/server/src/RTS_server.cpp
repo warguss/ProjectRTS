@@ -37,30 +37,34 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 	 * TryConnect 
 	 *************************************/
 	int32_t type = eventPacket->_type;
+	CUser* eventUser = g_userPool.findUserInPool(eventPacket->_fd);
 	if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect || type == (int32_t)server2N::UserConnection_ConnectionType_Connect )
 	{
+		if ( !eventUser )
+		{
+			LOG("Error EventUser");
+			return false;
+		} 
 		CProtoPacket *connectPacket = NULL;
-		if ( !g_packetManager.setConnectType(type, eventPacket->_fd, eventPacket->_fd, userConnector, &connectPacket) ) 
+		if ( !g_packetManager.setConnectType(type, eventUser, eventPacket->_fd, userConnector, &connectPacket) ) 
 		{
 			LOG("Error Connector Type\n");
 			return false;
 		}
 
-		LOG("User[%d] Pre Enqueue\n", eventPacket->_fd);
 		cout <<  connectPacket->_proto->DebugString() << endl;
 		session.m_writeQ_Manager.enqueue(connectPacket);
-
 		type = server2N::UserConnection_ConnectionType_Connect;
 	}
 
 	int userConnectSize = userConnector.size(); 
 	list<CUser*>::iterator it = userConnector.begin();
-	LOG("Connector User Size(%d)", userConnectSize);
+	LOG("Connector User Size(%d)\n", userConnectSize);
 	for ( ; it != userConnector.end(); it++ )
 	{
 		CUser* user = *it;
 		CProtoPacket *packet = NULL;
-		if ( !g_packetManager.setConnectType(type, user, eventPacket->_fd, userConnector, &packet) ||  !packet )
+		if ( !g_packetManager.setConnectType(type, eventUser, user->_fd, userConnector, &packet) ||  !packet )
 		{
 			LOG("Error Connector Type\n");
 			return false;
@@ -291,5 +295,6 @@ int main(int argc, char* argv[])
 	int status;
 	pthread_join(thread, (void**)&status);
 	google::protobuf::ShutdownProtobufLibrary();
-	return -1;
+
+	return 0;
 }

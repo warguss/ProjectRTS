@@ -37,7 +37,21 @@ bool CProtoPacket::SyncUser(CUser* user)
 	{
 
 	}
+	else if ( _proto->has_connect() )
+	{
+		server2N::UserConnection connect = _proto->connect();
+		LOG("CUser::setData Update Connect Info");
+		if ( connect.contype() == (int32_t)server2N::UserConnection_ConnectionType_TryConnect )
+		{
+			LOG("_proto Test(%s)", connect.mutable_nickname(0)->c_str());
+			user->_nickName = connect.mutable_nickname(0)->c_str();
+			LOG("_proto Test(%s) nickName(%s)", connect.mutable_nickname(0)->c_str(), user->_nickName.c_str());
+		}
+	}
+	else if ( _proto->has_notice() )
+	{
 
-
+	} 
+	
 	return true;
 }	

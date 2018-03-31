@@ -170,9 +170,9 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
     return true;
 }
 
-bool CProtoManager::setConnectType(int32_t type, CUser* senderUser, int32_t eventFd, list<CUser*> allUser, CProtoPacket** packet)
+bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, list<CUser*> allUser, CProtoPacket** packet)
 {
-	if ( type < 0 || eventFd <= 0 || senderUser->_fd <= 0 )
+	if ( type < 0 || fd <= 0 || !eventUser || eventUser->_fd <= 0 )
 	{
 		LOG("Not Exist User , User ProtoPacket\n");
 		return false;
@@ -180,59 +180,68 @@ bool CProtoManager::setConnectType(int32_t type, CUser* senderUser, int32_t even
 
 	(*packet) = new CProtoPacket();
 	(*packet)->_protoConnect = new server2N::UserConnection; 
+	(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_UserConnection);
 	if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect )
 	{
-		LOG("USERID(%d) TRYCONNECT Change To AccepConnect\n", senderUser->_fd);
+		LOG("USERID(%d) TRYCONNECT Change To AccepConnect\n", eventUser->_fd);
 		
-		(*packet)->_fd = senderUser->_fd;
-		(*packet)->_proto->set_senderid(senderUser->_fd);
-		(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_UserConnection);
+		(*packet)->_fd = eventUser->_fd;
+		(*packet)->_proto->set_senderid(eventUser->_fd);
 		(*packet)->_type = server2N::PacketBody_messageType_UserConnection;
 
 		(*packet)->_protoConnect->set_contype((int32_t)server2N::UserConnection_ConnectionType_AcceptConnect);
-		(*packet)->_protoConnect->add_connectorid(eventFd);
+		(*packet)->_protoConnect->add_connectorid(eventUser->_fd);
+		(*packet)->_protoConnect->add_killinfo(eventUser->_killInfo);
+		(*packet)->_protoConnect->add_deathinfo(eventUser->_deathInfo);
+		(*packet)->_protoConnect->add_nickname(eventUser->_nickName.c_str());
 		
 		(*packet)->_proto->set_allocated_connect((*packet)->_protoConnect);
 		cout << "TRYCONNECT PACKET " << (*packet)->_proto->DebugString() << endl;
 	}
 	else if ( type == (int32_t)server2N::UserConnection_ConnectionType_Connect )
 	{
+		LOG("USERID(%d) TRYCONNECT Change To CONNECT\n", eventUser->_fd);
 		(*packet)->_type = server2N::PacketBody_messageType_UserConnection;
-		(*packet)->_fd = senderUser->_fd;
-		(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_UserConnection);
+		(*packet)->_fd = fd;
 		(*packet)->_protoConnect->set_contype((int32_t)server2N::UserConnection_ConnectionType_Connect);
-		LOG("USERID(%d) TRYCONNECT Change To CONNECT\n", senderUser->_fd);
 
 		/**************************************
 		 * id에 대해 list조회 전달
 		 * (신규 유저일 경우 조회전달)
 		 **************************************/
-		if ( senderUser->_fd == eventFd ) 
+		if ( eventUser->_fd == fd ) 
 		{
 			list<CUser*>::iterator it = allUser.begin(); 
+			if ( allUser.end() == it )
+			{
+				return true;
+			} 
 			/* Add 시점 생각해야할듯, 아니며 여기서 자기자신 예외처리필요함 */
+			LOG("----------------Set Connect\n");
 			for ( ; it != allUser.end(); it++ )
 			{
 				CUser* user = (CUser*)*it;
-				if ( user->_fd == senderUser->_fd )
+				if ( user->_fd == fd )
 				{
-					LOG("Same User\n");
 					continue ; 
-				}
-				(*packet)->_protoConnect->add_connectorid((int32_t)senderUser->_fd);
-				(*packet)->_protoConnect->add_killinfo((int64_t)senderUser->_killInfo);
-				(*packet)->_protoConnect->add_deathinfo((int64_t)senderUser->_deathInfo);
-				(*packet)->_protoConnect->add_nickname(senderUser->_nickName);
+				} 
+				(*packet)->_protoConnect->add_connectorid((int32_t)user->_fd);
+				(*packet)->_protoConnect->add_killinfo((int64_t)user->_killInfo);
+				(*packet)->_protoConnect->add_deathinfo((int64_t)user->_deathInfo);
+				(*packet)->_protoConnect->add_nickname(user->_nickName.c_str());
 			}
 			(*packet)->_proto->set_allocated_connect((*packet)->_protoConnect);
-			LOG("Set Connect\n");
 		}
 		else
 		{
 			/**************************************
 			 * 기존 유저일 경우 eventFd만 전달
 			 **************************************/
-			(*packet)->_protoConnect->add_connectorid((int32_t)eventFd);
+			LOG("---------------------Set 기존 유저\n");
+			(*packet)->_protoConnect->add_connectorid((int32_t)eventUser->_fd);
+			(*packet)->_protoConnect->add_killinfo((int64_t)eventUser->_killInfo);
+			(*packet)->_protoConnect->add_deathinfo((int64_t)eventUser->_deathInfo);
+			(*packet)->_protoConnect->add_nickname(eventUser->_nickName.c_str());
 			(*packet)->_proto->set_allocated_connect((*packet)->_protoConnect);
 		}
 
@@ -243,14 +252,14 @@ bool CProtoManager::setConnectType(int32_t type, CUser* senderUser, int32_t even
 		/**************************************
 		 * 기존 유저일 경우 eventFd만 전달
 		 **************************************/
-		LOG("USERID(%d) DisConnect\n", senderUser->_fd);
+		LOG("USERID(%d) DisConnect\n", eventUser->_fd);
 		
-		(*packet)->_fd = senderUser->_fd;
-		(*packet)->_proto->set_senderid(senderUser->_fd);
+		(*packet)->_fd = fd;
+		(*packet)->_proto->set_senderid(fd);
 		(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_UserConnection);
 		(*packet)->_type = (int32_t)server2N::UserConnection_ConnectionType_DisConnect;
 		(*packet)->_protoConnect->set_contype((int32_t)server2N::UserConnection_ConnectionType_DisConnect);
-		(*packet)->_protoConnect->add_connectorid(eventFd);
+		(*packet)->_protoConnect->add_connectorid(eventUser->_fd);
 		
 		(*packet)->_proto->set_allocated_connect((*packet)->_protoConnect);
 	}
@@ -264,6 +273,7 @@ bool CProtoManager::setConnectType(int32_t type, CUser* senderUser, int32_t even
 		}
 		return false;
 	}
+
 	return true;
 }
 
