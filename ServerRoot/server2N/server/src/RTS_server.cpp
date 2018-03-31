@@ -29,6 +29,7 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 	/*************************************
 	 * 전체 유저 연결 정보 획득
 	 *************************************/
+	LOG("All Send Connect\n");
 	list<CUser*> userConnector;
 	g_userPool.getAllUserList(userConnector);
 
@@ -123,6 +124,7 @@ bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 	/*************************************
 	 * 파트 유저 연결 정보 획득
 	 *************************************/
+	LOG("Action All Send Connect\n");
 	list<CUser*> connectList;
 	g_userPool.getAllUserList(connectList);
 
@@ -157,6 +159,42 @@ bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 	return true;
 }
 
+bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
+{
+	/*************************************
+	 * 파트 유저 연결 정보 획득
+	 *************************************/
+	LOG("Noti All Send Connect\n");
+	list<CUser*> connectList;
+	g_userPool.getAllUserList(connectList);
+
+	/*************************************
+	 * Event Send 
+	 *************************************/
+	int32_t type = eventUser->_type;
+	list<CUser*>::iterator it = connectList.begin();
+	for ( ; it != connectList.end(); it++ )
+	{
+		CUser* user = (CUser*)*it;
+		CProtoPacket *packet = NULL;
+		if ( !g_packetManager.setNotiType(type, user, eventUser, connectList, &packet) || !packet )
+		{
+			LOG("Error Connector Type\n");
+			return false;
+		} 
+
+		/*********************************
+		 * Enqueue
+		 *********************************/
+		session.m_writeQ_Manager.enqueue(packet);
+		LOG("User(%d) Send Noti\n", packet->_fd);
+	}
+	LOG("End All Send\n");
+
+	return true;
+}
+
+
 int main(int argc, char* argv[]) 
 {
 	// Verify that the version of the library that we linked against is
@@ -187,6 +225,11 @@ int main(int argc, char* argv[])
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_Spawn, ActionPartSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_UserSync, ActionAllSendFunc) );
 
+	/*******************************************************
+	 * Noti 관련 함수 Add
+	 *******************************************************/
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GlobalNotice_NoticeInfo_KillInfo, NotiAllSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GlobalNotice_NoticeInfo_Notice, NotiAllSendFunc) );
 
 	/*******************************************************
 	 * Sector Index Setting 
@@ -222,7 +265,6 @@ int main(int argc, char* argv[])
 			 *
 			 * Type은 이벤트 형식
 			 *************************************/ 
-			LOG("Dequeue Start\n");
 			int32_t type = data->_type;
 			if ( type < 0 )
 			{
