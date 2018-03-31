@@ -158,12 +158,16 @@ public class NetworkModule : MonoBehaviour
         }
     }
 
-    PacketBody CreateConnectionPacket(UserConnection.Types.ConnectionType type, int id)
+    PacketBody CreateConnectionPacket(UserConnection.Types.ConnectionType type, int id, string nickName  = "")
     {
         UserConnection uesrConnection = new UserConnection
         {
             ConType = type,
         };
+        if(string.IsNullOrEmpty(nickName))
+        {
+            uesrConnection.Nickname.Add("User" + Time.fixedTime.ToString());
+        }
 
         uesrConnection.ConnectorId.Add(id);
 
@@ -215,6 +219,31 @@ public class NetworkModule : MonoBehaviour
         var packet = CreateConnectionPacket(UserConnection.Types.ConnectionType.TryConnect, 0);
 
         SendPacket(packet);
+    }
+
+    public void WriteEventUserSync(Vector2 position, Vector2 velocity, bool isLeft)
+    {
+        int property = 0;
+        if (!isLeft)
+            property = 1;
+
+        var packet = CreateEventPacket(GameEvent.Types.action.UserSync, myId, position, velocity, property);
+
+        SendPacket(packet);
+    }
+
+    public void WriteEventSpawn(Vector2 position)
+    {
+        var packet = CreateEventPacket(GameEvent.Types.action.Spawn, myId, position, new Vector2(0, 0));
+
+        SendPacket(packet);
+    }
+
+    public void WriteEventDead(Vector2 position)
+    {
+        //var packet = CreateEventPacket(GameEvent.Types.action.Dead, myId, position, new Vector2(0, 0));
+
+        //SendPacket(packet);
     }
 
     public void WriteEventMove(Vector2 position, Vector2 velocity, bool isLeft)

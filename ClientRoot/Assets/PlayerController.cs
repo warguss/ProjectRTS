@@ -3,8 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class CurrentInput
+{
+    public bool Left = false;
+    public bool Right = false;
+    public bool Jump = false;
+    public bool Fire = false;
+}
+
 public class PlayerController {
     private int mPlayerId = -1;
+    private CurrentInput currentInput = new CurrentInput();
 
     public int PlayerId
     {
@@ -22,29 +31,63 @@ public class PlayerController {
 
     public IControllableCharacter Character { get; set; }
 
-    public void SetInput(PlayerAction action)
+    public void DoInputFrame()
+    {
+        ControllByInput();
+    }
+
+    public void SetInput(PlayerAction action, bool active = true)
     {
         switch (action)
         {
-            case PlayerAction.Stop:
-                Character.MoveStop();
-                break;
-
             case PlayerAction.Left:
-                Character.MoveLeft();
+                currentInput.Left = active;
                 break;
 
             case PlayerAction.Right:
-                Character.MoveRight();
+                currentInput.Right = active;
                 break;
 
             case PlayerAction.Jump:
-                Character.Jump();
+                currentInput.Jump = active;
                 break;
 
             case PlayerAction.Fire:
-                Character.Shoot();
+                currentInput.Fire = active;
                 break;
+
+            case PlayerAction.Stop:
+                currentInput.Left = false;
+                currentInput.Right = false;
+                break;
+        }
+    }
+
+    public void ControllByInput()
+    {
+        if (currentInput.Left)
+        {
+            Character.MoveLeft();
+        }
+        else if (currentInput.Right)
+        {
+            Character.MoveRight();
+        }
+        else
+        {
+            Character.MoveStop();
+        }
+        
+        if (currentInput.Jump)
+        {
+            Character.Jump();
+            currentInput.Jump = false;
+        }
+
+        if (currentInput.Fire)
+        {
+            Character.Shoot();
+            currentInput.Fire = false;
         }
     }
 

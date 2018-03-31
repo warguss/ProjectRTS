@@ -25,7 +25,7 @@ public class GameLogic : MonoBehaviour
 
     bool isConnected = false;
 
-    bool TestMode = true;
+    bool TestMode = false;
 
     // Use this for initialization
     void Start()
@@ -48,11 +48,15 @@ public class GameLogic : MonoBehaviour
     void Update()
     {
         CheckPacket();
+        ProcessInput();
     }
 
     void FixedUpdate()
     {
-        ProcessInput();
+        foreach (KeyValuePair<int, PlayerController> entry in playerControllers)
+        {
+            entry.Value.DoInputFrame();
+        }
     }
 
     void userJoin(int id, bool isMe = false)
@@ -70,8 +74,8 @@ public class GameLogic : MonoBehaviour
             player.Character.ShootEvent += PlayerEventShoot;
             player.Character.GetHitEvent += PlayerEventGetHit;
             player.Character.SpawnEvent += PlayerEventSpawn;
+            player.Character.DeadEvent += PlayerEventDead;
         }
-        player.Character.DeadEvent += PlayerEventDead;
 
         TestUI.Instance.PrintText("User Join : " + id + isMe);
     }
@@ -102,11 +106,11 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void SendInputToCharacter(int player, PlayerAction action)
+    void SendInputToCharacter(int player, PlayerAction action, bool active = true)
     {
         if (playerControllers.ContainsKey(player))
         {
-            playerControllers[player].SetInput(action);
+            playerControllers[player].SetInput(action, active);
         }
     }
 
@@ -114,19 +118,8 @@ public class GameLogic : MonoBehaviour
     {
         if (myId != -1)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-                SendInputToCharacter(myId, PlayerAction.Left);
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-                SendInputToCharacter(myId, PlayerAction.Right);
-            if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
-            {
-                if (Input.GetKey(KeyCode.LeftArrow))
-                    SendInputToCharacter(myId, PlayerAction.Left);
-                else if (Input.GetKey(KeyCode.RightArrow))
-                    SendInputToCharacter(myId, PlayerAction.Right);
-                else
-                    SendInputToCharacter(myId, PlayerAction.Stop);
-            }
+            SendInputToCharacter(myId, PlayerAction.Left, Input.GetKey(KeyCode.LeftArrow));
+            SendInputToCharacter(myId, PlayerAction.Right, Input.GetKey(KeyCode.RightArrow));
 
             if (Input.GetKeyDown(KeyCode.UpArrow))
                 SendInputToCharacter(myId, PlayerAction.Jump);
@@ -136,16 +129,12 @@ public class GameLogic : MonoBehaviour
 
         if(TestMode)
         {
-            if (Input.GetKeyDown(KeyCode.A))
-                SendInputToCharacter(testId2P, PlayerAction.Left);
-            else if (Input.GetKeyDown(KeyCode.D))
-                SendInputToCharacter(testId2P, PlayerAction.Right);
-            else if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
-                SendInputToCharacter(testId2P, PlayerAction.Stop);
+            SendInputToCharacter(testId2P, PlayerAction.Left, Input.GetKey(KeyCode.LeftArrow));
+            SendInputToCharacter(testId2P, PlayerAction.Right, Input.GetKey(KeyCode.RightArrow));
 
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.UpArrow))
                 SendInputToCharacter(testId2P, PlayerAction.Jump);
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.RightShift))
                 SendInputToCharacter(testId2P, PlayerAction.Fire);
         }
 
@@ -179,8 +168,18 @@ public class GameLogic : MonoBehaviour
     void ProcessConnectionPacket(UserConnection ConnectionPacket)
     {
         TestUI.Instance.PrintText("Connection Type : " + ConnectionPacket.ConType);
-        foreach (int connectorId in ConnectionPacket.ConnectorId)
+        for (int i = 0; i< ConnectionPacket.ConnectorId.Count; i++)
         {
+            int connectorId = ConnectionPacket.ConnectorId[i];
+            string connectorName = ConnectionPacket.Nickname[i];
+            int connectorKillCount = ConnectionPacket.KillInfo[i];
+            int ConnectorDeathCount = ConnectionPacket.DeathInfo[i];
+
+            TestUI.Instance.PrintText("Connector Id : " + connectorId
+                                     + " / Name = "+ connectorName
+                                     + " / Kill = " + connectorKillCount
+                                     + " / Death = " + ConnectorDeathCount);
+
             if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.AcceptConnect)
             {
                 isConnected = true;
@@ -309,7 +308,7 @@ public class GameLogic : MonoBehaviour
     {
         if (isConnected)
         {
-            //NetworkModule.instance.WriteEvenSpawn(position);
+            NetworkModule.instance.WriteEventSpawn(position);
         }
     }
 
@@ -318,7 +317,7 @@ public class GameLogic : MonoBehaviour
         StartCoroutine(SpawnAfterSeconds(playerId, new Vector2(2, 2), 5));
         if (isConnected)
         {
-            //NetworkModule.instance.WriteEventShoot();
+            //NetworkModule.instance.WriteEventDead();
         }
     }
 
