@@ -745,17 +745,17 @@ class EventMove : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   // accessors -------------------------------------------------------
 
-  // int32 direction = 5;
-  void clear_direction();
-  static const int kDirectionFieldNumber = 5;
-  ::google::protobuf::int32 direction() const;
-  void set_direction(::google::protobuf::int32 value);
+  // .server2N.EventMove.Direction type = 5;
+  void clear_type();
+  static const int kTypeFieldNumber = 5;
+  ::server2N::EventMove_Direction type() const;
+  void set_type(::server2N::EventMove_Direction value);
 
   // @@protoc_insertion_point(class_scope:server2N.EventMove)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::int32 direction_;
+  int type_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventMoveImpl();
@@ -2203,18 +2203,18 @@ inline void UserConnection::set_contype(::server2N::UserConnection_ConnectionTyp
 
 // EventMove
 
-// int32 direction = 5;
-inline void EventMove::clear_direction() {
-  direction_ = 0;
+// .server2N.EventMove.Direction type = 5;
+inline void EventMove::clear_type() {
+  type_ = 0;
 }
-inline ::google::protobuf::int32 EventMove::direction() const {
-  // @@protoc_insertion_point(field_get:server2N.EventMove.direction)
-  return direction_;
+inline ::server2N::EventMove_Direction EventMove::type() const {
+  // @@protoc_insertion_point(field_get:server2N.EventMove.type)
+  return static_cast< ::server2N::EventMove_Direction >(type_);
 }
-inline void EventMove::set_direction(::google::protobuf::int32 value) {
+inline void EventMove::set_type(::server2N::EventMove_Direction value) {
   
-  direction_ = value;
-  // @@protoc_insertion_point(field_set:server2N.EventMove.direction)
+  type_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventMove.type)
 }
 
 // -------------------------------------------------------------------
