@@ -12,6 +12,7 @@ CQueueManager CSessionManager::m_writeQ_Manager;
 static void* CSessionManager::waitEvent(void* val);
 static void* CSessionManager::writeEvent(void* val);
 
+
 CProtoManager g_packetManager;
 extern CUserPool g_userPool;
 
@@ -123,11 +124,13 @@ static void* CSessionManager::waitEvent(void* val)
 				 * 이건 필요함, 
 				 * Sector를 위해서도
 				 ******************************************/
+				bool isFirst = false;
 				CUser* user = g_userPool.findUserInPool(fd);
 				if ( !user )
 				{
 					user = new CUser;
 					user->setData(fd, READ_TYPE);
+					isFirst = true;
 				}
 
 				/******************************************
@@ -178,13 +181,16 @@ static void* CSessionManager::waitEvent(void* val)
 				
 				LOG("Body Set headerSize(%d) readSize(%d)\n", bodyLength, readn);
 				CProtoPacket* packet = NULL;
-				if ( !g_packetManager.decodingBody(bodyBuf, readn, bodyLength, &packet) || !packet )
+				if ( !g_packetManager.decodingBody(bodyBuf, readn, bodyLength, &packet) || !packet || !packet->SyncUser(user))
 				{
 					LOG("Error, Decoding Body Error[%d]\n", fd);
 					continue;
 				}
-
-				g_userPool.addUserInPool(user);
+	
+				if ( isFirst )
+				{
+					g_userPool.addUserInPool(user);
+				}
 				packet->_fd = fd;
 				/******************************************
 				 * QueueManger에 넣는다.
@@ -212,8 +218,7 @@ static void* CSessionManager::writeEvent(void* val)
 			uint32_t writeSize = 0;
 			uint32_t bodyLength = 0;
 			unsigned char header[HEADER_SIZE] = {'\0' , };
-			cout << "Write proto : " << packet->_proto->DebugString() << endl;
-			cout << "Write proto Conenct : " << packet->_proto->connect().DebugString() << endl;
+			LOG("Server -> User(%d) String(%s) \n", packet->_fd, packet->_proto->DebugString().c_str());
 			if ( !g_packetManager.encodingHeader(header, packet->_proto, bodyLength) || bodyLength <= 0 )
 			{
 				LOG("Error User ProtoPacket Not Exist\n");

@@ -16,8 +16,8 @@ private:
     int _queueSize;
     list<CProtoPacket*> _queue;
 
-    pthread_mutex_t queue_mutex;
-    pthread_cond_t queue_cond;
+    pthread_mutex_t _queue_mutex;
+    pthread_cond_t _queue_cond;
 public:
     CQueueManager();
     ~CQueueManager();
@@ -28,5 +28,13 @@ public:
 
     bool isQueueDataExist();
     void setType(int type);
+
+	static void* autoQueueLock();
+
+	bool unLock();
+	bool lock();
+
+	int queueSize();
+	
 };
 #endif
