@@ -77,7 +77,6 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 		session.m_writeQ_Manager.enqueue(packet);
 		LOG("User(%d) Send Noti\n", packet->_fd);
 	}
-	LOG("End All Send\n");
 	return true;
 }
 
@@ -122,7 +121,6 @@ bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 	return true;
 }
 
-
 bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 {
 	/*************************************
@@ -147,19 +145,27 @@ bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 			return false;
 		} 
 
-		if ( user->_fd == eventUser->_fd )
-		{
-			continue ;
-		}
-
 		/*********************************
 		 * Enqueue
 		 *********************************/
 		session.m_writeQ_Manager.enqueue(packet);
 		LOG("User(%d) Send Noti\n", packet->_fd);
+
+
+		if ( type == (int32_t)server2N::GameEvent_action_EventDeath )
+		{
+			CProtoPacket *notiPacket = NULL;
+			if ( !g_packetManager.setNotiType(type, user, eventUser, connectList, &notiPacket) || !notiPacket )
+			{
+				LOG("Error Connector Type\n");
+				return false;
+			}
+
+			session.m_writeQ_Manager.enqueue(notiPacket);
+			LOG("User(%d) Send Noti\n", packet->_fd);
+		}
 	}
 	LOG("End All Send\n");
-
 	return true;
 }
 
@@ -194,10 +200,8 @@ bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		LOG("User(%d) Send Noti\n", packet->_fd);
 	}
 	LOG("End All Send\n");
-
 	return true;
 }
-
 
 int main(int argc, char* argv[]) 
 {
@@ -221,13 +225,14 @@ int main(int argc, char* argv[])
 	/*******************************************************
 	 * Action 관련 함수 Add
 	 *******************************************************/
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_Move, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_Stop, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_Jump, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_Shoot, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_GetHit, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_Spawn, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_UserSync, ActionAllSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventMove, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventStop, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventJump, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventShoot, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventHit, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventSpawn, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventUserSync, ActionAllSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventDeath, ActionAllSendFunc) );
 
 	/*******************************************************
 	 * Noti 관련 함수 Add
@@ -290,8 +295,6 @@ int main(int argc, char* argv[])
 			}
 		} 	
 	}
-	LOG("MainLogic\n");
-
 	int status;
 	pthread_join(thread, (void**)&status);
 	google::protobuf::ShutdownProtobufLibrary();
