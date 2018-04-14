@@ -175,7 +175,7 @@ CUser* CUserPool::findUserInPool(int fd, int sector)
 			it = tMap->find(fd);
 			if ( it == tMap->end() )
 			{
-				continue;
+				break;
 			}
 
 			isFind = true;
@@ -187,6 +187,7 @@ CUser* CUserPool::findUserInPool(int fd, int sector)
 		itVal = userInfo.find(sector);
 		if ( totalUser >=  POOL_SIZE || itVal == userInfo.end() || !itVal->second )
 		{
+			LOG("Find Error");
 		    return (CUser*)NULL;
 		}
 
@@ -229,6 +230,7 @@ void CUserPool::getAllUserList(list<CUser*>& userConnection)
 			userConnection.push_back(user);
 		}
 	}
+	LOG("size allUser Connect (%d)", userConnection.size());
 } 
 
 void CUserPool::getPartUserList(list<CUser*>& userConnection, int sector)

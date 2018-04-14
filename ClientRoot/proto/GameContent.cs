@@ -22,35 +22,56 @@ namespace Server2N {
     static GameContentReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChFnYW1lQ29udGVudC5wcm90bxIIc2VydmVyMk4ipwEKDEdsb2JhbE5vdGlj",
-            "ZRIvCgRub3RpGAEgASgOMiEuc2VydmVyMk4uR2xvYmFsTm90aWNlLk5vdGlj",
-            "ZUluZm8SDgoGbm90aWNlGAIgASgJEhEKCXBlcmZvcm1lchgDIAEoBRIOCgZ2",
-            "aWN0aW0YBCADKAUiMwoKTm90aWNlSW5mbxILCgdOb3RoaW5nEAASDAoIS2ls",
-            "bEluZm8QARIKCgZOb3RpY2UQAiL1AQoOVXNlckNvbm5lY3Rpb24SEwoLY29u",
-            "bmVjdG9ySWQYASADKAUSEAoIa2lsbEluZm8YAiADKAUSEQoJZGVhdGhJbmZv",
-            "GAMgAygFEhAKCG5pY2tuYW1lGAQgAygJEjgKB2NvblR5cGUYBSABKA4yJy5z",
-            "ZXJ2ZXIyTi5Vc2VyQ29ubmVjdGlvbi5Db25uZWN0aW9uVHlwZSJdCg5Db25u",
-            "ZWN0aW9uVHlwZRILCgdOb3RoaW5nEAASCwoHQ29ubmVjdBABEg4KClRyeUNv",
-            "bm5lY3QQAhIRCg1BY2NlcHRDb25uZWN0EAMSDgoKRGlzQ29ubmVjdBAEIpoC",
-            "CglHYW1lRXZlbnQSJwoDYWN0GAEgASgOMhouc2VydmVyMk4uR2FtZUV2ZW50",
-            "LmFjdGlvbhIWCg5hY3Rpb25Qcm9wZXJ0eRgFIAEoBRIWCg5FdmVudFBvc2l0",
-            "aW9uWBgGIAEoAhIWCg5FdmVudFBvc2l0aW9uWRgHIAEoAhIRCglWZWxvY2l0",
-            "eVgYCCABKAISEQoJVmVsb2NpdHlZGAkgASgCEhEKCWludm9rZXJJZBgKIAMo",
-            "BSJjCgZhY3Rpb24SCwoHTm90aGluZxAAEggKBE1vdmUQZBIICgRTdG9wEGUS",
-            "CAoESnVtcBBmEgkKBVNob290EGcSCgoGR2V0SGl0EGgSCQoFU3Bhd24QaRIM",
-            "CghVc2VyU3luYxBqIpACCgpQYWNrZXRCb2R5EjIKB21zZ1R5cGUYkE4gASgO",
-            "MiAuc2VydmVyMk4uUGFja2V0Qm9keS5tZXNzYWdlVHlwZRIpCgdjb25uZWN0",
-            "GAYgASgLMhguc2VydmVyMk4uVXNlckNvbm5lY3Rpb24SJwoGbm90aWNlGJFO",
-            "IAEoCzIWLnNlcnZlcjJOLkdsb2JhbE5vdGljZRIiCgVldmVudBgHIAEoCzIT",
-            "LnNlcnZlcjJOLkdhbWVFdmVudBIQCghzZW5kZXJJZBgIIAEoBSJECgttZXNz",
-            "YWdlVHlwZRINCglHYW1lRXZlbnQQABITCg5Vc2VyQ29ubmVjdGlvbhCQThIR",
-            "CgxHbG9iYWxOb3RpY2UQkU5iBnByb3RvMw=="));
+            "ChFnYW1lQ29udGVudC5wcm90bxIIc2VydmVyMk4iqwEKDEdsb2JhbE5vdGlj",
+            "ZRIzCghub3RpVHlwZRgBIAEoDjIhLnNlcnZlcjJOLkdsb2JhbE5vdGljZS5O",
+            "b3RpY2VJbmZvEg4KBm5vdGljZRgCIAEoCRIRCglwZXJmb3JtZXIYAyABKAUS",
+            "DgoGdmljdGltGAQgAygFIjMKCk5vdGljZUluZm8SCwoHTm90aGluZxAAEgwK",
+            "CEtpbGxJbmZvEAESCgoGTm90aWNlEAIi9QEKDlVzZXJDb25uZWN0aW9uEhMK",
+            "C2Nvbm5lY3RvcklkGAEgAygFEhAKCGtpbGxJbmZvGAIgAygFEhEKCWRlYXRo",
+            "SW5mbxgDIAMoBRIQCghuaWNrbmFtZRgEIAMoCRI4Cgdjb25UeXBlGAUgASgO",
+            "Micuc2VydmVyMk4uVXNlckNvbm5lY3Rpb24uQ29ubmVjdGlvblR5cGUiXQoO",
+            "Q29ubmVjdGlvblR5cGUSCwoHTm90aGluZxAAEgsKB0Nvbm5lY3QQARIOCgpU",
+            "cnlDb25uZWN0EAISEQoNQWNjZXB0Q29ubmVjdBADEg4KCkRpc0Nvbm5lY3QQ",
+            "BCILCglFdmVudE1vdmUiCwoJRXZlbnRTdG9wIgsKCUV2ZW50SnVtcCIrCgpF",
+            "dmVudFNob290Eg0KBWFuZ2xlGAEgASgCEg4KBmRhbWFnZRgCIAEoAiIaCghF",
+            "dmVudEhpdBIOCgZkYW1hZ2UYASABKAIiDAoKRXZlbnRTcGF3biIPCg1FdmVu",
+            "dFVzZXJTeW5jIh8KCkV2ZW50RGVhdGgSEQoJdHJpZ2dlcklkGAEgASgFIpcF",
+            "CglHYW1lRXZlbnQSJgoJbW92ZUV2ZW50GGwgASgLMhMuc2VydmVyMk4uRXZl",
+            "bnRNb3ZlEiYKCXN0b3BFdmVudBhtIAEoCzITLnNlcnZlcjJOLkV2ZW50U3Rv",
+            "cBImCglqdW1wRXZlbnQYbiABKAsyEy5zZXJ2ZXIyTi5FdmVudEp1bXASKAoK",
+            "c2hvb3RFdmVudBhvIAEoCzIULnNlcnZlcjJOLkV2ZW50U2hvb3QSJAoIaGl0",
+            "RXZlbnQYcCABKAsyEi5zZXJ2ZXIyTi5FdmVudEhpdBIoCgpzcGF3bkV2ZW50",
+            "GHEgASgLMhQuc2VydmVyMk4uRXZlbnRTcGF3bhIqCglzeW5jRXZlbnQYciAB",
+            "KAsyFy5zZXJ2ZXIyTi5FdmVudFVzZXJTeW5jEigKCmRlYXRoRXZlbnQYcyAB",
+            "KAsyFC5zZXJ2ZXIyTi5FdmVudERlYXRoEisKB2FjdFR5cGUYASABKA4yGi5z",
+            "ZXJ2ZXIyTi5HYW1lRXZlbnQuYWN0aW9uEhYKDmFjdGlvblByb3BlcnR5GAUg",
+            "ASgFEhYKDkV2ZW50UG9zaXRpb25YGAYgASgCEhYKDkV2ZW50UG9zaXRpb25Z",
+            "GAcgASgCEhEKCVZlbG9jaXR5WBgIIAEoAhIRCglWZWxvY2l0eVkYCSABKAIS",
+            "EQoJaW52b2tlcklkGAogAygFIpMBCgZhY3Rpb24SCwoHTm90aGluZxAAEg0K",
+            "CUV2ZW50TW92ZRBkEg0KCUV2ZW50U3RvcBBlEg0KCUV2ZW50SnVtcBBmEg4K",
+            "CkV2ZW50U2hvb3QQZxIMCghFdmVudEhpdBBoEg4KCkV2ZW50U3Bhd24QaRIR",
+            "Cg1FdmVudFVzZXJTeW5jEGoSDgoKRXZlbnREZWF0aBBrIpACCgpQYWNrZXRC",
+            "b2R5EjIKB21zZ1R5cGUYkE4gASgOMiAuc2VydmVyMk4uUGFja2V0Qm9keS5t",
+            "ZXNzYWdlVHlwZRIpCgdjb25uZWN0GAYgASgLMhguc2VydmVyMk4uVXNlckNv",
+            "bm5lY3Rpb24SJwoGbm90aWNlGJFOIAEoCzIWLnNlcnZlcjJOLkdsb2JhbE5v",
+            "dGljZRIiCgVldmVudBgHIAEoCzITLnNlcnZlcjJOLkdhbWVFdmVudBIQCghz",
+            "ZW5kZXJJZBgIIAEoBSJECgttZXNzYWdlVHlwZRINCglHYW1lRXZlbnQQABIT",
+            "Cg5Vc2VyQ29ubmVjdGlvbhCQThIRCgxHbG9iYWxOb3RpY2UQkU5iBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GlobalNotice), global::Server2N.GlobalNotice.Parser, new[]{ "Noti", "Notice", "Performer", "Victim" }, null, new[]{ typeof(global::Server2N.GlobalNotice.Types.NoticeInfo) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GlobalNotice), global::Server2N.GlobalNotice.Parser, new[]{ "NotiType", "Notice", "Performer", "Victim" }, null, new[]{ typeof(global::Server2N.GlobalNotice.Types.NoticeInfo) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.UserConnection), global::Server2N.UserConnection.Parser, new[]{ "ConnectorId", "KillInfo", "DeathInfo", "Nickname", "ConType" }, null, new[]{ typeof(global::Server2N.UserConnection.Types.ConnectionType) }, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "Act", "ActionProperty", "EventPositionX", "EventPositionY", "VelocityX", "VelocityY", "InvokerId" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.action) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventMove), global::Server2N.EventMove.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventStop), global::Server2N.EventStop.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventJump), global::Server2N.EventJump.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventShoot), global::Server2N.EventShoot.Parser, new[]{ "Angle", "Damage" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventHit), global::Server2N.EventHit.Parser, new[]{ "Damage" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventSpawn), global::Server2N.EventSpawn.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventUserSync), global::Server2N.EventUserSync.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventDeath), global::Server2N.EventDeath.Parser, new[]{ "TriggerId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "MoveEvent", "StopEvent", "JumpEvent", "ShootEvent", "HitEvent", "SpawnEvent", "SyncEvent", "DeathEvent", "ActType", "ActionProperty", "EventPositionX", "EventPositionY", "VelocityX", "VelocityY", "InvokerId" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.action) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.PacketBody), global::Server2N.PacketBody.Parser, new[]{ "MsgType", "Connect", "Notice", "Event", "SenderId" }, null, new[]{ typeof(global::Server2N.PacketBody.Types.messageType) }, null)
           }));
     }
@@ -82,7 +103,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public GlobalNotice(GlobalNotice other) : this() {
-      noti_ = other.noti_;
+      notiType_ = other.notiType_;
       notice_ = other.notice_;
       performer_ = other.performer_;
       victim_ = other.victim_.Clone();
@@ -93,14 +114,14 @@ namespace Server2N {
       return new GlobalNotice(this);
     }
 
-    /// <summary>Field number for the "noti" field.</summary>
-    public const int NotiFieldNumber = 1;
-    private global::Server2N.GlobalNotice.Types.NoticeInfo noti_ = 0;
+    /// <summary>Field number for the "notiType" field.</summary>
+    public const int NotiTypeFieldNumber = 1;
+    private global::Server2N.GlobalNotice.Types.NoticeInfo notiType_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Server2N.GlobalNotice.Types.NoticeInfo Noti {
-      get { return noti_; }
+    public global::Server2N.GlobalNotice.Types.NoticeInfo NotiType {
+      get { return notiType_; }
       set {
-        noti_ = value;
+        notiType_ = value;
       }
     }
 
@@ -149,7 +170,7 @@ namespace Server2N {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Noti != other.Noti) return false;
+      if (NotiType != other.NotiType) return false;
       if (Notice != other.Notice) return false;
       if (Performer != other.Performer) return false;
       if(!victim_.Equals(other.victim_)) return false;
@@ -159,7 +180,7 @@ namespace Server2N {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Noti != 0) hash ^= Noti.GetHashCode();
+      if (NotiType != 0) hash ^= NotiType.GetHashCode();
       if (Notice.Length != 0) hash ^= Notice.GetHashCode();
       if (Performer != 0) hash ^= Performer.GetHashCode();
       hash ^= victim_.GetHashCode();
@@ -173,9 +194,9 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Noti != 0) {
+      if (NotiType != 0) {
         output.WriteRawTag(8);
-        output.WriteEnum((int) Noti);
+        output.WriteEnum((int) NotiType);
       }
       if (Notice.Length != 0) {
         output.WriteRawTag(18);
@@ -191,8 +212,8 @@ namespace Server2N {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Noti != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Noti);
+      if (NotiType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) NotiType);
       }
       if (Notice.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Notice);
@@ -209,8 +230,8 @@ namespace Server2N {
       if (other == null) {
         return;
       }
-      if (other.Noti != 0) {
-        Noti = other.Noti;
+      if (other.NotiType != 0) {
+        NotiType = other.NotiType;
       }
       if (other.Notice.Length != 0) {
         Notice = other.Notice;
@@ -230,7 +251,7 @@ namespace Server2N {
             input.SkipLastField();
             break;
           case 8: {
-            noti_ = (global::Server2N.GlobalNotice.Types.NoticeInfo) input.ReadEnum();
+            notiType_ = (global::Server2N.GlobalNotice.Types.NoticeInfo) input.ReadEnum();
             break;
           }
           case 18: {
@@ -480,6 +501,830 @@ namespace Server2N {
 
   }
 
+  public sealed partial class EventMove : pb::IMessage<EventMove> {
+    private static readonly pb::MessageParser<EventMove> _parser = new pb::MessageParser<EventMove>(() => new EventMove());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<EventMove> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventMove() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventMove(EventMove other) : this() {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventMove Clone() {
+      return new EventMove(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as EventMove);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(EventMove other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(EventMove other) {
+      if (other == null) {
+        return;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class EventStop : pb::IMessage<EventStop> {
+    private static readonly pb::MessageParser<EventStop> _parser = new pb::MessageParser<EventStop>(() => new EventStop());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<EventStop> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventStop() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventStop(EventStop other) : this() {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventStop Clone() {
+      return new EventStop(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as EventStop);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(EventStop other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(EventStop other) {
+      if (other == null) {
+        return;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class EventJump : pb::IMessage<EventJump> {
+    private static readonly pb::MessageParser<EventJump> _parser = new pb::MessageParser<EventJump>(() => new EventJump());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<EventJump> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[4]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventJump() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventJump(EventJump other) : this() {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventJump Clone() {
+      return new EventJump(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as EventJump);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(EventJump other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(EventJump other) {
+      if (other == null) {
+        return;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class EventShoot : pb::IMessage<EventShoot> {
+    private static readonly pb::MessageParser<EventShoot> _parser = new pb::MessageParser<EventShoot>(() => new EventShoot());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<EventShoot> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventShoot() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventShoot(EventShoot other) : this() {
+      angle_ = other.angle_;
+      damage_ = other.damage_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventShoot Clone() {
+      return new EventShoot(this);
+    }
+
+    /// <summary>Field number for the "angle" field.</summary>
+    public const int AngleFieldNumber = 1;
+    private float angle_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float Angle {
+      get { return angle_; }
+      set {
+        angle_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "damage" field.</summary>
+    public const int DamageFieldNumber = 2;
+    private float damage_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float Damage {
+      get { return damage_; }
+      set {
+        damage_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as EventShoot);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(EventShoot other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Angle, other.Angle)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Damage, other.Damage)) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Angle != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Angle);
+      if (Damage != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Damage);
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Angle != 0F) {
+        output.WriteRawTag(13);
+        output.WriteFloat(Angle);
+      }
+      if (Damage != 0F) {
+        output.WriteRawTag(21);
+        output.WriteFloat(Damage);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Angle != 0F) {
+        size += 1 + 4;
+      }
+      if (Damage != 0F) {
+        size += 1 + 4;
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(EventShoot other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Angle != 0F) {
+        Angle = other.Angle;
+      }
+      if (other.Damage != 0F) {
+        Damage = other.Damage;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 13: {
+            Angle = input.ReadFloat();
+            break;
+          }
+          case 21: {
+            Damage = input.ReadFloat();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class EventHit : pb::IMessage<EventHit> {
+    private static readonly pb::MessageParser<EventHit> _parser = new pb::MessageParser<EventHit>(() => new EventHit());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<EventHit> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[6]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventHit() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventHit(EventHit other) : this() {
+      damage_ = other.damage_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventHit Clone() {
+      return new EventHit(this);
+    }
+
+    /// <summary>Field number for the "damage" field.</summary>
+    public const int DamageFieldNumber = 1;
+    private float damage_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float Damage {
+      get { return damage_; }
+      set {
+        damage_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as EventHit);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(EventHit other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Damage, other.Damage)) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Damage != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Damage);
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Damage != 0F) {
+        output.WriteRawTag(13);
+        output.WriteFloat(Damage);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Damage != 0F) {
+        size += 1 + 4;
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(EventHit other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Damage != 0F) {
+        Damage = other.Damage;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 13: {
+            Damage = input.ReadFloat();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class EventSpawn : pb::IMessage<EventSpawn> {
+    private static readonly pb::MessageParser<EventSpawn> _parser = new pb::MessageParser<EventSpawn>(() => new EventSpawn());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<EventSpawn> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[7]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventSpawn() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventSpawn(EventSpawn other) : this() {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventSpawn Clone() {
+      return new EventSpawn(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as EventSpawn);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(EventSpawn other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(EventSpawn other) {
+      if (other == null) {
+        return;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class EventUserSync : pb::IMessage<EventUserSync> {
+    private static readonly pb::MessageParser<EventUserSync> _parser = new pb::MessageParser<EventUserSync>(() => new EventUserSync());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<EventUserSync> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[8]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventUserSync() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventUserSync(EventUserSync other) : this() {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventUserSync Clone() {
+      return new EventUserSync(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as EventUserSync);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(EventUserSync other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(EventUserSync other) {
+      if (other == null) {
+        return;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class EventDeath : pb::IMessage<EventDeath> {
+    private static readonly pb::MessageParser<EventDeath> _parser = new pb::MessageParser<EventDeath>(() => new EventDeath());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<EventDeath> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[9]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventDeath() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventDeath(EventDeath other) : this() {
+      triggerId_ = other.triggerId_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventDeath Clone() {
+      return new EventDeath(this);
+    }
+
+    /// <summary>Field number for the "triggerId" field.</summary>
+    public const int TriggerIdFieldNumber = 1;
+    private int triggerId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int TriggerId {
+      get { return triggerId_; }
+      set {
+        triggerId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as EventDeath);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(EventDeath other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (TriggerId != other.TriggerId) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (TriggerId != 0) hash ^= TriggerId.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (TriggerId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(TriggerId);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (TriggerId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TriggerId);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(EventDeath other) {
+      if (other == null) {
+        return;
+      }
+      if (other.TriggerId != 0) {
+        TriggerId = other.TriggerId;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            TriggerId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class GameEvent : pb::IMessage<GameEvent> {
     private static readonly pb::MessageParser<GameEvent> _parser = new pb::MessageParser<GameEvent>(() => new GameEvent());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -487,7 +1332,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -504,7 +1349,15 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public GameEvent(GameEvent other) : this() {
-      act_ = other.act_;
+      MoveEvent = other.moveEvent_ != null ? other.MoveEvent.Clone() : null;
+      StopEvent = other.stopEvent_ != null ? other.StopEvent.Clone() : null;
+      JumpEvent = other.jumpEvent_ != null ? other.JumpEvent.Clone() : null;
+      ShootEvent = other.shootEvent_ != null ? other.ShootEvent.Clone() : null;
+      HitEvent = other.hitEvent_ != null ? other.HitEvent.Clone() : null;
+      SpawnEvent = other.spawnEvent_ != null ? other.SpawnEvent.Clone() : null;
+      SyncEvent = other.syncEvent_ != null ? other.SyncEvent.Clone() : null;
+      DeathEvent = other.deathEvent_ != null ? other.DeathEvent.Clone() : null;
+      actType_ = other.actType_;
       actionProperty_ = other.actionProperty_;
       eventPositionX_ = other.eventPositionX_;
       eventPositionY_ = other.eventPositionY_;
@@ -518,14 +1371,102 @@ namespace Server2N {
       return new GameEvent(this);
     }
 
-    /// <summary>Field number for the "act" field.</summary>
-    public const int ActFieldNumber = 1;
-    private global::Server2N.GameEvent.Types.action act_ = 0;
+    /// <summary>Field number for the "moveEvent" field.</summary>
+    public const int MoveEventFieldNumber = 108;
+    private global::Server2N.EventMove moveEvent_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Server2N.GameEvent.Types.action Act {
-      get { return act_; }
+    public global::Server2N.EventMove MoveEvent {
+      get { return moveEvent_; }
       set {
-        act_ = value;
+        moveEvent_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "stopEvent" field.</summary>
+    public const int StopEventFieldNumber = 109;
+    private global::Server2N.EventStop stopEvent_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.EventStop StopEvent {
+      get { return stopEvent_; }
+      set {
+        stopEvent_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "jumpEvent" field.</summary>
+    public const int JumpEventFieldNumber = 110;
+    private global::Server2N.EventJump jumpEvent_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.EventJump JumpEvent {
+      get { return jumpEvent_; }
+      set {
+        jumpEvent_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "shootEvent" field.</summary>
+    public const int ShootEventFieldNumber = 111;
+    private global::Server2N.EventShoot shootEvent_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.EventShoot ShootEvent {
+      get { return shootEvent_; }
+      set {
+        shootEvent_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "hitEvent" field.</summary>
+    public const int HitEventFieldNumber = 112;
+    private global::Server2N.EventHit hitEvent_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.EventHit HitEvent {
+      get { return hitEvent_; }
+      set {
+        hitEvent_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "spawnEvent" field.</summary>
+    public const int SpawnEventFieldNumber = 113;
+    private global::Server2N.EventSpawn spawnEvent_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.EventSpawn SpawnEvent {
+      get { return spawnEvent_; }
+      set {
+        spawnEvent_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "syncEvent" field.</summary>
+    public const int SyncEventFieldNumber = 114;
+    private global::Server2N.EventUserSync syncEvent_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.EventUserSync SyncEvent {
+      get { return syncEvent_; }
+      set {
+        syncEvent_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "deathEvent" field.</summary>
+    public const int DeathEventFieldNumber = 115;
+    private global::Server2N.EventDeath deathEvent_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.EventDeath DeathEvent {
+      get { return deathEvent_; }
+      set {
+        deathEvent_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "actType" field.</summary>
+    public const int ActTypeFieldNumber = 1;
+    private global::Server2N.GameEvent.Types.action actType_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.GameEvent.Types.action ActType {
+      get { return actType_; }
+      set {
+        actType_ = value;
       }
     }
 
@@ -607,7 +1548,15 @@ namespace Server2N {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Act != other.Act) return false;
+      if (!object.Equals(MoveEvent, other.MoveEvent)) return false;
+      if (!object.Equals(StopEvent, other.StopEvent)) return false;
+      if (!object.Equals(JumpEvent, other.JumpEvent)) return false;
+      if (!object.Equals(ShootEvent, other.ShootEvent)) return false;
+      if (!object.Equals(HitEvent, other.HitEvent)) return false;
+      if (!object.Equals(SpawnEvent, other.SpawnEvent)) return false;
+      if (!object.Equals(SyncEvent, other.SyncEvent)) return false;
+      if (!object.Equals(DeathEvent, other.DeathEvent)) return false;
+      if (ActType != other.ActType) return false;
       if (ActionProperty != other.ActionProperty) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(EventPositionX, other.EventPositionX)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(EventPositionY, other.EventPositionY)) return false;
@@ -620,7 +1569,15 @@ namespace Server2N {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Act != 0) hash ^= Act.GetHashCode();
+      if (moveEvent_ != null) hash ^= MoveEvent.GetHashCode();
+      if (stopEvent_ != null) hash ^= StopEvent.GetHashCode();
+      if (jumpEvent_ != null) hash ^= JumpEvent.GetHashCode();
+      if (shootEvent_ != null) hash ^= ShootEvent.GetHashCode();
+      if (hitEvent_ != null) hash ^= HitEvent.GetHashCode();
+      if (spawnEvent_ != null) hash ^= SpawnEvent.GetHashCode();
+      if (syncEvent_ != null) hash ^= SyncEvent.GetHashCode();
+      if (deathEvent_ != null) hash ^= DeathEvent.GetHashCode();
+      if (ActType != 0) hash ^= ActType.GetHashCode();
       if (ActionProperty != 0) hash ^= ActionProperty.GetHashCode();
       if (EventPositionX != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(EventPositionX);
       if (EventPositionY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(EventPositionY);
@@ -637,9 +1594,9 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Act != 0) {
+      if (ActType != 0) {
         output.WriteRawTag(8);
-        output.WriteEnum((int) Act);
+        output.WriteEnum((int) ActType);
       }
       if (ActionProperty != 0) {
         output.WriteRawTag(40);
@@ -662,13 +1619,69 @@ namespace Server2N {
         output.WriteFloat(VelocityY);
       }
       invokerId_.WriteTo(output, _repeated_invokerId_codec);
+      if (moveEvent_ != null) {
+        output.WriteRawTag(226, 6);
+        output.WriteMessage(MoveEvent);
+      }
+      if (stopEvent_ != null) {
+        output.WriteRawTag(234, 6);
+        output.WriteMessage(StopEvent);
+      }
+      if (jumpEvent_ != null) {
+        output.WriteRawTag(242, 6);
+        output.WriteMessage(JumpEvent);
+      }
+      if (shootEvent_ != null) {
+        output.WriteRawTag(250, 6);
+        output.WriteMessage(ShootEvent);
+      }
+      if (hitEvent_ != null) {
+        output.WriteRawTag(130, 7);
+        output.WriteMessage(HitEvent);
+      }
+      if (spawnEvent_ != null) {
+        output.WriteRawTag(138, 7);
+        output.WriteMessage(SpawnEvent);
+      }
+      if (syncEvent_ != null) {
+        output.WriteRawTag(146, 7);
+        output.WriteMessage(SyncEvent);
+      }
+      if (deathEvent_ != null) {
+        output.WriteRawTag(154, 7);
+        output.WriteMessage(DeathEvent);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Act != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Act);
+      if (moveEvent_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(MoveEvent);
+      }
+      if (stopEvent_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(StopEvent);
+      }
+      if (jumpEvent_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(JumpEvent);
+      }
+      if (shootEvent_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(ShootEvent);
+      }
+      if (hitEvent_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(HitEvent);
+      }
+      if (spawnEvent_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(SpawnEvent);
+      }
+      if (syncEvent_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(SyncEvent);
+      }
+      if (deathEvent_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(DeathEvent);
+      }
+      if (ActType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ActType);
       }
       if (ActionProperty != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(ActionProperty);
@@ -694,8 +1707,56 @@ namespace Server2N {
       if (other == null) {
         return;
       }
-      if (other.Act != 0) {
-        Act = other.Act;
+      if (other.moveEvent_ != null) {
+        if (moveEvent_ == null) {
+          moveEvent_ = new global::Server2N.EventMove();
+        }
+        MoveEvent.MergeFrom(other.MoveEvent);
+      }
+      if (other.stopEvent_ != null) {
+        if (stopEvent_ == null) {
+          stopEvent_ = new global::Server2N.EventStop();
+        }
+        StopEvent.MergeFrom(other.StopEvent);
+      }
+      if (other.jumpEvent_ != null) {
+        if (jumpEvent_ == null) {
+          jumpEvent_ = new global::Server2N.EventJump();
+        }
+        JumpEvent.MergeFrom(other.JumpEvent);
+      }
+      if (other.shootEvent_ != null) {
+        if (shootEvent_ == null) {
+          shootEvent_ = new global::Server2N.EventShoot();
+        }
+        ShootEvent.MergeFrom(other.ShootEvent);
+      }
+      if (other.hitEvent_ != null) {
+        if (hitEvent_ == null) {
+          hitEvent_ = new global::Server2N.EventHit();
+        }
+        HitEvent.MergeFrom(other.HitEvent);
+      }
+      if (other.spawnEvent_ != null) {
+        if (spawnEvent_ == null) {
+          spawnEvent_ = new global::Server2N.EventSpawn();
+        }
+        SpawnEvent.MergeFrom(other.SpawnEvent);
+      }
+      if (other.syncEvent_ != null) {
+        if (syncEvent_ == null) {
+          syncEvent_ = new global::Server2N.EventUserSync();
+        }
+        SyncEvent.MergeFrom(other.SyncEvent);
+      }
+      if (other.deathEvent_ != null) {
+        if (deathEvent_ == null) {
+          deathEvent_ = new global::Server2N.EventDeath();
+        }
+        DeathEvent.MergeFrom(other.DeathEvent);
+      }
+      if (other.ActType != 0) {
+        ActType = other.ActType;
       }
       if (other.ActionProperty != 0) {
         ActionProperty = other.ActionProperty;
@@ -724,7 +1785,7 @@ namespace Server2N {
             input.SkipLastField();
             break;
           case 8: {
-            act_ = (global::Server2N.GameEvent.Types.action) input.ReadEnum();
+            actType_ = (global::Server2N.GameEvent.Types.action) input.ReadEnum();
             break;
           }
           case 40: {
@@ -752,6 +1813,62 @@ namespace Server2N {
             invokerId_.AddEntriesFrom(input, _repeated_invokerId_codec);
             break;
           }
+          case 866: {
+            if (moveEvent_ == null) {
+              moveEvent_ = new global::Server2N.EventMove();
+            }
+            input.ReadMessage(moveEvent_);
+            break;
+          }
+          case 874: {
+            if (stopEvent_ == null) {
+              stopEvent_ = new global::Server2N.EventStop();
+            }
+            input.ReadMessage(stopEvent_);
+            break;
+          }
+          case 882: {
+            if (jumpEvent_ == null) {
+              jumpEvent_ = new global::Server2N.EventJump();
+            }
+            input.ReadMessage(jumpEvent_);
+            break;
+          }
+          case 890: {
+            if (shootEvent_ == null) {
+              shootEvent_ = new global::Server2N.EventShoot();
+            }
+            input.ReadMessage(shootEvent_);
+            break;
+          }
+          case 898: {
+            if (hitEvent_ == null) {
+              hitEvent_ = new global::Server2N.EventHit();
+            }
+            input.ReadMessage(hitEvent_);
+            break;
+          }
+          case 906: {
+            if (spawnEvent_ == null) {
+              spawnEvent_ = new global::Server2N.EventSpawn();
+            }
+            input.ReadMessage(spawnEvent_);
+            break;
+          }
+          case 914: {
+            if (syncEvent_ == null) {
+              syncEvent_ = new global::Server2N.EventUserSync();
+            }
+            input.ReadMessage(syncEvent_);
+            break;
+          }
+          case 922: {
+            if (deathEvent_ == null) {
+              deathEvent_ = new global::Server2N.EventDeath();
+            }
+            input.ReadMessage(deathEvent_);
+            break;
+          }
         }
       }
     }
@@ -762,13 +1879,14 @@ namespace Server2N {
     public static partial class Types {
       public enum action {
         [pbr::OriginalName("Nothing")] Nothing = 0,
-        [pbr::OriginalName("Move")] Move = 100,
-        [pbr::OriginalName("Stop")] Stop = 101,
-        [pbr::OriginalName("Jump")] Jump = 102,
-        [pbr::OriginalName("Shoot")] Shoot = 103,
-        [pbr::OriginalName("GetHit")] GetHit = 104,
-        [pbr::OriginalName("Spawn")] Spawn = 105,
-        [pbr::OriginalName("UserSync")] UserSync = 106,
+        [pbr::OriginalName("EventMove")] EventMove = 100,
+        [pbr::OriginalName("EventStop")] EventStop = 101,
+        [pbr::OriginalName("EventJump")] EventJump = 102,
+        [pbr::OriginalName("EventShoot")] EventShoot = 103,
+        [pbr::OriginalName("EventHit")] EventHit = 104,
+        [pbr::OriginalName("EventSpawn")] EventSpawn = 105,
+        [pbr::OriginalName("EventUserSync")] EventUserSync = 106,
+        [pbr::OriginalName("EventDeath")] EventDeath = 107,
       }
 
     }
@@ -783,7 +1901,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

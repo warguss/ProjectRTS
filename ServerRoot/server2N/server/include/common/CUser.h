@@ -30,6 +30,8 @@ class CUser
         CUser(int fd, int32_t x, int32_t y);
         ~CUser();
         bool setData(int fd, int type);
+        //bool setData(CProtoPacket* packet);
+
 
 	private:
 		bool _userConnectionEvent(int fd);
