@@ -101,7 +101,12 @@ public class PlayerController {
         Character.MoveTo(position, velocity);
     }
 
-    public void GetHit(HitInfo info)
+    public void ShootWithDamageInfo(DamageInfo info)
+    {
+        Character.Shoot(info);
+    }
+
+    public void GetHit(DamageInfo info)
     {
         Character.GetHit(info);
     }

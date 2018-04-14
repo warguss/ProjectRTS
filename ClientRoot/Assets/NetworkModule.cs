@@ -180,17 +180,17 @@ public class NetworkModule : MonoBehaviour
         return packetBody;
     }
 
-    PacketBody CreateEventPacket(GameEvent.Types.action type, int id, Vector2 position, Vector2 velocity, int actionProperty = 0)
+    PacketBody CreateCommonEventPacket(GameEvent.Types.action type, int id, Vector2 position, Vector2 velocity)
     {
 
         GameEvent gameEvent = new GameEvent
         {
-            Act = type,
+            ActType = type,
             EventPositionX = position.x,
             EventPositionY = position.y,
             VelocityX = velocity.x,
             VelocityY = velocity.y,
-            ActionProperty = actionProperty,
+            //ActionProperty = actionProperty,
         };
         gameEvent.InvokerId.Add(id);
 
@@ -221,67 +221,93 @@ public class NetworkModule : MonoBehaviour
         SendPacket(packet);
     }
 
-    public void WriteEventUserSync(Vector2 position, Vector2 velocity, bool isLeft)
+    public void WriteEventUserSync(Vector2 position, Vector2 velocity/*, CurrentAction action = CurrentAction.Idle*/)
     {
-        int property = 0;
-        if (!isLeft)
-            property = 1;
-
-        var packet = CreateEventPacket(GameEvent.Types.action.UserSync, myId, position, velocity, property);
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventUserSync, myId, position, velocity);
+        //packet.Event.ActionProperty
 
         SendPacket(packet);
     }
 
     public void WriteEventSpawn(Vector2 position)
     {
-        var packet = CreateEventPacket(GameEvent.Types.action.Spawn, myId, position, new Vector2(0, 0));
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventSpawn, myId, position, new Vector2(0, 0));
 
         SendPacket(packet);
     }
 
-    public void WriteEventDead(Vector2 position)
+    public void WriteEventDead(Vector2 position, int AttackerId)
     {
-        //var packet = CreateEventPacket(GameEvent.Types.action.Dead, myId, position, new Vector2(0, 0));
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventSpawn, myId, position, new Vector2(0, 0));
+        packet.Event.DeathEvent = new EventDeath
+        {
+            TriggerId = AttackerId
+        };
 
-        //SendPacket(packet);
+        SendPacket(packet);
     }
 
     public void WriteEventMove(Vector2 position, Vector2 velocity, bool isLeft)
     {
-        int property = 0;
+        EventMove.Types.Direction direction = EventMove.Types.Direction.Left ;
         if (!isLeft)
-            property = 1;
+            direction = EventMove.Types.Direction.Right;
 
-        var packet = CreateEventPacket(GameEvent.Types.action.Move, myId, position, velocity, property);
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventMove, myId, position, velocity);
+        packet.Event.MoveEvent = new EventMove
+        {
+            Type = direction
+        };
 
         SendPacket(packet);
     }
 
     public void WriteEventStop(Vector2 position, Vector2 velocity)
     {
-        var packet = CreateEventPacket(GameEvent.Types.action.Stop, myId, position, velocity);
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventStop, myId, position, velocity);
+        packet.Event.StopEvent = new EventStop
+        {
+
+        };
 
         SendPacket(packet);
     }
 
-    public void WriteEventGetHit(Vector2 position, Vector2 velocity, HitInfo info)
+    public void WriteEventGetHit(Vector2 position, Vector2 velocity, DamageInfo info)
     {
-        ////////////////////////////////////
-        var packet = CreateEventPacket(GameEvent.Types.action.GetHit, myId, position, velocity);
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventHit, myId, position, velocity);
+        packet.Event.HitEvent = new EventHit
+        {
+            Attacker = info.AttackerId,
+            ImpactAngle = info.ImpactAngle,
+            Impact = info.Impact,
+            Damage = info.Damage
+        };
 
         SendPacket(packet);
     }
 
     public void WriteEventJump(Vector2 position, Vector2 velocity)
     {
-        var packet = CreateEventPacket(GameEvent.Types.action.Jump, myId, position, velocity);
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventJump, myId, position, velocity);
+        packet.Event.JumpEvent = new EventJump
+        {
+
+        };
 
         SendPacket(packet);
     }
 
-    public void WriteEventShoot(Vector2 position, Vector2 velocity, bool isLeft)
+    public void WriteEventShoot(Vector2 position, Vector2 velocity, DamageInfo info)
     {
-        var packet = CreateEventPacket(GameEvent.Types.action.Shoot, myId, position, velocity);
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventShoot, myId, position, velocity);
+        packet.Event.ShootEvent = new EventShoot
+        {
+            Impact = info.Impact,
+            ImpactAngle = info.ImpactAngle,
+            Angle = info.shootAngle,
+            Damage = info.Damage
+        };
 
         SendPacket(packet);
     }

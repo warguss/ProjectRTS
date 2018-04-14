@@ -28,6 +28,7 @@ public class MainCharacter : MonoBehaviour, IControllableCharacter
 
     private float hp = 100;
     private int jumpCount = 0;
+    private int lastAttackedPlayerId = -1;
 
     private bool isGrounded = true;
     private bool isLeft = true;
@@ -171,19 +172,28 @@ public class MainCharacter : MonoBehaviour, IControllableCharacter
         }
     }
 
-    public void Shoot()
+    public void Shoot(DamageInfo info = null)
     {
-        GameObject bullet = (GameObject)Instantiate(bulletPrefab, gameObject.transform.position, new Quaternion());
+        GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position, new Quaternion());
         Bullet bulletScript = bullet.GetComponent<Bullet>();
+        int shootAngle;
 
-        bulletScript.SetOwner(OwnerId);
+        if (info != null)
+        {
+            bulletScript.SetInfo(info);
+        }
 
-        if (isLeft)
-            bulletScript.SetAngle(180);
         else
-            bulletScript.SetAngle(0);
+        {
+            if (isLeft)
+                shootAngle = 180;
+            else
+                shootAngle = 0;
 
-        ShootEvent?.Invoke(CurrentPosition, CurrentVelocity, isLeft);
+            bulletScript.SetInfo(OwnerId, shootAngle);
+        }
+
+        ShootEvent?.Invoke(CurrentPosition, CurrentVelocity, bulletScript.GetDamageInfo());
     }
 
     void CheckLand()
@@ -221,7 +231,7 @@ public class MainCharacter : MonoBehaviour, IControllableCharacter
         jumpCount = 0;
     }
 
-    public void GetHit(HitInfo info)
+    public void GetHit(DamageInfo info)
     {
         hp -= info.Damage;
         Debug.Log("player" + OwnerId + "hp : " + hp);
@@ -231,6 +241,8 @@ public class MainCharacter : MonoBehaviour, IControllableCharacter
         float impactY = Mathf.Sin(radian);
         charRigidbody.AddForce(new Vector2(impactX, impactY) * info.Impact);
 
+        lastAttackedPlayerId = info.AttackerId;
+
         GetHitEvent?.Invoke(CurrentPosition, CurrentVelocity, info);
     }
 
@@ -239,22 +251,28 @@ public class MainCharacter : MonoBehaviour, IControllableCharacter
         if (!isDead)
         {
             isDead = true;
-            DeadEvent(OwnerId);
+            DeadEvent?.Invoke(CurrentPosition, lastAttackedPlayerId);
             gameObject.SetActive(false);
         }
     }
 
     public void SetLocation(Vector2 position)
     {
-        gameObject.transform.position = position;
-        //charRigidbody.MovePosition(position);
+        if (!isDead)
+        {
+            gameObject.transform.position = position;
+            //charRigidbody.MovePosition(position);
+        }
     }
 
     public void MoveTo(Vector2 position, Vector2 velocity)
     {
-        //rb2d.position = new Vector2(x, y);
-        charRigidbody.MovePosition(position);
-        charRigidbody.velocity = velocity;
+        if (!isDead)
+        {
+            //rb2d.position = new Vector2(x, y);
+            charRigidbody.MovePosition(position);
+            charRigidbody.velocity = velocity;
+        }
     }
 
     public GameObject GetGameObject()

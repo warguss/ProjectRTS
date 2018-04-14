@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public struct HitInfo
+public class DamageInfo
 {
+    public int AttackerId = -1;//unuse when shoot()
+    public float shootAngle;//unuse when hit()
     public int Damage;
-    public int HitRecovery;
+    public int HitRecovery;// currently unuse
     public int Impact;
     public int ImpactAngle;
 }
@@ -12,10 +14,10 @@ public struct HitInfo
 public delegate void CharEventMove(Vector2 position, Vector2 velocity, bool isLeft);
 public delegate void CharEventStop(Vector2 position, Vector2 velocity);
 public delegate void CharEventJump(Vector2 position, Vector2 velocity);
-public delegate void CharEventGetHit(Vector2 position, Vector2 velocity, HitInfo info);
-public delegate void CharEventShoot(Vector2 position, Vector2 velocity, bool isLeft);
+public delegate void CharEventGetHit(Vector2 position, Vector2 velocity, DamageInfo info);
+public delegate void CharEventShoot(Vector2 position, Vector2 velocity, DamageInfo info);
 public delegate void CharEventSpawn(Vector2 position);
-public delegate void CharEventDead(int PlayerId);
+public delegate void CharEventDead(Vector2 position, int attackerId);
 
 public interface IControllableCharacter
 {
@@ -25,14 +27,14 @@ public interface IControllableCharacter
     void MoveRight();
     void MoveStop();
     void Jump();
-    void Shoot();
+    void Shoot(DamageInfo info = null);
     void Spawn(Vector2 position);
     void Dead();
 
     void SetLocation(Vector2 position);
     void MoveTo(Vector2 position, Vector2 velocity);
 
-    void GetHit(HitInfo info);
+    void GetHit(DamageInfo info);
 
     event CharEventMove MoveEvent;
     event CharEventStop StopEvent;

@@ -8,7 +8,9 @@ public class Bullet : MonoBehaviour {
     public float range;
 
     private int angle = 0;
-    private int OwnerPlayer = 0;
+    private int ownerPlayer = 0;
+
+    private DamageInfo damageInfo; 
 
     private Vector2 StartPosition;
 
@@ -17,6 +19,13 @@ public class Bullet : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         rb2d = GetComponent<Rigidbody2D>();
+        damageInfo = new DamageInfo();
+
+        //currently, Damageinfo is constant.
+        damageInfo.Damage = 10;
+        damageInfo.HitRecovery = 10;
+        damageInfo.Impact = 50;
+
         StartPosition = rb2d.position;
 
     }
@@ -43,17 +52,10 @@ public class Bullet : MonoBehaviour {
         if (other.tag == "Player")
         {
             MainCharacter targetPlayer = other.gameObject.GetComponent<MainCharacter>();
-            if (targetPlayer.OwnerId != OwnerPlayer)
+            if (targetPlayer.OwnerId != ownerPlayer)
             {
                 //if (targetPlayer.OwnerId == GameLogic.Instance.myId)
-                HitInfo info = new HitInfo
-                {
-                    Damage = 10,
-                    HitRecovery = 10,
-                    Impact = 50,
-                    ImpactAngle = angle
-                };
-                targetPlayer.GetHit(info);
+                targetPlayer.GetHit(damageInfo);
 
                 Destroy(gameObject);
             }
@@ -67,13 +69,22 @@ public class Bullet : MonoBehaviour {
         }
     }
 
-    public void SetAngle(int inAngle)
+    public DamageInfo GetDamageInfo()
     {
-        angle = inAngle;
+        return damageInfo;
     }
 
-    public void SetOwner(int player)
+    public void SetInfo(int ownerId, int inAngle)
     {
-        OwnerPlayer = player;
+        angle = inAngle;
+        damageInfo.shootAngle = inAngle;
+
+        ownerPlayer = ownerId;
+        damageInfo.AttackerId = ownerId;
+    }
+
+    public void SetInfo(DamageInfo info)
+    {
+        damageInfo = info;
     }
 }

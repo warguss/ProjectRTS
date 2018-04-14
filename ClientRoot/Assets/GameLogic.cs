@@ -25,7 +25,7 @@ public class GameLogic : MonoBehaviour
 
     bool isConnected = false;
 
-    bool TestMode = false;
+    bool TestMode = true;
 
     // Use this for initialization
     void Start()
@@ -129,12 +129,12 @@ public class GameLogic : MonoBehaviour
 
         if(TestMode)
         {
-            SendInputToCharacter(testId2P, PlayerAction.Left, Input.GetKey(KeyCode.LeftArrow));
-            SendInputToCharacter(testId2P, PlayerAction.Right, Input.GetKey(KeyCode.RightArrow));
+            SendInputToCharacter(testId2P, PlayerAction.Left, Input.GetKey(KeyCode.A));
+            SendInputToCharacter(testId2P, PlayerAction.Right, Input.GetKey(KeyCode.D));
 
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.W))
                 SendInputToCharacter(testId2P, PlayerAction.Jump);
-            if (Input.GetKeyDown(KeyCode.RightShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift))
                 SendInputToCharacter(testId2P, PlayerAction.Fire);
         }
 
@@ -205,50 +205,88 @@ public class GameLogic : MonoBehaviour
     {
         foreach (int invokerId in EventPacket.InvokerId)
         {
-            int actionProperty = EventPacket.ActionProperty;
             Vector2 position = new Vector2(EventPacket.EventPositionX, EventPacket.EventPositionY);
             Vector2 velocity = new Vector2(EventPacket.VelocityX, EventPacket.VelocityY);
 
             playerControllers[invokerId].MoveTo(position, velocity);
 
-            switch (EventPacket.Act)
+            switch (EventPacket.ActType)
             {
                 case GameEvent.Types.action.Nothing:
                     break;
 
-                case GameEvent.Types.action.Move:
-                    if (actionProperty == 0)
+                case GameEvent.Types.action.EventMove:
                     {
-                        SendInputToCharacter(invokerId, PlayerAction.Left);
-                    }
-                    else
-                    {
-                        SendInputToCharacter(invokerId, PlayerAction.Right);
-                    }
-                    break;
-
-                case GameEvent.Types.action.Stop:
-                    SendInputToCharacter(invokerId, PlayerAction.Stop);
-                    break;
-
-                case GameEvent.Types.action.Jump:
-                    SendInputToCharacter(invokerId, PlayerAction.Jump);
-                    break;
-
-                case GameEvent.Types.action.Shoot:
-                    SendInputToCharacter(invokerId, PlayerAction.Fire);
-                    break;
-
-                case GameEvent.Types.action.GetHit:
-                    {
-                        HitInfo info = new HitInfo
+                        var info = EventPacket.MoveEvent;
+                        if(info.Type == EventMove.Types.Direction.Left)
                         {
-                            Damage = 10,
-                            HitRecovery = 10,
-                            Impact = 50,
-                            ImpactAngle = 0
+                            SendInputToCharacter(invokerId, PlayerAction.Left);
+                        }
+                        else if (info.Type == EventMove.Types.Direction.Right)
+                        {
+                            SendInputToCharacter(invokerId, PlayerAction.Right);
+                        }
+                        break;
+                    }
+                case GameEvent.Types.action.EventStop:
+                    {
+                        var info = EventPacket.StopEvent;
+                        SendInputToCharacter(invokerId, PlayerAction.Stop);
+                        break;
+                    }
+
+                case GameEvent.Types.action.EventJump:
+                    {
+                        var info = EventPacket.JumpEvent;
+                        SendInputToCharacter(invokerId, PlayerAction.Jump);
+                        break;
+                    }
+
+                case GameEvent.Types.action.EventShoot:
+                    {
+                        var info = EventPacket.ShootEvent;
+                        DamageInfo damageInfo = new DamageInfo
+                        {
+                            AttackerId = invokerId,
+                            Damage = (int)info.Damage,
+                            shootAngle = info.Angle,
+                            HitRecovery = 10,/////////unused
+                            Impact = info.Impact,/////////////
+                            ImpactAngle = info.ImpactAngle///////////
                         };
-                        playerControllers[invokerId].GetHit(info);//////////////////
+                        SendInputToCharacter(invokerId, PlayerAction.Fire);
+                        playerControllers[invokerId].ShootWithDamageInfo(damageInfo);
+                        break;
+                    }
+
+                case GameEvent.Types.action.EventHit:
+                    {
+                        var info = EventPacket.HitEvent;
+                        DamageInfo damageInfo = new DamageInfo
+                        {
+                            AttackerId = info.Attacker,
+                            Damage = (int)info.Damage,
+                            HitRecovery = 10,/////////unused
+                            Impact = info.Impact,/////////////
+                            ImpactAngle = info.ImpactAngle///////////
+                        };
+                        playerControllers[invokerId].GetHit(damageInfo);
+                        break;
+                    }
+
+                case GameEvent.Types.action.EventSpawn:
+                    {
+                        playerControllers[invokerId].Spawn(position);
+                        break;
+                    }
+                case GameEvent.Types.action.EventDeath:
+                    {
+                        playerControllers[invokerId].Dead();
+                        break;
+                    }
+
+                case GameEvent.Types.action.EventUserSync:
+                    {
                         break;
                     }
             }
@@ -280,7 +318,7 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void PlayerEventGetHit(Vector2 position, Vector2 velocity, HitInfo info)
+    void PlayerEventGetHit(Vector2 position, Vector2 velocity, DamageInfo info)
     {
         if (isConnected)
         {
@@ -296,11 +334,11 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void PlayerEventShoot(Vector2 position, Vector2 velocity, bool isLeft)
+    void PlayerEventShoot(Vector2 position, Vector2 velocity, DamageInfo info)
     {
         if (isConnected)
         {
-            NetworkModule.instance.WriteEventShoot(position, velocity, isLeft);
+            NetworkModule.instance.WriteEventShoot(position, velocity, info);
         }
     }
 
@@ -312,12 +350,12 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void PlayerEventDead(int playerId)
+    void PlayerEventDead(Vector2 position, int AttackerId)
     {
-        StartCoroutine(SpawnAfterSeconds(playerId, new Vector2(2, 2), 5));
+        StartCoroutine(SpawnAfterSeconds(myId, new Vector2(2, 2), 5));
         if (isConnected)
         {
-            //NetworkModule.instance.WriteEventDead();
+            NetworkModule.instance.WriteEventDead(position, AttackerId);
         }
     }
 
