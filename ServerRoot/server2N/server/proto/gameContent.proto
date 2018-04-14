@@ -32,19 +32,61 @@ message UserConnection{
 	ConnectionType conType = 5;
 }
 
+message EventMove{
+
+}
+
+message EventStop{
+
+}
+
+message EventJump{
+
+}
+
+message EventShoot{
+	float angle = 1;
+	float damage = 2;
+}
+
+message EventHit{
+	float damage = 1;
+}
+
+message EventSpawn{
+	
+}
+
+message EventUserSync{
+
+}
+
+message EventDeath{
+	int32 triggerId = 1;
+}
+
 message GameEvent{
 	enum action{
-		Nothing		= 0;
-		Move		= 100;
-		Stop		= 101;
-		Jump		= 102;
-		Shoot		= 103;
-		GetHit		= 104;
-		Spawn		= 105;
-		UserSync	= 106;
+		Nothing			= 0;
+		EventMove		= 100;
+		EventStop		= 101;
+		EventJump		= 102;
+		EventShoot		= 103;
+		EventHit		= 104;
+		EventSpawn		= 105;
+		EventUserSync	= 106;
+		EventDeath		= 107;
 	}
+	EventMove moveEvent = 108;
+	EventStop stopEvent = 109;
+	EventJump jumpEvent = 110;
+	EventShoot shootEvent = 111;
+	EventHit hitEvent = 112;
+	EventSpawn spawnEvent = 113;
+	EventUserSync syncEvent = 114;
+	EventDeath deathEvent = 115;
 
-	action act = 1;
+	action actType = 1;
 	int32 actionProperty = 5;
 	float EventPositionX = 6;
 	float EventPositionY = 7;
