@@ -40,7 +40,7 @@ message EventMove{
 		Down = 3;
 		Up = 4;
 	}
-	int32 direction = 5;
+	Direction type = 5;
 }
 
 message EventStop{
