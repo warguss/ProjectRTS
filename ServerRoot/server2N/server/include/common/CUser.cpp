@@ -7,6 +7,9 @@ CUser::CUser()
 	_accelX = 0;
 	_accelY = 0;
 
+	_killInfo = 0;
+	_deathInfo = 0;
+	_nickName = "unknown";
     _fd = 0;
 }
 

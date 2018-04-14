@@ -37,7 +37,7 @@ namespace protobuf_gameContent_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[4];
+  static const ::google::protobuf::internal::ParseTable schema[12];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -47,6 +47,22 @@ void InitDefaultsGlobalNoticeImpl();
 void InitDefaultsGlobalNotice();
 void InitDefaultsUserConnectionImpl();
 void InitDefaultsUserConnection();
+void InitDefaultsEventMoveImpl();
+void InitDefaultsEventMove();
+void InitDefaultsEventStopImpl();
+void InitDefaultsEventStop();
+void InitDefaultsEventJumpImpl();
+void InitDefaultsEventJump();
+void InitDefaultsEventShootImpl();
+void InitDefaultsEventShoot();
+void InitDefaultsEventHitImpl();
+void InitDefaultsEventHit();
+void InitDefaultsEventSpawnImpl();
+void InitDefaultsEventSpawn();
+void InitDefaultsEventUserSyncImpl();
+void InitDefaultsEventUserSync();
+void InitDefaultsEventDeathImpl();
+void InitDefaultsEventDeath();
 void InitDefaultsGameEventImpl();
 void InitDefaultsGameEvent();
 void InitDefaultsPacketBodyImpl();
@@ -54,11 +70,43 @@ void InitDefaultsPacketBody();
 inline void InitDefaults() {
   InitDefaultsGlobalNotice();
   InitDefaultsUserConnection();
+  InitDefaultsEventMove();
+  InitDefaultsEventStop();
+  InitDefaultsEventJump();
+  InitDefaultsEventShoot();
+  InitDefaultsEventHit();
+  InitDefaultsEventSpawn();
+  InitDefaultsEventUserSync();
+  InitDefaultsEventDeath();
   InitDefaultsGameEvent();
   InitDefaultsPacketBody();
 }
 }  // namespace protobuf_gameContent_2eproto
 namespace server2N {
+class EventDeath;
+class EventDeathDefaultTypeInternal;
+extern EventDeathDefaultTypeInternal _EventDeath_default_instance_;
+class EventHit;
+class EventHitDefaultTypeInternal;
+extern EventHitDefaultTypeInternal _EventHit_default_instance_;
+class EventJump;
+class EventJumpDefaultTypeInternal;
+extern EventJumpDefaultTypeInternal _EventJump_default_instance_;
+class EventMove;
+class EventMoveDefaultTypeInternal;
+extern EventMoveDefaultTypeInternal _EventMove_default_instance_;
+class EventShoot;
+class EventShootDefaultTypeInternal;
+extern EventShootDefaultTypeInternal _EventShoot_default_instance_;
+class EventSpawn;
+class EventSpawnDefaultTypeInternal;
+extern EventSpawnDefaultTypeInternal _EventSpawn_default_instance_;
+class EventStop;
+class EventStopDefaultTypeInternal;
+extern EventStopDefaultTypeInternal _EventStop_default_instance_;
+class EventUserSync;
+class EventUserSyncDefaultTypeInternal;
+extern EventUserSyncDefaultTypeInternal _EventUserSync_default_instance_;
 class GameEvent;
 class GameEventDefaultTypeInternal;
 extern GameEventDefaultTypeInternal _GameEvent_default_instance_;
@@ -74,6 +122,14 @@ extern UserConnectionDefaultTypeInternal _UserConnection_default_instance_;
 }  // namespace server2N
 namespace google {
 namespace protobuf {
+template<> ::server2N::EventDeath* Arena::Create< ::server2N::EventDeath>(Arena*);
+template<> ::server2N::EventHit* Arena::Create< ::server2N::EventHit>(Arena*);
+template<> ::server2N::EventJump* Arena::Create< ::server2N::EventJump>(Arena*);
+template<> ::server2N::EventMove* Arena::Create< ::server2N::EventMove>(Arena*);
+template<> ::server2N::EventShoot* Arena::Create< ::server2N::EventShoot>(Arena*);
+template<> ::server2N::EventSpawn* Arena::Create< ::server2N::EventSpawn>(Arena*);
+template<> ::server2N::EventStop* Arena::Create< ::server2N::EventStop>(Arena*);
+template<> ::server2N::EventUserSync* Arena::Create< ::server2N::EventUserSync>(Arena*);
 template<> ::server2N::GameEvent* Arena::Create< ::server2N::GameEvent>(Arena*);
 template<> ::server2N::GlobalNotice* Arena::Create< ::server2N::GlobalNotice>(Arena*);
 template<> ::server2N::PacketBody* Arena::Create< ::server2N::PacketBody>(Arena*);
@@ -128,21 +184,46 @@ inline bool UserConnection_ConnectionType_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<UserConnection_ConnectionType>(
     UserConnection_ConnectionType_descriptor(), name, value);
 }
+enum EventMove_Direction {
+  EventMove_Direction_Nothing = 0,
+  EventMove_Direction_Left = 1,
+  EventMove_Direction_Right = 2,
+  EventMove_Direction_Down = 3,
+  EventMove_Direction_Up = 4,
+  EventMove_Direction_EventMove_Direction_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EventMove_Direction_EventMove_Direction_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EventMove_Direction_IsValid(int value);
+const EventMove_Direction EventMove_Direction_Direction_MIN = EventMove_Direction_Nothing;
+const EventMove_Direction EventMove_Direction_Direction_MAX = EventMove_Direction_Up;
+const int EventMove_Direction_Direction_ARRAYSIZE = EventMove_Direction_Direction_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EventMove_Direction_descriptor();
+inline const ::std::string& EventMove_Direction_Name(EventMove_Direction value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EventMove_Direction_descriptor(), value);
+}
+inline bool EventMove_Direction_Parse(
+    const ::std::string& name, EventMove_Direction* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EventMove_Direction>(
+    EventMove_Direction_descriptor(), name, value);
+}
 enum GameEvent_action {
   GameEvent_action_Nothing = 0,
-  GameEvent_action_Move = 100,
-  GameEvent_action_Stop = 101,
-  GameEvent_action_Jump = 102,
-  GameEvent_action_Shoot = 103,
-  GameEvent_action_GetHit = 104,
-  GameEvent_action_Spawn = 105,
-  GameEvent_action_UserSync = 106,
+  GameEvent_action_EventMove = 100,
+  GameEvent_action_EventStop = 101,
+  GameEvent_action_EventJump = 102,
+  GameEvent_action_EventShoot = 103,
+  GameEvent_action_EventHit = 104,
+  GameEvent_action_EventSpawn = 105,
+  GameEvent_action_EventUserSync = 106,
+  GameEvent_action_EventDeath = 107,
   GameEvent_action_GameEvent_action_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   GameEvent_action_GameEvent_action_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool GameEvent_action_IsValid(int value);
 const GameEvent_action GameEvent_action_action_MIN = GameEvent_action_Nothing;
-const GameEvent_action GameEvent_action_action_MAX = GameEvent_action_UserSync;
+const GameEvent_action GameEvent_action_action_MAX = GameEvent_action_EventDeath;
 const int GameEvent_action_action_ARRAYSIZE = GameEvent_action_action_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* GameEvent_action_descriptor();
@@ -546,6 +627,841 @@ class UserConnection : public ::google::protobuf::Message /* @@protoc_insertion_
 };
 // -------------------------------------------------------------------
 
+class EventMove : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.EventMove) */ {
+ public:
+  EventMove();
+  virtual ~EventMove();
+
+  EventMove(const EventMove& from);
+
+  inline EventMove& operator=(const EventMove& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EventMove(EventMove&& from) noexcept
+    : EventMove() {
+    *this = ::std::move(from);
+  }
+
+  inline EventMove& operator=(EventMove&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EventMove& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EventMove* internal_default_instance() {
+    return reinterpret_cast<const EventMove*>(
+               &_EventMove_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    2;
+
+  void Swap(EventMove* other);
+  friend void swap(EventMove& a, EventMove& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EventMove* New() const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventMove>(NULL);
+  }
+
+  EventMove* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventMove>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const EventMove& from);
+  void MergeFrom(const EventMove& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(EventMove* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  typedef EventMove_Direction Direction;
+  static const Direction Nothing =
+    EventMove_Direction_Nothing;
+  static const Direction Left =
+    EventMove_Direction_Left;
+  static const Direction Right =
+    EventMove_Direction_Right;
+  static const Direction Down =
+    EventMove_Direction_Down;
+  static const Direction Up =
+    EventMove_Direction_Up;
+  static inline bool Direction_IsValid(int value) {
+    return EventMove_Direction_IsValid(value);
+  }
+  static const Direction Direction_MIN =
+    EventMove_Direction_Direction_MIN;
+  static const Direction Direction_MAX =
+    EventMove_Direction_Direction_MAX;
+  static const int Direction_ARRAYSIZE =
+    EventMove_Direction_Direction_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  Direction_descriptor() {
+    return EventMove_Direction_descriptor();
+  }
+  static inline const ::std::string& Direction_Name(Direction value) {
+    return EventMove_Direction_Name(value);
+  }
+  static inline bool Direction_Parse(const ::std::string& name,
+      Direction* value) {
+    return EventMove_Direction_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // int32 direction = 5;
+  void clear_direction();
+  static const int kDirectionFieldNumber = 5;
+  ::google::protobuf::int32 direction() const;
+  void set_direction(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:server2N.EventMove)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::int32 direction_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_gameContent_2eproto::TableStruct;
+  friend void ::protobuf_gameContent_2eproto::InitDefaultsEventMoveImpl();
+};
+// -------------------------------------------------------------------
+
+class EventStop : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.EventStop) */ {
+ public:
+  EventStop();
+  virtual ~EventStop();
+
+  EventStop(const EventStop& from);
+
+  inline EventStop& operator=(const EventStop& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EventStop(EventStop&& from) noexcept
+    : EventStop() {
+    *this = ::std::move(from);
+  }
+
+  inline EventStop& operator=(EventStop&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EventStop& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EventStop* internal_default_instance() {
+    return reinterpret_cast<const EventStop*>(
+               &_EventStop_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    3;
+
+  void Swap(EventStop* other);
+  friend void swap(EventStop& a, EventStop& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EventStop* New() const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventStop>(NULL);
+  }
+
+  EventStop* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventStop>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const EventStop& from);
+  void MergeFrom(const EventStop& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(EventStop* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:server2N.EventStop)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_gameContent_2eproto::TableStruct;
+  friend void ::protobuf_gameContent_2eproto::InitDefaultsEventStopImpl();
+};
+// -------------------------------------------------------------------
+
+class EventJump : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.EventJump) */ {
+ public:
+  EventJump();
+  virtual ~EventJump();
+
+  EventJump(const EventJump& from);
+
+  inline EventJump& operator=(const EventJump& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EventJump(EventJump&& from) noexcept
+    : EventJump() {
+    *this = ::std::move(from);
+  }
+
+  inline EventJump& operator=(EventJump&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EventJump& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EventJump* internal_default_instance() {
+    return reinterpret_cast<const EventJump*>(
+               &_EventJump_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    4;
+
+  void Swap(EventJump* other);
+  friend void swap(EventJump& a, EventJump& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EventJump* New() const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventJump>(NULL);
+  }
+
+  EventJump* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventJump>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const EventJump& from);
+  void MergeFrom(const EventJump& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(EventJump* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:server2N.EventJump)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_gameContent_2eproto::TableStruct;
+  friend void ::protobuf_gameContent_2eproto::InitDefaultsEventJumpImpl();
+};
+// -------------------------------------------------------------------
+
+class EventShoot : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.EventShoot) */ {
+ public:
+  EventShoot();
+  virtual ~EventShoot();
+
+  EventShoot(const EventShoot& from);
+
+  inline EventShoot& operator=(const EventShoot& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EventShoot(EventShoot&& from) noexcept
+    : EventShoot() {
+    *this = ::std::move(from);
+  }
+
+  inline EventShoot& operator=(EventShoot&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EventShoot& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EventShoot* internal_default_instance() {
+    return reinterpret_cast<const EventShoot*>(
+               &_EventShoot_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    5;
+
+  void Swap(EventShoot* other);
+  friend void swap(EventShoot& a, EventShoot& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EventShoot* New() const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventShoot>(NULL);
+  }
+
+  EventShoot* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventShoot>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const EventShoot& from);
+  void MergeFrom(const EventShoot& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(EventShoot* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // float angle = 1;
+  void clear_angle();
+  static const int kAngleFieldNumber = 1;
+  float angle() const;
+  void set_angle(float value);
+
+  // float damage = 2;
+  void clear_damage();
+  static const int kDamageFieldNumber = 2;
+  float damage() const;
+  void set_damage(float value);
+
+  // @@protoc_insertion_point(class_scope:server2N.EventShoot)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  float angle_;
+  float damage_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_gameContent_2eproto::TableStruct;
+  friend void ::protobuf_gameContent_2eproto::InitDefaultsEventShootImpl();
+};
+// -------------------------------------------------------------------
+
+class EventHit : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.EventHit) */ {
+ public:
+  EventHit();
+  virtual ~EventHit();
+
+  EventHit(const EventHit& from);
+
+  inline EventHit& operator=(const EventHit& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EventHit(EventHit&& from) noexcept
+    : EventHit() {
+    *this = ::std::move(from);
+  }
+
+  inline EventHit& operator=(EventHit&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EventHit& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EventHit* internal_default_instance() {
+    return reinterpret_cast<const EventHit*>(
+               &_EventHit_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    6;
+
+  void Swap(EventHit* other);
+  friend void swap(EventHit& a, EventHit& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EventHit* New() const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventHit>(NULL);
+  }
+
+  EventHit* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventHit>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const EventHit& from);
+  void MergeFrom(const EventHit& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(EventHit* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // float damage = 1;
+  void clear_damage();
+  static const int kDamageFieldNumber = 1;
+  float damage() const;
+  void set_damage(float value);
+
+  // @@protoc_insertion_point(class_scope:server2N.EventHit)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  float damage_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_gameContent_2eproto::TableStruct;
+  friend void ::protobuf_gameContent_2eproto::InitDefaultsEventHitImpl();
+};
+// -------------------------------------------------------------------
+
+class EventSpawn : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.EventSpawn) */ {
+ public:
+  EventSpawn();
+  virtual ~EventSpawn();
+
+  EventSpawn(const EventSpawn& from);
+
+  inline EventSpawn& operator=(const EventSpawn& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EventSpawn(EventSpawn&& from) noexcept
+    : EventSpawn() {
+    *this = ::std::move(from);
+  }
+
+  inline EventSpawn& operator=(EventSpawn&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EventSpawn& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EventSpawn* internal_default_instance() {
+    return reinterpret_cast<const EventSpawn*>(
+               &_EventSpawn_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    7;
+
+  void Swap(EventSpawn* other);
+  friend void swap(EventSpawn& a, EventSpawn& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EventSpawn* New() const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventSpawn>(NULL);
+  }
+
+  EventSpawn* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventSpawn>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const EventSpawn& from);
+  void MergeFrom(const EventSpawn& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(EventSpawn* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:server2N.EventSpawn)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_gameContent_2eproto::TableStruct;
+  friend void ::protobuf_gameContent_2eproto::InitDefaultsEventSpawnImpl();
+};
+// -------------------------------------------------------------------
+
+class EventUserSync : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.EventUserSync) */ {
+ public:
+  EventUserSync();
+  virtual ~EventUserSync();
+
+  EventUserSync(const EventUserSync& from);
+
+  inline EventUserSync& operator=(const EventUserSync& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EventUserSync(EventUserSync&& from) noexcept
+    : EventUserSync() {
+    *this = ::std::move(from);
+  }
+
+  inline EventUserSync& operator=(EventUserSync&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EventUserSync& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EventUserSync* internal_default_instance() {
+    return reinterpret_cast<const EventUserSync*>(
+               &_EventUserSync_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    8;
+
+  void Swap(EventUserSync* other);
+  friend void swap(EventUserSync& a, EventUserSync& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EventUserSync* New() const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventUserSync>(NULL);
+  }
+
+  EventUserSync* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventUserSync>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const EventUserSync& from);
+  void MergeFrom(const EventUserSync& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(EventUserSync* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:server2N.EventUserSync)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_gameContent_2eproto::TableStruct;
+  friend void ::protobuf_gameContent_2eproto::InitDefaultsEventUserSyncImpl();
+};
+// -------------------------------------------------------------------
+
+class EventDeath : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.EventDeath) */ {
+ public:
+  EventDeath();
+  virtual ~EventDeath();
+
+  EventDeath(const EventDeath& from);
+
+  inline EventDeath& operator=(const EventDeath& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EventDeath(EventDeath&& from) noexcept
+    : EventDeath() {
+    *this = ::std::move(from);
+  }
+
+  inline EventDeath& operator=(EventDeath&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EventDeath& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EventDeath* internal_default_instance() {
+    return reinterpret_cast<const EventDeath*>(
+               &_EventDeath_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    9;
+
+  void Swap(EventDeath* other);
+  friend void swap(EventDeath& a, EventDeath& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EventDeath* New() const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventDeath>(NULL);
+  }
+
+  EventDeath* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventDeath>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const EventDeath& from);
+  void MergeFrom(const EventDeath& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(EventDeath* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // int32 triggerId = 1;
+  void clear_triggerid();
+  static const int kTriggerIdFieldNumber = 1;
+  ::google::protobuf::int32 triggerid() const;
+  void set_triggerid(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:server2N.EventDeath)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::int32 triggerid_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_gameContent_2eproto::TableStruct;
+  friend void ::protobuf_gameContent_2eproto::InitDefaultsEventDeathImpl();
+};
+// -------------------------------------------------------------------
+
 class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.GameEvent) */ {
  public:
   GameEvent();
@@ -581,7 +1497,7 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_GameEvent_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    2;
+    10;
 
   void Swap(GameEvent* other);
   friend void swap(GameEvent& a, GameEvent& b) {
@@ -633,20 +1549,22 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   typedef GameEvent_action action;
   static const action Nothing =
     GameEvent_action_Nothing;
-  static const action Move =
-    GameEvent_action_Move;
-  static const action Stop =
-    GameEvent_action_Stop;
-  static const action Jump =
-    GameEvent_action_Jump;
-  static const action Shoot =
-    GameEvent_action_Shoot;
-  static const action GetHit =
-    GameEvent_action_GetHit;
-  static const action Spawn =
-    GameEvent_action_Spawn;
-  static const action UserSync =
-    GameEvent_action_UserSync;
+  static const action EventMove =
+    GameEvent_action_EventMove;
+  static const action EventStop =
+    GameEvent_action_EventStop;
+  static const action EventJump =
+    GameEvent_action_EventJump;
+  static const action EventShoot =
+    GameEvent_action_EventShoot;
+  static const action EventHit =
+    GameEvent_action_EventHit;
+  static const action EventSpawn =
+    GameEvent_action_EventSpawn;
+  static const action EventUserSync =
+    GameEvent_action_EventUserSync;
+  static const action EventDeath =
+    GameEvent_action_EventDeath;
   static inline bool action_IsValid(int value) {
     return GameEvent_action_IsValid(value);
   }
@@ -682,11 +1600,83 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_invokerid();
 
-  // .server2N.GameEvent.action act = 1;
-  void clear_act();
-  static const int kActFieldNumber = 1;
-  ::server2N::GameEvent_action act() const;
-  void set_act(::server2N::GameEvent_action value);
+  // .server2N.EventMove moveEvent = 108;
+  bool has_moveevent() const;
+  void clear_moveevent();
+  static const int kMoveEventFieldNumber = 108;
+  const ::server2N::EventMove& moveevent() const;
+  ::server2N::EventMove* release_moveevent();
+  ::server2N::EventMove* mutable_moveevent();
+  void set_allocated_moveevent(::server2N::EventMove* moveevent);
+
+  // .server2N.EventStop stopEvent = 109;
+  bool has_stopevent() const;
+  void clear_stopevent();
+  static const int kStopEventFieldNumber = 109;
+  const ::server2N::EventStop& stopevent() const;
+  ::server2N::EventStop* release_stopevent();
+  ::server2N::EventStop* mutable_stopevent();
+  void set_allocated_stopevent(::server2N::EventStop* stopevent);
+
+  // .server2N.EventJump jumpEvent = 110;
+  bool has_jumpevent() const;
+  void clear_jumpevent();
+  static const int kJumpEventFieldNumber = 110;
+  const ::server2N::EventJump& jumpevent() const;
+  ::server2N::EventJump* release_jumpevent();
+  ::server2N::EventJump* mutable_jumpevent();
+  void set_allocated_jumpevent(::server2N::EventJump* jumpevent);
+
+  // .server2N.EventShoot shootEvent = 111;
+  bool has_shootevent() const;
+  void clear_shootevent();
+  static const int kShootEventFieldNumber = 111;
+  const ::server2N::EventShoot& shootevent() const;
+  ::server2N::EventShoot* release_shootevent();
+  ::server2N::EventShoot* mutable_shootevent();
+  void set_allocated_shootevent(::server2N::EventShoot* shootevent);
+
+  // .server2N.EventHit hitEvent = 112;
+  bool has_hitevent() const;
+  void clear_hitevent();
+  static const int kHitEventFieldNumber = 112;
+  const ::server2N::EventHit& hitevent() const;
+  ::server2N::EventHit* release_hitevent();
+  ::server2N::EventHit* mutable_hitevent();
+  void set_allocated_hitevent(::server2N::EventHit* hitevent);
+
+  // .server2N.EventSpawn spawnEvent = 113;
+  bool has_spawnevent() const;
+  void clear_spawnevent();
+  static const int kSpawnEventFieldNumber = 113;
+  const ::server2N::EventSpawn& spawnevent() const;
+  ::server2N::EventSpawn* release_spawnevent();
+  ::server2N::EventSpawn* mutable_spawnevent();
+  void set_allocated_spawnevent(::server2N::EventSpawn* spawnevent);
+
+  // .server2N.EventUserSync syncEvent = 114;
+  bool has_syncevent() const;
+  void clear_syncevent();
+  static const int kSyncEventFieldNumber = 114;
+  const ::server2N::EventUserSync& syncevent() const;
+  ::server2N::EventUserSync* release_syncevent();
+  ::server2N::EventUserSync* mutable_syncevent();
+  void set_allocated_syncevent(::server2N::EventUserSync* syncevent);
+
+  // .server2N.EventDeath deathEvent = 115;
+  bool has_deathevent() const;
+  void clear_deathevent();
+  static const int kDeathEventFieldNumber = 115;
+  const ::server2N::EventDeath& deathevent() const;
+  ::server2N::EventDeath* release_deathevent();
+  ::server2N::EventDeath* mutable_deathevent();
+  void set_allocated_deathevent(::server2N::EventDeath* deathevent);
+
+  // .server2N.GameEvent.action actType = 1;
+  void clear_acttype();
+  static const int kActTypeFieldNumber = 1;
+  ::server2N::GameEvent_action acttype() const;
+  void set_acttype(::server2N::GameEvent_action value);
 
   // int32 actionProperty = 5;
   void clear_actionproperty();
@@ -724,7 +1714,15 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > invokerid_;
   mutable int _invokerid_cached_byte_size_;
-  int act_;
+  ::server2N::EventMove* moveevent_;
+  ::server2N::EventStop* stopevent_;
+  ::server2N::EventJump* jumpevent_;
+  ::server2N::EventShoot* shootevent_;
+  ::server2N::EventHit* hitevent_;
+  ::server2N::EventSpawn* spawnevent_;
+  ::server2N::EventUserSync* syncevent_;
+  ::server2N::EventDeath* deathevent_;
+  int acttype_;
   ::google::protobuf::int32 actionproperty_;
   float eventpositionx_;
   float eventpositiony_;
@@ -771,7 +1769,7 @@ class PacketBody : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_PacketBody_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    3;
+    11;
 
   void Swap(PacketBody* other);
   friend void swap(PacketBody& a, PacketBody& b) {
@@ -1203,20 +2201,530 @@ inline void UserConnection::set_contype(::server2N::UserConnection_ConnectionTyp
 
 // -------------------------------------------------------------------
 
+// EventMove
+
+// int32 direction = 5;
+inline void EventMove::clear_direction() {
+  direction_ = 0;
+}
+inline ::google::protobuf::int32 EventMove::direction() const {
+  // @@protoc_insertion_point(field_get:server2N.EventMove.direction)
+  return direction_;
+}
+inline void EventMove::set_direction(::google::protobuf::int32 value) {
+  
+  direction_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventMove.direction)
+}
+
+// -------------------------------------------------------------------
+
+// EventStop
+
+// -------------------------------------------------------------------
+
+// EventJump
+
+// -------------------------------------------------------------------
+
+// EventShoot
+
+// float angle = 1;
+inline void EventShoot::clear_angle() {
+  angle_ = 0;
+}
+inline float EventShoot::angle() const {
+  // @@protoc_insertion_point(field_get:server2N.EventShoot.angle)
+  return angle_;
+}
+inline void EventShoot::set_angle(float value) {
+  
+  angle_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventShoot.angle)
+}
+
+// float damage = 2;
+inline void EventShoot::clear_damage() {
+  damage_ = 0;
+}
+inline float EventShoot::damage() const {
+  // @@protoc_insertion_point(field_get:server2N.EventShoot.damage)
+  return damage_;
+}
+inline void EventShoot::set_damage(float value) {
+  
+  damage_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventShoot.damage)
+}
+
+// -------------------------------------------------------------------
+
+// EventHit
+
+// float damage = 1;
+inline void EventHit::clear_damage() {
+  damage_ = 0;
+}
+inline float EventHit::damage() const {
+  // @@protoc_insertion_point(field_get:server2N.EventHit.damage)
+  return damage_;
+}
+inline void EventHit::set_damage(float value) {
+  
+  damage_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventHit.damage)
+}
+
+// -------------------------------------------------------------------
+
+// EventSpawn
+
+// -------------------------------------------------------------------
+
+// EventUserSync
+
+// -------------------------------------------------------------------
+
+// EventDeath
+
+// int32 triggerId = 1;
+inline void EventDeath::clear_triggerid() {
+  triggerid_ = 0;
+}
+inline ::google::protobuf::int32 EventDeath::triggerid() const {
+  // @@protoc_insertion_point(field_get:server2N.EventDeath.triggerId)
+  return triggerid_;
+}
+inline void EventDeath::set_triggerid(::google::protobuf::int32 value) {
+  
+  triggerid_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventDeath.triggerId)
+}
+
+// -------------------------------------------------------------------
+
 // GameEvent
 
-// .server2N.GameEvent.action act = 1;
-inline void GameEvent::clear_act() {
-  act_ = 0;
+// .server2N.EventMove moveEvent = 108;
+inline bool GameEvent::has_moveevent() const {
+  return this != internal_default_instance() && moveevent_ != NULL;
 }
-inline ::server2N::GameEvent_action GameEvent::act() const {
-  // @@protoc_insertion_point(field_get:server2N.GameEvent.act)
-  return static_cast< ::server2N::GameEvent_action >(act_);
+inline void GameEvent::clear_moveevent() {
+  if (GetArenaNoVirtual() == NULL && moveevent_ != NULL) {
+    delete moveevent_;
+  }
+  moveevent_ = NULL;
 }
-inline void GameEvent::set_act(::server2N::GameEvent_action value) {
+inline const ::server2N::EventMove& GameEvent::moveevent() const {
+  const ::server2N::EventMove* p = moveevent_;
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.moveEvent)
+  return p != NULL ? *p : *reinterpret_cast<const ::server2N::EventMove*>(
+      &::server2N::_EventMove_default_instance_);
+}
+inline ::server2N::EventMove* GameEvent::release_moveevent() {
+  // @@protoc_insertion_point(field_release:server2N.GameEvent.moveEvent)
   
-  act_ = value;
-  // @@protoc_insertion_point(field_set:server2N.GameEvent.act)
+  ::server2N::EventMove* temp = moveevent_;
+  moveevent_ = NULL;
+  return temp;
+}
+inline ::server2N::EventMove* GameEvent::mutable_moveevent() {
+  
+  if (moveevent_ == NULL) {
+    moveevent_ = ::google::protobuf::Arena::Create< ::server2N::EventMove >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:server2N.GameEvent.moveEvent)
+  return moveevent_;
+}
+inline void GameEvent::set_allocated_moveevent(::server2N::EventMove* moveevent) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete moveevent_;
+  }
+  if (moveevent) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      moveevent = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, moveevent, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  moveevent_ = moveevent;
+  // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.moveEvent)
+}
+
+// .server2N.EventStop stopEvent = 109;
+inline bool GameEvent::has_stopevent() const {
+  return this != internal_default_instance() && stopevent_ != NULL;
+}
+inline void GameEvent::clear_stopevent() {
+  if (GetArenaNoVirtual() == NULL && stopevent_ != NULL) {
+    delete stopevent_;
+  }
+  stopevent_ = NULL;
+}
+inline const ::server2N::EventStop& GameEvent::stopevent() const {
+  const ::server2N::EventStop* p = stopevent_;
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.stopEvent)
+  return p != NULL ? *p : *reinterpret_cast<const ::server2N::EventStop*>(
+      &::server2N::_EventStop_default_instance_);
+}
+inline ::server2N::EventStop* GameEvent::release_stopevent() {
+  // @@protoc_insertion_point(field_release:server2N.GameEvent.stopEvent)
+  
+  ::server2N::EventStop* temp = stopevent_;
+  stopevent_ = NULL;
+  return temp;
+}
+inline ::server2N::EventStop* GameEvent::mutable_stopevent() {
+  
+  if (stopevent_ == NULL) {
+    stopevent_ = ::google::protobuf::Arena::Create< ::server2N::EventStop >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:server2N.GameEvent.stopEvent)
+  return stopevent_;
+}
+inline void GameEvent::set_allocated_stopevent(::server2N::EventStop* stopevent) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete stopevent_;
+  }
+  if (stopevent) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      stopevent = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, stopevent, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  stopevent_ = stopevent;
+  // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.stopEvent)
+}
+
+// .server2N.EventJump jumpEvent = 110;
+inline bool GameEvent::has_jumpevent() const {
+  return this != internal_default_instance() && jumpevent_ != NULL;
+}
+inline void GameEvent::clear_jumpevent() {
+  if (GetArenaNoVirtual() == NULL && jumpevent_ != NULL) {
+    delete jumpevent_;
+  }
+  jumpevent_ = NULL;
+}
+inline const ::server2N::EventJump& GameEvent::jumpevent() const {
+  const ::server2N::EventJump* p = jumpevent_;
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.jumpEvent)
+  return p != NULL ? *p : *reinterpret_cast<const ::server2N::EventJump*>(
+      &::server2N::_EventJump_default_instance_);
+}
+inline ::server2N::EventJump* GameEvent::release_jumpevent() {
+  // @@protoc_insertion_point(field_release:server2N.GameEvent.jumpEvent)
+  
+  ::server2N::EventJump* temp = jumpevent_;
+  jumpevent_ = NULL;
+  return temp;
+}
+inline ::server2N::EventJump* GameEvent::mutable_jumpevent() {
+  
+  if (jumpevent_ == NULL) {
+    jumpevent_ = ::google::protobuf::Arena::Create< ::server2N::EventJump >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:server2N.GameEvent.jumpEvent)
+  return jumpevent_;
+}
+inline void GameEvent::set_allocated_jumpevent(::server2N::EventJump* jumpevent) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete jumpevent_;
+  }
+  if (jumpevent) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      jumpevent = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, jumpevent, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  jumpevent_ = jumpevent;
+  // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.jumpEvent)
+}
+
+// .server2N.EventShoot shootEvent = 111;
+inline bool GameEvent::has_shootevent() const {
+  return this != internal_default_instance() && shootevent_ != NULL;
+}
+inline void GameEvent::clear_shootevent() {
+  if (GetArenaNoVirtual() == NULL && shootevent_ != NULL) {
+    delete shootevent_;
+  }
+  shootevent_ = NULL;
+}
+inline const ::server2N::EventShoot& GameEvent::shootevent() const {
+  const ::server2N::EventShoot* p = shootevent_;
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.shootEvent)
+  return p != NULL ? *p : *reinterpret_cast<const ::server2N::EventShoot*>(
+      &::server2N::_EventShoot_default_instance_);
+}
+inline ::server2N::EventShoot* GameEvent::release_shootevent() {
+  // @@protoc_insertion_point(field_release:server2N.GameEvent.shootEvent)
+  
+  ::server2N::EventShoot* temp = shootevent_;
+  shootevent_ = NULL;
+  return temp;
+}
+inline ::server2N::EventShoot* GameEvent::mutable_shootevent() {
+  
+  if (shootevent_ == NULL) {
+    shootevent_ = ::google::protobuf::Arena::Create< ::server2N::EventShoot >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:server2N.GameEvent.shootEvent)
+  return shootevent_;
+}
+inline void GameEvent::set_allocated_shootevent(::server2N::EventShoot* shootevent) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete shootevent_;
+  }
+  if (shootevent) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      shootevent = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, shootevent, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  shootevent_ = shootevent;
+  // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.shootEvent)
+}
+
+// .server2N.EventHit hitEvent = 112;
+inline bool GameEvent::has_hitevent() const {
+  return this != internal_default_instance() && hitevent_ != NULL;
+}
+inline void GameEvent::clear_hitevent() {
+  if (GetArenaNoVirtual() == NULL && hitevent_ != NULL) {
+    delete hitevent_;
+  }
+  hitevent_ = NULL;
+}
+inline const ::server2N::EventHit& GameEvent::hitevent() const {
+  const ::server2N::EventHit* p = hitevent_;
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.hitEvent)
+  return p != NULL ? *p : *reinterpret_cast<const ::server2N::EventHit*>(
+      &::server2N::_EventHit_default_instance_);
+}
+inline ::server2N::EventHit* GameEvent::release_hitevent() {
+  // @@protoc_insertion_point(field_release:server2N.GameEvent.hitEvent)
+  
+  ::server2N::EventHit* temp = hitevent_;
+  hitevent_ = NULL;
+  return temp;
+}
+inline ::server2N::EventHit* GameEvent::mutable_hitevent() {
+  
+  if (hitevent_ == NULL) {
+    hitevent_ = ::google::protobuf::Arena::Create< ::server2N::EventHit >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:server2N.GameEvent.hitEvent)
+  return hitevent_;
+}
+inline void GameEvent::set_allocated_hitevent(::server2N::EventHit* hitevent) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete hitevent_;
+  }
+  if (hitevent) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      hitevent = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, hitevent, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  hitevent_ = hitevent;
+  // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.hitEvent)
+}
+
+// .server2N.EventSpawn spawnEvent = 113;
+inline bool GameEvent::has_spawnevent() const {
+  return this != internal_default_instance() && spawnevent_ != NULL;
+}
+inline void GameEvent::clear_spawnevent() {
+  if (GetArenaNoVirtual() == NULL && spawnevent_ != NULL) {
+    delete spawnevent_;
+  }
+  spawnevent_ = NULL;
+}
+inline const ::server2N::EventSpawn& GameEvent::spawnevent() const {
+  const ::server2N::EventSpawn* p = spawnevent_;
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.spawnEvent)
+  return p != NULL ? *p : *reinterpret_cast<const ::server2N::EventSpawn*>(
+      &::server2N::_EventSpawn_default_instance_);
+}
+inline ::server2N::EventSpawn* GameEvent::release_spawnevent() {
+  // @@protoc_insertion_point(field_release:server2N.GameEvent.spawnEvent)
+  
+  ::server2N::EventSpawn* temp = spawnevent_;
+  spawnevent_ = NULL;
+  return temp;
+}
+inline ::server2N::EventSpawn* GameEvent::mutable_spawnevent() {
+  
+  if (spawnevent_ == NULL) {
+    spawnevent_ = ::google::protobuf::Arena::Create< ::server2N::EventSpawn >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:server2N.GameEvent.spawnEvent)
+  return spawnevent_;
+}
+inline void GameEvent::set_allocated_spawnevent(::server2N::EventSpawn* spawnevent) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete spawnevent_;
+  }
+  if (spawnevent) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      spawnevent = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, spawnevent, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  spawnevent_ = spawnevent;
+  // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.spawnEvent)
+}
+
+// .server2N.EventUserSync syncEvent = 114;
+inline bool GameEvent::has_syncevent() const {
+  return this != internal_default_instance() && syncevent_ != NULL;
+}
+inline void GameEvent::clear_syncevent() {
+  if (GetArenaNoVirtual() == NULL && syncevent_ != NULL) {
+    delete syncevent_;
+  }
+  syncevent_ = NULL;
+}
+inline const ::server2N::EventUserSync& GameEvent::syncevent() const {
+  const ::server2N::EventUserSync* p = syncevent_;
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.syncEvent)
+  return p != NULL ? *p : *reinterpret_cast<const ::server2N::EventUserSync*>(
+      &::server2N::_EventUserSync_default_instance_);
+}
+inline ::server2N::EventUserSync* GameEvent::release_syncevent() {
+  // @@protoc_insertion_point(field_release:server2N.GameEvent.syncEvent)
+  
+  ::server2N::EventUserSync* temp = syncevent_;
+  syncevent_ = NULL;
+  return temp;
+}
+inline ::server2N::EventUserSync* GameEvent::mutable_syncevent() {
+  
+  if (syncevent_ == NULL) {
+    syncevent_ = ::google::protobuf::Arena::Create< ::server2N::EventUserSync >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:server2N.GameEvent.syncEvent)
+  return syncevent_;
+}
+inline void GameEvent::set_allocated_syncevent(::server2N::EventUserSync* syncevent) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete syncevent_;
+  }
+  if (syncevent) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      syncevent = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, syncevent, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  syncevent_ = syncevent;
+  // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.syncEvent)
+}
+
+// .server2N.EventDeath deathEvent = 115;
+inline bool GameEvent::has_deathevent() const {
+  return this != internal_default_instance() && deathevent_ != NULL;
+}
+inline void GameEvent::clear_deathevent() {
+  if (GetArenaNoVirtual() == NULL && deathevent_ != NULL) {
+    delete deathevent_;
+  }
+  deathevent_ = NULL;
+}
+inline const ::server2N::EventDeath& GameEvent::deathevent() const {
+  const ::server2N::EventDeath* p = deathevent_;
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.deathEvent)
+  return p != NULL ? *p : *reinterpret_cast<const ::server2N::EventDeath*>(
+      &::server2N::_EventDeath_default_instance_);
+}
+inline ::server2N::EventDeath* GameEvent::release_deathevent() {
+  // @@protoc_insertion_point(field_release:server2N.GameEvent.deathEvent)
+  
+  ::server2N::EventDeath* temp = deathevent_;
+  deathevent_ = NULL;
+  return temp;
+}
+inline ::server2N::EventDeath* GameEvent::mutable_deathevent() {
+  
+  if (deathevent_ == NULL) {
+    deathevent_ = ::google::protobuf::Arena::Create< ::server2N::EventDeath >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:server2N.GameEvent.deathEvent)
+  return deathevent_;
+}
+inline void GameEvent::set_allocated_deathevent(::server2N::EventDeath* deathevent) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete deathevent_;
+  }
+  if (deathevent) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      deathevent = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, deathevent, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  deathevent_ = deathevent;
+  // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.deathEvent)
+}
+
+// .server2N.GameEvent.action actType = 1;
+inline void GameEvent::clear_acttype() {
+  acttype_ = 0;
+}
+inline ::server2N::GameEvent_action GameEvent::acttype() const {
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.actType)
+  return static_cast< ::server2N::GameEvent_action >(acttype_);
+}
+inline void GameEvent::set_acttype(::server2N::GameEvent_action value) {
+  
+  acttype_ = value;
+  // @@protoc_insertion_point(field_set:server2N.GameEvent.actType)
 }
 
 // int32 actionProperty = 5;
@@ -1513,6 +3021,22 @@ inline void PacketBody::set_senderid(::google::protobuf::int32 value) {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -1530,6 +3054,11 @@ template <> struct is_proto_enum< ::server2N::UserConnection_ConnectionType> : :
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::server2N::UserConnection_ConnectionType>() {
   return ::server2N::UserConnection_ConnectionType_descriptor();
+}
+template <> struct is_proto_enum< ::server2N::EventMove_Direction> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::server2N::EventMove_Direction>() {
+  return ::server2N::EventMove_Direction_descriptor();
 }
 template <> struct is_proto_enum< ::server2N::GameEvent_action> : ::google::protobuf::internal::true_type {};
 template <>
