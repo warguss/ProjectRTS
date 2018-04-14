@@ -18,9 +18,6 @@ public class Bullet : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        rb2d = GetComponent<Rigidbody2D>();
-        damageInfo = new DamageInfo();
-
         //currently, Damageinfo is constant.
         damageInfo.Damage = 10;
         damageInfo.HitRecovery = 10;
@@ -28,6 +25,12 @@ public class Bullet : MonoBehaviour {
 
         StartPosition = rb2d.position;
 
+    }
+
+    void Awake()
+    {
+        rb2d = GetComponent<Rigidbody2D>();
+        damageInfo = new DamageInfo();
     }
 	
 	// Update is called once per frame
