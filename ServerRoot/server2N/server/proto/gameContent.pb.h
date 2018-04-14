@@ -745,17 +745,17 @@ class EventMove : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   // accessors -------------------------------------------------------
 
-  // int32 direction = 5;
-  void clear_direction();
-  static const int kDirectionFieldNumber = 5;
-  ::google::protobuf::int32 direction() const;
-  void set_direction(::google::protobuf::int32 value);
+  // .server2N.EventMove.Direction type = 5;
+  void clear_type();
+  static const int kTypeFieldNumber = 5;
+  ::server2N::EventMove_Direction type() const;
+  void set_type(::server2N::EventMove_Direction value);
 
   // @@protoc_insertion_point(class_scope:server2N.EventMove)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::int32 direction_;
+  int type_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventMoveImpl();
@@ -1052,12 +1052,26 @@ class EventShoot : public ::google::protobuf::Message /* @@protoc_insertion_poin
   float damage() const;
   void set_damage(float value);
 
+  // int32 impact = 3;
+  void clear_impact();
+  static const int kImpactFieldNumber = 3;
+  ::google::protobuf::int32 impact() const;
+  void set_impact(::google::protobuf::int32 value);
+
+  // int32 impactAngle = 4;
+  void clear_impactangle();
+  static const int kImpactAngleFieldNumber = 4;
+  ::google::protobuf::int32 impactangle() const;
+  void set_impactangle(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:server2N.EventShoot)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   float angle_;
   float damage_;
+  ::google::protobuf::int32 impact_;
+  ::google::protobuf::int32 impactangle_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventShootImpl();
@@ -1150,17 +1164,38 @@ class EventHit : public ::google::protobuf::Message /* @@protoc_insertion_point(
 
   // accessors -------------------------------------------------------
 
-  // float damage = 1;
+  // int32 attacker = 1;
+  void clear_attacker();
+  static const int kAttackerFieldNumber = 1;
+  ::google::protobuf::int32 attacker() const;
+  void set_attacker(::google::protobuf::int32 value);
+
+  // float damage = 2;
   void clear_damage();
-  static const int kDamageFieldNumber = 1;
+  static const int kDamageFieldNumber = 2;
   float damage() const;
   void set_damage(float value);
+
+  // int32 impact = 3;
+  void clear_impact();
+  static const int kImpactFieldNumber = 3;
+  ::google::protobuf::int32 impact() const;
+  void set_impact(::google::protobuf::int32 value);
+
+  // int32 impactAngle = 4;
+  void clear_impactangle();
+  static const int kImpactAngleFieldNumber = 4;
+  ::google::protobuf::int32 impactangle() const;
+  void set_impactangle(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:server2N.EventHit)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::int32 attacker_;
   float damage_;
+  ::google::protobuf::int32 impact_;
+  ::google::protobuf::int32 impactangle_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventHitImpl();
@@ -2203,18 +2238,18 @@ inline void UserConnection::set_contype(::server2N::UserConnection_ConnectionTyp
 
 // EventMove
 
-// int32 direction = 5;
-inline void EventMove::clear_direction() {
-  direction_ = 0;
+// .server2N.EventMove.Direction type = 5;
+inline void EventMove::clear_type() {
+  type_ = 0;
 }
-inline ::google::protobuf::int32 EventMove::direction() const {
-  // @@protoc_insertion_point(field_get:server2N.EventMove.direction)
-  return direction_;
+inline ::server2N::EventMove_Direction EventMove::type() const {
+  // @@protoc_insertion_point(field_get:server2N.EventMove.type)
+  return static_cast< ::server2N::EventMove_Direction >(type_);
 }
-inline void EventMove::set_direction(::google::protobuf::int32 value) {
+inline void EventMove::set_type(::server2N::EventMove_Direction value) {
   
-  direction_ = value;
-  // @@protoc_insertion_point(field_set:server2N.EventMove.direction)
+  type_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventMove.type)
 }
 
 // -------------------------------------------------------------------
@@ -2257,11 +2292,53 @@ inline void EventShoot::set_damage(float value) {
   // @@protoc_insertion_point(field_set:server2N.EventShoot.damage)
 }
 
+// int32 impact = 3;
+inline void EventShoot::clear_impact() {
+  impact_ = 0;
+}
+inline ::google::protobuf::int32 EventShoot::impact() const {
+  // @@protoc_insertion_point(field_get:server2N.EventShoot.impact)
+  return impact_;
+}
+inline void EventShoot::set_impact(::google::protobuf::int32 value) {
+  
+  impact_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventShoot.impact)
+}
+
+// int32 impactAngle = 4;
+inline void EventShoot::clear_impactangle() {
+  impactangle_ = 0;
+}
+inline ::google::protobuf::int32 EventShoot::impactangle() const {
+  // @@protoc_insertion_point(field_get:server2N.EventShoot.impactAngle)
+  return impactangle_;
+}
+inline void EventShoot::set_impactangle(::google::protobuf::int32 value) {
+  
+  impactangle_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventShoot.impactAngle)
+}
+
 // -------------------------------------------------------------------
 
 // EventHit
 
-// float damage = 1;
+// int32 attacker = 1;
+inline void EventHit::clear_attacker() {
+  attacker_ = 0;
+}
+inline ::google::protobuf::int32 EventHit::attacker() const {
+  // @@protoc_insertion_point(field_get:server2N.EventHit.attacker)
+  return attacker_;
+}
+inline void EventHit::set_attacker(::google::protobuf::int32 value) {
+  
+  attacker_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventHit.attacker)
+}
+
+// float damage = 2;
 inline void EventHit::clear_damage() {
   damage_ = 0;
 }
@@ -2273,6 +2350,34 @@ inline void EventHit::set_damage(float value) {
   
   damage_ = value;
   // @@protoc_insertion_point(field_set:server2N.EventHit.damage)
+}
+
+// int32 impact = 3;
+inline void EventHit::clear_impact() {
+  impact_ = 0;
+}
+inline ::google::protobuf::int32 EventHit::impact() const {
+  // @@protoc_insertion_point(field_get:server2N.EventHit.impact)
+  return impact_;
+}
+inline void EventHit::set_impact(::google::protobuf::int32 value) {
+  
+  impact_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventHit.impact)
+}
+
+// int32 impactAngle = 4;
+inline void EventHit::clear_impactangle() {
+  impactangle_ = 0;
+}
+inline ::google::protobuf::int32 EventHit::impactangle() const {
+  // @@protoc_insertion_point(field_get:server2N.EventHit.impactAngle)
+  return impactangle_;
+}
+inline void EventHit::set_impactangle(::google::protobuf::int32 value) {
+  
+  impactangle_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventHit.impactAngle)
 }
 
 // -------------------------------------------------------------------
