@@ -184,6 +184,30 @@ inline bool UserConnection_ConnectionType_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<UserConnection_ConnectionType>(
     UserConnection_ConnectionType_descriptor(), name, value);
 }
+enum EventMove_Direction {
+  EventMove_Direction_Nothing = 0,
+  EventMove_Direction_Left = 1,
+  EventMove_Direction_Right = 2,
+  EventMove_Direction_Down = 3,
+  EventMove_Direction_Up = 4,
+  EventMove_Direction_EventMove_Direction_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EventMove_Direction_EventMove_Direction_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EventMove_Direction_IsValid(int value);
+const EventMove_Direction EventMove_Direction_Direction_MIN = EventMove_Direction_Nothing;
+const EventMove_Direction EventMove_Direction_Direction_MAX = EventMove_Direction_Up;
+const int EventMove_Direction_Direction_ARRAYSIZE = EventMove_Direction_Direction_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EventMove_Direction_descriptor();
+inline const ::std::string& EventMove_Direction_Name(EventMove_Direction value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EventMove_Direction_descriptor(), value);
+}
+inline bool EventMove_Direction_Parse(
+    const ::std::string& name, EventMove_Direction* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EventMove_Direction>(
+    EventMove_Direction_descriptor(), name, value);
+}
 enum GameEvent_action {
   GameEvent_action_Nothing = 0,
   GameEvent_action_EventMove = 100,
@@ -687,12 +711,51 @@ class EventMove : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   // nested types ----------------------------------------------------
 
+  typedef EventMove_Direction Direction;
+  static const Direction Nothing =
+    EventMove_Direction_Nothing;
+  static const Direction Left =
+    EventMove_Direction_Left;
+  static const Direction Right =
+    EventMove_Direction_Right;
+  static const Direction Down =
+    EventMove_Direction_Down;
+  static const Direction Up =
+    EventMove_Direction_Up;
+  static inline bool Direction_IsValid(int value) {
+    return EventMove_Direction_IsValid(value);
+  }
+  static const Direction Direction_MIN =
+    EventMove_Direction_Direction_MIN;
+  static const Direction Direction_MAX =
+    EventMove_Direction_Direction_MAX;
+  static const int Direction_ARRAYSIZE =
+    EventMove_Direction_Direction_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  Direction_descriptor() {
+    return EventMove_Direction_descriptor();
+  }
+  static inline const ::std::string& Direction_Name(Direction value) {
+    return EventMove_Direction_Name(value);
+  }
+  static inline bool Direction_Parse(const ::std::string& name,
+      Direction* value) {
+    return EventMove_Direction_Parse(name, value);
+  }
+
   // accessors -------------------------------------------------------
+
+  // int32 direction = 5;
+  void clear_direction();
+  static const int kDirectionFieldNumber = 5;
+  ::google::protobuf::int32 direction() const;
+  void set_direction(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:server2N.EventMove)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::int32 direction_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventMoveImpl();
@@ -2140,6 +2203,20 @@ inline void UserConnection::set_contype(::server2N::UserConnection_ConnectionTyp
 
 // EventMove
 
+// int32 direction = 5;
+inline void EventMove::clear_direction() {
+  direction_ = 0;
+}
+inline ::google::protobuf::int32 EventMove::direction() const {
+  // @@protoc_insertion_point(field_get:server2N.EventMove.direction)
+  return direction_;
+}
+inline void EventMove::set_direction(::google::protobuf::int32 value) {
+  
+  direction_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventMove.direction)
+}
+
 // -------------------------------------------------------------------
 
 // EventStop
@@ -2977,6 +3054,11 @@ template <> struct is_proto_enum< ::server2N::UserConnection_ConnectionType> : :
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::server2N::UserConnection_ConnectionType>() {
   return ::server2N::UserConnection_ConnectionType_descriptor();
+}
+template <> struct is_proto_enum< ::server2N::EventMove_Direction> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::server2N::EventMove_Direction>() {
+  return ::server2N::EventMove_Direction_descriptor();
 }
 template <> struct is_proto_enum< ::server2N::GameEvent_action> : ::google::protobuf::internal::true_type {};
 template <>
