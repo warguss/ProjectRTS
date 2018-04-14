@@ -33,7 +33,14 @@ message UserConnection{
 }
 
 message EventMove{
-
+	enum Direction{
+		Nothing = 0;
+		Left = 1;
+		Right = 2;
+		Down = 3;
+		Up = 4;
+	}
+	Direction type = 5;
 }
 
 message EventStop{
@@ -47,10 +54,15 @@ message EventJump{
 message EventShoot{
 	float angle = 1;
 	float damage = 2;
+	int32 impact = 3;
+	int32 impactAngle = 4;
 }
 
 message EventHit{
-	float damage = 1;
+	int32 attacker = 1;
+	float damage = 2;
+	int32 impact = 3;
+	int32 impactAngle = 4;
 }
 
 message EventSpawn{

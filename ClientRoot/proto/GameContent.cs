@@ -32,42 +32,46 @@ namespace Server2N {
             "Micuc2VydmVyMk4uVXNlckNvbm5lY3Rpb24uQ29ubmVjdGlvblR5cGUiXQoO",
             "Q29ubmVjdGlvblR5cGUSCwoHTm90aGluZxAAEgsKB0Nvbm5lY3QQARIOCgpU",
             "cnlDb25uZWN0EAISEQoNQWNjZXB0Q29ubmVjdBADEg4KCkRpc0Nvbm5lY3QQ",
-            "BCILCglFdmVudE1vdmUiCwoJRXZlbnRTdG9wIgsKCUV2ZW50SnVtcCIrCgpF",
-            "dmVudFNob290Eg0KBWFuZ2xlGAEgASgCEg4KBmRhbWFnZRgCIAEoAiIaCghF",
-            "dmVudEhpdBIOCgZkYW1hZ2UYASABKAIiDAoKRXZlbnRTcGF3biIPCg1FdmVu",
-            "dFVzZXJTeW5jIh8KCkV2ZW50RGVhdGgSEQoJdHJpZ2dlcklkGAEgASgFIpcF",
-            "CglHYW1lRXZlbnQSJgoJbW92ZUV2ZW50GGwgASgLMhMuc2VydmVyMk4uRXZl",
-            "bnRNb3ZlEiYKCXN0b3BFdmVudBhtIAEoCzITLnNlcnZlcjJOLkV2ZW50U3Rv",
-            "cBImCglqdW1wRXZlbnQYbiABKAsyEy5zZXJ2ZXIyTi5FdmVudEp1bXASKAoK",
-            "c2hvb3RFdmVudBhvIAEoCzIULnNlcnZlcjJOLkV2ZW50U2hvb3QSJAoIaGl0",
-            "RXZlbnQYcCABKAsyEi5zZXJ2ZXIyTi5FdmVudEhpdBIoCgpzcGF3bkV2ZW50",
-            "GHEgASgLMhQuc2VydmVyMk4uRXZlbnRTcGF3bhIqCglzeW5jRXZlbnQYciAB",
-            "KAsyFy5zZXJ2ZXIyTi5FdmVudFVzZXJTeW5jEigKCmRlYXRoRXZlbnQYcyAB",
-            "KAsyFC5zZXJ2ZXIyTi5FdmVudERlYXRoEisKB2FjdFR5cGUYASABKA4yGi5z",
-            "ZXJ2ZXIyTi5HYW1lRXZlbnQuYWN0aW9uEhYKDmFjdGlvblByb3BlcnR5GAUg",
-            "ASgFEhYKDkV2ZW50UG9zaXRpb25YGAYgASgCEhYKDkV2ZW50UG9zaXRpb25Z",
-            "GAcgASgCEhEKCVZlbG9jaXR5WBgIIAEoAhIRCglWZWxvY2l0eVkYCSABKAIS",
-            "EQoJaW52b2tlcklkGAogAygFIpMBCgZhY3Rpb24SCwoHTm90aGluZxAAEg0K",
-            "CUV2ZW50TW92ZRBkEg0KCUV2ZW50U3RvcBBlEg0KCUV2ZW50SnVtcBBmEg4K",
-            "CkV2ZW50U2hvb3QQZxIMCghFdmVudEhpdBBoEg4KCkV2ZW50U3Bhd24QaRIR",
-            "Cg1FdmVudFVzZXJTeW5jEGoSDgoKRXZlbnREZWF0aBBrIpACCgpQYWNrZXRC",
-            "b2R5EjIKB21zZ1R5cGUYkE4gASgOMiAuc2VydmVyMk4uUGFja2V0Qm9keS5t",
-            "ZXNzYWdlVHlwZRIpCgdjb25uZWN0GAYgASgLMhguc2VydmVyMk4uVXNlckNv",
-            "bm5lY3Rpb24SJwoGbm90aWNlGJFOIAEoCzIWLnNlcnZlcjJOLkdsb2JhbE5v",
-            "dGljZRIiCgVldmVudBgHIAEoCzITLnNlcnZlcjJOLkdhbWVFdmVudBIQCghz",
-            "ZW5kZXJJZBgIIAEoBSJECgttZXNzYWdlVHlwZRINCglHYW1lRXZlbnQQABIT",
-            "Cg5Vc2VyQ29ubmVjdGlvbhCQThIRCgxHbG9iYWxOb3RpY2UQkU5iBnByb3Rv",
-            "Mw=="));
+            "BCJ5CglFdmVudE1vdmUSKwoEdHlwZRgFIAEoDjIdLnNlcnZlcjJOLkV2ZW50",
+            "TW92ZS5EaXJlY3Rpb24iPwoJRGlyZWN0aW9uEgsKB05vdGhpbmcQABIICgRM",
+            "ZWZ0EAESCQoFUmlnaHQQAhIICgREb3duEAMSBgoCVXAQBCILCglFdmVudFN0",
+            "b3AiCwoJRXZlbnRKdW1wIlAKCkV2ZW50U2hvb3QSDQoFYW5nbGUYASABKAIS",
+            "DgoGZGFtYWdlGAIgASgCEg4KBmltcGFjdBgDIAEoBRITCgtpbXBhY3RBbmds",
+            "ZRgEIAEoBSJRCghFdmVudEhpdBIQCghhdHRhY2tlchgBIAEoBRIOCgZkYW1h",
+            "Z2UYAiABKAISDgoGaW1wYWN0GAMgASgFEhMKC2ltcGFjdEFuZ2xlGAQgASgF",
+            "IgwKCkV2ZW50U3Bhd24iDwoNRXZlbnRVc2VyU3luYyIfCgpFdmVudERlYXRo",
+            "EhEKCXRyaWdnZXJJZBgBIAEoBSKXBQoJR2FtZUV2ZW50EiYKCW1vdmVFdmVu",
+            "dBhsIAEoCzITLnNlcnZlcjJOLkV2ZW50TW92ZRImCglzdG9wRXZlbnQYbSAB",
+            "KAsyEy5zZXJ2ZXIyTi5FdmVudFN0b3ASJgoJanVtcEV2ZW50GG4gASgLMhMu",
+            "c2VydmVyMk4uRXZlbnRKdW1wEigKCnNob290RXZlbnQYbyABKAsyFC5zZXJ2",
+            "ZXIyTi5FdmVudFNob290EiQKCGhpdEV2ZW50GHAgASgLMhIuc2VydmVyMk4u",
+            "RXZlbnRIaXQSKAoKc3Bhd25FdmVudBhxIAEoCzIULnNlcnZlcjJOLkV2ZW50",
+            "U3Bhd24SKgoJc3luY0V2ZW50GHIgASgLMhcuc2VydmVyMk4uRXZlbnRVc2Vy",
+            "U3luYxIoCgpkZWF0aEV2ZW50GHMgASgLMhQuc2VydmVyMk4uRXZlbnREZWF0",
+            "aBIrCgdhY3RUeXBlGAEgASgOMhouc2VydmVyMk4uR2FtZUV2ZW50LmFjdGlv",
+            "bhIWCg5hY3Rpb25Qcm9wZXJ0eRgFIAEoBRIWCg5FdmVudFBvc2l0aW9uWBgG",
+            "IAEoAhIWCg5FdmVudFBvc2l0aW9uWRgHIAEoAhIRCglWZWxvY2l0eVgYCCAB",
+            "KAISEQoJVmVsb2NpdHlZGAkgASgCEhEKCWludm9rZXJJZBgKIAMoBSKTAQoG",
+            "YWN0aW9uEgsKB05vdGhpbmcQABINCglFdmVudE1vdmUQZBINCglFdmVudFN0",
+            "b3AQZRINCglFdmVudEp1bXAQZhIOCgpFdmVudFNob290EGcSDAoIRXZlbnRI",
+            "aXQQaBIOCgpFdmVudFNwYXduEGkSEQoNRXZlbnRVc2VyU3luYxBqEg4KCkV2",
+            "ZW50RGVhdGgQayKQAgoKUGFja2V0Qm9keRIyCgdtc2dUeXBlGJBOIAEoDjIg",
+            "LnNlcnZlcjJOLlBhY2tldEJvZHkubWVzc2FnZVR5cGUSKQoHY29ubmVjdBgG",
+            "IAEoCzIYLnNlcnZlcjJOLlVzZXJDb25uZWN0aW9uEicKBm5vdGljZRiRTiAB",
+            "KAsyFi5zZXJ2ZXIyTi5HbG9iYWxOb3RpY2USIgoFZXZlbnQYByABKAsyEy5z",
+            "ZXJ2ZXIyTi5HYW1lRXZlbnQSEAoIc2VuZGVySWQYCCABKAUiRAoLbWVzc2Fn",
+            "ZVR5cGUSDQoJR2FtZUV2ZW50EAASEwoOVXNlckNvbm5lY3Rpb24QkE4SEQoM",
+            "R2xvYmFsTm90aWNlEJFOYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GlobalNotice), global::Server2N.GlobalNotice.Parser, new[]{ "NotiType", "Notice", "Performer", "Victim" }, null, new[]{ typeof(global::Server2N.GlobalNotice.Types.NoticeInfo) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.UserConnection), global::Server2N.UserConnection.Parser, new[]{ "ConnectorId", "KillInfo", "DeathInfo", "Nickname", "ConType" }, null, new[]{ typeof(global::Server2N.UserConnection.Types.ConnectionType) }, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventMove), global::Server2N.EventMove.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventMove), global::Server2N.EventMove.Parser, new[]{ "Type" }, null, new[]{ typeof(global::Server2N.EventMove.Types.Direction) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventStop), global::Server2N.EventStop.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventJump), global::Server2N.EventJump.Parser, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventShoot), global::Server2N.EventShoot.Parser, new[]{ "Angle", "Damage" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventHit), global::Server2N.EventHit.Parser, new[]{ "Damage" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventShoot), global::Server2N.EventShoot.Parser, new[]{ "Angle", "Damage", "Impact", "ImpactAngle" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventHit), global::Server2N.EventHit.Parser, new[]{ "Attacker", "Damage", "Impact", "ImpactAngle" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventSpawn), global::Server2N.EventSpawn.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventUserSync), global::Server2N.EventUserSync.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventDeath), global::Server2N.EventDeath.Parser, new[]{ "TriggerId" }, null, null, null),
@@ -525,11 +529,23 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public EventMove(EventMove other) : this() {
+      type_ = other.type_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public EventMove Clone() {
       return new EventMove(this);
+    }
+
+    /// <summary>Field number for the "type" field.</summary>
+    public const int TypeFieldNumber = 5;
+    private global::Server2N.EventMove.Types.Direction type_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.EventMove.Types.Direction Type {
+      get { return type_; }
+      set {
+        type_ = value;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -545,12 +561,14 @@ namespace Server2N {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (Type != other.Type) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (Type != 0) hash ^= Type.GetHashCode();
       return hash;
     }
 
@@ -561,11 +579,18 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      if (Type != 0) {
+        output.WriteRawTag(40);
+        output.WriteEnum((int) Type);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (Type != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
+      }
       return size;
     }
 
@@ -573,6 +598,9 @@ namespace Server2N {
     public void MergeFrom(EventMove other) {
       if (other == null) {
         return;
+      }
+      if (other.Type != 0) {
+        Type = other.Type;
       }
     }
 
@@ -584,9 +612,28 @@ namespace Server2N {
           default:
             input.SkipLastField();
             break;
+          case 40: {
+            type_ = (global::Server2N.EventMove.Types.Direction) input.ReadEnum();
+            break;
+          }
         }
       }
     }
+
+    #region Nested types
+    /// <summary>Container for nested types declared in the EventMove message type.</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static partial class Types {
+      public enum Direction {
+        [pbr::OriginalName("Nothing")] Nothing = 0,
+        [pbr::OriginalName("Left")] Left = 1,
+        [pbr::OriginalName("Right")] Right = 2,
+        [pbr::OriginalName("Down")] Down = 3,
+        [pbr::OriginalName("Up")] Up = 4,
+      }
+
+    }
+    #endregion
 
   }
 
@@ -794,6 +841,8 @@ namespace Server2N {
     public EventShoot(EventShoot other) : this() {
       angle_ = other.angle_;
       damage_ = other.damage_;
+      impact_ = other.impact_;
+      impactAngle_ = other.impactAngle_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -823,6 +872,28 @@ namespace Server2N {
       }
     }
 
+    /// <summary>Field number for the "impact" field.</summary>
+    public const int ImpactFieldNumber = 3;
+    private int impact_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Impact {
+      get { return impact_; }
+      set {
+        impact_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "impactAngle" field.</summary>
+    public const int ImpactAngleFieldNumber = 4;
+    private int impactAngle_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ImpactAngle {
+      get { return impactAngle_; }
+      set {
+        impactAngle_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as EventShoot);
@@ -838,6 +909,8 @@ namespace Server2N {
       }
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Angle, other.Angle)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Damage, other.Damage)) return false;
+      if (Impact != other.Impact) return false;
+      if (ImpactAngle != other.ImpactAngle) return false;
       return true;
     }
 
@@ -846,6 +919,8 @@ namespace Server2N {
       int hash = 1;
       if (Angle != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Angle);
       if (Damage != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Damage);
+      if (Impact != 0) hash ^= Impact.GetHashCode();
+      if (ImpactAngle != 0) hash ^= ImpactAngle.GetHashCode();
       return hash;
     }
 
@@ -864,6 +939,14 @@ namespace Server2N {
         output.WriteRawTag(21);
         output.WriteFloat(Damage);
       }
+      if (Impact != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Impact);
+      }
+      if (ImpactAngle != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(ImpactAngle);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -874,6 +957,12 @@ namespace Server2N {
       }
       if (Damage != 0F) {
         size += 1 + 4;
+      }
+      if (Impact != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Impact);
+      }
+      if (ImpactAngle != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ImpactAngle);
       }
       return size;
     }
@@ -888,6 +977,12 @@ namespace Server2N {
       }
       if (other.Damage != 0F) {
         Damage = other.Damage;
+      }
+      if (other.Impact != 0) {
+        Impact = other.Impact;
+      }
+      if (other.ImpactAngle != 0) {
+        ImpactAngle = other.ImpactAngle;
       }
     }
 
@@ -905,6 +1000,14 @@ namespace Server2N {
           }
           case 21: {
             Damage = input.ReadFloat();
+            break;
+          }
+          case 24: {
+            Impact = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            ImpactAngle = input.ReadInt32();
             break;
           }
         }
@@ -937,7 +1040,10 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public EventHit(EventHit other) : this() {
+      attacker_ = other.attacker_;
       damage_ = other.damage_;
+      impact_ = other.impact_;
+      impactAngle_ = other.impactAngle_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -945,14 +1051,47 @@ namespace Server2N {
       return new EventHit(this);
     }
 
+    /// <summary>Field number for the "attacker" field.</summary>
+    public const int AttackerFieldNumber = 1;
+    private int attacker_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Attacker {
+      get { return attacker_; }
+      set {
+        attacker_ = value;
+      }
+    }
+
     /// <summary>Field number for the "damage" field.</summary>
-    public const int DamageFieldNumber = 1;
+    public const int DamageFieldNumber = 2;
     private float damage_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float Damage {
       get { return damage_; }
       set {
         damage_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "impact" field.</summary>
+    public const int ImpactFieldNumber = 3;
+    private int impact_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Impact {
+      get { return impact_; }
+      set {
+        impact_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "impactAngle" field.</summary>
+    public const int ImpactAngleFieldNumber = 4;
+    private int impactAngle_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ImpactAngle {
+      get { return impactAngle_; }
+      set {
+        impactAngle_ = value;
       }
     }
 
@@ -969,14 +1108,20 @@ namespace Server2N {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (Attacker != other.Attacker) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Damage, other.Damage)) return false;
+      if (Impact != other.Impact) return false;
+      if (ImpactAngle != other.ImpactAngle) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (Attacker != 0) hash ^= Attacker.GetHashCode();
       if (Damage != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Damage);
+      if (Impact != 0) hash ^= Impact.GetHashCode();
+      if (ImpactAngle != 0) hash ^= ImpactAngle.GetHashCode();
       return hash;
     }
 
@@ -987,17 +1132,38 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      if (Attacker != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Attacker);
+      }
       if (Damage != 0F) {
-        output.WriteRawTag(13);
+        output.WriteRawTag(21);
         output.WriteFloat(Damage);
+      }
+      if (Impact != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Impact);
+      }
+      if (ImpactAngle != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(ImpactAngle);
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (Attacker != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Attacker);
+      }
       if (Damage != 0F) {
         size += 1 + 4;
+      }
+      if (Impact != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Impact);
+      }
+      if (ImpactAngle != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ImpactAngle);
       }
       return size;
     }
@@ -1007,8 +1173,17 @@ namespace Server2N {
       if (other == null) {
         return;
       }
+      if (other.Attacker != 0) {
+        Attacker = other.Attacker;
+      }
       if (other.Damage != 0F) {
         Damage = other.Damage;
+      }
+      if (other.Impact != 0) {
+        Impact = other.Impact;
+      }
+      if (other.ImpactAngle != 0) {
+        ImpactAngle = other.ImpactAngle;
       }
     }
 
@@ -1020,8 +1195,20 @@ namespace Server2N {
           default:
             input.SkipLastField();
             break;
-          case 13: {
+          case 8: {
+            Attacker = input.ReadInt32();
+            break;
+          }
+          case 21: {
             Damage = input.ReadFloat();
+            break;
+          }
+          case 24: {
+            Impact = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            ImpactAngle = input.ReadInt32();
             break;
           }
         }

@@ -144,7 +144,7 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
         server2N::GameEvent tEvent = (*protoPacket)->_proto->event();
         cout << "Debug String" << tEvent.DebugString() << endl;
         LOG("Has Event\n");
-		(*protoPacket)->_type = tEvent.act();
+		(*protoPacket)->_type = tEvent.acttype();
 
     }
     else if ( (*protoPacket)->_proto->has_connect() )
@@ -298,63 +298,60 @@ bool CProtoManager::setActionType(int32_t type, CUser* senderUser, CProtoPacket*
 	(*packet) = new CProtoPacket();
 	(*packet)->_protoEvent = new server2N::GameEvent();
 	server2N::GameEvent tEvent = eventUser->_proto->event(); 
-	if ( type == (int32_t)server2N::GameEvent_action_Move || type == server2N::GameEvent_action_Stop || type == (int32_t)server2N::GameEvent_action_Jump || type == (int32_t)server2N::GameEvent_action_UserSync )
+	if ( type == (int32_t)server2N::GameEvent_action_EventShoot )
 	{
-		/* Copy From이 나을지, getset하는게 나을지 모르겠음 */
-		(*packet)->_protoEvent->CopyFrom(tEvent);
-		(*packet)->_fd = senderUser->_fd;
-		(*packet)->_proto->set_senderid(senderUser->_fd);
-		(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_GameEvent);
-		(*packet)->_type = (int32_t)type;
-		(*packet)->_proto->set_allocated_event((*packet)->_protoEvent);
+		LOG("Type EventShoot\n");
 	}
-	else if ( type == (int32_t)server2N::GameEvent_action_UserSync )
+	else if ( type == (int32_t)server2N::GameEvent_action_EventHit )
 	{
-		if ( senderUser->_fd == eventUser->_fd )
+		LOG("Type EventHit\n");
+	}
+	else if ( type == (int32_t)server2N::GameEvent_action_EventSpawn )
+	{
+		LOG("Type EventSpawn\n");
+	}
+	else if ( type == (int32_t)server2N::GameEvent_action_EventDeath )
+	{
+		/******************************
+		 * Trigger Id 확인
+		 * Kill Info 갱신 및 노티 필요
+		 ******************************/
+		LOG("Type EventDeath\n");
+	}
+	else if ( type == (int32_t)server2N::GameEvent_action_EventUserSync || type == (int32_t)server2N::GameEvent_action_EventMove || type == (int32_t)server2N::GameEvent_action_EventStop || type == (int32_t) server2N::GameEvent_action_EventJump )
+	{
+		senderUser->_x = tEvent.eventpositionx();
+		senderUser->_y = tEvent.eventpositiony();
+		senderUser->_accelX = tEvent.velocityx();
+		senderUser->_accelY = tEvent.velocityy();
+		bool isSuccess = true;
+		do
 		{
-			/******************************
-			 * Sector 조회
-			 * 현재 Sector랑 변경없으면
-			 * 해당 유지, 변화있으면
-			 * 삭제 후 Add
-			 ******************************/
-			senderUser->_x = tEvent.eventpositionx();
-			senderUser->_y = tEvent.eventpositiony();
-			senderUser->_accelX = tEvent.velocityx();
-			senderUser->_accelY = tEvent.velocityy();
-			bool isSuccess = true;
-			do
+			int preSector = senderUser->_sector;
+			int sector = g_userPool.getSectionNo(senderUser);
+			if ( preSector != sector )
 			{
-				int preSector = senderUser->_sector;
-				int sector = g_userPool.getSectionNo(senderUser);
-				if ( preSector != sector )
+				if ( !g_userPool.changeUserInPool(senderUser, preSector, sector) )
 				{
-					if ( !g_userPool.changeUserInPool(senderUser, preSector, sector) )
-					{
-						isSuccess = false;
-						break;
-					} 
-				}
+					isSuccess = false;
+					break;
+				} 
 			}
-			while(false);
-
-			delete (*packet)->_protoEvent;
-			delete *packet;
-			return isSuccess;
-		} 
-		(*packet)->_protoEvent->CopyFrom(tEvent);
-		(*packet)->_fd = senderUser->_fd;
-		(*packet)->_proto->set_senderid(senderUser->_fd);
-		(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_GameEvent);
-		(*packet)->_type = (int32_t)type;
-		(*packet)->_proto->set_allocated_event((*packet)->_protoEvent);
+		}
+		while(false);
 	}
+
+	(*packet)->_protoEvent->CopyFrom(tEvent);
+	(*packet)->_fd = senderUser->_fd;
+	(*packet)->_proto->set_senderid(senderUser->_fd);
+	(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_GameEvent);
+	(*packet)->_type = (int32_t)type;
+	(*packet)->_proto->set_allocated_event((*packet)->_protoEvent);
+
 
 	return true;
 }
 
-
-//bool CProtoManager::setNotiType(int32_t type, CUser* senderUser, CProtoPacket* eventUser, list<CUser*> userList, CProtoPacket** packet)
 bool CProtoManager::setNotiType(int type, CUser* senderUser, CProtoPacket* eventUser, list<CUser*> allUser, CProtoPacket** packet)
 {
 	if ( type < 0 || !eventUser || eventUser->_fd <= 0 || senderUser <= 0 )
@@ -365,9 +362,10 @@ bool CProtoManager::setNotiType(int type, CUser* senderUser, CProtoPacket* event
 
 	(*packet) = new CProtoPacket();
 	(*packet)->_protoNoti = new server2N::GlobalNotice();
-	server2N::GlobalNotice tNoti = eventUser->_proto->notice(); 
-	if ( type == (int32_t)server2N::GlobalNotice_NoticeInfo_KillInfo  )
+	if ( type == (int32_t)server2N::GameEvent_action_EventDeath  )
 	{
+		type == (int32_t)server2N::GlobalNotice_NoticeInfo_KillInfo;
+		server2N::GameEvent tEvent = eventUser->_proto->event(); 
 		/********************************
 		 * Kill 
 		 * eventUser_fd -> victim
@@ -375,31 +373,31 @@ bool CProtoManager::setNotiType(int type, CUser* senderUser, CProtoPacket* event
 		 * B User DeathInfo Add
 		 ********************************/
 		int32_t eventFd = eventUser->_fd;
-		CUser* triggerUser = g_userPool.findUserInPool(eventFd);
-		if ( !triggerUser ) 
+		CUser* victimUser = g_userPool.findUserInPool(eventFd);
+		if ( !victimUser ) 
 		{
 			/*********************************
 			 * 전체 조회이기 때문에, 
 			 * 찾지 못했다면 close(fd)로 종료
 			 *********************************/
+			LOG("Not Exist VictimUser(%d)\n", victimUser->_fd);
+			return false;
+		}
+		(*packet)->_protoNoti->add_victim((int32_t)eventFd);
+		victimUser->_deathInfo++;
+		int triggerFd = tEvent.deathevent().triggerid();
+		CUser* triggerUser = g_userPool.findUserInPool(triggerFd);
+		if ( !triggerUser )
+		{
 			LOG("Not Exist TriggerUser(%d)\n", triggerUser->_fd);
 			return false;
 		}
+		(*packet)->_protoNoti->add_victim((int32_t)triggerFd);
 		triggerUser->_killInfo++;
-		int victimSize = tNoti.victim_size();
-		for ( int idx = 0;  idx < victimSize; idx++ )
-		{
-			int victimFd = tNoti.victim(idx);
-			CUser* victimUser = g_userPool.findUserInPool(victimFd);
-			if ( !victimUser )
-			{
-				LOG("Not Exist VictimUser(%d)\n", victimUser->_fd);
-			}
-			victimUser->_deathInfo++;
-		} 
 	}
 
-	(*packet)->_protoNoti->CopyFrom(tNoti);
+	(*packet)->_type = type;
+	(*packet)->_protoNoti->set_notitype((int32_t)type);
 	(*packet)->_proto->set_allocated_notice((*packet)->_protoNoti);
 
 	return true;

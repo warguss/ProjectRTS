@@ -184,6 +184,30 @@ inline bool UserConnection_ConnectionType_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<UserConnection_ConnectionType>(
     UserConnection_ConnectionType_descriptor(), name, value);
 }
+enum EventMove_Direction {
+  EventMove_Direction_Nothing = 0,
+  EventMove_Direction_Left = 1,
+  EventMove_Direction_Right = 2,
+  EventMove_Direction_Down = 3,
+  EventMove_Direction_Up = 4,
+  EventMove_Direction_EventMove_Direction_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EventMove_Direction_EventMove_Direction_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EventMove_Direction_IsValid(int value);
+const EventMove_Direction EventMove_Direction_Direction_MIN = EventMove_Direction_Nothing;
+const EventMove_Direction EventMove_Direction_Direction_MAX = EventMove_Direction_Up;
+const int EventMove_Direction_Direction_ARRAYSIZE = EventMove_Direction_Direction_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EventMove_Direction_descriptor();
+inline const ::std::string& EventMove_Direction_Name(EventMove_Direction value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EventMove_Direction_descriptor(), value);
+}
+inline bool EventMove_Direction_Parse(
+    const ::std::string& name, EventMove_Direction* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EventMove_Direction>(
+    EventMove_Direction_descriptor(), name, value);
+}
 enum GameEvent_action {
   GameEvent_action_Nothing = 0,
   GameEvent_action_EventMove = 100,
@@ -687,12 +711,51 @@ class EventMove : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   // nested types ----------------------------------------------------
 
+  typedef EventMove_Direction Direction;
+  static const Direction Nothing =
+    EventMove_Direction_Nothing;
+  static const Direction Left =
+    EventMove_Direction_Left;
+  static const Direction Right =
+    EventMove_Direction_Right;
+  static const Direction Down =
+    EventMove_Direction_Down;
+  static const Direction Up =
+    EventMove_Direction_Up;
+  static inline bool Direction_IsValid(int value) {
+    return EventMove_Direction_IsValid(value);
+  }
+  static const Direction Direction_MIN =
+    EventMove_Direction_Direction_MIN;
+  static const Direction Direction_MAX =
+    EventMove_Direction_Direction_MAX;
+  static const int Direction_ARRAYSIZE =
+    EventMove_Direction_Direction_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  Direction_descriptor() {
+    return EventMove_Direction_descriptor();
+  }
+  static inline const ::std::string& Direction_Name(Direction value) {
+    return EventMove_Direction_Name(value);
+  }
+  static inline bool Direction_Parse(const ::std::string& name,
+      Direction* value) {
+    return EventMove_Direction_Parse(name, value);
+  }
+
   // accessors -------------------------------------------------------
+
+  // .server2N.EventMove.Direction type = 5;
+  void clear_type();
+  static const int kTypeFieldNumber = 5;
+  ::server2N::EventMove_Direction type() const;
+  void set_type(::server2N::EventMove_Direction value);
 
   // @@protoc_insertion_point(class_scope:server2N.EventMove)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  int type_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventMoveImpl();
@@ -989,12 +1052,26 @@ class EventShoot : public ::google::protobuf::Message /* @@protoc_insertion_poin
   float damage() const;
   void set_damage(float value);
 
+  // int32 impact = 3;
+  void clear_impact();
+  static const int kImpactFieldNumber = 3;
+  ::google::protobuf::int32 impact() const;
+  void set_impact(::google::protobuf::int32 value);
+
+  // int32 impactAngle = 4;
+  void clear_impactangle();
+  static const int kImpactAngleFieldNumber = 4;
+  ::google::protobuf::int32 impactangle() const;
+  void set_impactangle(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:server2N.EventShoot)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   float angle_;
   float damage_;
+  ::google::protobuf::int32 impact_;
+  ::google::protobuf::int32 impactangle_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventShootImpl();
@@ -1087,17 +1164,38 @@ class EventHit : public ::google::protobuf::Message /* @@protoc_insertion_point(
 
   // accessors -------------------------------------------------------
 
-  // float damage = 1;
+  // int32 attacker = 1;
+  void clear_attacker();
+  static const int kAttackerFieldNumber = 1;
+  ::google::protobuf::int32 attacker() const;
+  void set_attacker(::google::protobuf::int32 value);
+
+  // float damage = 2;
   void clear_damage();
-  static const int kDamageFieldNumber = 1;
+  static const int kDamageFieldNumber = 2;
   float damage() const;
   void set_damage(float value);
+
+  // int32 impact = 3;
+  void clear_impact();
+  static const int kImpactFieldNumber = 3;
+  ::google::protobuf::int32 impact() const;
+  void set_impact(::google::protobuf::int32 value);
+
+  // int32 impactAngle = 4;
+  void clear_impactangle();
+  static const int kImpactAngleFieldNumber = 4;
+  ::google::protobuf::int32 impactangle() const;
+  void set_impactangle(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:server2N.EventHit)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::int32 attacker_;
   float damage_;
+  ::google::protobuf::int32 impact_;
+  ::google::protobuf::int32 impactangle_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventHitImpl();
@@ -2140,6 +2238,20 @@ inline void UserConnection::set_contype(::server2N::UserConnection_ConnectionTyp
 
 // EventMove
 
+// .server2N.EventMove.Direction type = 5;
+inline void EventMove::clear_type() {
+  type_ = 0;
+}
+inline ::server2N::EventMove_Direction EventMove::type() const {
+  // @@protoc_insertion_point(field_get:server2N.EventMove.type)
+  return static_cast< ::server2N::EventMove_Direction >(type_);
+}
+inline void EventMove::set_type(::server2N::EventMove_Direction value) {
+  
+  type_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventMove.type)
+}
+
 // -------------------------------------------------------------------
 
 // EventStop
@@ -2180,11 +2292,53 @@ inline void EventShoot::set_damage(float value) {
   // @@protoc_insertion_point(field_set:server2N.EventShoot.damage)
 }
 
+// int32 impact = 3;
+inline void EventShoot::clear_impact() {
+  impact_ = 0;
+}
+inline ::google::protobuf::int32 EventShoot::impact() const {
+  // @@protoc_insertion_point(field_get:server2N.EventShoot.impact)
+  return impact_;
+}
+inline void EventShoot::set_impact(::google::protobuf::int32 value) {
+  
+  impact_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventShoot.impact)
+}
+
+// int32 impactAngle = 4;
+inline void EventShoot::clear_impactangle() {
+  impactangle_ = 0;
+}
+inline ::google::protobuf::int32 EventShoot::impactangle() const {
+  // @@protoc_insertion_point(field_get:server2N.EventShoot.impactAngle)
+  return impactangle_;
+}
+inline void EventShoot::set_impactangle(::google::protobuf::int32 value) {
+  
+  impactangle_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventShoot.impactAngle)
+}
+
 // -------------------------------------------------------------------
 
 // EventHit
 
-// float damage = 1;
+// int32 attacker = 1;
+inline void EventHit::clear_attacker() {
+  attacker_ = 0;
+}
+inline ::google::protobuf::int32 EventHit::attacker() const {
+  // @@protoc_insertion_point(field_get:server2N.EventHit.attacker)
+  return attacker_;
+}
+inline void EventHit::set_attacker(::google::protobuf::int32 value) {
+  
+  attacker_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventHit.attacker)
+}
+
+// float damage = 2;
 inline void EventHit::clear_damage() {
   damage_ = 0;
 }
@@ -2196,6 +2350,34 @@ inline void EventHit::set_damage(float value) {
   
   damage_ = value;
   // @@protoc_insertion_point(field_set:server2N.EventHit.damage)
+}
+
+// int32 impact = 3;
+inline void EventHit::clear_impact() {
+  impact_ = 0;
+}
+inline ::google::protobuf::int32 EventHit::impact() const {
+  // @@protoc_insertion_point(field_get:server2N.EventHit.impact)
+  return impact_;
+}
+inline void EventHit::set_impact(::google::protobuf::int32 value) {
+  
+  impact_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventHit.impact)
+}
+
+// int32 impactAngle = 4;
+inline void EventHit::clear_impactangle() {
+  impactangle_ = 0;
+}
+inline ::google::protobuf::int32 EventHit::impactangle() const {
+  // @@protoc_insertion_point(field_get:server2N.EventHit.impactAngle)
+  return impactangle_;
+}
+inline void EventHit::set_impactangle(::google::protobuf::int32 value) {
+  
+  impactangle_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventHit.impactAngle)
 }
 
 // -------------------------------------------------------------------
@@ -2977,6 +3159,11 @@ template <> struct is_proto_enum< ::server2N::UserConnection_ConnectionType> : :
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::server2N::UserConnection_ConnectionType>() {
   return ::server2N::UserConnection_ConnectionType_descriptor();
+}
+template <> struct is_proto_enum< ::server2N::EventMove_Direction> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::server2N::EventMove_Direction>() {
+  return ::server2N::EventMove_Direction_descriptor();
 }
 template <> struct is_proto_enum< ::server2N::GameEvent_action> : ::google::protobuf::internal::true_type {};
 template <>
