@@ -346,7 +346,7 @@ void InitDefaultsPacketBody() {
 }
 
 ::google::protobuf::Metadata file_level_metadata[12];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[4];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[5];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -373,6 +373,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventMove, direction_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventStop, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -447,15 +448,15 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 0, -1, sizeof(::server2N::GlobalNotice)},
   { 9, -1, sizeof(::server2N::UserConnection)},
   { 19, -1, sizeof(::server2N::EventMove)},
-  { 24, -1, sizeof(::server2N::EventStop)},
-  { 29, -1, sizeof(::server2N::EventJump)},
-  { 34, -1, sizeof(::server2N::EventShoot)},
-  { 41, -1, sizeof(::server2N::EventHit)},
-  { 47, -1, sizeof(::server2N::EventSpawn)},
-  { 52, -1, sizeof(::server2N::EventUserSync)},
-  { 57, -1, sizeof(::server2N::EventDeath)},
-  { 63, -1, sizeof(::server2N::GameEvent)},
-  { 83, -1, sizeof(::server2N::PacketBody)},
+  { 25, -1, sizeof(::server2N::EventStop)},
+  { 30, -1, sizeof(::server2N::EventJump)},
+  { 35, -1, sizeof(::server2N::EventShoot)},
+  { 42, -1, sizeof(::server2N::EventHit)},
+  { 48, -1, sizeof(::server2N::EventSpawn)},
+  { 53, -1, sizeof(::server2N::EventUserSync)},
+  { 58, -1, sizeof(::server2N::EventDeath)},
+  { 64, -1, sizeof(::server2N::GameEvent)},
+  { 84, -1, sizeof(::server2N::PacketBody)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -506,38 +507,40 @@ void AddDescriptorsImpl() {
       "rver2N.UserConnection.ConnectionType\"]\n\016"
       "ConnectionType\022\013\n\007Nothing\020\000\022\013\n\007Connect\020\001"
       "\022\016\n\nTryConnect\020\002\022\021\n\rAcceptConnect\020\003\022\016\n\nD"
-      "isConnect\020\004\"\013\n\tEventMove\"\013\n\tEventStop\"\013\n"
-      "\tEventJump\"+\n\nEventShoot\022\r\n\005angle\030\001 \001(\002\022"
-      "\016\n\006damage\030\002 \001(\002\"\032\n\010EventHit\022\016\n\006damage\030\001 "
-      "\001(\002\"\014\n\nEventSpawn\"\017\n\rEventUserSync\"\037\n\nEv"
-      "entDeath\022\021\n\ttriggerId\030\001 \001(\005\"\227\005\n\tGameEven"
-      "t\022&\n\tmoveEvent\030l \001(\0132\023.server2N.EventMov"
-      "e\022&\n\tstopEvent\030m \001(\0132\023.server2N.EventSto"
-      "p\022&\n\tjumpEvent\030n \001(\0132\023.server2N.EventJum"
-      "p\022(\n\nshootEvent\030o \001(\0132\024.server2N.EventSh"
-      "oot\022$\n\010hitEvent\030p \001(\0132\022.server2N.EventHi"
-      "t\022(\n\nspawnEvent\030q \001(\0132\024.server2N.EventSp"
-      "awn\022*\n\tsyncEvent\030r \001(\0132\027.server2N.EventU"
-      "serSync\022(\n\ndeathEvent\030s \001(\0132\024.server2N.E"
-      "ventDeath\022+\n\007actType\030\001 \001(\0162\032.server2N.Ga"
-      "meEvent.action\022\026\n\016actionProperty\030\005 \001(\005\022\026"
-      "\n\016EventPositionX\030\006 \001(\002\022\026\n\016EventPositionY"
-      "\030\007 \001(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVelocityY\030\t"
-      " \001(\002\022\021\n\tinvokerId\030\n \003(\005\"\223\001\n\006action\022\013\n\007No"
-      "thing\020\000\022\r\n\tEventMove\020d\022\r\n\tEventStop\020e\022\r\n"
-      "\tEventJump\020f\022\016\n\nEventShoot\020g\022\014\n\010EventHit"
-      "\020h\022\016\n\nEventSpawn\020i\022\021\n\rEventUserSync\020j\022\016\n"
-      "\nEventDeath\020k\"\220\002\n\nPacketBody\0222\n\007msgType\030"
-      "\220N \001(\0162 .server2N.PacketBody.messageType"
-      "\022)\n\007connect\030\006 \001(\0132\030.server2N.UserConnect"
-      "ion\022\'\n\006notice\030\221N \001(\0132\026.server2N.GlobalNo"
-      "tice\022\"\n\005event\030\007 \001(\0132\023.server2N.GameEvent"
-      "\022\020\n\010senderId\030\010 \001(\005\"D\n\013messageType\022\r\n\tGam"
-      "eEvent\020\000\022\023\n\016UserConnection\020\220N\022\021\n\014GlobalN"
-      "otice\020\221Nb\006proto3"
+      "isConnect\020\004\"_\n\tEventMove\022\021\n\tdirection\030\005 "
+      "\001(\005\"\?\n\tDirection\022\013\n\007Nothing\020\000\022\010\n\004Left\020\001\022"
+      "\t\n\005Right\020\002\022\010\n\004Down\020\003\022\006\n\002Up\020\004\"\013\n\tEventSto"
+      "p\"\013\n\tEventJump\"+\n\nEventShoot\022\r\n\005angle\030\001 "
+      "\001(\002\022\016\n\006damage\030\002 \001(\002\"\032\n\010EventHit\022\016\n\006damag"
+      "e\030\001 \001(\002\"\014\n\nEventSpawn\"\017\n\rEventUserSync\"\037"
+      "\n\nEventDeath\022\021\n\ttriggerId\030\001 \001(\005\"\227\005\n\tGame"
+      "Event\022&\n\tmoveEvent\030l \001(\0132\023.server2N.Even"
+      "tMove\022&\n\tstopEvent\030m \001(\0132\023.server2N.Even"
+      "tStop\022&\n\tjumpEvent\030n \001(\0132\023.server2N.Even"
+      "tJump\022(\n\nshootEvent\030o \001(\0132\024.server2N.Eve"
+      "ntShoot\022$\n\010hitEvent\030p \001(\0132\022.server2N.Eve"
+      "ntHit\022(\n\nspawnEvent\030q \001(\0132\024.server2N.Eve"
+      "ntSpawn\022*\n\tsyncEvent\030r \001(\0132\027.server2N.Ev"
+      "entUserSync\022(\n\ndeathEvent\030s \001(\0132\024.server"
+      "2N.EventDeath\022+\n\007actType\030\001 \001(\0162\032.server2"
+      "N.GameEvent.action\022\026\n\016actionProperty\030\005 \001"
+      "(\005\022\026\n\016EventPositionX\030\006 \001(\002\022\026\n\016EventPosit"
+      "ionY\030\007 \001(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVelocit"
+      "yY\030\t \001(\002\022\021\n\tinvokerId\030\n \003(\005\"\223\001\n\006action\022\013"
+      "\n\007Nothing\020\000\022\r\n\tEventMove\020d\022\r\n\tEventStop\020"
+      "e\022\r\n\tEventJump\020f\022\016\n\nEventShoot\020g\022\014\n\010Even"
+      "tHit\020h\022\016\n\nEventSpawn\020i\022\021\n\rEventUserSync\020"
+      "j\022\016\n\nEventDeath\020k\"\220\002\n\nPacketBody\0222\n\007msgT"
+      "ype\030\220N \001(\0162 .server2N.PacketBody.message"
+      "Type\022)\n\007connect\030\006 \001(\0132\030.server2N.UserCon"
+      "nection\022\'\n\006notice\030\221N \001(\0132\026.server2N.Glob"
+      "alNotice\022\"\n\005event\030\007 \001(\0132\023.server2N.GameE"
+      "vent\022\020\n\010senderId\030\010 \001(\005\"D\n\013messageType\022\r\n"
+      "\tGameEvent\020\000\022\023\n\016UserConnection\020\220N\022\021\n\014Glo"
+      "balNotice\020\221Nb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1576);
+      descriptor, 1660);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "gameContent.proto", &protobuf_RegisterTypes);
 }
@@ -604,9 +607,36 @@ const UserConnection_ConnectionType UserConnection::ConnectionType_MIN;
 const UserConnection_ConnectionType UserConnection::ConnectionType_MAX;
 const int UserConnection::ConnectionType_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-const ::google::protobuf::EnumDescriptor* GameEvent_action_descriptor() {
+const ::google::protobuf::EnumDescriptor* EventMove_Direction_descriptor() {
   protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_gameContent_2eproto::file_level_enum_descriptors[2];
+}
+bool EventMove_Direction_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const EventMove_Direction EventMove::Nothing;
+const EventMove_Direction EventMove::Left;
+const EventMove_Direction EventMove::Right;
+const EventMove_Direction EventMove::Down;
+const EventMove_Direction EventMove::Up;
+const EventMove_Direction EventMove::Direction_MIN;
+const EventMove_Direction EventMove::Direction_MAX;
+const int EventMove::Direction_ARRAYSIZE;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+const ::google::protobuf::EnumDescriptor* GameEvent_action_descriptor() {
+  protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_gameContent_2eproto::file_level_enum_descriptors[3];
 }
 bool GameEvent_action_IsValid(int value) {
   switch (value) {
@@ -641,7 +671,7 @@ const int GameEvent::action_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 const ::google::protobuf::EnumDescriptor* PacketBody_messageType_descriptor() {
   protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_gameContent_2eproto::file_level_enum_descriptors[3];
+  return protobuf_gameContent_2eproto::file_level_enum_descriptors[4];
 }
 bool PacketBody_messageType_IsValid(int value) {
   switch (value) {
@@ -1539,6 +1569,7 @@ void UserConnection::InternalSwap(UserConnection* other) {
 void EventMove::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int EventMove::kDirectionFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 EventMove::EventMove()
@@ -1554,10 +1585,12 @@ EventMove::EventMove(const EventMove& from)
       _internal_metadata_(NULL),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
+  direction_ = from.direction_;
   // @@protoc_insertion_point(copy_constructor:server2N.EventMove)
 }
 
 void EventMove::SharedCtor() {
+  direction_ = 0;
   _cached_size_ = 0;
 }
 
@@ -1591,6 +1624,7 @@ void EventMove::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  direction_ = 0;
   _internal_metadata_.Clear();
 }
 
@@ -1603,12 +1637,31 @@ bool EventMove::MergePartialFromCodedStream(
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
-  handle_unusual:
-    if (tag == 0) {
-      goto success;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // int32 direction = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &direction_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
     }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
-          input, tag, _internal_metadata_.mutable_unknown_fields()));
   }
 success:
   // @@protoc_insertion_point(parse_success:server2N.EventMove)
@@ -1625,6 +1678,11 @@ void EventMove::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  // int32 direction = 5;
+  if (this->direction() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->direction(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -1638,6 +1696,11 @@ void EventMove::SerializeWithCachedSizes(
   // @@protoc_insertion_point(serialize_to_array_start:server2N.EventMove)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
+
+  // int32 direction = 5;
+  if (this->direction() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->direction(), target);
+  }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
@@ -1656,6 +1719,13 @@ size_t EventMove::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
+  // int32 direction = 5;
+  if (this->direction() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->direction());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -1685,6 +1755,9 @@ void EventMove::MergeFrom(const EventMove& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.direction() != 0) {
+    set_direction(from.direction());
+  }
 }
 
 void EventMove::CopyFrom(const ::google::protobuf::Message& from) {
@@ -1711,6 +1784,7 @@ void EventMove::Swap(EventMove* other) {
 }
 void EventMove::InternalSwap(EventMove* other) {
   using std::swap;
+  swap(direction_, other->direction_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
