@@ -18,3 +18,4 @@ sysinfo.txt
 *.ide-wal
 *.ide-shm
 *.ide
+ClientRoot/output/

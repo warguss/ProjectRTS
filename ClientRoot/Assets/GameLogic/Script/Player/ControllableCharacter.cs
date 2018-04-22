@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DamageInfo
 {
-    public int AttackerId = -1;//unuse when shoot()
+    public int AttackerId = -1;
     public float shootAngle;//unuse when hit()
     public int Damage;
     public int HitRecovery;// currently unuse
@@ -28,8 +28,9 @@ public interface IControllableCharacter
     void MoveRight();
     void MoveStop();
     void Jump();
-    void Shoot(DamageInfo info, Vector2 position);
-    void Shoot(DamageInfo info);
+    void Shoot();
+    void ShootWithDamageInfo(DamageInfo info, Vector2 position);
+    void ShootWithDamageInfo(DamageInfo info);
     void Spawn(Vector2 position);
     void Dead();
 

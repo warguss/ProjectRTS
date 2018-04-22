@@ -11,9 +11,12 @@ public class GameLogic : MonoBehaviour
 {
     static public GameLogic Instance;
 
+    public InputInterface inputInterface;
+
     public GameObject PlayerPrefab;
     public GameObject MapDataPrefab;
     public CameraMove CameraScript;
+    public bool isOnline = false;
 
     public int myId = -1;
 
@@ -22,8 +25,6 @@ public class GameLogic : MonoBehaviour
     int testId2P = 1;
 
     byte[] msgBuffer = new byte[256];
-
-    bool isConnected = false;
 
     bool TestMode = false;
 
@@ -118,12 +119,14 @@ public class GameLogic : MonoBehaviour
     {
         if (myId != -1)
         {
-            SendInputToCharacter(myId, PlayerAction.Left, Input.GetKey(KeyCode.LeftArrow));
-            SendInputToCharacter(myId, PlayerAction.Right, Input.GetKey(KeyCode.RightArrow));
+            //SendInputToCharacter(myId, PlayerAction.Left, Input.GetKey(KeyCode.LeftArrow));
+            //SendInputToCharacter(myId, PlayerAction.Right, Input.GetKey(KeyCode.RightArrow));
+            SendInputToCharacter(myId, PlayerAction.Left, InputDirection.Left == inputInterface.GetCurrentDirection());
+            SendInputToCharacter(myId, PlayerAction.Right, InputDirection.Right == inputInterface.GetCurrentDirection());
 
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            if (inputInterface.GetJump())
                 SendInputToCharacter(myId, PlayerAction.Jump);
-            if (Input.GetKeyDown(KeyCode.RightShift))
+            if (inputInterface.GetFire())
                 SendInputToCharacter(myId, PlayerAction.Fire);
         }
 
@@ -182,7 +185,7 @@ public class GameLogic : MonoBehaviour
 
             if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.AcceptConnect)
             {
-                isConnected = true;
+                isOnline = true;
                 NetworkModule.instance.myId = connectorId;
                 userJoin(connectorId, true);
             }
@@ -304,7 +307,7 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventMove(Vector2 position, Vector2 velocity, bool isLeft)
     {
-        if (isConnected)
+        if (isOnline)
         {
             NetworkModule.instance.WriteEventMove(position, velocity, isLeft);
         }
@@ -312,7 +315,7 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventStop(Vector2 position, Vector2 velocity)
     {
-        if (isConnected)
+        if (isOnline)
         {
             NetworkModule.instance.WriteEventStop(position, velocity);
         }
@@ -320,7 +323,7 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventGetHit(Vector2 position, Vector2 velocity, DamageInfo info)
     {
-        if (isConnected)
+        if (isOnline)
         {
             NetworkModule.instance.WriteEventGetHit(position, velocity, info);
         }
@@ -328,7 +331,7 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventJump(Vector2 position, Vector2 velocity)
     {
-        if (isConnected)
+        if (isOnline)
         {
             NetworkModule.instance.WriteEventJump(position, velocity);
         }
@@ -336,7 +339,7 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventShoot(Vector2 position, Vector2 velocity, DamageInfo info)
     {
-        if (isConnected)
+        if (isOnline)
         {
             NetworkModule.instance.WriteEventShoot(position, velocity, info);
         }
@@ -344,7 +347,7 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventSpawn(Vector2 position)
     {
-        if (isConnected)
+        if (isOnline)
         {
             NetworkModule.instance.WriteEventSpawn(position);
         }
@@ -353,7 +356,7 @@ public class GameLogic : MonoBehaviour
     void PlayerEventDead(Vector2 position, int AttackerId)
     {
         StartCoroutine(SpawnAfterSeconds(myId, new Vector2(2, 2), 5));
-        if (isConnected)
+        if (isOnline)
         {
             NetworkModule.instance.WriteEventDead(position, AttackerId);
         }

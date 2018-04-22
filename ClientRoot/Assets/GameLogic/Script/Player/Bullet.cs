@@ -7,9 +7,6 @@ public class Bullet : MonoBehaviour {
     public float bulletSpeed;
     public float range;
 
-    private int angle = 0;
-    private int ownerPlayer = 0;
-
     private DamageInfo damageInfo; 
 
     private Vector2 StartPosition;
@@ -40,9 +37,9 @@ public class Bullet : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if(angle == 180)
+        if(damageInfo.shootAngle == 180)
             rb2d.velocity = Vector2.left * bulletSpeed;
-        else if(angle == 0)
+        else if(damageInfo.shootAngle == 0)
             rb2d.velocity = Vector2.right * bulletSpeed;
 
         Vector2 CurrentPosition = rb2d.position;
@@ -55,7 +52,7 @@ public class Bullet : MonoBehaviour {
         if (other.tag == "Player")
         {
             MainCharacter targetPlayer = other.gameObject.GetComponent<MainCharacter>();
-            if (targetPlayer.OwnerId != ownerPlayer)
+            if (targetPlayer.OwnerId != damageInfo.AttackerId)
             {
                 //if (targetPlayer.OwnerId == GameLogic.Instance.myId)
                 targetPlayer.GetHit(damageInfo);
@@ -75,15 +72,6 @@ public class Bullet : MonoBehaviour {
     public DamageInfo GetDamageInfo()
     {
         return damageInfo;
-    }
-
-    public void SetInfo(int ownerId, int inAngle)
-    {
-        angle = inAngle;
-        damageInfo.shootAngle = inAngle;
-
-        ownerPlayer = ownerId;
-        damageInfo.AttackerId = ownerId;
     }
 
     public void SetInfo(DamageInfo info)

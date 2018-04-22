@@ -175,30 +175,40 @@ public class MainCharacter : MonoBehaviour, IControllableCharacter
         }
     }
 
-    public void Shoot(DamageInfo info)
+    public void Shoot()
     {
-        Shoot(info, gameObject.transform.position);
+        int shootAngle;
+
+        if (isLeft)
+            shootAngle = 180;
+        else
+            shootAngle = 0;
+
+        DamageInfo damageInfo = new DamageInfo
+        {
+            AttackerId = OwnerId,
+            shootAngle = shootAngle,
+            ImpactAngle = shootAngle,
+            Impact = 50,
+            Damage = 10,
+        };
+
+        ShootWithDamageInfo(damageInfo);
     }
 
-    public void Shoot(DamageInfo info, Vector2 position)
+    public void ShootWithDamageInfo(DamageInfo info)
+    {
+        ShootWithDamageInfo(info, gameObject.transform.position);
+    }
+
+    public void ShootWithDamageInfo(DamageInfo info, Vector2 position)
     {
         GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position, new Quaternion());
         Bullet bulletScript = bullet.GetComponent<Bullet>();
-        int shootAngle;
 
         if (info != null)
         {
             bulletScript.SetInfo(info);
-        }
-
-        else
-        {
-            if (isLeft)
-                shootAngle = 180;
-            else
-                shootAngle = 0;
-
-            bulletScript.SetInfo(OwnerId, shootAngle);
         }
 
         ShootEvent?.Invoke(CurrentPosition, CurrentVelocity, bulletScript.GetDamageInfo());
@@ -241,10 +251,10 @@ public class MainCharacter : MonoBehaviour, IControllableCharacter
 
     public void GetHit(DamageInfo info)
     {
-        if (OwnerId == GameLogic.Instance.myId)
+        if (!GameLogic.Instance.isOnline || OwnerId == GameLogic.Instance.myId)
         {
             hp -= info.Damage;
-            TestUI.print("player" + OwnerId + "hp : " + hp);
+            TestUI.Instance.PrintText("player" + OwnerId + "hp : " + hp + " / Attacker : " + info.AttackerId);
 
             float radian = Mathf.PI * (float)info.ImpactAngle / 180f;
             float impactX = Mathf.Cos(radian);

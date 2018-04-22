@@ -98,14 +98,7 @@ public class PlayerController {
 
         if (currentInput.Fire)
         {
-            DamageInfo info = new DamageInfo
-            {
-                Damage = 10,
-                HitRecovery = 10,
-                Impact = 50
-            };
-
-            Character.Shoot(info);
+            Character.Shoot();
             currentInput.Fire = false;
         }
     }
@@ -122,7 +115,7 @@ public class PlayerController {
 
     public void ShootWithDamageInfo(DamageInfo info, Vector2 position)
     {
-        Character.Shoot(info, position);
+        Character.ShootWithDamageInfo(info, position);
     }
 
     public void GetHit(DamageInfo info)
