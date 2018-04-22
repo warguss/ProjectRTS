@@ -59,19 +59,19 @@ bool CProtoManager::encodingHeader(unsigned char* outputBuf, server2N::PacketBod
      *************************************/
 	if ( !protoPacket ) 
 	{
-		LOG("Invalid ProtoPacket");
+		LOG_ERROR("Invalid ProtoPacket");
 		return false;
 	} 
 
     int bitDigit = 256;
     uint32_t headerSize = (uint32_t)protoPacket->ByteSizeLong();
     bodyLength = headerSize;
-    LOG("Header Size:%d\n", headerSize);
+    LOG_DEBUG("Header Size:%d", headerSize);
     for ( int idx = 0; idx < HEADER_SIZE ; idx++, outputBuf++, headerSize /= bitDigit )
     {
         if ( !outputBuf )
         {
-            LOG("ERROR Output Buf\n");
+            LOG_ERROR("ERROR Output Buf");
             return false;
         }
         *outputBuf = (unsigned char*)(headerSize % bitDigit);
@@ -85,7 +85,7 @@ bool CProtoManager::encodingBody(unsigned char* buffer, server2N::PacketBody* pr
 {
     if ( !protoPacket->SerializeToArray(buffer, bodyLength) )
     {
-        LOG("Packet SerializeToArray Error\n");
+        LOG_ERROR("Packet SerializeToArray Error");
         return false;
     }
 
@@ -97,7 +97,7 @@ bool CProtoManager::decodingHeader(unsigned char* buffer, uint32_t bufLength, ui
 {
     if ( bufLength < HEADER_SIZE )
     {
-        LOG("Packet Size Not Exist Header\n");
+        LOG_ERROR("Packet Size Not Exist Header");
         return false;
     }
 
@@ -112,12 +112,12 @@ bool CProtoManager::decodingHeader(unsigned char* buffer, uint32_t bufLength, ui
     {
         if ( !buffer )
         {
-            LOG("Ptr is Null, Packet is Invalid\n");
+            LOG_ERROR("Ptr is Null, Packet is Invalid");
             return false;
         }
         bodyLength += (*buffer) << bitDigit;
     }
-    LOG("bodyLength [%d]\n", bodyLength);
+    LOG_INFO("bodyLength [%d]", bodyLength);
     return true;
 }
 
@@ -126,7 +126,7 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
 {
     if ( bufLength != bodyLength || !buffer )
     {
-        LOG("Error length or Buffer Not Exist\n");
+        LOG_ERROR("Error length or Buffer Not Exist");
         return false;
     }
 
@@ -134,7 +134,7 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
     google::protobuf::io::CodedInputStream is(buffer, (int)bodyLength);
     if ( !(*protoPacket)->_proto->MergeFromCodedStream(&is) )
     {
-        LOG("Error CodedStream\n");
+        LOG_ERROR("Error CodedStream");
         return false;
     }
 
@@ -143,7 +143,7 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
     {
         server2N::GameEvent tEvent = (*protoPacket)->_proto->event();
         cout << "Debug String" << tEvent.DebugString() << endl;
-        LOG("Has Event\n");
+        LOG_DEBUG("Has Event");
 		(*protoPacket)->_type = tEvent.acttype();
 
     }
@@ -151,19 +151,19 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
     {
         server2N::UserConnection tConnect = (*protoPacket)->_proto->connect();
         cout << "Debug String" << tConnect.DebugString() << endl;
-        LOG("Has Connect\n");
+        LOG_DEBUG("Has Connect");
 		(*protoPacket)->_type = tConnect.contype();
     }
 	else if ( (*protoPacket)->_proto->has_notice() )
     {
         server2N::GlobalNotice tNoti = (*protoPacket)->_proto->notice();
         cout << "Debug String" << tNoti.DebugString() << endl;
-        LOG("Has Connect\n");
+        LOG_DEBUG("Has Connect");
 		(*protoPacket)->_type = tNoti.notitype();
     }
     else
     {
-        LOG("Not Exist ProtoBuffer\n");
+        LOG_ERROR("Not Exist ProtoBuffer");
         return false;
     }
 
@@ -174,7 +174,7 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 {
 	if ( type < 0 || fd <= 0 || !eventUser || eventUser->_fd <= 0 )
 	{
-		LOG("Not Exist User , User ProtoPacket\n");
+		LOG_ERROR("Not Exist User , User ProtoPacket");
 		return false;
 	}
 
@@ -183,7 +183,7 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 	(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_UserConnection);
 	if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect )
 	{
-		LOG("USERID(%d) TRYCONNECT Change To AccepConnect\n", eventUser->_fd);
+		LOG_INFO("USERID(%d) TRYCONNECT Change To AccepConnect", eventUser->_fd);
 		
 		(*packet)->_fd = eventUser->_fd;
 		(*packet)->_proto->set_senderid(eventUser->_fd);
@@ -200,7 +200,7 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 	}
 	else if ( type == (int32_t)server2N::UserConnection_ConnectionType_Connect )
 	{
-		LOG("USERID(%d) TRYCONNECT Change To CONNECT\n", eventUser->_fd);
+		LOG_INFO("USERID(%d) TRYCONNECT Change To CONNECT", eventUser->_fd);
 		(*packet)->_type = server2N::PacketBody_messageType_UserConnection;
 		(*packet)->_fd = fd;
 		(*packet)->_protoConnect->set_contype((int32_t)server2N::UserConnection_ConnectionType_Connect);
@@ -217,7 +217,7 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 				return true;
 			} 
 			/* Add 시점 생각해야할듯, 아니며 여기서 자기자신 예외처리필요함 */
-			LOG("----------------Set Connect\n");
+			LOG_DEBUG("----------------Set Connect");
 			for ( ; it != allUser.end(); it++ )
 			{
 				CUser* user = (CUser*)*it;
@@ -237,7 +237,7 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 			/**************************************
 			 * 기존 유저일 경우 eventFd만 전달
 			 **************************************/
-			LOG("---------------------Set 기존 유저\n");
+			LOG_DEBUG("---------------------Set 기존 유저");
 			(*packet)->_protoConnect->add_connectorid((int32_t)eventUser->_fd);
 			(*packet)->_protoConnect->add_killinfo((int64_t)eventUser->_killInfo);
 			(*packet)->_protoConnect->add_deathinfo((int64_t)eventUser->_deathInfo);
@@ -252,7 +252,7 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 		/**************************************
 		 * 기존 유저일 경우 eventFd만 전달
 		 **************************************/
-		LOG("USERID(%d) DisConnect\n", eventUser->_fd);
+		LOG_DEBUG("USERID(%d) DisConnect", eventUser->_fd);
 		
 		(*packet)->_fd = fd;
 		(*packet)->_proto->set_senderid(fd);
@@ -265,7 +265,7 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 	}
 	else
 	{
-		LOG("Error Not Exist Type\n");
+		LOG_ERROR("Error Not Exist Type");
 		if ( *packet ) 
 		{
 			delete *packet;
@@ -281,7 +281,7 @@ void CProtoManager::resetProtoPacket(CProtoPacket* protoPacket)
 {
 	if ( protoPacket )
 	{
-		LOG("Reset ProtoPacket Delete");
+		LOG_ERROR("Reset ProtoPacket Delete");
 		delete protoPacket;
 	}
 	protoPacket = NULL;
@@ -291,7 +291,7 @@ bool CProtoManager::setActionType(int32_t type, CUser* senderUser, CProtoPacket*
 {
 	if ( type < 0 || !eventUser || eventUser->_fd <= 0 || senderUser <= 0 )
 	{
-		LOG("Not Exist User , User ProtoPacket\n");
+		LOG_ERROR("Not Exist User , User ProtoPacket");
 		return false;
 	}
 
@@ -300,15 +300,11 @@ bool CProtoManager::setActionType(int32_t type, CUser* senderUser, CProtoPacket*
 	server2N::GameEvent tEvent = eventUser->_proto->event(); 
 	if ( type == (int32_t)server2N::GameEvent_action_EventShoot )
 	{
-		LOG("Type EventShoot\n");
+		LOG_DEBUG("Type EventShoot");
 	}
 	else if ( type == (int32_t)server2N::GameEvent_action_EventHit )
 	{
-		LOG("Type EventHit\n");
-	}
-	else if ( type == (int32_t)server2N::GameEvent_action_EventSpawn )
-	{
-		LOG("Type EventSpawn\n");
+		LOG_DEBUG("Type EventHit");
 	}
 	else if ( type == (int32_t)server2N::GameEvent_action_EventDeath )
 	{
@@ -316,9 +312,9 @@ bool CProtoManager::setActionType(int32_t type, CUser* senderUser, CProtoPacket*
 		 * Trigger Id 확인
 		 * Kill Info 갱신 및 노티 필요
 		 ******************************/
-		LOG("Type EventDeath\n");
+		LOG_DEBUG("Type EventDeath");
 	}
-	else if ( type == (int32_t)server2N::GameEvent_action_EventUserSync || type == (int32_t)server2N::GameEvent_action_EventMove || type == (int32_t)server2N::GameEvent_action_EventStop || type == (int32_t) server2N::GameEvent_action_EventJump )
+	else if ( type == (int32_t)server2N::GameEvent_action_EventUserSync || type == (int32_t)server2N::GameEvent_action_EventMove || type == (int32_t)server2N::GameEvent_action_EventStop || type == (int32_t) server2N::GameEvent_action_EventJump || type == (int32_t)server2N::GameEvent_action_EventSpawn )
 	{
 		senderUser->_x = tEvent.eventpositionx();
 		senderUser->_y = tEvent.eventpositiony();
@@ -356,7 +352,7 @@ bool CProtoManager::setNotiType(int type, CUser* senderUser, CProtoPacket* event
 {
 	if ( type < 0 || !eventUser || eventUser->_fd <= 0 || senderUser <= 0 )
 	{
-		LOG("Not Exist User , User ProtoPacket\n");
+		LOG_ERROR("Not Exist User , User ProtoPacket\n");
 		return false;
 	}
 
@@ -364,7 +360,7 @@ bool CProtoManager::setNotiType(int type, CUser* senderUser, CProtoPacket* event
 	(*packet)->_protoNoti = new server2N::GlobalNotice();
 	if ( type == (int32_t)server2N::GameEvent_action_EventDeath  )
 	{
-		type == (int32_t)server2N::GlobalNotice_NoticeInfo_KillInfo;
+		type = (int32_t)server2N::GlobalNotice_NoticeInfo_KillInfo;
 		server2N::GameEvent tEvent = eventUser->_proto->event(); 
 		/********************************
 		 * Kill 
@@ -380,7 +376,7 @@ bool CProtoManager::setNotiType(int type, CUser* senderUser, CProtoPacket* event
 			 * 전체 조회이기 때문에, 
 			 * 찾지 못했다면 close(fd)로 종료
 			 *********************************/
-			LOG("Not Exist VictimUser(%d)\n", victimUser->_fd);
+			LOG_ERROR("Not Exist VictimUser(%d)\n", victimUser->_fd);
 			return false;
 		}
 		(*packet)->_protoNoti->add_victim((int32_t)eventFd);
@@ -389,7 +385,7 @@ bool CProtoManager::setNotiType(int type, CUser* senderUser, CProtoPacket* event
 		CUser* triggerUser = g_userPool.findUserInPool(triggerFd);
 		if ( !triggerUser )
 		{
-			LOG("Not Exist TriggerUser(%d)\n", triggerUser->_fd);
+			LOG_ERROR("Not Exist TriggerUser(%d)\n", triggerUser->_fd);
 			return false;
 		}
 		(*packet)->_protoNoti->add_victim((int32_t)triggerFd);

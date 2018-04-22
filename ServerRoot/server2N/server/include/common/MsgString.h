@@ -1,4 +1,5 @@
 #ifndef _MSG_STRING_H_
+#include <errno.h>
 #define _MSG_STRING_H_
 #define HEADER_SIZE 4
 #define HEADER_BUFFER 1024
@@ -8,7 +9,19 @@
 #define BACKLOG_SIZE 50
 
 #include <stdio.h>
-#define LOG(fmt, ...) { printf("%s(%d)[%s] : " fmt, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
+
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+
+//#define LOG(fmt, ...) { printf("INFO|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
+
+#define LOG_INFO(fmt, ...) { printf("INFO|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
+
+#define LOG_WARN(fmt, ...) { printf("WARN|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
+
+#define LOG_DEBUG(fmt, ...) { printf("DEBUG|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
+
+#define LOG_ERROR(fmt, ...) { printf("ERR|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
+
 
 /* Type관련 Define */
 #define NOT_SET 0
