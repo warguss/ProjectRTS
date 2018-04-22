@@ -25,7 +25,7 @@ public class GameLogic : MonoBehaviour
 
     bool isConnected = false;
 
-    bool TestMode = true;
+    bool TestMode = false;
 
     // Use this for initialization
     void Start()
@@ -255,7 +255,7 @@ public class GameLogic : MonoBehaviour
                             ImpactAngle = info.ImpactAngle///////////
                         };
                         SendInputToCharacter(invokerId, PlayerAction.Fire);
-                        playerControllers[invokerId].ShootWithDamageInfo(damageInfo);
+                        playerControllers[invokerId].ShootWithDamageInfo(damageInfo, position);
                         break;
                     }
 

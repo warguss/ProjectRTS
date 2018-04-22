@@ -238,7 +238,7 @@ public class NetworkModule : MonoBehaviour
 
     public void WriteEventDead(Vector2 position, int AttackerId)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventSpawn, myId, position, new Vector2(0, 0));
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventDeath, myId, position, new Vector2(0, 0));
         packet.Event.DeathEvent = new EventDeath
         {
             TriggerId = AttackerId

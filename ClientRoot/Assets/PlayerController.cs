@@ -13,6 +13,7 @@ public class CurrentInput
 
 public class PlayerController {
     private int mPlayerId = -1;
+    private string mPlayerName = "";
     private CurrentInput currentInput = new CurrentInput();
 
     public int PlayerId
@@ -27,7 +28,18 @@ public class PlayerController {
             Character.SetOwner(mPlayerId);
         }
     }
-    public string PlayerName { get; set; }
+    public string PlayerName
+    {
+        get
+        {
+            return mPlayerName;
+        }
+        set
+        {
+            mPlayerName = value;
+            Character.SetName(mPlayerName);
+        }
+    }
 
     public IControllableCharacter Character { get; set; }
 
@@ -86,7 +98,14 @@ public class PlayerController {
 
         if (currentInput.Fire)
         {
-            Character.Shoot();
+            DamageInfo info = new DamageInfo
+            {
+                Damage = 10,
+                HitRecovery = 10,
+                Impact = 50
+            };
+
+            Character.Shoot(info);
             currentInput.Fire = false;
         }
     }
@@ -101,9 +120,9 @@ public class PlayerController {
         Character.MoveTo(position, velocity);
     }
 
-    public void ShootWithDamageInfo(DamageInfo info)
+    public void ShootWithDamageInfo(DamageInfo info, Vector2 position)
     {
-        Character.Shoot(info);
+        Character.Shoot(info, position);
     }
 
     public void GetHit(DamageInfo info)

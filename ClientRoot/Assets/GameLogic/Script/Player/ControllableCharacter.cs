@@ -22,12 +22,14 @@ public delegate void CharEventDead(Vector2 position, int attackerId);
 public interface IControllableCharacter
 {
     void SetOwner(int owner);
+    void SetName(string name);
 
     void MoveLeft();
     void MoveRight();
     void MoveStop();
     void Jump();
-    void Shoot(DamageInfo info = null);
+    void Shoot(DamageInfo info, Vector2 position);
+    void Shoot(DamageInfo info);
     void Spawn(Vector2 position);
     void Dead();
 

@@ -12,10 +12,12 @@ public enum CharacterStatus
 public class MainCharacter : MonoBehaviour, IControllableCharacter
 {
     public int OwnerId { get; set; }
+    public string OwnerName { get; set; }
 
     public float MaxMoveSpeed;
     public float MoveForce;
     public float JumpForce;
+    public float DefaultHP;
     public int MaxJumpCount = 2;
 
     public GameObject bulletPrefab;
@@ -26,7 +28,7 @@ public class MainCharacter : MonoBehaviour, IControllableCharacter
     private CharacterStatus status = CharacterStatus.Neutral;
     private int hitRecovery = 0;
 
-    private float hp = 100;
+    private float hp;
     private int jumpCount = 0;
     private int lastAttackedPlayerId = -1;
 
@@ -48,11 +50,16 @@ public class MainCharacter : MonoBehaviour, IControllableCharacter
         OwnerId = owner;
     }
 
+    public void SetName(string name)
+    {
+        OwnerName = name;
+    }
+
     public void Spawn(Vector2 position)
     {
         gameObject.SetActive(true);
         isDead = false;
-        hp = 100;
+        hp = DefaultHP;
         SetLocation(position);
 
         SpawnEvent?.Invoke(position);
@@ -91,10 +98,6 @@ public class MainCharacter : MonoBehaviour, IControllableCharacter
 	void Update()
     {
         //Debug.Log(posX + ", " + posY);
-        if (hp <= 0)
-        {
-            Dead();
-        }
 	}
 
     void FixedUpdate()
@@ -172,7 +175,12 @@ public class MainCharacter : MonoBehaviour, IControllableCharacter
         }
     }
 
-    public void Shoot(DamageInfo info = null)
+    public void Shoot(DamageInfo info)
+    {
+        Shoot(info, gameObject.transform.position);
+    }
+
+    public void Shoot(DamageInfo info, Vector2 position)
     {
         GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position, new Quaternion());
         Bullet bulletScript = bullet.GetComponent<Bullet>();
@@ -233,17 +241,25 @@ public class MainCharacter : MonoBehaviour, IControllableCharacter
 
     public void GetHit(DamageInfo info)
     {
-        hp -= info.Damage;
-        Debug.Log("player" + OwnerId + "hp : " + hp);
+        if (OwnerId == GameLogic.Instance.myId)
+        {
+            hp -= info.Damage;
+            TestUI.print("player" + OwnerId + "hp : " + hp);
 
-        float radian = Mathf.PI * (float)info.ImpactAngle / 180f;
-        float impactX = Mathf.Cos(radian);
-        float impactY = Mathf.Sin(radian);
-        charRigidbody.AddForce(new Vector2(impactX, impactY) * info.Impact);
+            float radian = Mathf.PI * (float)info.ImpactAngle / 180f;
+            float impactX = Mathf.Cos(radian);
+            float impactY = Mathf.Sin(radian);
+            charRigidbody.AddForce(new Vector2(impactX, impactY) * info.Impact);
 
-        lastAttackedPlayerId = info.AttackerId;
+            lastAttackedPlayerId = info.AttackerId;
 
-        GetHitEvent?.Invoke(CurrentPosition, CurrentVelocity, info);
+            GetHitEvent?.Invoke(CurrentPosition, CurrentVelocity, info);
+
+            if (hp <= 0)
+            {
+                Dead();
+            }
+        }
     }
 
     public void Dead()
