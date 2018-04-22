@@ -40,28 +40,28 @@ namespace Server2N {
             "ZRgEIAEoBSJRCghFdmVudEhpdBIQCghhdHRhY2tlchgBIAEoBRIOCgZkYW1h",
             "Z2UYAiABKAISDgoGaW1wYWN0GAMgASgFEhMKC2ltcGFjdEFuZ2xlGAQgASgF",
             "IgwKCkV2ZW50U3Bhd24iDwoNRXZlbnRVc2VyU3luYyIfCgpFdmVudERlYXRo",
-            "EhEKCXRyaWdnZXJJZBgBIAEoBSKXBQoJR2FtZUV2ZW50EiYKCW1vdmVFdmVu",
-            "dBhsIAEoCzITLnNlcnZlcjJOLkV2ZW50TW92ZRImCglzdG9wRXZlbnQYbSAB",
-            "KAsyEy5zZXJ2ZXIyTi5FdmVudFN0b3ASJgoJanVtcEV2ZW50GG4gASgLMhMu",
-            "c2VydmVyMk4uRXZlbnRKdW1wEigKCnNob290RXZlbnQYbyABKAsyFC5zZXJ2",
-            "ZXIyTi5FdmVudFNob290EiQKCGhpdEV2ZW50GHAgASgLMhIuc2VydmVyMk4u",
-            "RXZlbnRIaXQSKAoKc3Bhd25FdmVudBhxIAEoCzIULnNlcnZlcjJOLkV2ZW50",
-            "U3Bhd24SKgoJc3luY0V2ZW50GHIgASgLMhcuc2VydmVyMk4uRXZlbnRVc2Vy",
-            "U3luYxIoCgpkZWF0aEV2ZW50GHMgASgLMhQuc2VydmVyMk4uRXZlbnREZWF0",
+            "EhEKCXRyaWdnZXJJZBgBIAEoBSKtBQoJR2FtZUV2ZW50EiYKCW1vdmVFdmVu",
+            "dBhtIAEoCzITLnNlcnZlcjJOLkV2ZW50TW92ZRImCglzdG9wRXZlbnQYbiAB",
+            "KAsyEy5zZXJ2ZXIyTi5FdmVudFN0b3ASJgoJanVtcEV2ZW50GG8gASgLMhMu",
+            "c2VydmVyMk4uRXZlbnRKdW1wEigKCnNob290RXZlbnQYcCABKAsyFC5zZXJ2",
+            "ZXIyTi5FdmVudFNob290EiQKCGhpdEV2ZW50GHEgASgLMhIuc2VydmVyMk4u",
+            "RXZlbnRIaXQSKAoKc3Bhd25FdmVudBhyIAEoCzIULnNlcnZlcjJOLkV2ZW50",
+            "U3Bhd24SKgoJc3luY0V2ZW50GHMgASgLMhcuc2VydmVyMk4uRXZlbnRVc2Vy",
+            "U3luYxIoCgpkZWF0aEV2ZW50GHQgASgLMhQuc2VydmVyMk4uRXZlbnREZWF0",
             "aBIrCgdhY3RUeXBlGAEgASgOMhouc2VydmVyMk4uR2FtZUV2ZW50LmFjdGlv",
             "bhIWCg5hY3Rpb25Qcm9wZXJ0eRgFIAEoBRIWCg5FdmVudFBvc2l0aW9uWBgG",
             "IAEoAhIWCg5FdmVudFBvc2l0aW9uWRgHIAEoAhIRCglWZWxvY2l0eVgYCCAB",
-            "KAISEQoJVmVsb2NpdHlZGAkgASgCEhEKCWludm9rZXJJZBgKIAMoBSKTAQoG",
+            "KAISEQoJVmVsb2NpdHlZGAkgASgCEhEKCWludm9rZXJJZBgKIAMoBSKpAQoG",
             "YWN0aW9uEgsKB05vdGhpbmcQABINCglFdmVudE1vdmUQZBINCglFdmVudFN0",
             "b3AQZRINCglFdmVudEp1bXAQZhIOCgpFdmVudFNob290EGcSDAoIRXZlbnRI",
             "aXQQaBIOCgpFdmVudFNwYXduEGkSEQoNRXZlbnRVc2VyU3luYxBqEg4KCkV2",
-            "ZW50RGVhdGgQayKQAgoKUGFja2V0Qm9keRIyCgdtc2dUeXBlGJBOIAEoDjIg",
-            "LnNlcnZlcjJOLlBhY2tldEJvZHkubWVzc2FnZVR5cGUSKQoHY29ubmVjdBgG",
-            "IAEoCzIYLnNlcnZlcjJOLlVzZXJDb25uZWN0aW9uEicKBm5vdGljZRiRTiAB",
-            "KAsyFi5zZXJ2ZXIyTi5HbG9iYWxOb3RpY2USIgoFZXZlbnQYByABKAsyEy5z",
-            "ZXJ2ZXIyTi5HYW1lRXZlbnQSEAoIc2VuZGVySWQYCCABKAUiRAoLbWVzc2Fn",
-            "ZVR5cGUSDQoJR2FtZUV2ZW50EAASEwoOVXNlckNvbm5lY3Rpb24QkE4SEQoM",
-            "R2xvYmFsTm90aWNlEJFOYgZwcm90bzM="));
+            "ZW50RGVhdGgQaxIUChBFdmVudFNlY3RvckluT3V0EGwikAIKClBhY2tldEJv",
+            "ZHkSMgoHbXNnVHlwZRiQTiABKA4yIC5zZXJ2ZXIyTi5QYWNrZXRCb2R5Lm1l",
+            "c3NhZ2VUeXBlEikKB2Nvbm5lY3QYBiABKAsyGC5zZXJ2ZXIyTi5Vc2VyQ29u",
+            "bmVjdGlvbhInCgZub3RpY2UYkU4gASgLMhYuc2VydmVyMk4uR2xvYmFsTm90",
+            "aWNlEiIKBWV2ZW50GAcgASgLMhMuc2VydmVyMk4uR2FtZUV2ZW50EhAKCHNl",
+            "bmRlcklkGAggASgFIkQKC21lc3NhZ2VUeXBlEg0KCUdhbWVFdmVudBAAEhMK",
+            "DlVzZXJDb25uZWN0aW9uEJBOEhEKDEdsb2JhbE5vdGljZRCRTmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -1559,7 +1559,7 @@ namespace Server2N {
     }
 
     /// <summary>Field number for the "moveEvent" field.</summary>
-    public const int MoveEventFieldNumber = 108;
+    public const int MoveEventFieldNumber = 109;
     private global::Server2N.EventMove moveEvent_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Server2N.EventMove MoveEvent {
@@ -1570,7 +1570,7 @@ namespace Server2N {
     }
 
     /// <summary>Field number for the "stopEvent" field.</summary>
-    public const int StopEventFieldNumber = 109;
+    public const int StopEventFieldNumber = 110;
     private global::Server2N.EventStop stopEvent_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Server2N.EventStop StopEvent {
@@ -1581,7 +1581,7 @@ namespace Server2N {
     }
 
     /// <summary>Field number for the "jumpEvent" field.</summary>
-    public const int JumpEventFieldNumber = 110;
+    public const int JumpEventFieldNumber = 111;
     private global::Server2N.EventJump jumpEvent_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Server2N.EventJump JumpEvent {
@@ -1592,7 +1592,7 @@ namespace Server2N {
     }
 
     /// <summary>Field number for the "shootEvent" field.</summary>
-    public const int ShootEventFieldNumber = 111;
+    public const int ShootEventFieldNumber = 112;
     private global::Server2N.EventShoot shootEvent_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Server2N.EventShoot ShootEvent {
@@ -1603,7 +1603,7 @@ namespace Server2N {
     }
 
     /// <summary>Field number for the "hitEvent" field.</summary>
-    public const int HitEventFieldNumber = 112;
+    public const int HitEventFieldNumber = 113;
     private global::Server2N.EventHit hitEvent_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Server2N.EventHit HitEvent {
@@ -1614,7 +1614,7 @@ namespace Server2N {
     }
 
     /// <summary>Field number for the "spawnEvent" field.</summary>
-    public const int SpawnEventFieldNumber = 113;
+    public const int SpawnEventFieldNumber = 114;
     private global::Server2N.EventSpawn spawnEvent_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Server2N.EventSpawn SpawnEvent {
@@ -1625,7 +1625,7 @@ namespace Server2N {
     }
 
     /// <summary>Field number for the "syncEvent" field.</summary>
-    public const int SyncEventFieldNumber = 114;
+    public const int SyncEventFieldNumber = 115;
     private global::Server2N.EventUserSync syncEvent_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Server2N.EventUserSync SyncEvent {
@@ -1636,7 +1636,7 @@ namespace Server2N {
     }
 
     /// <summary>Field number for the "deathEvent" field.</summary>
-    public const int DeathEventFieldNumber = 115;
+    public const int DeathEventFieldNumber = 116;
     private global::Server2N.EventDeath deathEvent_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Server2N.EventDeath DeathEvent {
@@ -1807,35 +1807,35 @@ namespace Server2N {
       }
       invokerId_.WriteTo(output, _repeated_invokerId_codec);
       if (moveEvent_ != null) {
-        output.WriteRawTag(226, 6);
+        output.WriteRawTag(234, 6);
         output.WriteMessage(MoveEvent);
       }
       if (stopEvent_ != null) {
-        output.WriteRawTag(234, 6);
+        output.WriteRawTag(242, 6);
         output.WriteMessage(StopEvent);
       }
       if (jumpEvent_ != null) {
-        output.WriteRawTag(242, 6);
+        output.WriteRawTag(250, 6);
         output.WriteMessage(JumpEvent);
       }
       if (shootEvent_ != null) {
-        output.WriteRawTag(250, 6);
+        output.WriteRawTag(130, 7);
         output.WriteMessage(ShootEvent);
       }
       if (hitEvent_ != null) {
-        output.WriteRawTag(130, 7);
+        output.WriteRawTag(138, 7);
         output.WriteMessage(HitEvent);
       }
       if (spawnEvent_ != null) {
-        output.WriteRawTag(138, 7);
+        output.WriteRawTag(146, 7);
         output.WriteMessage(SpawnEvent);
       }
       if (syncEvent_ != null) {
-        output.WriteRawTag(146, 7);
+        output.WriteRawTag(154, 7);
         output.WriteMessage(SyncEvent);
       }
       if (deathEvent_ != null) {
-        output.WriteRawTag(154, 7);
+        output.WriteRawTag(162, 7);
         output.WriteMessage(DeathEvent);
       }
     }
@@ -2000,56 +2000,56 @@ namespace Server2N {
             invokerId_.AddEntriesFrom(input, _repeated_invokerId_codec);
             break;
           }
-          case 866: {
+          case 874: {
             if (moveEvent_ == null) {
               moveEvent_ = new global::Server2N.EventMove();
             }
             input.ReadMessage(moveEvent_);
             break;
           }
-          case 874: {
+          case 882: {
             if (stopEvent_ == null) {
               stopEvent_ = new global::Server2N.EventStop();
             }
             input.ReadMessage(stopEvent_);
             break;
           }
-          case 882: {
+          case 890: {
             if (jumpEvent_ == null) {
               jumpEvent_ = new global::Server2N.EventJump();
             }
             input.ReadMessage(jumpEvent_);
             break;
           }
-          case 890: {
+          case 898: {
             if (shootEvent_ == null) {
               shootEvent_ = new global::Server2N.EventShoot();
             }
             input.ReadMessage(shootEvent_);
             break;
           }
-          case 898: {
+          case 906: {
             if (hitEvent_ == null) {
               hitEvent_ = new global::Server2N.EventHit();
             }
             input.ReadMessage(hitEvent_);
             break;
           }
-          case 906: {
+          case 914: {
             if (spawnEvent_ == null) {
               spawnEvent_ = new global::Server2N.EventSpawn();
             }
             input.ReadMessage(spawnEvent_);
             break;
           }
-          case 914: {
+          case 922: {
             if (syncEvent_ == null) {
               syncEvent_ = new global::Server2N.EventUserSync();
             }
             input.ReadMessage(syncEvent_);
             break;
           }
-          case 922: {
+          case 930: {
             if (deathEvent_ == null) {
               deathEvent_ = new global::Server2N.EventDeath();
             }
@@ -2074,6 +2074,7 @@ namespace Server2N {
         [pbr::OriginalName("EventSpawn")] EventSpawn = 105,
         [pbr::OriginalName("EventUserSync")] EventUserSync = 106,
         [pbr::OriginalName("EventDeath")] EventDeath = 107,
+        [pbr::OriginalName("EventSectorInOut")] EventSectorInOut = 108,
       }
 
     }

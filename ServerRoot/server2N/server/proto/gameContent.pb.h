@@ -218,12 +218,13 @@ enum GameEvent_action {
   GameEvent_action_EventSpawn = 105,
   GameEvent_action_EventUserSync = 106,
   GameEvent_action_EventDeath = 107,
+  GameEvent_action_EventSectorInOut = 108,
   GameEvent_action_GameEvent_action_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   GameEvent_action_GameEvent_action_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool GameEvent_action_IsValid(int value);
 const GameEvent_action GameEvent_action_action_MIN = GameEvent_action_Nothing;
-const GameEvent_action GameEvent_action_action_MAX = GameEvent_action_EventDeath;
+const GameEvent_action GameEvent_action_action_MAX = GameEvent_action_EventSectorInOut;
 const int GameEvent_action_action_ARRAYSIZE = GameEvent_action_action_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* GameEvent_action_descriptor();
@@ -1600,6 +1601,8 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
     GameEvent_action_EventUserSync;
   static const action EventDeath =
     GameEvent_action_EventDeath;
+  static const action EventSectorInOut =
+    GameEvent_action_EventSectorInOut;
   static inline bool action_IsValid(int value) {
     return GameEvent_action_IsValid(value);
   }
@@ -1635,73 +1638,73 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_invokerid();
 
-  // .server2N.EventMove moveEvent = 108;
+  // .server2N.EventMove moveEvent = 109;
   bool has_moveevent() const;
   void clear_moveevent();
-  static const int kMoveEventFieldNumber = 108;
+  static const int kMoveEventFieldNumber = 109;
   const ::server2N::EventMove& moveevent() const;
   ::server2N::EventMove* release_moveevent();
   ::server2N::EventMove* mutable_moveevent();
   void set_allocated_moveevent(::server2N::EventMove* moveevent);
 
-  // .server2N.EventStop stopEvent = 109;
+  // .server2N.EventStop stopEvent = 110;
   bool has_stopevent() const;
   void clear_stopevent();
-  static const int kStopEventFieldNumber = 109;
+  static const int kStopEventFieldNumber = 110;
   const ::server2N::EventStop& stopevent() const;
   ::server2N::EventStop* release_stopevent();
   ::server2N::EventStop* mutable_stopevent();
   void set_allocated_stopevent(::server2N::EventStop* stopevent);
 
-  // .server2N.EventJump jumpEvent = 110;
+  // .server2N.EventJump jumpEvent = 111;
   bool has_jumpevent() const;
   void clear_jumpevent();
-  static const int kJumpEventFieldNumber = 110;
+  static const int kJumpEventFieldNumber = 111;
   const ::server2N::EventJump& jumpevent() const;
   ::server2N::EventJump* release_jumpevent();
   ::server2N::EventJump* mutable_jumpevent();
   void set_allocated_jumpevent(::server2N::EventJump* jumpevent);
 
-  // .server2N.EventShoot shootEvent = 111;
+  // .server2N.EventShoot shootEvent = 112;
   bool has_shootevent() const;
   void clear_shootevent();
-  static const int kShootEventFieldNumber = 111;
+  static const int kShootEventFieldNumber = 112;
   const ::server2N::EventShoot& shootevent() const;
   ::server2N::EventShoot* release_shootevent();
   ::server2N::EventShoot* mutable_shootevent();
   void set_allocated_shootevent(::server2N::EventShoot* shootevent);
 
-  // .server2N.EventHit hitEvent = 112;
+  // .server2N.EventHit hitEvent = 113;
   bool has_hitevent() const;
   void clear_hitevent();
-  static const int kHitEventFieldNumber = 112;
+  static const int kHitEventFieldNumber = 113;
   const ::server2N::EventHit& hitevent() const;
   ::server2N::EventHit* release_hitevent();
   ::server2N::EventHit* mutable_hitevent();
   void set_allocated_hitevent(::server2N::EventHit* hitevent);
 
-  // .server2N.EventSpawn spawnEvent = 113;
+  // .server2N.EventSpawn spawnEvent = 114;
   bool has_spawnevent() const;
   void clear_spawnevent();
-  static const int kSpawnEventFieldNumber = 113;
+  static const int kSpawnEventFieldNumber = 114;
   const ::server2N::EventSpawn& spawnevent() const;
   ::server2N::EventSpawn* release_spawnevent();
   ::server2N::EventSpawn* mutable_spawnevent();
   void set_allocated_spawnevent(::server2N::EventSpawn* spawnevent);
 
-  // .server2N.EventUserSync syncEvent = 114;
+  // .server2N.EventUserSync syncEvent = 115;
   bool has_syncevent() const;
   void clear_syncevent();
-  static const int kSyncEventFieldNumber = 114;
+  static const int kSyncEventFieldNumber = 115;
   const ::server2N::EventUserSync& syncevent() const;
   ::server2N::EventUserSync* release_syncevent();
   ::server2N::EventUserSync* mutable_syncevent();
   void set_allocated_syncevent(::server2N::EventUserSync* syncevent);
 
-  // .server2N.EventDeath deathEvent = 115;
+  // .server2N.EventDeath deathEvent = 116;
   bool has_deathevent() const;
   void clear_deathevent();
-  static const int kDeathEventFieldNumber = 115;
+  static const int kDeathEventFieldNumber = 116;
   const ::server2N::EventDeath& deathevent() const;
   ::server2N::EventDeath* release_deathevent();
   ::server2N::EventDeath* mutable_deathevent();
@@ -2410,7 +2413,7 @@ inline void EventDeath::set_triggerid(::google::protobuf::int32 value) {
 
 // GameEvent
 
-// .server2N.EventMove moveEvent = 108;
+// .server2N.EventMove moveEvent = 109;
 inline bool GameEvent::has_moveevent() const {
   return this != internal_default_instance() && moveevent_ != NULL;
 }
@@ -2461,7 +2464,7 @@ inline void GameEvent::set_allocated_moveevent(::server2N::EventMove* moveevent)
   // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.moveEvent)
 }
 
-// .server2N.EventStop stopEvent = 109;
+// .server2N.EventStop stopEvent = 110;
 inline bool GameEvent::has_stopevent() const {
   return this != internal_default_instance() && stopevent_ != NULL;
 }
@@ -2512,7 +2515,7 @@ inline void GameEvent::set_allocated_stopevent(::server2N::EventStop* stopevent)
   // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.stopEvent)
 }
 
-// .server2N.EventJump jumpEvent = 110;
+// .server2N.EventJump jumpEvent = 111;
 inline bool GameEvent::has_jumpevent() const {
   return this != internal_default_instance() && jumpevent_ != NULL;
 }
@@ -2563,7 +2566,7 @@ inline void GameEvent::set_allocated_jumpevent(::server2N::EventJump* jumpevent)
   // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.jumpEvent)
 }
 
-// .server2N.EventShoot shootEvent = 111;
+// .server2N.EventShoot shootEvent = 112;
 inline bool GameEvent::has_shootevent() const {
   return this != internal_default_instance() && shootevent_ != NULL;
 }
@@ -2614,7 +2617,7 @@ inline void GameEvent::set_allocated_shootevent(::server2N::EventShoot* shooteve
   // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.shootEvent)
 }
 
-// .server2N.EventHit hitEvent = 112;
+// .server2N.EventHit hitEvent = 113;
 inline bool GameEvent::has_hitevent() const {
   return this != internal_default_instance() && hitevent_ != NULL;
 }
@@ -2665,7 +2668,7 @@ inline void GameEvent::set_allocated_hitevent(::server2N::EventHit* hitevent) {
   // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.hitEvent)
 }
 
-// .server2N.EventSpawn spawnEvent = 113;
+// .server2N.EventSpawn spawnEvent = 114;
 inline bool GameEvent::has_spawnevent() const {
   return this != internal_default_instance() && spawnevent_ != NULL;
 }
@@ -2716,7 +2719,7 @@ inline void GameEvent::set_allocated_spawnevent(::server2N::EventSpawn* spawneve
   // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.spawnEvent)
 }
 
-// .server2N.EventUserSync syncEvent = 114;
+// .server2N.EventUserSync syncEvent = 115;
 inline bool GameEvent::has_syncevent() const {
   return this != internal_default_instance() && syncevent_ != NULL;
 }
@@ -2767,7 +2770,7 @@ inline void GameEvent::set_allocated_syncevent(::server2N::EventUserSync* syncev
   // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.syncEvent)
 }
 
-// .server2N.EventDeath deathEvent = 115;
+// .server2N.EventDeath deathEvent = 116;
 inline bool GameEvent::has_deathevent() const {
   return this != internal_default_instance() && deathevent_ != NULL;
 }

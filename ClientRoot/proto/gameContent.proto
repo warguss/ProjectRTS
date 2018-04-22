@@ -79,24 +79,25 @@ message EventDeath{
 
 message GameEvent{
 	enum action{
-		Nothing			= 0;
-		EventMove		= 100;
-		EventStop		= 101;
-		EventJump		= 102;
-		EventShoot		= 103;
-		EventHit		= 104;
-		EventSpawn		= 105;
-		EventUserSync	= 106;
-		EventDeath		= 107;
+		Nothing				= 0;
+		EventMove			= 100;
+		EventStop			= 101;
+		EventJump			= 102;
+		EventShoot			= 103;
+		EventHit			= 104;
+		EventSpawn			= 105;
+		EventUserSync		= 106;
+		EventDeath			= 107;
+		EventSectorInOut	= 108;
 	}
-	EventMove moveEvent = 108;
-	EventStop stopEvent = 109;
-	EventJump jumpEvent = 110;
-	EventShoot shootEvent = 111;
-	EventHit hitEvent = 112;
-	EventSpawn spawnEvent = 113;
-	EventUserSync syncEvent = 114;
-	EventDeath deathEvent = 115;
+	EventMove moveEvent = 109;
+	EventStop stopEvent = 110;
+	EventJump jumpEvent = 111;
+	EventShoot shootEvent = 112;
+	EventHit hitEvent = 113;
+	EventSpawn spawnEvent = 114;
+	EventUserSync syncEvent = 115;
+	EventDeath deathEvent = 116;
 
 	action actType = 1;
 	int32 actionProperty = 5;
