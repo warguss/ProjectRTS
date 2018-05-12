@@ -24,10 +24,16 @@ public class TouchButtonsInterface : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (ButtonJump.CurrentState)
+        {
             JumpInput = true;
+            ButtonJump.CurrentState = false;
+        }
 
         if (ButtonFire.CurrentState)
+        {
             FireInput = true;
+            ButtonFire.CurrentState = false;
+        }
     }
 
     public bool GetJumpDown()

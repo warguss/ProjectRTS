@@ -123,6 +123,11 @@ public class PlayerController {
         Character.GetHit(info);
     }
 
+    public void InitialSync()
+    {
+        Character.InitialSync();
+    }
+
     public void Spawn(Vector2 position)
     {
         Character.Spawn(position);

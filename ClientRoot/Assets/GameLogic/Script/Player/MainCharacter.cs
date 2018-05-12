@@ -162,6 +162,21 @@ public class MainCharacter : MonoBehaviour, IControllableCharacter
         charRigidbody.velocity = new Vector2(charRigidbody.velocity.x * (float)0.8, charRigidbody.velocity.y);
     }
 
+    public void InitialSync()
+    {
+        if (!isDead)
+        {
+            SpawnEvent?.Invoke(CurrentPosition);
+            if (isMoving)
+            {
+                if (isLeft)
+                    MoveEvent?.Invoke(CurrentPosition, CurrentVelocity, true);
+                else
+                    MoveEvent?.Invoke(CurrentPosition, CurrentVelocity, false);
+            }
+        }
+    }
+
     public void Jump()
     {
         if (jumpCount < MaxJumpCount)

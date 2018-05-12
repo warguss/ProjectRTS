@@ -76,6 +76,8 @@ public class GameLogic : MonoBehaviour
             player.Character.GetHitEvent += PlayerEventGetHit;
             player.Character.SpawnEvent += PlayerEventSpawn;
             player.Character.DeadEvent += PlayerEventDead;
+
+            SpawnPlayer(id, new Vector2(2, 2));
         }
 
         TestUI.Instance.PrintText("User Join : " + id + isMe);
@@ -98,8 +100,6 @@ public class GameLogic : MonoBehaviour
             controller.PlayerId = playerId;
 
             playerControllers.Add(playerId, controller);
-
-            SpawnPlayer(playerId, new Vector2(2, 2));
         }            
         else
         {
@@ -192,6 +192,8 @@ public class GameLogic : MonoBehaviour
             else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.Connect)
             {
                 userJoin(connectorId);
+                if (playerControllers.ContainsKey(myId))
+                    playerControllers[myId].Character.InitialSync();
             }
             else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.DisConnect)
             {

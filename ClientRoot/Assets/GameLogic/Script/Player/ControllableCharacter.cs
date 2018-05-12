@@ -34,6 +34,8 @@ public interface IControllableCharacter
     void Spawn(Vector2 position);
     void Dead();
 
+    void InitialSync();
+
     void SetLocation(Vector2 position);
     void MoveTo(Vector2 position, Vector2 velocity);
 
