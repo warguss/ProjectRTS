@@ -1,6 +1,5 @@
 #include "CSessionManager.h"
 #include "CUserPool.h"
-
 int CSessionManager::_serverSock = 0;
 int CSessionManager::_epoll_fd = 0;
 struct epoll_event CSessionManager::_init_ev;
@@ -11,7 +10,6 @@ CQueueManager CSessionManager::m_writeQ_Manager;
 
 static void* CSessionManager::waitEvent(void* val);
 static void* CSessionManager::writeEvent(void* val);
-
 
 CProtoManager g_packetManager;
 extern CUserPool g_userPool;
@@ -155,7 +153,7 @@ static void* CSessionManager::waitEvent(void* val)
 				uint32_t bodyLength = 0;
 				if ( !g_packetManager.decodingHeader(header, readn, bodyLength) || bodyLength <= 0  )
 				{
-					LOG_ERROR("Error, Decoding Header Error[%d]", fd);
+					LOG_ERROR("Error, Decoding Header Error[%d] length[%d]", fd, bodyLength);
 					continue;
 				}
 
@@ -193,6 +191,7 @@ static void* CSessionManager::waitEvent(void* val)
 				 * QueueManager 내부에서 Lock 처리한다.
 				 * userPool 에서 꺼내야할듯
 				 ******************************************/
+				//m_readQ_Manager.releaseLock();
 				m_readQ_Manager.enqueue(packet);
             }
         }
@@ -204,7 +203,7 @@ static void* CSessionManager::writeEvent(void* val)
 	while(1) 
 	{
 		/* signal ... */
-		//CUser* user = NULL;
+		//m_writeQ_Manager.setStartLock();
 		CProtoPacket* packet = NULL;
 		if ( packet = m_writeQ_Manager.dequeue() )
 		{

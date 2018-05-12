@@ -117,6 +117,7 @@ bool CProtoManager::decodingHeader(unsigned char* buffer, uint32_t bufLength, ui
         }
         bodyLength += (*buffer) << bitDigit;
     }
+
     LOG_INFO("bodyLength [%d]", bodyLength);
     return true;
 }
