@@ -13,7 +13,7 @@ void CUserPool::initialize()
 	int idx = 0;
 	totalUser = 0;
 	userInfo.clear();
-	LOG("total Sector(%d)\n", g_sectorIdx);
+	LOG_INFO("total Sector(%d)", g_sectorIdx);
 	while ( idx < g_sectorIdx )
 	{
 		map<int, CUser*>* tmp = new map<int, CUser*>;
@@ -40,7 +40,7 @@ int CUserPool::getSectionNo(CUser* user)
 
 	int xIdx = user->_x / X_SECTOR_MAX;
 	idx = yIdx + xIdx;
-	LOG("User Sector xIdx(%d) + yIdx(%d) = idx(%d)\n", xIdx, yIdx, idx);
+	LOG_INFO("User Sector xIdx(%d) + yIdx(%d) = idx(%d)", xIdx, yIdx, idx);
 
 	return idx;
 }
@@ -56,7 +56,7 @@ bool CUserPool::addUserInPool(CUser* user)
 	itVal = userInfo.find(idx);
     if ( totalUser >= POOL_SIZE || itVal == userInfo.end() )
     {
-		LOG("Error User In Pool\n");
+		LOG_ERROR("Error User In Pool");
         return false;
     }
 	map<int, CUser*>* tMap = (map<int, CUser*>*)itVal->second;
@@ -109,7 +109,7 @@ bool CUserPool::delUserInPool(int fd, int sector)
 	user = (CUser*)it->second;
 	if ( user && tMap )
 	{
-		LOG("Delete User(%d)\n", user->_fd);
+		LOG_DEBUG("Delete User(%d)", user->_fd);
 		tMap->erase(fd);
 		
 		//(map<int, CUser*>)it->erase(fd);
@@ -126,7 +126,7 @@ bool CUserPool::changeUserInPool(CUser* user, int preSector, int curSector)
 {
 	if ( !user || preSector <= 0 || curSector <= 0 )
 	{
-		LOG("Invalid Sector Info\n");
+		LOG_ERROR("Invalid Sector Info");
 		return false;
 	}
 
@@ -142,7 +142,7 @@ bool CUserPool::changeUserInPool(CUser* user, int preSector, int curSector)
 		it_postSectorMap = userInfo.find(curSector);
 		if ( it_preSectorMap == userInfo.end() || !it_preSectorMap->second || it_postSectorMap == userInfo.end() || it_postSectorMap->second )
 		{
-			LOG("Invalid Sector No pre(%d) post(%d)\n", preSector, curSector);
+			LOG_ERROR("Invalid Sector No pre(%d) post(%d)", preSector, curSector);
 			break;
 		}
 
@@ -152,7 +152,7 @@ bool CUserPool::changeUserInPool(CUser* user, int preSector, int curSector)
 		CThreadLockManager postLock(NOT_SET, curSector);
 		if ( preMap && postMap )
 		{
-			LOG("Delete User(%d)\n", user->_fd);
+			LOG_INFO("Delete User(%d)", user->_fd);
 			preMap->erase(user->_fd);
 			postMap->insert(std::pair<int, CUser*>(user->_fd, user));
 			isSuccess = true;
@@ -187,7 +187,7 @@ CUser* CUserPool::findUserInPool(int fd, int sector)
 		itVal = userInfo.find(sector);
 		if ( totalUser >=  POOL_SIZE || itVal == userInfo.end() || !itVal->second )
 		{
-			LOG("Find Error");
+			LOG_ERROR("Find Error");
 		    return (CUser*)NULL;
 		}
 
@@ -204,7 +204,7 @@ CUser* CUserPool::findUserInPool(int fd, int sector)
 		user = (CUser*)it->second;
 		if ( !user )
 		{
-			LOG("User Not Exist\n");
+			LOG_ERROR("User Not Exist");
 			return NULL;
 		}
 	}
@@ -230,7 +230,7 @@ void CUserPool::getAllUserList(list<CUser*>& userConnection)
 			userConnection.push_back(user);
 		}
 	}
-	LOG("size allUser Connect (%d)", userConnection.size());
+	LOG_INFO("size allUser Connect (%d)", userConnection.size());
 } 
 
 void CUserPool::getPartUserList(list<CUser*>& userConnection, int sector)
@@ -244,7 +244,7 @@ void CUserPool::getPartUserList(list<CUser*>& userConnection, int sector)
 	it_sectorMap = userInfo.find(sector);
 	if ( it_sectorMap == userInfo.end() )
 	{
-		LOG("Not Exist Sector\n");
+		LOG_ERROR("Not Exist Sector");
 		return ;
 	} 
 

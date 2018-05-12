@@ -36,7 +36,7 @@ bool CQueueManager::enqueue(CProtoPacket* packet)
 {
 	if ( !packet )
 	{
-		LOG("User Invalid\n");
+		LOG_ERROR("User Invalid\n");
 		return false; 
 	}
 
@@ -56,7 +56,7 @@ CProtoPacket* CQueueManager::dequeue()
 		return packet;
 	}
 
-	LOG("Dequeue Start\n");
+	LOG_DEBUG("Dequeue Start");
 	/* Auto Lock */
 	CThreadLockManager lock(_type);
 	packet = _queue.front();
@@ -92,7 +92,7 @@ bool CQueueManager::lock()
 {
 	if ( _queueSize == 0 )
 	{
-		LOG("Thread Lock\n");
+		LOG_DEBUG("Thread Lock");
 		pthread_mutex_lock(&_queue_mutex);
 		return true;
 	}
