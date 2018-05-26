@@ -19,35 +19,97 @@ public delegate void CharEventShoot(Vector2 position, Vector2 velocity, DamageIn
 public delegate void CharEventSpawn(Vector2 position);
 public delegate void CharEventDead(Vector2 position, int attackerId);
 
-public interface IControllableCharacter
+public abstract class ControllableCharacter : MonoBehaviour
 {
-    void SetOwner(int owner);
-    void SetName(string name);
+    public GameObject PlayerInfoDisplay;
 
-    void MoveLeft();
-    void MoveRight();
-    void MoveStop();
-    void Jump();
-    void Shoot();
-    void ShootWithDamageInfo(DamageInfo info, Vector2 position);
-    void ShootWithDamageInfo(DamageInfo info);
-    void Spawn(Vector2 position);
-    void Dead();
+    public int OwnerId { get; set; }
+    public string OwnerName { get; set; }
 
-    void InitialSync();
+    protected Rigidbody2D charRigidbody;
+    protected Collider2D charCollider;
 
-    void SetLocation(Vector2 position);
-    void MoveTo(Vector2 position, Vector2 velocity);
+    protected PlayerInfoDisplay playerInfoDisplay;
 
-    void GetHit(DamageInfo info);
+    protected CharacterStatus status = CharacterStatus.Neutral;
+    protected int hitRecovery = 0;
 
-    event CharEventMove MoveEvent;
-    event CharEventStop StopEvent;
-    event CharEventJump JumpEvent;
-    event CharEventGetHit GetHitEvent;
-    event CharEventShoot ShootEvent;
-    event CharEventSpawn SpawnEvent;
-    event CharEventDead DeadEvent;
+    protected float hp;
+    protected int jumpCount = 0;
+    protected int lastAttackedPlayerId = -1;
 
-    GameObject GetGameObject();
+    protected bool isGrounded = true;
+    protected bool isLeft = true;
+    protected bool isMoving = false;
+    protected bool isDead = false;
+
+    public event CharEventMove MoveEvent;
+    public event CharEventStop StopEvent;
+    public event CharEventJump JumpEvent;
+    public event CharEventGetHit GetHitEvent;
+    public event CharEventShoot ShootEvent;
+    public event CharEventSpawn SpawnEvent;
+    public event CharEventDead DeadEvent;
+
+    protected void InvokeEventMove(Vector2 position, Vector2 velocity, bool isLeft)
+    {
+        MoveEvent?.Invoke(position, velocity, isLeft);
+    }
+    protected void InvokeEventStop(Vector2 position, Vector2 velocity)
+    {
+        StopEvent?.Invoke(position, velocity);
+    }
+    protected void InvokeEventJump(Vector2 position, Vector2 velocity)
+    {
+        JumpEvent?.Invoke(position, velocity);
+    }
+    protected void InvokeEventGetHit(Vector2 position, Vector2 velocity, DamageInfo info)
+    {
+        GetHitEvent?.Invoke(position, velocity, info);
+    }
+    protected void InvokeEventShoot(Vector2 position, Vector2 velocity, DamageInfo info)
+    {
+        ShootEvent?.Invoke(position, velocity, info);
+    }
+    protected void InvokeEventSpawn(Vector2 position)
+    {
+        SpawnEvent?.Invoke(position);
+    }
+    protected void InvokeEventDead(Vector2 position, int attackerId)
+    {
+        DeadEvent?.Invoke(position, attackerId);
+    }
+
+    public void SetOwner(int owner)
+    {
+        OwnerId = owner;
+    }
+
+    public void SetName(string name)
+    {
+        OwnerName = name;
+        if (playerInfoDisplay != null)
+        {
+            playerInfoDisplay.SetName(OwnerName);
+        }
+    }
+
+    public abstract void MoveLeft();
+    public abstract void MoveRight();
+    public abstract void MoveStop();
+    public abstract void Jump();
+    public abstract void Shoot();
+    public abstract void ShootWithDamageInfo(DamageInfo info, Vector2 position);
+    public abstract void ShootWithDamageInfo(DamageInfo info);
+    public abstract void Spawn(Vector2 position);
+    public abstract void Dead();
+
+    public abstract void InitialSync();
+
+    public abstract void SetLocation(Vector2 position);
+    public abstract void MoveTo(Vector2 position, Vector2 velocity);
+
+    public abstract void GetHit(DamageInfo info);
+
+    public abstract GameObject GetGameObject();
 }

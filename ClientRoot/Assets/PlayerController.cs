@@ -41,7 +41,7 @@ public class PlayerController {
         }
     }
 
-    public IControllableCharacter Character { get; set; }
+    public ControllableCharacter Character { get; set; }
 
     public void DoInputFrame()
     {

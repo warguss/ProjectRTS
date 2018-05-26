@@ -40,8 +40,9 @@ public class GameLogic : MonoBehaviour
 
         if (TestMode)
         {
-            userJoin(0, true);
-            userJoin(testId2P, false);
+            userJoin(0, "test1p", true);
+            userJoin(testId2P, "test2p", false);
+            SpawnPlayer(testId2P, new Vector2(2, 2));
         }
     }
 	
@@ -60,9 +61,9 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void userJoin(int id, bool isMe = false)
+    void userJoin(int id, string name, bool isMe = false)
     {
-        AddPlayer(id);
+        AddPlayer(id, name);
         PlayerController player = playerControllers[id];
         if (isMe)
         {
@@ -90,7 +91,7 @@ public class GameLogic : MonoBehaviour
         playerControllers.Remove(id);
     }
 
-    void AddPlayer(int playerId)
+    void AddPlayer(int playerId, string playerName)
     {
         if (!playerControllers.ContainsKey(playerId))
         {
@@ -98,6 +99,7 @@ public class GameLogic : MonoBehaviour
             PlayerController controller = new PlayerController();
             controller.Character = characterScript;
             controller.PlayerId = playerId;
+            controller.PlayerName = playerName;
 
             playerControllers.Add(playerId, controller);
         }            
@@ -187,11 +189,11 @@ public class GameLogic : MonoBehaviour
             {
                 isOnline = true;
                 NetworkModule.instance.myId = connectorId;
-                userJoin(connectorId, true);
+                userJoin(connectorId, connectorName, true);
             }
             else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.Connect)
             {
-                userJoin(connectorId);
+                userJoin(connectorId, connectorName);
                 if (playerControllers.ContainsKey(myId))
                     playerControllers[myId].Character.InitialSync();
             }

@@ -83,7 +83,7 @@ public class NetworkModule : MonoBehaviour
         }
     }
 
-    public void Connect(string ip, int port)
+    public void Connect(string ip, int port, string name = "")
     {
         TestUI.Instance.PrintText("Trying to connect " + ip + ":" + port);
 
@@ -104,7 +104,7 @@ public class NetworkModule : MonoBehaviour
         }
         if (client != null && ns != null)
         {
-            WriteTryConnection();
+            WriteTryConnection(name);
         }
     }
 
@@ -168,6 +168,10 @@ public class NetworkModule : MonoBehaviour
         {
             uesrConnection.Nickname.Add("User" + Time.fixedTime.ToString());
         }
+        else
+        {
+            uesrConnection.Nickname.Add(nickName);
+        }
 
         uesrConnection.ConnectorId.Add(id);
 
@@ -214,9 +218,9 @@ public class NetworkModule : MonoBehaviour
         }
     }
 
-    public void WriteTryConnection()
+    public void WriteTryConnection(string name = "")
     {
-        var packet = CreateConnectionPacket(UserConnection.Types.ConnectionType.TryConnect, 0);
+        var packet = CreateConnectionPacket(UserConnection.Types.ConnectionType.TryConnect, 0, name);
 
         SendPacket(packet);
     }

@@ -10,6 +10,7 @@ public class TestUI : MonoBehaviour {
     public ScrollRect scrollView;
     public InputField IpInput;
     public InputField PortInput;
+    public InputField NameInput;
     public Button ConnectButton;
     public Button DisconnectButton;
 
@@ -44,7 +45,8 @@ public class TestUI : MonoBehaviour {
     {
         string ip = IpInput.text;
         int port = int.Parse(PortInput.text);
-        NetworkModule.instance.Connect(ip, port);
+        string name = NameInput.text;
+        NetworkModule.instance.Connect(ip, port, name);
     }
 
     void OnClickDisconnect()

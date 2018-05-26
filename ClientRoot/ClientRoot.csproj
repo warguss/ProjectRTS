@@ -256,7 +256,9 @@
     <Compile Include="Assets\GameLogic.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\Bullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\ControllableCharacter.cs" />
+    <Compile Include="Assets\GameLogic\Script\Player\HPBar.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\MainCharacter.cs" />
+    <Compile Include="Assets\GameLogic\Script\Player\PlayerInfoDisplay.cs" />
     <Compile Include="Assets\Google.Protobuf\ByteArray.cs" />
     <Compile Include="Assets\Google.Protobuf\ByteString.cs" />
     <Compile Include="Assets\Google.Protobuf\CodedInputStream.cs" />
