@@ -261,7 +261,7 @@ public class GameLogic : MonoBehaviour
                             Impact = info.Impact,/////////////
                             ImpactAngle = info.ImpactAngle///////////
                         };
-                        SendInputToCharacter(invokerId, PlayerAction.Fire);
+                        //SendInputToCharacter(invokerId, PlayerAction.Fire);
                         playerControllers[invokerId].ShootWithDamageInfo(damageInfo, position);
                         break;
                     }

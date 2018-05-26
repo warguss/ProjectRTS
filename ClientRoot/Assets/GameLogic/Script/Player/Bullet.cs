@@ -21,7 +21,7 @@ public class Bullet : MonoBehaviour {
         damageInfo.Impact = 50;
 
         StartPosition = rb2d.position;
-
+        TestUI.Instance.PrintText("BulletStart");
     }
 
     void Awake()
@@ -54,8 +54,11 @@ public class Bullet : MonoBehaviour {
             MainCharacter targetPlayer = other.gameObject.GetComponent<MainCharacter>();
             if (targetPlayer.OwnerId != damageInfo.AttackerId)
             {
-                //if (targetPlayer.OwnerId == GameLogic.Instance.myId)
-                targetPlayer.GetHit(damageInfo);
+                if (targetPlayer.OwnerId == GameLogic.Instance.myId)
+                {
+                    targetPlayer.GetHit(damageInfo);
+                    TestUI.Instance.PrintText("BulletOnTriggerEnter2D");
+                }
 
                 Destroy(gameObject);
             }

@@ -235,24 +235,21 @@ public class MainCharacter : ControllableCharacter
 
     public override void GetHit(DamageInfo info)
     {
-        if (!GameLogic.Instance.isOnline || OwnerId == GameLogic.Instance.myId)
+        hp -= info.Damage;
+        TestUI.Instance.PrintText("player" + OwnerId + "hp : " + hp + " / Attacker : " + info.AttackerId);
+
+        float radian = Mathf.PI * (float)info.ImpactAngle / 180f;
+        float impactX = Mathf.Cos(radian);
+        float impactY = Mathf.Sin(radian);
+        charRigidbody.AddForce(new Vector2(impactX, impactY) * info.Impact);
+
+        lastAttackedPlayerId = info.AttackerId;
+
+        InvokeEventGetHit(CurrentPosition, CurrentVelocity, info);
+
+        if (hp <= 0)
         {
-            hp -= info.Damage;
-            TestUI.Instance.PrintText("player" + OwnerId + "hp : " + hp + " / Attacker : " + info.AttackerId);
-
-            float radian = Mathf.PI * (float)info.ImpactAngle / 180f;
-            float impactX = Mathf.Cos(radian);
-            float impactY = Mathf.Sin(radian);
-            charRigidbody.AddForce(new Vector2(impactX, impactY) * info.Impact);
-
-            lastAttackedPlayerId = info.AttackerId;
-
-            InvokeEventGetHit(CurrentPosition, CurrentVelocity, info);
-
-            if (hp <= 0)
-            {
-                Dead();
-            }
+            Dead();
         }
     }
 
