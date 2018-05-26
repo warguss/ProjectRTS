@@ -1,6 +1,5 @@
 #include "CSessionManager.h"
 #include "CUserPool.h"
-
 int CSessionManager::_serverSock = 0;
 int CSessionManager::_epoll_fd = 0;
 struct epoll_event CSessionManager::_init_ev;
@@ -11,7 +10,6 @@ CQueueManager CSessionManager::m_writeQ_Manager;
 
 static void* CSessionManager::waitEvent(void* val);
 static void* CSessionManager::writeEvent(void* val);
-
 
 CProtoManager g_packetManager;
 extern CUserPool g_userPool;
@@ -40,8 +38,7 @@ int CSessionManager::connectInitialize()
 	_serverSock = socket(AF_INET, SOCK_STREAM, 0);
     if ( _serverSock <= 0 )
     {
-        LOG("---ConnectInitialize() Error Sock Open\n");
-        perror("socket:");
+        LOG_ERROR("---ConnectInitialize() Error Sock Open(%d)(%s)", errno, strerror(errno));
         return -1;
     }
 
@@ -51,7 +48,7 @@ int CSessionManager::connectInitialize()
 	int option = 1;
 	setsockopt(_serverSock, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option));
 
-	LOG("---ConnectInitialize() serverSock [%d]\n", _serverSock);
+	LOG_DEBUG("---ConnectInitialize() serverSock [%d]", _serverSock);
     memset(&serverAddr, '\0', sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -59,15 +56,13 @@ int CSessionManager::connectInitialize()
 
     if ( bind(_serverSock, (sockaddr*)&serverAddr, sizeof(serverAddr)) < 0 )
     {
-        LOG("---ConnectInitialize() Serv SOck Bind Error\n");
-        perror("bind");
+        LOG_ERROR("---ConnectInitialize() Serv SOck Bind Error(%d)(%s)", errno, strerror(errno));
         return -1;
     }
 
     if ( listen(_serverSock , BACKLOG_SIZE) < 0 )
     {
-        LOG("---ConnectInitialize() Errror List\n");
-        perror("listen:");
+        LOG_ERROR("---ConnectInitialize() Errror List(%d)(%s)", errno, strerror(errno));
         return -1;
     }
 
@@ -77,7 +72,7 @@ int CSessionManager::connectInitialize()
     _init_ev.data.fd = _serverSock;
     epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, _serverSock, &_init_ev);
 
-	LOG("---connectInitialize() Connect Initialize Complete\n");
+	LOG_DEBUG("---connectInitialize() Connect Initialize Complete");
 	return 0;
 }
 
@@ -85,28 +80,27 @@ static void* CSessionManager::waitEvent(void* val)
 {
     while(1)
     {
-		LOG("---waitEvent() epoll wait\n");
+		LOG_DEBUG("---waitEvent() epoll wait");
         int event_count = epoll_wait(_epoll_fd, _events, EPOLL_SIZE, -1);
         if ( event_count == -1 )
         {
             break;
         }
 
-		LOG("---waitEvent() Epoll Count [%d]\n", event_count);
+		LOG_DEBUG("---waitEvent() Epoll Count [%d]", event_count);
         for ( int i = 0; i < event_count; ++i )
         {
-			LOG("---waitEvent() Epoll Event\n");
+			LOG_DEBUG("---waitEvent() Epoll Event");
             if ( _events[i].data.fd == _serverSock )
             {
-				LOG("---waitEvent() Connect Epoll Event\n");
+				LOG_DEBUG("---waitEvent() Connect Epoll Event");
                 /* Client 접속 */
                 struct sockaddr_in clntAddr;
                 int clntAddrSize = sizeof(clntAddr);
                 int clientSock = accept(_serverSock, (sockaddr*)&clntAddr, (socklen_t*)&clntAddrSize);
                 if ( clientSock < 0 )
                 {
-                    LOG("Error Client Set\n");
-                    perror("accept");
+                    LOG_ERROR("Error Client Set(%d)(%s)", errno, strerror(errno));
                     break;
                 }
 
@@ -139,10 +133,10 @@ static void* CSessionManager::waitEvent(void* val)
 				unsigned char header[HEADER_SIZE];
 				memset(header, '\0', sizeof(header));
 				int readn = read(fd, header, HEADER_SIZE);
-				LOG("Client Input [%d], read size[%d]", fd, readn);
+				LOG_DEBUG("Client Input [%d], read size[%d]", fd, readn);
 				if ( readn <= 0 )
 				{
-					LOG("Error, Delete Socket[%d]\n", fd);    
+					LOG_ERROR("Error, Delete Socket[%d](%d)(%s)", fd, errno, strerror(errno));    
 					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
 					g_userPool.delUserInPool(fd);
 					/**********************************
@@ -159,7 +153,7 @@ static void* CSessionManager::waitEvent(void* val)
 				uint32_t bodyLength = 0;
 				if ( !g_packetManager.decodingHeader(header, readn, bodyLength) || bodyLength <= 0  )
 				{
-					LOG("Error, Decoding Header Error[%d]\n", fd);
+					LOG_ERROR("Error, Decoding Header Error[%d] length[%d]", fd, bodyLength);
 					continue;
 				}
 
@@ -172,18 +166,18 @@ static void* CSessionManager::waitEvent(void* val)
 				readn = read(fd, bodyBuf, bodyLength);
 				if ( readn <= 0 )
 				{
-					LOG("Error, Delete Socket[%d]\n", fd);    
+					LOG_ERROR("Error, Delete Socket[%d]", fd);
 					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
 					g_userPool.delUserInPool(fd);
 					close(fd);
 					continue;
 				}
 				
-				LOG("Body Set headerSize(%d) readSize(%d)\n", bodyLength, readn);
+				LOG_DEBUG("Body Set headerSize(%d) readSize(%d)", bodyLength, readn);
 				CProtoPacket* packet = NULL;
 				if ( !g_packetManager.decodingBody(bodyBuf, readn, bodyLength, &packet) || !packet || !packet->SyncUser(user))
 				{
-					LOG("Error, Decoding Body Error[%d]\n", fd);
+					LOG_ERROR("Error, Decoding Body Error[%d]", fd);
 					continue;
 				}
 	
@@ -197,6 +191,7 @@ static void* CSessionManager::waitEvent(void* val)
 				 * QueueManager 내부에서 Lock 처리한다.
 				 * userPool 에서 꺼내야할듯
 				 ******************************************/
+				//m_readQ_Manager.releaseLock();
 				m_readQ_Manager.enqueue(packet);
             }
         }
@@ -208,7 +203,7 @@ static void* CSessionManager::writeEvent(void* val)
 	while(1) 
 	{
 		/* signal ... */
-		//CUser* user = NULL;
+		//m_writeQ_Manager.setStartLock();
 		CProtoPacket* packet = NULL;
 		if ( packet = m_writeQ_Manager.dequeue() )
 		{
@@ -218,21 +213,18 @@ static void* CSessionManager::writeEvent(void* val)
 			uint32_t writeSize = 0;
 			uint32_t bodyLength = 0;
 			unsigned char header[HEADER_SIZE] = {'\0' , };
-			LOG("Server -> User(%d) String(%s) \n", packet->_fd, packet->_proto->DebugString().c_str());
+			LOG_DEBUG("Server -> User(%d) String(%s)", packet->_fd, packet->_proto->DebugString().c_str());
 			if ( !g_packetManager.encodingHeader(header, packet->_proto, bodyLength) || bodyLength <= 0 )
 			{
-				LOG("Error User ProtoPacket Not Exist\n");
+				LOG_ERROR("Error User ProtoPacket Not Exist");
 				continue;
 			}
 
 			if ( (writeSize = write(packet->_fd, header, sizeof(unsigned char) * HEADER_SIZE )) < 0 ) 
 			{
-				perror("Send");
-				LOG("---writeEvent() Write Error Socket[%d] writeSize[%d]", packet->_fd, writeSize);
+				LOG_ERROR("---writeEvent() Write Error Socket[%d] writeSize[%d] (%d)(%s)", packet->_fd, writeSize, errno, strerror(errno));
 				continue ; 
 			}
-			LOG("Write User WriteSize(%d)\n", writeSize);
-
 
 			/***************************************
 			 * Write Body 
@@ -241,17 +233,16 @@ static void* CSessionManager::writeEvent(void* val)
 			memset(body, '\0', sizeof(unsigned char) * bodyLength);
 			if ( !g_packetManager.encodingBody(body, packet->_proto, bodyLength) ) 
 			{
-				LOG("Error Invalid Body Encoding");
+				LOG_ERROR("Error Invalid Body Encoding");
 				continue ;
 			}
 
 			if ( (writeSize = write(packet->_fd, body, sizeof(unsigned char) * bodyLength )) < 0 ) 
 			{
-				perror("Send");
-				LOG("---writeEvent() Write Error Socket[%d] writeSize[%d]", packet->_fd, writeSize);
+				LOG_ERROR("---writeEvent() Write Error Socket[%d] writeSize[%d](%d)(%s)", packet->_fd, writeSize, errno, strerror(errno));
 				continue ;
 			}
-			LOG("Write User WriteBody(%d)\n", writeSize);
+			LOG_INFO("Write User WriteBody(%d)", writeSize);
 		}
 	}
 

@@ -34,6 +34,10 @@ public:
 	bool unLock();
 	bool lock();
 
+	void setStartLock();
+	void releaseLock();
+
+
 	int queueSize();
 	
 };

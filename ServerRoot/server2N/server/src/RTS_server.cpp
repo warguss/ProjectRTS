@@ -9,6 +9,8 @@
 #include <netinet/in.h>
 #include <pthread.h>
 #include <sys/epoll.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "common/MsgString.h"
 #include "common/CSessionManager.h"
 #include "common/CProtoManager.h"
@@ -29,7 +31,7 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 	/*************************************
 	 * 전체 유저 연결 정보 획득
 	 *************************************/
-	LOG("All Send Connect\n");
+	LOG_DEBUG("All Send Connect");
 	list<CUser*> userConnector;
 	g_userPool.getAllUserList(userConnector);
 
@@ -42,13 +44,13 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 	{
 		if ( !eventUser )
 		{
-			LOG("Error EventUser");
+			LOG_ERROR("Not Exist EventUser");
 			return false;
 		} 
 		CProtoPacket *connectPacket = NULL;
 		if ( !g_packetManager.setConnectType(type, eventUser, eventPacket->_fd, userConnector, &connectPacket) ) 
 		{
-			LOG("Error Connector Type\n");
+			LOG_ERROR("Error Connector Type");
 			return false;
 		}
 
@@ -59,14 +61,14 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 
 	int userConnectSize = userConnector.size(); 
 	list<CUser*>::iterator it = userConnector.begin();
-	LOG("Connector User Size(%d)\n", userConnectSize);
+	LOG_DEBUG("Connector User Size(%d)", userConnectSize);
 	for ( ; it != userConnector.end(); it++ )
 	{
 		CUser* user = *it;
 		CProtoPacket *packet = NULL;
 		if ( !g_packetManager.setConnectType(type, eventUser, user->_fd, userConnector, &packet) ||  !packet )
 		{
-			LOG("Error Connector Type\n");
+			LOG_ERROR("Error Connector Type");
 			return false;
 		} 
 
@@ -75,15 +77,14 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 		 *********************************/
 		cout << "Test: " <<  packet->_proto->DebugString() << endl;
 		session.m_writeQ_Manager.enqueue(packet);
-		LOG("User(%d) Send Noti\n", packet->_fd);
+		LOG_INFO("User(%d) Send Noti", packet->_fd);
 	}
-	LOG("End All Send\n");
 	return true;
 }
 
 bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 {
-	LOG("Part Send Event\n");
+	LOG_DEBUG("Part Send Event");
 	/*************************************
 	 * 파트 유저 연결 정보 획득
 	 *************************************/
@@ -106,7 +107,7 @@ bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 
 		if ( !g_packetManager.setActionType(type, user, eventUser, connectList, &packet) || !packet )
 		{
-			LOG("Error Connector Type\n");
+			LOG_ERROR("Error Connector Type");
 			return false;
 		} 
 
@@ -115,20 +116,19 @@ bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		 *********************************/
 		cout << "Test: " <<  packet->_proto->DebugString() << endl;
 		session.m_writeQ_Manager.enqueue(packet);
-		LOG("User(%d) Send Noti\n", packet->_fd);
+		LOG_DEBUG("User(%d) Send Noti", packet->_fd);
 	}
-	LOG("End All Send\n");
+	LOG_DEBUG("End All Send");
 
 	return true;
 }
-
 
 bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 {
 	/*************************************
 	 * 파트 유저 연결 정보 획득
 	 *************************************/
-	LOG("Action All Send Connect\n");
+	LOG_DEBUG("Action All Send Connect");
 	list<CUser*> connectList;
 	g_userPool.getAllUserList(connectList);
 
@@ -143,23 +143,31 @@ bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		CProtoPacket *packet = NULL;
 		if ( !g_packetManager.setActionType(type, user, eventUser, connectList, &packet) || !packet )
 		{
-			LOG("Error Connector Type\n");
+			LOG_ERROR("Error Connector Type");
 			return false;
 		} 
-
-		if ( user->_fd == eventUser->_fd )
-		{
-			continue ;
-		}
 
 		/*********************************
 		 * Enqueue
 		 *********************************/
 		session.m_writeQ_Manager.enqueue(packet);
-		LOG("User(%d) Send Noti\n", packet->_fd);
-	}
-	LOG("End All Send\n");
+		LOG_INFO("User(%d) Send Noti", packet->_fd);
 
+
+		if ( type == (int32_t)server2N::GameEvent_action_EventDeath )
+		{
+			CProtoPacket *notiPacket = NULL;
+			if ( !g_packetManager.setNotiType(type, user, eventUser, connectList, &notiPacket) || !notiPacket )
+			{
+				LOG_ERROR("Error Connector Type");
+				return false;
+			}
+
+			session.m_writeQ_Manager.enqueue(notiPacket);
+			LOG_INFO("User(%d) Send Noti", packet->_fd);
+		}
+	}
+	LOG_DEBUG("End All Send");
 	return true;
 }
 
@@ -168,7 +176,7 @@ bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 	/*************************************
 	 * 파트 유저 연결 정보 획득
 	 *************************************/
-	LOG("Noti All Send Connect\n");
+	LOG_DEBUG("Noti All Send Connect");
 	list<CUser*> connectList;
 	g_userPool.getAllUserList(connectList);
 
@@ -183,7 +191,7 @@ bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		CProtoPacket *packet = NULL;
 		if ( !g_packetManager.setNotiType(type, user, eventUser, connectList, &packet) || !packet )
 		{
-			LOG("Error Connector Type\n");
+			LOG_ERROR("Error Connector Type");
 			return false;
 		} 
 
@@ -191,20 +199,14 @@ bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		 * Enqueue
 		 *********************************/
 		session.m_writeQ_Manager.enqueue(packet);
-		LOG("User(%d) Send Noti\n", packet->_fd);
+		LOG_INFO("User(%d) Send Noti", packet->_fd);
 	}
-	LOG("End All Send\n");
-
+	LOG_DEBUG("End All Send");
 	return true;
 }
 
-
-int main(int argc, char* argv[]) 
+bool childProcessLogic()
 {
-	// Verify that the version of the library that we linked against is
-	// compatible with the version of the headers we compiled against.
-	GOOGLE_PROTOBUF_VERIFY_VERSION;
-	
 	int port = 10001;
 	pthread_t thread;
 	CSessionManager session(port);
@@ -221,13 +223,14 @@ int main(int argc, char* argv[])
 	/*******************************************************
 	 * Action 관련 함수 Add
 	 *******************************************************/
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_Move, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_Stop, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_Jump, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_Shoot, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_GetHit, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_Spawn, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_UserSync, ActionAllSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventMove, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventStop, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventJump, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventShoot, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventHit, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventSpawn, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventUserSync, ActionAllSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventDeath, ActionAllSendFunc) );
 
 	/*******************************************************
 	 * Noti 관련 함수 Add
@@ -240,7 +243,7 @@ int main(int argc, char* argv[])
 	 *******************************************************/
 	g_sectorIdx = ((X_GAME_MAX * Y_GAME_MAX)) / ((X_SECTOR_MAX * Y_SECTOR_MAX));
 	g_userPool.initialize();
-	LOG("g_sector initialize(%d)", g_sectorIdx);
+	LOG_DEBUG("g_sector initialize(%d)", g_sectorIdx);
 	if ( pthread_create(&thread, NULL, session.waitEvent, (void*)&port) < 0 )
 	{
 		exit(0);
@@ -272,29 +275,61 @@ int main(int argc, char* argv[])
 			int32_t type = data->_type;
 			if ( type < 0 )
 			{
-				LOG("Error Data\n");
+				LOG_ERROR("Error Data");
 				continue ;
 			}
 
-			LOG("User Type (%d)\n", type); 
+			LOG_DEBUG("User Type (%d)", type); 
 			void (*func)(CSessionManager&, CProtoPacket*) = NULL;
 			func = funcMap.find(type)->second;
 			if ( func )
 			{
-				LOG("Start Func\n");
+				LOG_DEBUG("Start Func");
 				func(session, data);
 			}
 			else
 			{
-				LOG("Not Register Type(%d)\n", 1);
+				LOG_ERROR("Not Register Type");
 			}
 		} 	
 	}
-	LOG("MainLogic\n");
-
 	int status;
 	pthread_join(thread, (void**)&status);
 	google::protobuf::ShutdownProtobufLibrary();
+	LOG_DEBUG("Stop SuccessFully");
+
+	return true;
+} 
+
+int main(int argc, char* argv[]) 
+{
+	// Verify that the version of the library that we linked against is
+	// compatible with the version of the headers we compiled against.
+	GOOGLE_PROTOBUF_VERIFY_VERSION;
+	do 
+	{
+		pid_t pid;
+		pid = fork();
+		if ( pid > 0 )
+		{
+			int status;
+			pid_t child = waitpid(pid, &status, 0);
+			if ( WIFSIGNALED(status) ) 
+			{
+				LOG_ERROR("Child Process Error", status);
+				continue ; 
+			} 
+		}
+		else if ( pid == 0 )
+		{
+			childProcessLogic();
+		} 
+		else
+		{
+			LOG_ERROR("Error Fork");
+			return -1;
+		}
+	}while(true);
 
 	return 0;
 }

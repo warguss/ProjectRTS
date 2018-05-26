@@ -11,6 +11,8 @@ CUser::CUser()
 	_deathInfo = 0;
 	_nickName = "unknown";
     _fd = 0;
+
+	_health_point = 0;
 }
 
 CUser::CUser(int fd, int32_t x, int32_t y)
@@ -41,7 +43,7 @@ CUser::~CUser()
 
 bool CUser::setData(int fd, int type)
 {
-	LOG("CUser::SetData fd[%d]\n", fd);
+	LOG_INFO("CUser::SetData fd[%d]\n", fd);
 	_fd = fd;
 	_type = type;
 	
