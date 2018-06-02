@@ -26,7 +26,7 @@ public class GameLogic : MonoBehaviour
 
     byte[] msgBuffer = new byte[256];
 
-    bool TestMode = false;
+    public bool TestMode;
 
     // Use this for initialization
     void Start()
@@ -102,7 +102,7 @@ public class GameLogic : MonoBehaviour
             controller.PlayerName = playerName;
 
             playerControllers.Add(playerId, controller);
-        }            
+        }             
         else
         {
             TestUI.Instance.PrintText("Trying to add duplicate user");

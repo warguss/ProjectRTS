@@ -15,12 +15,16 @@ public class NetworkModule : MonoBehaviour
     TcpClient client;
     NetworkStream ns;
     Thread readThread;
+    Thread writeThread;
 
     Packet readPacket;
     Packet writePacket;
 
     Queue<PacketBody> RecevedPacketBodyQueue;
-    object QueueLock;
+    Queue<PacketBody> SendPacketBodyQueue;
+
+    object ReadQueueLock;
+    object WriteQueueLock;
 
     public int myId = -1;
 
@@ -34,7 +38,9 @@ public class NetworkModule : MonoBehaviour
         readPacket = new Packet();
         writePacket = new Packet();
         RecevedPacketBodyQueue = new Queue<PacketBody>();
-        QueueLock = new object();
+        SendPacketBodyQueue = new Queue<PacketBody>();
+        ReadQueueLock = new object();
+        WriteQueueLock = new object();
     }
 	
     // Update is called once per frame
@@ -45,7 +51,7 @@ public class NetworkModule : MonoBehaviour
         //    TestSend();
         //}
     }
-    void ReadThreadRoutine()
+    void NetworkReadThreadRoutine()
     {
         while (true)
         {
@@ -63,7 +69,7 @@ public class NetworkModule : MonoBehaviour
 
                         Debug.Log("Decode_Header : " + readPacket.BodyLength);
                         var parsed = PacketBody.Parser.ParseFrom(packetBodyByteArray);
-                        lock (QueueLock)
+                        lock (ReadQueueLock)
                         {
                             RecevedPacketBodyQueue.Enqueue(parsed);
                         }
@@ -72,18 +78,32 @@ public class NetworkModule : MonoBehaviour
                     {
 
                     }
-
                     readPacket.Clean();
-                }
-                else
-                {
-
                 }
             }
         }
     }
 
-    public void Connect(string ip, int port, string name = "")
+    void NetworkWriteThreadRoutine()
+    {
+        while (true)
+        {
+            if (client != null && ns != null)
+            {
+                while (SendPacketBodyQueue.Count > 0)
+                {
+                    PacketBody packet;
+                    lock (SendPacketBodyQueue)
+                    {
+                        packet = SendPacketBodyQueue.Dequeue();
+                    }
+                    SendPacket(packet);
+                }
+            }
+        }
+    }
+
+        public void Connect(string ip, int port, string name = "")
     {
         TestUI.Instance.PrintText("Trying to connect " + ip + ":" + port);
 
@@ -93,8 +113,10 @@ public class NetworkModule : MonoBehaviour
             {
                 client = new TcpClient(ip, port);
                 ns = client.GetStream();
-                readThread = new Thread(ReadThreadRoutine);
+                readThread = new Thread(NetworkReadThreadRoutine);
                 readThread.Start();
+                writeThread = new Thread(NetworkWriteThreadRoutine);
+                writeThread.Start();
                 TestUI.Instance.PrintText("Connected");
             }
             catch (Exception e)
@@ -118,10 +140,12 @@ public class NetworkModule : MonoBehaviour
                 ns.Close();
                 client.Close();
                 readThread.Abort();
+                writeThread.Abort();
 
                 ns = null;
                 client = null;
                 readThread = null;
+                writeThread = null;
 
                 TestUI.Instance.PrintText("Disconnected");
             }
@@ -209,7 +233,7 @@ public class NetworkModule : MonoBehaviour
 
     public PacketBody GetReceivedPacketBody()
     {
-        lock (QueueLock)
+        lock (ReadQueueLock)
         {
             if (RecevedPacketBodyQueue.Count > 0)
                 return RecevedPacketBodyQueue.Dequeue();
@@ -218,11 +242,19 @@ public class NetworkModule : MonoBehaviour
         }
     }
 
+    void EnqueueSendPacket(PacketBody packet)
+    {
+        lock(WriteQueueLock)
+        {
+            SendPacketBodyQueue.Enqueue(packet);
+        }
+    }
+
     public void WriteTryConnection(string name = "")
     {
         var packet = CreateConnectionPacket(UserConnection.Types.ConnectionType.TryConnect, 0, name);
 
-        SendPacket(packet);
+        EnqueueSendPacket(packet);
     }
 
     public void WriteEventUserSync(Vector2 position, Vector2 velocity/*, CurrentAction action = CurrentAction.Idle*/)
@@ -230,14 +262,14 @@ public class NetworkModule : MonoBehaviour
         var packet = CreateCommonEventPacket(GameEvent.Types.action.EventUserSync, myId, position, velocity);
         //packet.Event.ActionProperty
 
-        SendPacket(packet);
+        EnqueueSendPacket(packet);
     }
 
     public void WriteEventSpawn(Vector2 position)
     {
         var packet = CreateCommonEventPacket(GameEvent.Types.action.EventSpawn, myId, position, new Vector2(0, 0));
 
-        SendPacket(packet);
+        EnqueueSendPacket(packet);
     }
 
     public void WriteEventDead(Vector2 position, int AttackerId)
@@ -248,7 +280,7 @@ public class NetworkModule : MonoBehaviour
             TriggerId = AttackerId
         };
 
-        SendPacket(packet);
+        EnqueueSendPacket(packet);
     }
 
     public void WriteEventMove(Vector2 position, Vector2 velocity, bool isLeft)
@@ -263,7 +295,7 @@ public class NetworkModule : MonoBehaviour
             Type = direction
         };
 
-        SendPacket(packet);
+        EnqueueSendPacket(packet);
     }
 
     public void WriteEventStop(Vector2 position, Vector2 velocity)
@@ -274,7 +306,7 @@ public class NetworkModule : MonoBehaviour
 
         };
 
-        SendPacket(packet);
+        EnqueueSendPacket(packet);
     }
 
     public void WriteEventGetHit(Vector2 position, Vector2 velocity, DamageInfo info)
@@ -288,7 +320,7 @@ public class NetworkModule : MonoBehaviour
             Damage = info.Damage
         };
 
-        SendPacket(packet);
+        EnqueueSendPacket(packet);
     }
 
     public void WriteEventJump(Vector2 position, Vector2 velocity)
@@ -299,7 +331,7 @@ public class NetworkModule : MonoBehaviour
 
         };
 
-        SendPacket(packet);
+        EnqueueSendPacket(packet);
     }
 
     public void WriteEventShoot(Vector2 position, Vector2 velocity, DamageInfo info)
@@ -313,6 +345,6 @@ public class NetworkModule : MonoBehaviour
             Damage = info.Damage
         };
 
-        SendPacket(packet);
+        EnqueueSendPacket(packet);
     }
 }
