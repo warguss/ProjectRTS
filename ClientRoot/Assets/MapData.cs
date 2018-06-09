@@ -27,26 +27,38 @@ public class MapData : MonoBehaviour {
         tileList.Add(new TileInfo
         {
             From = new Vector2(0, 0),
-            To = new Vector2(3, 1)
+            To = new Vector2(100, 1)
         });
 
         tileList.Add(new TileInfo
         {
-            From = new Vector2(4, 0),
-            To = new Vector2(6, 1)
+            From = new Vector2(99, 1),
+            To = new Vector2(100, 100)
         });
 
         tileList.Add(new TileInfo
         {
-            From = new Vector2(7, 1),
-            To = new Vector2(10, 2)
+            From = new Vector2(0, 99),
+            To = new Vector2(100, 100)
         });
 
         tileList.Add(new TileInfo
         {
-            From = new Vector2(11, 2),
-            To = new Vector2(14, 4)
+            From = new Vector2(0, 0),
+            To = new Vector2(1, 100)
         });
+
+        for(int i=0; i<20; i++)
+        {
+            for(int j=0; j<25; j++)
+            {
+                tileList.Add(new TileInfo
+                {
+                    From = new Vector2(i*5 + 4, j*4 + 4),
+                    To = new Vector2(i * 5 + 4 + 3, j * 4 + 5)
+                });
+            }
+        }
     }
 
     public void DrawMap()

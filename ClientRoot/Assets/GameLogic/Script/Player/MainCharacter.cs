@@ -249,11 +249,11 @@ public class MainCharacter : ControllableCharacter
 
         if (hp <= 0)
         {
-            Dead();
+            PlayerDie();
         }
     }
 
-    public override void Dead()
+    public override void PlayerDie()
     {
         if (!isDead)
         {

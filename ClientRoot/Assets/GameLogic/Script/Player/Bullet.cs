@@ -21,7 +21,6 @@ public class Bullet : MonoBehaviour {
         damageInfo.Impact = 50;
 
         StartPosition = rb2d.position;
-        TestUI.Instance.PrintText("BulletStart");
     }
 
     void Awake()

@@ -135,7 +135,7 @@ public class PlayerController {
 
     public void Dead()
     {
-        Character.Dead();
+        Character.PlayerDie();
     }
 
     public void LeaveGame()

@@ -76,7 +76,7 @@ public class GameLogic : MonoBehaviour
             player.Character.ShootEvent += PlayerEventShoot;
             player.Character.GetHitEvent += PlayerEventGetHit;
             player.Character.SpawnEvent += PlayerEventSpawn;
-            player.Character.DeadEvent += PlayerEventDead;
+            player.Character.DieEvent += PlayerEventDie;
 
             SpawnPlayer(id, new Vector2(2, 2));
         }
@@ -161,6 +161,8 @@ public class GameLogic : MonoBehaviour
                 TestUI.Instance.PrintText(message);
                 if (myId != packetBody.Event.InvokerId[0])
                     ProcessEventPacket(packetBody.Event);
+                break;
+            case PacketBody.Types.messageType.GlobalNotice:
                 break;
             default:
                 message = "UnknownType : " + (int)packetBody.MsgType;
@@ -357,7 +359,7 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void PlayerEventDead(Vector2 position, int AttackerId)
+    void PlayerEventDie(Vector2 position, int AttackerId)
     {
         StartCoroutine(SpawnAfterSeconds(myId, new Vector2(2, 2), 5));
         if (isOnline)

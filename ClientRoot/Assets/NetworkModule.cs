@@ -10,6 +10,9 @@ using System.Threading;
 
 public class NetworkModule : MonoBehaviour
 {
+    public const string SERVER_IP = "210.89.191.141";
+    public const int SERVER_PORT = 10001;
+
     public static NetworkModule instance;
 
     TcpClient client;

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Text;
 
 public class TestUI : MonoBehaviour {
 
@@ -14,21 +16,33 @@ public class TestUI : MonoBehaviour {
     public Button ConnectButton;
     public Button DisconnectButton;
 
-    string consoleMessage;
+    const int MAX_STRING = 100;
+    StringBuilder concatString;
+    List<string> consoleMessage;
     bool newMessage = false;
 
 	// Use this for initialization
 	void Start () {
         Instance = this;
+        concatString = new StringBuilder();
+        consoleMessage = new List<string>();
+
         ConnectButton.onClick.AddListener(OnClickConnect);
         DisconnectButton.onClick.AddListener(OnClickDisconnect);
+        IpInput.text = NetworkModule.SERVER_IP;
+        PortInput.text = NetworkModule.SERVER_PORT.ToString();
     }
 	
 	// Update is called once per frame
 	void Update () {
         if (newMessage)
         {
-            Console.text = consoleMessage;
+            concatString.Clear();
+            for (int i=0; i<consoleMessage.Count; i++)
+            {
+                concatString.AppendLine(consoleMessage[i]);
+            }
+            Console.text = concatString.ToString();
             scrollView.verticalScrollbar.value = 0;
             newMessage = false;
         }
@@ -36,7 +50,11 @@ public class TestUI : MonoBehaviour {
 
     public void PrintText(string message)
     {
-        consoleMessage += (message + "\n");
+        consoleMessage.Add(message);
+        if(consoleMessage.Count > MAX_STRING)
+        {
+            consoleMessage.RemoveAt(0);
+        }
         newMessage = true;
         Debug.Log(message);
     }

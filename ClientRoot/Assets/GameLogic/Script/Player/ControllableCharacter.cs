@@ -49,7 +49,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     public event CharEventGetHit GetHitEvent;
     public event CharEventShoot ShootEvent;
     public event CharEventSpawn SpawnEvent;
-    public event CharEventDead DeadEvent;
+    public event CharEventDead DieEvent;
 
     protected void InvokeEventMove(Vector2 position, Vector2 velocity, bool isLeft)
     {
@@ -77,7 +77,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     }
     protected void InvokeEventDead(Vector2 position, int attackerId)
     {
-        DeadEvent?.Invoke(position, attackerId);
+        DieEvent?.Invoke(position, attackerId);
     }
 
     public void SetOwner(int owner)
@@ -102,7 +102,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     public abstract void ShootWithDamageInfo(DamageInfo info, Vector2 position);
     public abstract void ShootWithDamageInfo(DamageInfo info);
     public abstract void Spawn(Vector2 position);
-    public abstract void Dead();
+    public abstract void PlayerDie();
 
     public abstract void InitialSync();
 
