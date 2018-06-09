@@ -79,38 +79,43 @@ public class MainCharacter : ControllableCharacter
 
         public override void MoveLeft()
     {
-        if (!isMoving || !isLeft)
-            InvokeEventMove(CurrentPosition, CurrentVelocity, true);
+        if (!isDead)
+        {
+            if (!isMoving || !isLeft)
+                InvokeEventMove(CurrentPosition, CurrentVelocity, true);
 
-        isMoving = true;
-        isLeft = true;
+            isMoving = true;
+            isLeft = true;
 
-        //rb2d.velocity = new Vector2(-MaxMoveSpeed, rb2d.velocity.y);
-        if (-1 * charRigidbody.velocity.x < MaxMoveSpeed)
-            charRigidbody.AddForce(Vector2.right * -1 * MoveForce);
+            //rb2d.velocity = new Vector2(-MaxMoveSpeed, rb2d.velocity.y);
+            if (-1 * charRigidbody.velocity.x < MaxMoveSpeed)
+                charRigidbody.AddForce(Vector2.right * -1 * MoveForce);
 
-        if (Mathf.Abs(charRigidbody.velocity.x) > MaxMoveSpeed)
-            charRigidbody.velocity = new Vector2(Mathf.Sign(charRigidbody.velocity.x) * MaxMoveSpeed, charRigidbody.velocity.y);
+            if (Mathf.Abs(charRigidbody.velocity.x) > MaxMoveSpeed)
+                charRigidbody.velocity = new Vector2(Mathf.Sign(charRigidbody.velocity.x) * MaxMoveSpeed, charRigidbody.velocity.y);
 
-
+        }
     }
 
     public override void MoveRight()
     {
-        if (!isMoving || isLeft)
+        if (!isDead)
         {
-            InvokeEventMove(CurrentPosition, CurrentVelocity, false);
+            if (!isMoving || isLeft)
+            {
+                InvokeEventMove(CurrentPosition, CurrentVelocity, false);
+            }
+
+            isMoving = true;
+            isLeft = false;
+
+            //rb2d.velocity = new Vector2(MaxMoveSpeed, rb2d.velocity.y);
+            if (1 * charRigidbody.velocity.x < MaxMoveSpeed)
+                charRigidbody.AddForce(Vector2.right * 1 * MoveForce);
+
+            if (Mathf.Abs(charRigidbody.velocity.x) > MaxMoveSpeed)
+                charRigidbody.velocity = new Vector2(Mathf.Sign(charRigidbody.velocity.x) * MaxMoveSpeed, charRigidbody.velocity.y);
         }
-
-        isMoving = true;
-        isLeft = false;
-
-        //rb2d.velocity = new Vector2(MaxMoveSpeed, rb2d.velocity.y);
-        if (1 * charRigidbody.velocity.x < MaxMoveSpeed)
-            charRigidbody.AddForce(Vector2.right * 1 * MoveForce);
-
-        if (Mathf.Abs(charRigidbody.velocity.x) > MaxMoveSpeed)
-            charRigidbody.velocity = new Vector2(Mathf.Sign(charRigidbody.velocity.x) * MaxMoveSpeed, charRigidbody.velocity.y);
     }
 
     public override void MoveStop()
@@ -161,23 +166,26 @@ public class MainCharacter : ControllableCharacter
 
     public override void Shoot()
     {
-        int shootAngle;
-
-        if (isLeft)
-            shootAngle = 180;
-        else
-            shootAngle = 0;
-
-        DamageInfo damageInfo = new DamageInfo
+        if (!isDead)
         {
-            AttackerId = OwnerId,
-            shootAngle = shootAngle,
-            ImpactAngle = shootAngle,
-            Impact = 50,
-            Damage = 10,
-        };
+            int shootAngle;
 
-        ShootWithDamageInfo(damageInfo);
+            if (isLeft)
+                shootAngle = 180;
+            else
+                shootAngle = 0;
+
+            DamageInfo damageInfo = new DamageInfo
+            {
+                AttackerId = OwnerId,
+                shootAngle = shootAngle,
+                ImpactAngle = shootAngle,
+                Impact = 50,
+                Damage = 10,
+            };
+
+            ShootWithDamageInfo(damageInfo);
+        }
     }
 
     public override void ShootWithDamageInfo(DamageInfo info)
@@ -187,15 +195,18 @@ public class MainCharacter : ControllableCharacter
 
     public override void ShootWithDamageInfo(DamageInfo info, Vector2 position)
     {
-        GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position, new Quaternion());
-        Bullet bulletScript = bullet.GetComponent<Bullet>();
-
-        if (info != null)
+        if (!isDead)
         {
-            bulletScript.SetInfo(info);
-        }
+            GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position, new Quaternion());
+            Bullet bulletScript = bullet.GetComponent<Bullet>();
 
-        InvokeEventShoot(CurrentPosition, CurrentVelocity, bulletScript.GetDamageInfo());
+            if (info != null)
+            {
+                bulletScript.SetInfo(info);
+            }
+
+            InvokeEventShoot(CurrentPosition, CurrentVelocity, bulletScript.GetDamageInfo());
+        }
     }
 
     void CheckLand()
