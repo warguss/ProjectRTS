@@ -103,11 +103,6 @@ public class PlayerController {
         }
     }
 
-    public void MoveTo(Vector2 position)
-    {
-        Character.SetLocation(position);
-    }
-
     public void MoveTo(Vector2 position, Vector2 velocity)
     {
         Character.MoveTo(position, velocity);

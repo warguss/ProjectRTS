@@ -17,6 +17,11 @@ public class MainCharacter : ControllableCharacter
     public float DefaultHP;
     public int MaxJumpCount = 2;
 
+    bool isInterpolating = false;
+    float interpolationTime = 0.2f;
+    float accumulatedInterpolationTime = 0f;
+    Vector3 interpolationSrc;
+
     public GameObject bulletPrefab;
 
     public override void Spawn(Vector2 position)
@@ -51,8 +56,9 @@ public class MainCharacter : ControllableCharacter
         isDead = true;
         charRigidbody = GetComponent<Rigidbody2D>();
         charCollider = GetComponent<Collider2D>();
+        charSpriteObject = transform.Find("Sprite").gameObject;
 
-        var playerInfoDisplayGameObject = Instantiate(PlayerInfoDisplay, gameObject.transform);
+        var playerInfoDisplayGameObject = Instantiate(PlayerInfoDisplay, transform.Find("Sprite"));
         playerInfoDisplayGameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
         playerInfoDisplay = playerInfoDisplayGameObject.GetComponent<PlayerInfoDisplay>();
 
@@ -67,6 +73,22 @@ public class MainCharacter : ControllableCharacter
 	void Update()
     {
         playerInfoDisplay.SetHP(hp / DefaultHP);
+
+        if (isInterpolating)
+        {
+            float x = interpolationSrc.x + ((transform.position.x - interpolationSrc.x) * accumulatedInterpolationTime / interpolationTime);
+            float y = interpolationSrc.y + ((transform.position.y - interpolationSrc.y) * accumulatedInterpolationTime / interpolationTime);
+            float z = interpolationSrc.z + ((transform.position.z - interpolationSrc.z) * accumulatedInterpolationTime / interpolationTime);
+            charSpriteObject.transform.position = new Vector3(x, y, z);
+            accumulatedInterpolationTime = accumulatedInterpolationTime + Time.deltaTime;
+            if (accumulatedInterpolationTime > interpolationTime)
+                isInterpolating = false;
+        }
+        else
+        {
+            charSpriteObject.transform.localPosition = Vector3.zero;
+        }
+        
     }
 
     void FixedUpdate()
@@ -287,6 +309,10 @@ public class MainCharacter : ControllableCharacter
     {
         if (!isDead)
         {
+            isInterpolating = true;
+            accumulatedInterpolationTime = 0;
+            interpolationSrc = transform.position;
+
             //rb2d.position = new Vector2(x, y);
             charRigidbody.MovePosition(position);
             charRigidbody.velocity = velocity;
