@@ -218,7 +218,6 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 				return true;
 			} 
 			/* Add 시점 생각해야할듯, 아니며 여기서 자기자신 예외처리필요함 */
-			LOG_DEBUG("----------------Set Connect");
 			for ( ; it != allUser.end(); it++ )
 			{
 				CUser* user = (CUser*)*it;
@@ -238,7 +237,6 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 			/**************************************
 			 * 기존 유저일 경우 eventFd만 전달
 			 **************************************/
-			LOG_DEBUG("---------------------Set 기존 유저");
 			(*packet)->_protoConnect->add_connectorid((int32_t)eventUser->_fd);
 			(*packet)->_protoConnect->add_killinfo((int64_t)eventUser->_killInfo);
 			(*packet)->_protoConnect->add_deathinfo((int64_t)eventUser->_deathInfo);
@@ -288,14 +286,16 @@ void CProtoManager::resetProtoPacket(CProtoPacket* protoPacket)
 	protoPacket = NULL;
 }
 
-bool CProtoManager::setActionType(int32_t type, CUser* senderUser, CProtoPacket* eventUser, list<CUser*> userList, CProtoPacket** packet)
+bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* eventUser, list<CUser*> userList, CProtoPacket** packet)
 {
-	if ( type < 0 || !eventUser || eventUser->_fd <= 0 || senderUser <= 0 )
+	if ( type < 0 || !eventUser || eventUser->_fd <= 0 || !recvUser || recvUser->_fd <= 0 )
 	{
 		LOG_ERROR("Not Exist User , User ProtoPacket");
 		return false;
 	}
 
+	bool isSelfEvent = (recvUser->_fd == eventUser->_fd) ? true : false;
+	
 	(*packet) = new CProtoPacket();
 	(*packet)->_protoEvent = new server2N::GameEvent();
 	server2N::GameEvent tEvent = eventUser->_proto->event(); 
@@ -315,37 +315,51 @@ bool CProtoManager::setActionType(int32_t type, CUser* senderUser, CProtoPacket*
 		 ******************************/
 		LOG_DEBUG("Type EventDeath");
 	}
-	else if ( type == (int32_t)server2N::GameEvent_action_EventUserSync || type == (int32_t)server2N::GameEvent_action_EventMove || type == (int32_t)server2N::GameEvent_action_EventStop || type == (int32_t) server2N::GameEvent_action_EventJump || type == (int32_t)server2N::GameEvent_action_EventSpawn )
+	else if ( type == (int32_t)server2N::GameEvent_action_EventUserSync || type == (int32_t)server2N::GameEvent_action_EventMove || type == (int32_t)server2N::GameEvent_action_EventStop || type == (int32_t)server2N::GameEvent_action_EventJump || type == (int32_t)server2N::GameEvent_action_EventSpawn )
 	{
-		senderUser->_x = tEvent.eventpositionx();
-		senderUser->_y = tEvent.eventpositiony();
-		senderUser->_accelX = tEvent.velocityx();
-		senderUser->_accelY = tEvent.velocityy();
-		bool isSuccess = true;
-		do
+		LOG_DEBUG("Check Move(%d), event(%d)", recvUser->_fd, eventUser->_fd);
+		if ( isSelfEvent )
 		{
-			int preSector = senderUser->_sector;
-			int sector = g_userPool.getSectionNo(senderUser);
-			if ( preSector != sector )
+			recvUser->_x = tEvent.eventpositionx();
+			recvUser->_y = tEvent.eventpositiony();
+			recvUser->_accelX = tEvent.velocityx();
+			recvUser->_accelY = tEvent.velocityy();
+			bool isSuccess = true;
+			do
 			{
-				if ( !g_userPool.changeUserInPool(senderUser, preSector, sector) )
+				int preSector = recvUser->_sector;
+				int sector = g_userPool.getSectionNo(recvUser);
+				LOG_DEBUG("change Sector preSector(%d) sector(%d)", preSector, sector);
+				if ( preSector != sector )
 				{
-					isSuccess = false;
-					break;
-				} 
+					if ( !g_userPool.changeUserInPool(recvUser, preSector, sector) )
+					{
+						LOG_ERROR("Change User In Pool Error");
+						isSuccess = false;
+						break;
+					} 
+				}
 			}
+			while(false);
 		}
-		while(false);
 	}
 
-	(*packet)->_protoEvent->CopyFrom(tEvent);
-	(*packet)->_fd = senderUser->_fd;
-	(*packet)->_proto->set_senderid(senderUser->_fd);
-	(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_GameEvent);
-	(*packet)->_type = (int32_t)type;
-	(*packet)->_proto->set_allocated_event((*packet)->_protoEvent);
-
-
+	if ( !isSelfEvent )
+	{
+		(*packet)->_protoEvent->CopyFrom(tEvent);
+		(*packet)->_fd = recvUser->_fd;
+		(*packet)->_proto->set_senderid(recvUser->_fd);
+		(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_GameEvent);
+		(*packet)->_type = (int32_t)type;
+		(*packet)->_proto->set_allocated_event((*packet)->_protoEvent);
+	}
+	else
+	{
+		delete (*packet);
+		(*packet) = NULL;
+	} 
+	
+	LOG_INFO("Success Event Part");
 	return true;
 }
 
@@ -353,7 +367,7 @@ bool CProtoManager::setNotiType(int type, CUser* senderUser, CProtoPacket* event
 {
 	if ( type < 0 || !eventUser || eventUser->_fd <= 0 || senderUser <= 0 )
 	{
-		LOG_ERROR("Not Exist User , User ProtoPacket\n");
+		LOG_ERROR("Not Exist User , User ProtoPacket");
 		return false;
 	}
 

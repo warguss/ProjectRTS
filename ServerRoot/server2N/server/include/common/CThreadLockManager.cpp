@@ -15,10 +15,10 @@ CThreadLockManager::CThreadLockManager(int type, int sectorNo)
 {
 	pthread_mutex_t* mutex;
 	pthread_cond_t* cond;
+	_sectorNo = sectorNo;
 	if ( sectorNo < 0 )
 	{
 		_type = type;
-		_sectorNo = sectorNo;
 		mutex = (_type == READ_TYPE) ? &_rMutex : &_wMutex;
 		cond = (_type == READ_TYPE) ? &_rCond : &_wCond;
 
@@ -29,7 +29,7 @@ CThreadLockManager::CThreadLockManager(int type, int sectorNo)
 		}
 	}
 	else
-	{	
+	{
 		if ( !_listMutex && !_listCond )
 		{
 			_listMutex = new pthread_mutex_t[g_sectorIdx];
@@ -40,8 +40,9 @@ CThreadLockManager::CThreadLockManager(int type, int sectorNo)
 				pthread_mutex_init(&_listMutex[idx], (const pthread_mutexattr_t*)NULL);
 				pthread_cond_init(&_listCond[idx], (const pthread_condattr_t*)NULL);
 			}
+			//_sectorNo = sectorNo;
 		}
-
+		//LOG_DEBUG("Sector Lock(%d)", sectorNo);
 		mutex = &_listMutex[sectorNo];
 		cond = &_listCond[sectorNo];
 		pthread_mutex_lock(mutex);
