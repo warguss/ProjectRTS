@@ -7,6 +7,9 @@ CProtoPacket::CProtoPacket()
 
 	_fd = -1;
 	_type = 0;
+	_sector = 0;
+	_protoEvent = NULL;
+	_protoConnect = NULL;
 }
 
 CProtoPacket::~CProtoPacket()

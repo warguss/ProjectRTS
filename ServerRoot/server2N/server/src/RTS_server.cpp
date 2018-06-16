@@ -76,6 +76,7 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 		 * Enqueue
 		 *********************************/
 		cout << "Test: " <<  packet->_proto->DebugString() << endl;
+		//session.m_writeQ_Manager.releaseLock();
 		session.m_writeQ_Manager.enqueue(packet);
 		LOG_INFO("User(%d) Send Noti", packet->_fd);
 	}
@@ -84,12 +85,12 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 
 bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 {
-	LOG_DEBUG("Part Send Event");
+	LOG_DEBUG("Part Send Event sector(%d)", eventUser->_sector);
 	/*************************************
 	 * 파트 유저 연결 정보 획득
 	 *************************************/
 	list<CUser*> connectList;
-	g_userPool.getAllUserList(connectList);
+	g_userPool.getPartUserList(connectList, eventUser->_sector);
 
 	/*************************************
 	 * Event Send 
@@ -98,18 +99,18 @@ bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 	list<CUser*>::iterator it = connectList.begin();
 	for ( ; it != connectList.end(); it++ )
 	{
-		CUser* user = (CUser*)*it;
+		CUser* recvUser = (CUser*)*it;
 		CProtoPacket *packet = NULL;
-		if ( user && (user->_fd == eventUser->_fd) )
-		{
-			continue ;
-		}
-
-		if ( !g_packetManager.setActionType(type, user, eventUser, connectList, &packet) || !packet )
+		if ( !g_packetManager.setActionType(type, recvUser, eventUser, connectList, &packet) )
 		{
 			LOG_ERROR("Error Connector Type");
 			return false;
 		} 
+
+		if ( recvUser && (recvUser->_fd == eventUser->_fd) && !packet )
+		{
+			continue ;
+		}
 
 		/*********************************
 		 * Enqueue
@@ -118,7 +119,7 @@ bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		session.m_writeQ_Manager.enqueue(packet);
 		LOG_DEBUG("User(%d) Send Noti", packet->_fd);
 	}
-	LOG_DEBUG("End All Send");
+	LOG_DEBUG("End Part Send");
 
 	return true;
 }
@@ -163,6 +164,7 @@ bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 				return false;
 			}
 
+			//session.m_writeQ_Manager.releaseLock();
 			session.m_writeQ_Manager.enqueue(notiPacket);
 			LOG_INFO("User(%d) Send Noti", packet->_fd);
 		}
@@ -198,6 +200,7 @@ bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		/*********************************
 		 * Enqueue
 		 *********************************/
+		session.m_writeQ_Manager.releaseLock();
 		session.m_writeQ_Manager.enqueue(packet);
 		LOG_INFO("User(%d) Send Noti", packet->_fd);
 	}
@@ -243,6 +246,7 @@ bool childProcessLogic()
 	 *******************************************************/
 	g_sectorIdx = ((X_GAME_MAX * Y_GAME_MAX)) / ((X_SECTOR_MAX * Y_SECTOR_MAX));
 	g_userPool.initialize();
+
 	LOG_DEBUG("g_sector initialize(%d)", g_sectorIdx);
 	if ( pthread_create(&thread, NULL, session.waitEvent, (void*)&port) < 0 )
 	{
@@ -297,7 +301,6 @@ bool childProcessLogic()
 	pthread_join(thread, (void**)&status);
 	google::protobuf::ShutdownProtobufLibrary();
 	LOG_DEBUG("Stop SuccessFully");
-
 	return true;
 } 
 
@@ -306,10 +309,16 @@ int main(int argc, char* argv[])
 	// Verify that the version of the library that we linked against is
 	// compatible with the version of the headers we compiled against.
 	GOOGLE_PROTOBUF_VERIFY_VERSION;
+	childProcessLogic();
 	do 
 	{
 		pid_t pid;
 		pid = fork();
+		/*
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
+		close(STDERR_FILENO);
+		*/
 		if ( pid > 0 )
 		{
 			int status;
@@ -330,6 +339,5 @@ int main(int argc, char* argv[])
 			return -1;
 		}
 	}while(true);
-
 	return 0;
 }

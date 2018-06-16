@@ -13,6 +13,8 @@ class CUserPool
         pthread_mutex_t pool_mutex;
         pthread_cond_t pool_cond;
 		
+		int _xUnit;
+		int _yUnit;
     public:
 		/***********************************
 		 * first Map Key	= Sector
