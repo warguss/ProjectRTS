@@ -24,14 +24,13 @@ class CUser
 
 		int32_t _killInfo;
 		int32_t _deathInfo;
+		int _health_point;
 
 		int _fd;
         CUser();
         CUser(int fd, int32_t x, int32_t y);
         ~CUser();
         bool setData(int fd, int type);
-        //bool setData(CProtoPacket* packet);
-
 
 	private:
 		bool _userConnectionEvent(int fd);

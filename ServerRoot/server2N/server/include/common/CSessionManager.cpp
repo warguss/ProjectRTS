@@ -117,6 +117,8 @@ static void* CSessionManager::waitEvent(void* val)
 				 * fd해당하는 User를 Pool에서 먼저 찾는다.
 				 * 이건 필요함, 
 				 * Sector를 위해서도
+				 *
+				 * 전체 조회
 				 ******************************************/
 				bool isFirst = false;
 				CUser* user = g_userPool.findUserInPool(fd);
@@ -183,9 +185,12 @@ static void* CSessionManager::waitEvent(void* val)
 	
 				if ( isFirst )
 				{
+					LOG_DEBUG("Set addUserInPool");
 					g_userPool.addUserInPool(user);
 				}
 				packet->_fd = fd;
+				packet->_sector = user->_sector;
+				LOG_INFO("Sector Set event(%d) user(%d)", packet->_sector, user->_sector);
 				/******************************************
 				 * QueueManger에 넣는다.
 				 * QueueManager 내부에서 Lock 처리한다.
