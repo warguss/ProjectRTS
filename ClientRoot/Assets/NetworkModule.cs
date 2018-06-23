@@ -12,6 +12,9 @@ public class NetworkModule : MonoBehaviour
 {
     public const string SERVER_IP = "210.89.191.141";
     public const int SERVER_PORT = 10001;
+    public const float SyncFrequency = 0.2f;
+    public const float MaxInterpolationTime = 0.3f;
+    public const float InterpolationLongestDistance = 5;
 
     public static NetworkModule instance;
 
@@ -260,10 +263,9 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
-    public void WriteEventUserSync(Vector2 position, Vector2 velocity/*, CurrentAction action = CurrentAction.Idle*/)
+    public void WriteEventSync(Vector2 position, Vector2 velocity)
     {
         var packet = CreateCommonEventPacket(GameEvent.Types.action.EventUserSync, myId, position, velocity);
-        //packet.Event.ActionProperty
 
         EnqueueSendPacket(packet);
     }

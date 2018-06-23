@@ -18,6 +18,7 @@ public delegate void CharEventGetHit(Vector2 position, Vector2 velocity, DamageI
 public delegate void CharEventShoot(Vector2 position, Vector2 velocity, DamageInfo info);
 public delegate void CharEventSpawn(Vector2 position);
 public delegate void CharEventDead(Vector2 position, int attackerId);
+public delegate void CharEventSync(Vector2 position, Vector2 velocity);
 
 public abstract class ControllableCharacter : MonoBehaviour
 {
@@ -51,6 +52,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     public event CharEventShoot ShootEvent;
     public event CharEventSpawn SpawnEvent;
     public event CharEventDead DieEvent;
+    public event CharEventSync SyncEvent;
 
     protected void InvokeEventMove(Vector2 position, Vector2 velocity, bool isLeft)
     {
@@ -80,6 +82,10 @@ public abstract class ControllableCharacter : MonoBehaviour
     {
         DieEvent?.Invoke(position, attackerId);
     }
+    protected void InvokeEventSync(Vector2 position, Vector2 velocity)
+    {
+        SyncEvent?.Invoke(position, velocity);
+    }
 
     public void SetOwner(int owner)
     {
@@ -108,7 +114,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     public abstract void InitialSync();
 
     public abstract void SetLocation(Vector2 position);
-    public abstract void MoveTo(Vector2 position, Vector2 velocity);
+    public abstract void MoveWithInterpolation(Vector2 position, Vector2 velocity);
 
     public abstract void GetHit(DamageInfo info);
 

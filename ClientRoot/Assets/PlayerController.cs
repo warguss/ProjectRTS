@@ -103,9 +103,9 @@ public class PlayerController {
         }
     }
 
-    public void MoveTo(Vector2 position, Vector2 velocity)
+    public void MoveWithInterpolation(Vector2 position, Vector2 velocity)
     {
-        Character.MoveTo(position, velocity);
+        Character.MoveWithInterpolation(position, velocity);
     }
 
     public void ShootWithDamageInfo(DamageInfo info, Vector2 position)

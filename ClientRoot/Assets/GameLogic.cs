@@ -77,6 +77,7 @@ public class GameLogic : MonoBehaviour
             player.Character.GetHitEvent += PlayerEventGetHit;
             player.Character.SpawnEvent += PlayerEventSpawn;
             player.Character.DieEvent += PlayerEventDie;
+            player.Character.SyncEvent += PlayerEventSync;
 
             SpawnPlayer(id, new Vector2(2, 2));
         }
@@ -217,8 +218,6 @@ public class GameLogic : MonoBehaviour
             Vector2 position = new Vector2(EventPacket.EventPositionX, EventPacket.EventPositionY);
             Vector2 velocity = new Vector2(EventPacket.VelocityX, EventPacket.VelocityY);
 
-            playerControllers[invokerId].MoveTo(position, velocity);
-
             switch (EventPacket.ActType)
             {
                 case GameEvent.Types.action.Nothing:
@@ -226,6 +225,8 @@ public class GameLogic : MonoBehaviour
 
                 case GameEvent.Types.action.EventMove:
                     {
+                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
+
                         var info = EventPacket.MoveEvent;
                         if(info.Type == EventMove.Types.Direction.Left)
                         {
@@ -239,6 +240,8 @@ public class GameLogic : MonoBehaviour
                     }
                 case GameEvent.Types.action.EventStop:
                     {
+                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
+
                         var info = EventPacket.StopEvent;
                         SendInputToCharacter(invokerId, PlayerAction.Stop);
                         break;
@@ -246,6 +249,8 @@ public class GameLogic : MonoBehaviour
 
                 case GameEvent.Types.action.EventJump:
                     {
+                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
+
                         var info = EventPacket.JumpEvent;
                         SendInputToCharacter(invokerId, PlayerAction.Jump);
                         break;
@@ -253,6 +258,8 @@ public class GameLogic : MonoBehaviour
 
                 case GameEvent.Types.action.EventShoot:
                     {
+                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
+
                         var info = EventPacket.ShootEvent;
                         DamageInfo damageInfo = new DamageInfo
                         {
@@ -270,6 +277,8 @@ public class GameLogic : MonoBehaviour
 
                 case GameEvent.Types.action.EventHit:
                     {
+                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
+
                         var info = EventPacket.HitEvent;
                         DamageInfo damageInfo = new DamageInfo
                         {
@@ -296,6 +305,8 @@ public class GameLogic : MonoBehaviour
 
                 case GameEvent.Types.action.EventUserSync:
                     {
+                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
+
                         break;
                     }
             }
@@ -365,6 +376,14 @@ public class GameLogic : MonoBehaviour
         if (isOnline)
         {
             NetworkModule.instance.WriteEventDead(position, AttackerId);
+        }
+    }
+
+    void PlayerEventSync(Vector2 position, Vector2 velocity)
+    {
+        if (isOnline)
+        {
+            NetworkModule.instance.WriteEventSync(position, velocity);
         }
     }
 

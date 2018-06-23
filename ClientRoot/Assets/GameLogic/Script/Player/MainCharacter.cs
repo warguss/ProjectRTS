@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using RTS;
+using System;
 
 public enum CharacterStatus
 {
@@ -18,9 +19,12 @@ public class MainCharacter : ControllableCharacter
     public int MaxJumpCount = 2;
 
     bool isInterpolating = false;
-    float interpolationTime = 0.2f;
+    float interpolationTime = NetworkModule.MaxInterpolationTime;
     float accumulatedInterpolationTime = 0f;
     Vector3 interpolationSrc;
+
+    bool isSyncedXStop = false;
+    bool isSyncedYStop = false;
 
     public GameObject bulletPrefab;
 
@@ -67,6 +71,7 @@ public class MainCharacter : ControllableCharacter
 
     void Start()
 	{
+        StartCoroutine("KeepSync");
     }
 
 	// Update is called once per frame
@@ -234,7 +239,7 @@ public class MainCharacter : ControllableCharacter
     void CheckLand()
     {
         float distToGround = charCollider.bounds.extents.y;
-        bool checkGrounded = Physics2D.Raycast(transform.position, -Vector2.up, distToGround + (float)0.1, 1 << LayerMask.NameToLayer("Wall"));
+        var checkGrounded = Physics2D.Raycast(transform.position, -Vector2.up, distToGround + (float)0.1);
 
         if (checkGrounded)
         {
@@ -305,17 +310,24 @@ public class MainCharacter : ControllableCharacter
         }
     }
 
-    public override void MoveTo(Vector2 position, Vector2 velocity)
+    public override void MoveWithInterpolation(Vector2 position, Vector2 velocity)
     {
         if (!isDead)
         {
-            isInterpolating = true;
-            accumulatedInterpolationTime = 0;
-            interpolationSrc = transform.position;
+            interpolationTime = Vector2.Distance(transform.position, position) / NetworkModule.InterpolationLongestDistance * NetworkModule.MaxInterpolationTime;
+            if (interpolationTime != 0)
+            {
+                if (interpolationTime > NetworkModule.MaxInterpolationTime)
+                    interpolationTime = NetworkModule.MaxInterpolationTime;
 
-            //rb2d.position = new Vector2(x, y);
-            charRigidbody.MovePosition(position);
-            charRigidbody.velocity = velocity;
+                isInterpolating = true;
+                accumulatedInterpolationTime = 0;
+                interpolationSrc = transform.position;
+
+                //rb2d.position = new Vector2(x, y);
+                charRigidbody.MovePosition(position);
+                charRigidbody.velocity = velocity;
+            }
         }
     }
 
@@ -323,7 +335,37 @@ public class MainCharacter : ControllableCharacter
     {
         return gameObject;
     }
-    //void Networkinterpolation(float posX, float posY, float speedX, float speedY, CharacterStatus status)
-    //{
-    //}
+
+    IEnumerator KeepSync()
+    {
+        while (true)
+        {
+            if (!isDead)
+            {
+                if ((Math.Abs(charRigidbody.velocity.x) > 0.1 || Math.Abs(charRigidbody.velocity.y) > 0.1))
+                {
+                    InvokeEventSync(charRigidbody.position, charRigidbody.velocity);
+                    if (Math.Abs(charRigidbody.velocity.x) > 0.1)
+                        isSyncedXStop = false;
+                    if (Math.Abs(charRigidbody.velocity.y) > 0.1)
+                        isSyncedYStop = false;
+                }
+                else if((Math.Abs(charRigidbody.velocity.x) == 0 || Math.Abs(charRigidbody.velocity.y) == 0))
+                {
+                    if (!isSyncedXStop)
+                    {
+                        InvokeEventSync(charRigidbody.position, charRigidbody.velocity);
+                        isSyncedXStop = true;
+                    }
+                    if (!isSyncedYStop)
+                    {
+                        InvokeEventSync(charRigidbody.position, charRigidbody.velocity);
+                        isSyncedYStop = true;
+                    }
+                }
+            }
+            yield return new WaitForSeconds(NetworkModule.SyncFrequency);
+        }
+    }
+
 }
