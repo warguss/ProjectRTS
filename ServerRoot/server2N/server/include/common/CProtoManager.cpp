@@ -143,23 +143,23 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
     if ( (*protoPacket)->_proto->has_event() )
     {
         server2N::GameEvent tEvent = (*protoPacket)->_proto->event();
-        cout << "Debug String" << tEvent.DebugString() << endl;
-        LOG_DEBUG("Has Event");
+        //cout << "Debug String" << tEvent.DebugString() << endl;
+        LOG_DEBUG("Has Event (%s)", tEvent.DebugString().c_str());
 		(*protoPacket)->_type = tEvent.acttype();
 
     }
     else if ( (*protoPacket)->_proto->has_connect() )
     {
         server2N::UserConnection tConnect = (*protoPacket)->_proto->connect();
-        cout << "Debug String" << tConnect.DebugString() << endl;
-        LOG_DEBUG("Has Connect");
+        //cout << "Debug String" << tConnect.DebugString() << endl;
+        LOG_DEBUG("Has Connect (%s)", tConnect.DebugString().c_str());
 		(*protoPacket)->_type = tConnect.contype();
     }
 	else if ( (*protoPacket)->_proto->has_notice() )
     {
         server2N::GlobalNotice tNoti = (*protoPacket)->_proto->notice();
-        cout << "Debug String" << tNoti.DebugString() << endl;
-        LOG_DEBUG("Has Connect");
+        //cout << "Debug String" << tNoti.DebugString() << endl;
+        LOG_DEBUG("Has Notice (%s)", tNoti.DebugString().c_str());
 		(*protoPacket)->_type = tNoti.notitype();
     }
     else
@@ -197,7 +197,8 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 		(*packet)->_protoConnect->add_nickname(eventUser->_nickName.c_str());
 		
 		(*packet)->_proto->set_allocated_connect((*packet)->_protoConnect);
-		cout << "TRYCONNECT PACKET " << (*packet)->_proto->DebugString() << endl;
+		//cout << "TRYCONNECT PACKET " << (*packet)->_proto->DebugString() << endl;
+		//LOG_DEBUG("Send Packet Set(%s)", (*packet)->_proto->DebugString().c_str());
 	}
 	else if ( type == (int32_t)server2N::UserConnection_ConnectionType_Connect )
 	{
@@ -244,7 +245,8 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 			(*packet)->_proto->set_allocated_connect((*packet)->_protoConnect);
 		}
 
-		cout << "CONNECT PACKET " << (*packet)->_proto->DebugString() << endl;
+		//cout << "CONNECT PACKET " << (*packet)->_proto->DebugString() << endl;
+		//LOG_DEBUG("Send Packet Set(%s)", (*packet)->_proto->DebugString().c_str());
 	}
 	else if ( type == (int32_t)server2N::UserConnection_ConnectionType_DisConnect )
 	{
@@ -273,6 +275,7 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 		return false;
 	}
 
+	LOG_DEBUG("Send Packet Set(%s)", (*packet)->_proto->DebugString().c_str());
 	return true;
 }
 

@@ -73,7 +73,8 @@ bool CQueueManager::enqueue(CProtoPacket* packet)
 	 * Auto Lock 
 	 * 공유자원에 대한 Lock
 	 ***********************/
-	CThreadLockManager lock(_type);
+	//CThreadLockManager lock(_type);
+	CThreadLockManager lock(&_queue_mutex, &_queue_cond);
     _queue.push_back(packet);
     _queueSize++;
 
@@ -92,7 +93,8 @@ CProtoPacket* CQueueManager::dequeue()
 	 * Auto Lock 
 	 * 공유자원에 대한 Lock
 	 ***********************/
-	CThreadLockManager lock(_type);
+	//CThreadLockManager lock(_type);
+	CThreadLockManager lock(&_queue_mutex, &_queue_cond);
 	packet = _queue.front();
 	_queue.pop_front();
 	_queueSize--;

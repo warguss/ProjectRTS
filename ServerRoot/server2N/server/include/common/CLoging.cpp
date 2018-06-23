@@ -2,7 +2,6 @@
 #include "CThreadLockManager.h"
 
 CLoging g_logger;
-
 CLoging::CLoging()
 {
 	_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -88,11 +87,10 @@ bool CLoging::wlog(int lv, const char* file, int line, const char* fmt, va_list 
 	}
 	va_copy(copied, args);
 	vsnprintf(pMsg, sizeof(pMsg), fmt, copied);
-	printf("print Test\n");
-	printf("%s|%s|%s(%d) :%s\n",  pType, pTime, file, line, pMsg);
+	//printf("%s|%s|%s(%d):%s\n",  pType, pTime, file, line, pMsg);
 	if ( fp )
 	{
-		fprintf(fp, "%s|%s|%s(%d) :%s\n",  pType, pTime, file, line, pMsg);
+		fprintf(fp, "%s|%s|%s(%d):%s\n",  pType, pTime, file, line, pMsg);
 		fflush(fp);
 	}
 
