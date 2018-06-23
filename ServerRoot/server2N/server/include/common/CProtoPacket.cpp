@@ -1,6 +1,5 @@
 #include "CProtoPacket.h"
 
-
 CProtoPacket::CProtoPacket()
 {
 	_proto = new server2N::PacketBody();
@@ -38,7 +37,7 @@ bool CProtoPacket::SyncUser(CUser* user)
 {
 	if ( _proto->has_event() )
 	{
-
+		LOG_DEBUG("Event Check");
 	}
 	else if ( _proto->has_connect() )
 	{

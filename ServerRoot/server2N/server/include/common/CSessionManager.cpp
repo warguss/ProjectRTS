@@ -47,7 +47,7 @@ int CSessionManager::connectInitialize()
 	 ************************/ 
 	int option = 1;
 	setsockopt(_serverSock, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option));
-
+	printf("Test Init");
 	LOG_DEBUG("---ConnectInitialize() serverSock [%d]", _serverSock);
     memset(&serverAddr, '\0', sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
@@ -196,7 +196,6 @@ static void* CSessionManager::waitEvent(void* val)
 				 * QueueManager 내부에서 Lock 처리한다.
 				 * userPool 에서 꺼내야할듯
 				 ******************************************/
-				//m_readQ_Manager.releaseLock();
 				m_readQ_Manager.enqueue(packet);
             }
         }

@@ -8,6 +8,8 @@ CUserPool::CUserPool()
 {
 	_xUnit = X_GAME_MAX/X_SECTOR_MAX;
 	_yUnit = Y_GAME_MAX/Y_SECTOR_MAX;
+	_pool_mutex = NULL;
+	_pool_cond = NULL;
 }
 
 void CUserPool::initialize()
@@ -22,6 +24,18 @@ void CUserPool::initialize()
 		userInfo.insert(std::pair<int, map<int, CUser*>* >(idx, tmp));
 		idx++;
 	}
+
+	if ( !_pool_mutex && !_pool_cond )
+	{
+		_pool_mutex = (pthread_mutex_t*)malloc(sizeof(pthread_mutex_t) * g_sectorIdx);
+		_pool_cond = (pthread_cond_t*)malloc(sizeof(pthread_cond_t) * g_sectorIdx);
+
+		for ( int idx = 0; idx < g_sectorIdx; idx++ )
+		{
+			pthread_mutex_init(&_pool_mutex[idx], (const pthread_mutexattr_t*)NULL);
+			pthread_cond_init(&_pool_cond[idx], (const pthread_condattr_t*)NULL);
+		} 
+	} 
 } 
 
 CUserPool::~CUserPool()
@@ -71,7 +85,7 @@ bool CUserPool::addUserInPool(CUser* user)
     }
 
 	map<int, CUser*>* tMap = (map<int, CUser*>*)itVal->second;
-	CThreadLockManager lock(NOT_SET, idx);
+	CThreadLockManager lock(&_pool_mutex[idx], &_pool_cond[idx]);
 	user->_sector = idx;
 	tMap->insert(std::pair<int, CUser*>(user->_fd, user));
     return true;
@@ -117,7 +131,7 @@ bool CUserPool::delUserInPool(int fd, int sector)
 		it_user = tMap->find(fd);	
 	}
 
-	CThreadLockManager lock(NOT_SET, idx);
+	CThreadLockManager lock(&_pool_mutex[idx], &_pool_cond[idx]);
 	if ( it_user != tMap->end() )
 	{
 		user = (CUser*)it_user->second;
@@ -167,8 +181,9 @@ bool CUserPool::changeUserInPool(CUser* user, int preSector, int curSector)
 
 		preMap = (map<int, CUser*>*)it_preSectorMap->second;
 		postMap = (map<int, CUser*>*)it_postSectorMap->second;
-		CThreadLockManager preLock(NOT_SET, preSector);
-		CThreadLockManager postLock(NOT_SET, curSector);
+
+		CThreadLockManager preLock(&_pool_mutex[preSector], &_pool_cond[preSector]);
+		CThreadLockManager postLock(&_pool_mutex[curSector], &_pool_cond[curSector]);
 		if ( preMap && postMap )
 		{
 			preMap->erase(user->_fd);
@@ -187,7 +202,6 @@ CUser* CUserPool::findUserInPool(int fd, int sector)
 {
 	CUser* user = NULL;
 	bool isFind = false;
-	LOG_DEBUG("Sector Value (%d) sid(%d)", sector, fd);
 	if ( sector < 0 ) 
 	{
 		for ( itVal = userInfo.begin(); itVal != userInfo.end(); itVal++ )
@@ -196,7 +210,6 @@ CUser* CUserPool::findUserInPool(int fd, int sector)
 			it = tMap->find(fd);
 			if ( it == tMap->end() )
 			{
-				LOG_DEBUG("Not Exist Ector");
 				continue;
 			}
 

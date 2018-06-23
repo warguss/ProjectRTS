@@ -9,16 +9,25 @@
 #define BACKLOG_SIZE 50
 
 #include <stdio.h>
+#include "CLoging.h"
+extern CLoging g_logger;
+
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
-#define LOG_INFO(fmt, ...) { printf("INFO|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
+//#define LOG_INFO(fmt, ...) { printf("INFO|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
+#define LOG_INFO(...) { g_logger.log(CLoging::Info, __FILENAME__, __LINE__, __VA_ARGS__); }
 
-#define LOG_WARN(fmt, ...) { printf("WARN|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
 
-#define LOG_DEBUG(fmt, ...) { printf("DEBUG|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
+//#define LOG_WARN(fmt, ...) { printf("WARN|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
+#define LOG_WARN(...) { g_logger.log(CLoging::Warn, __FILENAME__, __LINE__, __VA_ARGS__); }
 
-#define LOG_ERROR(fmt, ...) { printf("ERR|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
+
+//#define LOG_DEBUG(fmt, ...) { printf("DEBUG|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
+#define LOG_DEBUG(...) { g_logger.log(CLoging::Debug, __FILENAME__, __LINE__, __VA_ARGS__); }
+
+//#define LOG_ERROR(fmt, ...) { printf("ERR|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
+#define LOG_ERROR(...) { g_logger.log(CLoging::Error, __FILENAME__, __LINE__, __VA_ARGS__); }
 
 
 /* Type관련 Define */
