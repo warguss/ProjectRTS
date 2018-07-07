@@ -15,6 +15,7 @@ public class NetworkModule : MonoBehaviour
     public const float SyncFrequency = 0.2f;
     public const float MaxInterpolationTime = 0.3f;
     public const float InterpolationLongestDistance = 5;
+    public const float SERVER_TIMEOUT = 15;
 
     public static NetworkModule instance;
     public bool isConnected = false;
@@ -53,10 +54,7 @@ public class NetworkModule : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    TestSend();
-        //}
+        
     }
     void NetworkReadThreadRoutine()
     {
@@ -147,18 +145,7 @@ public class NetworkModule : MonoBehaviour
         {
             if (client != null)
             {
-                ns.Close();
-                client.Close();
-                readThread.Abort();
-                writeThread.Abort();
-
-                ns = null;
-                client = null;
-                readThread = null;
-                writeThread = null;
-
-                TestUI.Instance.PrintText("Disconnected");
-                isConnected = false;
+                ConnectionCleanUp();
             }
         }
         catch (Exception e)
@@ -167,6 +154,22 @@ public class NetworkModule : MonoBehaviour
             CheckIsConnected();
         }
     }
+
+    void ConnectionCleanUp()
+    {
+        ns.Close();
+        client.Close();
+        readThread.Abort();
+        writeThread.Abort();
+
+        ns = null;
+        client = null;
+        readThread = null;
+        writeThread = null;
+
+        isConnected = false;
+    }
+
 
     public void SendPacket(PacketBody packet)
     {
@@ -265,7 +268,49 @@ public class NetworkModule : MonoBehaviour
 
     void CheckIsConnected()
     {
-        isConnected = client.Connected;
+        try
+        {
+            if (client != null && client.Client != null && client.Client.Connected)
+            {
+                /* pear to the documentation on Poll:
+                 * When passing SelectMode.SelectRead as a parameter to the Poll method it will return 
+                 * -either- true if Socket.Listen(Int32) has been called and a connection is pending;
+                 * -or- true if data is available for reading; 
+                 * -or- true if the connection has been closed, reset, or terminated; 
+                 * otherwise, returns false
+                 */
+
+                // Detect if client disconnected
+                if (client.Client.Poll(0, SelectMode.SelectRead))
+                {
+                    byte[] buff = new byte[1];
+                    if (client.Client.Receive(buff, SocketFlags.Peek) == 0)
+                    {
+                        // Client disconnected
+                        isConnected =  false;
+                    }
+                    else
+                    {
+                        isConnected =  true;
+                    }
+                }
+
+                isConnected = true;
+            }
+            else
+            {
+                isConnected = false;
+            }
+        }
+        catch
+        {
+            isConnected = false;
+        }
+
+        if(!isConnected)
+        {
+            ConnectionCleanUp();
+        }
     }
 
     public void WriteTryConnection(string name = "")

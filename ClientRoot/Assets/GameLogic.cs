@@ -51,6 +51,15 @@ public class GameLogic : MonoBehaviour
     {
         CheckPacket();
         ProcessInput();
+        if(isOnline)
+        {
+            if(!NetworkModule.instance.isConnected)
+            {
+                isOnline = false;
+                CleanUpGame();
+                TestUI.Instance.PrintText("Disconnected from server.");
+            }
+        }
     }
 
     void FixedUpdate()
@@ -189,23 +198,26 @@ public class GameLogic : MonoBehaviour
         for (int i = 0; i< ConnectionPacket.ConnectorId.Count; i++)
         {
             int connectorId = ConnectionPacket.ConnectorId[i];
-            string connectorName = ConnectionPacket.Nickname[i];
-            int connectorKillCount = ConnectionPacket.KillInfo[i];
-            int ConnectorDeathCount = ConnectionPacket.DeathInfo[i];
-
-            TestUI.Instance.PrintText("Connector Id : " + connectorId
-                                     + " / Name = "+ connectorName
-                                     + " / Kill = " + connectorKillCount
-                                     + " / Death = " + ConnectorDeathCount);
 
             if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.AcceptConnect)
             {
+                string connectorName = ConnectionPacket.Nickname[i];
+                int connectorKillCount = ConnectionPacket.KillInfo[i];
+                int ConnectorDeathCount = ConnectionPacket.DeathInfo[i];
+
+                TestUI.Instance.PrintText("Connector Id : " + connectorId
+                                         + " / Name = " + connectorName
+                                         + " / Kill = " + connectorKillCount
+                                         + " / Death = " + ConnectorDeathCount);
+
                 isOnline = true;
                 NetworkModule.instance.myId = connectorId;
                 userJoin(connectorId, connectorName, true);
             }
             else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.Connect)
             {
+                string connectorName = ConnectionPacket.Nickname[i];
+
                 userJoin(connectorId, connectorName);
                 if (playerControllers.ContainsKey(myId))
                     playerControllers[myId].Character.InitialSync();
