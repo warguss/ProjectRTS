@@ -96,18 +96,20 @@ public class NetworkModule : MonoBehaviour
         {
             if (client != null && ns != null)
             {
-                while (SendPacketBodyQueue.Count > 0)
+                PacketBody packet = null;
+                lock (SendPacketBodyQueue)
                 {
-                    PacketBody packet;
-                    lock (SendPacketBodyQueue)
+                    if (SendPacketBodyQueue.Count > 0)
                     {
                         packet = SendPacketBodyQueue.Dequeue();
                     }
-                    SendPacket(packet);
                 }
+                if (packet != null)
+                    SendPacket(packet);
             }
         }
     }
+   
 
         public void Connect(string ip, int port, string name = "")
     {
