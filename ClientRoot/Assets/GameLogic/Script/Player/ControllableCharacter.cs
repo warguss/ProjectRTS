@@ -101,6 +101,11 @@ public abstract class ControllableCharacter : MonoBehaviour
         }
     }
 
+    public void RemoveCharacter()
+    {
+        Destroy(gameObject);
+    }
+
     public abstract void MoveLeft();
     public abstract void MoveRight();
     public abstract void MoveStop();

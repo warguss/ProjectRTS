@@ -61,14 +61,21 @@ public class TestUI : MonoBehaviour {
 
     void OnClickConnect()
     {
-        string ip = IpInput.text;
-        int port = int.Parse(PortInput.text);
-        string name = NameInput.text;
-        NetworkModule.instance.Connect(ip, port, name);
+        if (!NetworkModule.instance.isConnected)
+        {
+            string ip = IpInput.text;
+            int port = int.Parse(PortInput.text);
+            string name = NameInput.text;
+            NetworkModule.instance.Connect(ip, port, name);
+        }
     }
 
     void OnClickDisconnect()
     {
-        NetworkModule.instance.Disconnect();
+        if (NetworkModule.instance.isConnected)
+        {
+            NetworkModule.instance.Disconnect();
+            GameLogic.Instance.CleanUpGame();
+        }
     }
 }

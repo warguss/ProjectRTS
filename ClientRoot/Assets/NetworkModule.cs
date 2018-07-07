@@ -17,6 +17,7 @@ public class NetworkModule : MonoBehaviour
     public const float InterpolationLongestDistance = 5;
 
     public static NetworkModule instance;
+    public bool isConnected = false;
 
     TcpClient client;
     NetworkStream ns;
@@ -126,6 +127,7 @@ public class NetworkModule : MonoBehaviour
                 writeThread = new Thread(NetworkWriteThreadRoutine);
                 writeThread.Start();
                 TestUI.Instance.PrintText("Connected");
+                isConnected = true;
             }
             catch (Exception e)
             {
@@ -156,11 +158,13 @@ public class NetworkModule : MonoBehaviour
                 writeThread = null;
 
                 TestUI.Instance.PrintText("Disconnected");
+                isConnected = false;
             }
         }
         catch (Exception e)
         {
             TestUI.Instance.PrintText(e.Message);
+            CheckIsConnected();
         }
     }
 
@@ -187,6 +191,7 @@ public class NetworkModule : MonoBehaviour
         catch (Exception e)
         {
             TestUI.Instance.PrintText("Send Failed : " + e.Message + "\n" + e.StackTrace);
+            CheckIsConnected();
         }
     }
 
@@ -256,6 +261,11 @@ public class NetworkModule : MonoBehaviour
         {
             SendPacketBodyQueue.Enqueue(packet);
         }
+    }
+
+    void CheckIsConnected()
+    {
+        isConnected = client.Connected;
     }
 
     public void WriteTryConnection(string name = "")

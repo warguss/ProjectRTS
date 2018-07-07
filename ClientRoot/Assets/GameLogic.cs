@@ -146,6 +146,16 @@ public class GameLogic : MonoBehaviour
 
     }
 
+    public void CleanUpGame()
+    {
+        foreach(var entry in playerControllers)
+        {
+            entry.Value.LeaveGame();
+        }
+        playerControllers.Clear();
+    }
+
+
     void ProcessPacketBody(PacketBody packetBody)
     {
         string message = "";

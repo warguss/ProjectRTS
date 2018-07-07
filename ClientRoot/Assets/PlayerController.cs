@@ -41,7 +41,7 @@ public class PlayerController {
         }
     }
 
-    public ControllableCharacter Character { get; set; }
+    public ControllableCharacter Character { get; set; } //TODO : private로 만들기
 
     public void DoInputFrame()
     {
@@ -135,6 +135,6 @@ public class PlayerController {
 
     public void LeaveGame()
     {
-       
+        Character.RemoveCharacter();
     }
 }
