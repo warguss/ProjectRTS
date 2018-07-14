@@ -10,6 +10,7 @@ class CProtoPacket
 	public:
 		int _fd;
 		int32_t _type;
+		int32_t _sector;
 
 		CProtoPacket();
 		~CProtoPacket();

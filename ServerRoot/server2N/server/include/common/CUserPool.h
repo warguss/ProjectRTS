@@ -5,14 +5,17 @@
 #include <list>
 #include "CUser.h"
 #include "CThreadLockManager.h"
+#include <pthread.h>
 
 using namespace std;
 class CUserPool
 {
     private:
-        pthread_mutex_t pool_mutex;
-        pthread_cond_t pool_cond;
+        pthread_mutex_t* _pool_mutex;
+        pthread_cond_t* _pool_cond;
 		
+		int _xUnit;
+		int _yUnit;
     public:
 		/***********************************
 		 * first Map Key	= Sector

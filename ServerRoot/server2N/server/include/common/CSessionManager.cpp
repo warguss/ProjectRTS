@@ -1,6 +1,5 @@
 #include "CSessionManager.h"
 #include "CUserPool.h"
-
 int CSessionManager::_serverSock = 0;
 int CSessionManager::_epoll_fd = 0;
 struct epoll_event CSessionManager::_init_ev;
@@ -11,7 +10,6 @@ CQueueManager CSessionManager::m_writeQ_Manager;
 
 static void* CSessionManager::waitEvent(void* val);
 static void* CSessionManager::writeEvent(void* val);
-
 
 CProtoManager g_packetManager;
 extern CUserPool g_userPool;
@@ -49,7 +47,7 @@ int CSessionManager::connectInitialize()
 	 ************************/ 
 	int option = 1;
 	setsockopt(_serverSock, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option));
-
+	printf("Test Init");
 	LOG_DEBUG("---ConnectInitialize() serverSock [%d]", _serverSock);
     memset(&serverAddr, '\0', sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
@@ -119,6 +117,8 @@ static void* CSessionManager::waitEvent(void* val)
 				 * fd해당하는 User를 Pool에서 먼저 찾는다.
 				 * 이건 필요함, 
 				 * Sector를 위해서도
+				 *
+				 * 전체 조회
 				 ******************************************/
 				bool isFirst = false;
 				CUser* user = g_userPool.findUserInPool(fd);
@@ -155,7 +155,7 @@ static void* CSessionManager::waitEvent(void* val)
 				uint32_t bodyLength = 0;
 				if ( !g_packetManager.decodingHeader(header, readn, bodyLength) || bodyLength <= 0  )
 				{
-					LOG_ERROR("Error, Decoding Header Error[%d]", fd);
+					LOG_ERROR("Error, Decoding Header Error[%d] length[%d]", fd, bodyLength);
 					continue;
 				}
 
@@ -185,9 +185,12 @@ static void* CSessionManager::waitEvent(void* val)
 	
 				if ( isFirst )
 				{
+					LOG_DEBUG("Set addUserInPool");
 					g_userPool.addUserInPool(user);
 				}
 				packet->_fd = fd;
+				packet->_sector = user->_sector;
+				LOG_INFO("Sector Set event(%d) user(%d)", packet->_sector, user->_sector);
 				/******************************************
 				 * QueueManger에 넣는다.
 				 * QueueManager 내부에서 Lock 처리한다.
@@ -204,7 +207,7 @@ static void* CSessionManager::writeEvent(void* val)
 	while(1) 
 	{
 		/* signal ... */
-		//CUser* user = NULL;
+		//m_writeQ_Manager.setStartLock();
 		CProtoPacket* packet = NULL;
 		if ( packet = m_writeQ_Manager.dequeue() )
 		{

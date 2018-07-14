@@ -88,7 +88,7 @@ message GameEvent{
 		EventSpawn			= 105;
 		EventUserSync		= 106;
 		EventDeath			= 107;
-		EventSectorInOut	= 108;
+		EventBullet			= 108;
 	}
 	EventMove moveEvent = 109;
 	EventStop stopEvent = 110;
@@ -106,6 +106,7 @@ message GameEvent{
 	float VelocityX = 8;
 	float VelocityY = 9;
 	repeated int32 invokerId = 10;
+	int32 sectorNo = 11;
 }
 
 message PacketBody{

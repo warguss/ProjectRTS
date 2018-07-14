@@ -5,6 +5,13 @@ CQueueManager::CQueueManager()
     _queue.clear();
     _queueSize = 0;
 
+
+	/************************************
+	 * Quque가 만들어지고, lock을 건다
+	 ************************************/
+	_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
+	_queue_cond = PTHREAD_COND_INITIALIZER;
+
 	pthread_mutex_init(&_queue_mutex, (const pthread_mutexattr_t*)NULL);
 	pthread_cond_init(&_queue_cond, (const pthread_condattr_t*)NULL);
 }
@@ -32,16 +39,42 @@ void CQueueManager::setType(int type)
 	_type = type;
 }
 
+void CQueueManager::setStartLock()
+{
+	if ( !isQueueDataExist() )
+	{
+		LOG_DEBUG("Thread Lock Setting %s", (_type == READ_TYPE) ? "Read Queue Lock" : "Write Queue Lock");
+		pthread_mutex_lock(&_queue_mutex);
+		while ( !(&_queue_cond) )
+		{
+			LOG_DEBUG("Wait?");
+			pthread_cond_wait(&_queue_cond, &_queue_mutex);
+		}
+	}
+}
+
+void CQueueManager::releaseLock()
+{
+	LOG_DEBUG("Thread Lock Release %s", (_type == READ_TYPE) ? "Read Queue Lock" : "Write Queue Lock");
+	pthread_mutex_unlock(&_queue_mutex);
+	pthread_cond_signal(&_queue_cond);
+}
+
+
 bool CQueueManager::enqueue(CProtoPacket* packet)
 {
 	if ( !packet )
 	{
-		LOG_ERROR("User Invalid\n");
+		LOG_ERROR("User Invalid");
 		return false; 
 	}
 
-    /* Auto Lock */
-	CThreadLockManager lock(_type);
+    /***********************
+	 * Auto Lock 
+	 * 공유자원에 대한 Lock
+	 ***********************/
+	//CThreadLockManager lock(_type);
+	CThreadLockManager lock(&_queue_mutex, &_queue_cond);
     _queue.push_back(packet);
     _queueSize++;
 
@@ -56,9 +89,12 @@ CProtoPacket* CQueueManager::dequeue()
 		return packet;
 	}
 
-	LOG_DEBUG("Dequeue Start");
-	/* Auto Lock */
-	CThreadLockManager lock(_type);
+	/***********************
+	 * Auto Lock 
+	 * 공유자원에 대한 Lock
+	 ***********************/
+	//CThreadLockManager lock(_type);
+	CThreadLockManager lock(&_queue_mutex, &_queue_cond);
 	packet = _queue.front();
 	_queue.pop_front();
 	_queueSize--;

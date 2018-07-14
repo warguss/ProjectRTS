@@ -12,9 +12,15 @@ class CThreadLockManager
 private:
 	int _type;
 	int _sectorNo;
+
+	pthread_mutex_t* _mutex;
+	pthread_cond_t* _cond;
+
 public:
-	CThreadLockManager(int type, int idx = -1);
+	CThreadLockManager(int type = -1, int idx = -1);
+	CThreadLockManager(pthread_mutex_t* mutex, pthread_cond_t* cond);
 	~CThreadLockManager();
+
 
 	void release();
 };
