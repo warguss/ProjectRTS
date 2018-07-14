@@ -15,6 +15,7 @@ public class PlayerController {
     private int mPlayerId = -1;
     private string mPlayerName = "";
     private CurrentInput currentInput = new CurrentInput();
+    private bool mIsInterested = false;
 
     public int PlayerId
     {
@@ -38,6 +39,18 @@ public class PlayerController {
         {
             mPlayerName = value;
             Character.SetName(mPlayerName);
+        }
+    }
+    public bool IsInterested
+    {
+        get
+        {
+            return mIsInterested;
+        }
+        set
+        {
+            mIsInterested = value;
+            Character.SetVisible(mIsInterested);
         }
     }
 
@@ -75,7 +88,7 @@ public class PlayerController {
         }
     }
 
-    public void ControllByInput()
+    private void ControllByInput()
     {
         if (currentInput.Left)
         {
@@ -131,6 +144,11 @@ public class PlayerController {
     public void Dead()
     {
         Character.PlayerDie();
+    }
+
+    public void SetHP(float hp)
+    {
+        Character.SetHP(hp);
     }
 
     public void LeaveGame()

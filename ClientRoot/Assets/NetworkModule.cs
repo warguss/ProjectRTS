@@ -81,10 +81,15 @@ public class NetworkModule : MonoBehaviour
                     }
                     else
                     {
-
+                        //헤더 디코딩 에러
                     }
                     readPacket.Clean();
                 }
+                else
+                {
+                    
+                }
+
             }
         }
     }

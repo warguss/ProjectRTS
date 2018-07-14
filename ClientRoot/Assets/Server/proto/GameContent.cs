@@ -40,7 +40,7 @@ namespace Server2N {
             "ZRgEIAEoBSJRCghFdmVudEhpdBIQCghhdHRhY2tlchgBIAEoBRIOCgZkYW1h",
             "Z2UYAiABKAISDgoGaW1wYWN0GAMgASgFEhMKC2ltcGFjdEFuZ2xlGAQgASgF",
             "IgwKCkV2ZW50U3Bhd24iDwoNRXZlbnRVc2VyU3luYyIfCgpFdmVudERlYXRo",
-            "EhEKCXRyaWdnZXJJZBgBIAEoBSKtBQoJR2FtZUV2ZW50EiYKCW1vdmVFdmVu",
+            "EhEKCXRyaWdnZXJJZBgBIAEoBSK6BQoJR2FtZUV2ZW50EiYKCW1vdmVFdmVu",
             "dBhtIAEoCzITLnNlcnZlcjJOLkV2ZW50TW92ZRImCglzdG9wRXZlbnQYbiAB",
             "KAsyEy5zZXJ2ZXIyTi5FdmVudFN0b3ASJgoJanVtcEV2ZW50GG8gASgLMhMu",
             "c2VydmVyMk4uRXZlbnRKdW1wEigKCnNob290RXZlbnQYcCABKAsyFC5zZXJ2",
@@ -51,17 +51,18 @@ namespace Server2N {
             "aBIrCgdhY3RUeXBlGAEgASgOMhouc2VydmVyMk4uR2FtZUV2ZW50LmFjdGlv",
             "bhIWCg5hY3Rpb25Qcm9wZXJ0eRgFIAEoBRIWCg5FdmVudFBvc2l0aW9uWBgG",
             "IAEoAhIWCg5FdmVudFBvc2l0aW9uWRgHIAEoAhIRCglWZWxvY2l0eVgYCCAB",
-            "KAISEQoJVmVsb2NpdHlZGAkgASgCEhEKCWludm9rZXJJZBgKIAMoBSKpAQoG",
-            "YWN0aW9uEgsKB05vdGhpbmcQABINCglFdmVudE1vdmUQZBINCglFdmVudFN0",
-            "b3AQZRINCglFdmVudEp1bXAQZhIOCgpFdmVudFNob290EGcSDAoIRXZlbnRI",
-            "aXQQaBIOCgpFdmVudFNwYXduEGkSEQoNRXZlbnRVc2VyU3luYxBqEg4KCkV2",
-            "ZW50RGVhdGgQaxIUChBFdmVudFNlY3RvckluT3V0EGwikAIKClBhY2tldEJv",
-            "ZHkSMgoHbXNnVHlwZRiQTiABKA4yIC5zZXJ2ZXIyTi5QYWNrZXRCb2R5Lm1l",
-            "c3NhZ2VUeXBlEikKB2Nvbm5lY3QYBiABKAsyGC5zZXJ2ZXIyTi5Vc2VyQ29u",
-            "bmVjdGlvbhInCgZub3RpY2UYkU4gASgLMhYuc2VydmVyMk4uR2xvYmFsTm90",
-            "aWNlEiIKBWV2ZW50GAcgASgLMhMuc2VydmVyMk4uR2FtZUV2ZW50EhAKCHNl",
-            "bmRlcklkGAggASgFIkQKC21lc3NhZ2VUeXBlEg0KCUdhbWVFdmVudBAAEhMK",
-            "DlVzZXJDb25uZWN0aW9uEJBOEhEKDEdsb2JhbE5vdGljZRCRTmIGcHJvdG8z"));
+            "KAISEQoJVmVsb2NpdHlZGAkgASgCEhEKCWludm9rZXJJZBgKIAMoBRIQCghz",
+            "ZWN0b3JObxgLIAEoBSKkAQoGYWN0aW9uEgsKB05vdGhpbmcQABINCglFdmVu",
+            "dE1vdmUQZBINCglFdmVudFN0b3AQZRINCglFdmVudEp1bXAQZhIOCgpFdmVu",
+            "dFNob290EGcSDAoIRXZlbnRIaXQQaBIOCgpFdmVudFNwYXduEGkSEQoNRXZl",
+            "bnRVc2VyU3luYxBqEg4KCkV2ZW50RGVhdGgQaxIPCgtFdmVudEJ1bGxldBBs",
+            "IpACCgpQYWNrZXRCb2R5EjIKB21zZ1R5cGUYkE4gASgOMiAuc2VydmVyMk4u",
+            "UGFja2V0Qm9keS5tZXNzYWdlVHlwZRIpCgdjb25uZWN0GAYgASgLMhguc2Vy",
+            "dmVyMk4uVXNlckNvbm5lY3Rpb24SJwoGbm90aWNlGJFOIAEoCzIWLnNlcnZl",
+            "cjJOLkdsb2JhbE5vdGljZRIiCgVldmVudBgHIAEoCzITLnNlcnZlcjJOLkdh",
+            "bWVFdmVudBIQCghzZW5kZXJJZBgIIAEoBSJECgttZXNzYWdlVHlwZRINCglH",
+            "YW1lRXZlbnQQABITCg5Vc2VyQ29ubmVjdGlvbhCQThIRCgxHbG9iYWxOb3Rp",
+            "Y2UQkU5iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -75,7 +76,7 @@ namespace Server2N {
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventSpawn), global::Server2N.EventSpawn.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventUserSync), global::Server2N.EventUserSync.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventDeath), global::Server2N.EventDeath.Parser, new[]{ "TriggerId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "MoveEvent", "StopEvent", "JumpEvent", "ShootEvent", "HitEvent", "SpawnEvent", "SyncEvent", "DeathEvent", "ActType", "ActionProperty", "EventPositionX", "EventPositionY", "VelocityX", "VelocityY", "InvokerId" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.action) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "MoveEvent", "StopEvent", "JumpEvent", "ShootEvent", "HitEvent", "SpawnEvent", "SyncEvent", "DeathEvent", "ActType", "ActionProperty", "EventPositionX", "EventPositionY", "VelocityX", "VelocityY", "InvokerId", "SectorNo" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.action) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.PacketBody), global::Server2N.PacketBody.Parser, new[]{ "MsgType", "Connect", "Notice", "Event", "SenderId" }, null, new[]{ typeof(global::Server2N.PacketBody.Types.messageType) }, null)
           }));
     }
@@ -1551,6 +1552,7 @@ namespace Server2N {
       velocityX_ = other.velocityX_;
       velocityY_ = other.velocityY_;
       invokerId_ = other.invokerId_.Clone();
+      sectorNo_ = other.sectorNo_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1722,6 +1724,17 @@ namespace Server2N {
       get { return invokerId_; }
     }
 
+    /// <summary>Field number for the "sectorNo" field.</summary>
+    public const int SectorNoFieldNumber = 11;
+    private int sectorNo_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SectorNo {
+      get { return sectorNo_; }
+      set {
+        sectorNo_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as GameEvent);
@@ -1750,6 +1763,7 @@ namespace Server2N {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(VelocityX, other.VelocityX)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(VelocityY, other.VelocityY)) return false;
       if(!invokerId_.Equals(other.invokerId_)) return false;
+      if (SectorNo != other.SectorNo) return false;
       return true;
     }
 
@@ -1771,6 +1785,7 @@ namespace Server2N {
       if (VelocityX != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(VelocityX);
       if (VelocityY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(VelocityY);
       hash ^= invokerId_.GetHashCode();
+      if (SectorNo != 0) hash ^= SectorNo.GetHashCode();
       return hash;
     }
 
@@ -1806,6 +1821,10 @@ namespace Server2N {
         output.WriteFloat(VelocityY);
       }
       invokerId_.WriteTo(output, _repeated_invokerId_codec);
+      if (SectorNo != 0) {
+        output.WriteRawTag(88);
+        output.WriteInt32(SectorNo);
+      }
       if (moveEvent_ != null) {
         output.WriteRawTag(234, 6);
         output.WriteMessage(MoveEvent);
@@ -1886,6 +1905,9 @@ namespace Server2N {
         size += 1 + 4;
       }
       size += invokerId_.CalculateSize(_repeated_invokerId_codec);
+      if (SectorNo != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SectorNo);
+      }
       return size;
     }
 
@@ -1961,6 +1983,9 @@ namespace Server2N {
         VelocityY = other.VelocityY;
       }
       invokerId_.Add(other.invokerId_);
+      if (other.SectorNo != 0) {
+        SectorNo = other.SectorNo;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1998,6 +2023,10 @@ namespace Server2N {
           case 82:
           case 80: {
             invokerId_.AddEntriesFrom(input, _repeated_invokerId_codec);
+            break;
+          }
+          case 88: {
+            SectorNo = input.ReadInt32();
             break;
           }
           case 874: {
@@ -2074,7 +2103,7 @@ namespace Server2N {
         [pbr::OriginalName("EventSpawn")] EventSpawn = 105,
         [pbr::OriginalName("EventUserSync")] EventUserSync = 106,
         [pbr::OriginalName("EventDeath")] EventDeath = 107,
-        [pbr::OriginalName("EventSectorInOut")] EventSectorInOut = 108,
+        [pbr::OriginalName("EventBullet")] EventBullet = 108,
       }
 
     }

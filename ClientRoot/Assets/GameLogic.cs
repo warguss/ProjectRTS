@@ -19,6 +19,7 @@ public class GameLogic : MonoBehaviour
     public bool isOnline = false;
 
     public int myId = -1;
+    public int mySector = -1;
 
     Dictionary<int, PlayerController> playerControllers;
     MapData mapData;
@@ -182,6 +183,9 @@ public class GameLogic : MonoBehaviour
                 if (myId != packetBody.Event.InvokerId[0])
                     ProcessEventPacket(packetBody.Event);
                 break;
+            //case PacketBody.Types.messageType.UserInfo:
+                //ProcessUserInfoPacket(packetBody.UserInfo);
+                //break;
             case PacketBody.Types.messageType.GlobalNotice:
                 break;
             default:
@@ -237,6 +241,20 @@ public class GameLogic : MonoBehaviour
     {
         foreach (int invokerId in EventPacket.InvokerId)
         {
+            int sectorNo = EventPacket.SectorNo;
+            //bool isInterested = EventPacket.isInterested;
+            if (invokerId == myId)
+            {
+                mySector = sectorNo;
+                continue;
+            }
+            //if(isInterested)
+            //{
+            //    if (!playerControllers[invokerId].IsInterested)
+            //        RequestPlayerInfo(invokerId);
+            //}
+            //playerControllers[invokerId].IsInterested = isInterested;
+
             Vector2 position = new Vector2(EventPacket.EventPositionX, EventPacket.EventPositionY);
             Vector2 velocity = new Vector2(EventPacket.VelocityX, EventPacket.VelocityY);
 
@@ -335,6 +353,11 @@ public class GameLogic : MonoBehaviour
         }
     }
 
+    //void ProcessUserInfoPacket(UserInfo InfoPacket)
+    //{
+
+    //}
+
     void CheckPacket()
     {
         PacketBody Packet = NetworkModule.instance.GetReceivedPacketBody();
@@ -342,6 +365,11 @@ public class GameLogic : MonoBehaviour
         {
             ProcessPacketBody(Packet);
         }
+    }
+
+    void RequestPlayerInfo(int playerId)
+    {
+        //플레이어 정보 요청(다른 섹터에서 들어온 플레이어 정보 갱신을 위함)
     }
 
     void PlayerEventMove(Vector2 position, Vector2 velocity, bool isLeft)

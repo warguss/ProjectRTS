@@ -106,6 +106,17 @@ public abstract class ControllableCharacter : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void SetVisible(bool isVisible)
+    {
+        if (!isDead)
+            gameObject.SetActive(isVisible);
+    }
+
+    public void SetHP(float inHp)
+    {
+        hp = inHp;   
+    }
+
     public abstract void MoveLeft();
     public abstract void MoveRight();
     public abstract void MoveStop();
