@@ -42,6 +42,11 @@ class CUserPool
 		void initialize();
 		void clear();
 
+	private:
+		int _getUpLeftDiagnolSector(int sector);
+		int _getRightSector(int sector);
+		int _getDownSector(int sector);
+
 };
 
 #endif
