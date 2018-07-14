@@ -218,13 +218,13 @@ enum GameEvent_action {
   GameEvent_action_EventSpawn = 105,
   GameEvent_action_EventUserSync = 106,
   GameEvent_action_EventDeath = 107,
-  GameEvent_action_EventSectorInOut = 108,
+  GameEvent_action_EventBullet = 108,
   GameEvent_action_GameEvent_action_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   GameEvent_action_GameEvent_action_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool GameEvent_action_IsValid(int value);
 const GameEvent_action GameEvent_action_action_MIN = GameEvent_action_Nothing;
-const GameEvent_action GameEvent_action_action_MAX = GameEvent_action_EventSectorInOut;
+const GameEvent_action GameEvent_action_action_MAX = GameEvent_action_EventBullet;
 const int GameEvent_action_action_ARRAYSIZE = GameEvent_action_action_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* GameEvent_action_descriptor();
@@ -1601,8 +1601,8 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
     GameEvent_action_EventUserSync;
   static const action EventDeath =
     GameEvent_action_EventDeath;
-  static const action EventSectorInOut =
-    GameEvent_action_EventSectorInOut;
+  static const action EventBullet =
+    GameEvent_action_EventBullet;
   static inline bool action_IsValid(int value) {
     return GameEvent_action_IsValid(value);
   }
@@ -1746,6 +1746,12 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   float velocityy() const;
   void set_velocityy(float value);
 
+  // int32 sectorNo = 11;
+  void clear_sectorno();
+  static const int kSectorNoFieldNumber = 11;
+  ::google::protobuf::int32 sectorno() const;
+  void set_sectorno(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:server2N.GameEvent)
  private:
 
@@ -1766,6 +1772,7 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   float eventpositiony_;
   float velocityx_;
   float velocityy_;
+  ::google::protobuf::int32 sectorno_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsGameEventImpl();
@@ -2933,6 +2940,20 @@ inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 GameEvent::mutable_invokerid() {
   // @@protoc_insertion_point(field_mutable_list:server2N.GameEvent.invokerId)
   return &invokerid_;
+}
+
+// int32 sectorNo = 11;
+inline void GameEvent::clear_sectorno() {
+  sectorno_ = 0;
+}
+inline ::google::protobuf::int32 GameEvent::sectorno() const {
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.sectorNo)
+  return sectorno_;
+}
+inline void GameEvent::set_sectorno(::google::protobuf::int32 value) {
+  
+  sectorno_ = value;
+  // @@protoc_insertion_point(field_set:server2N.GameEvent.sectorNo)
 }
 
 // -------------------------------------------------------------------
