@@ -438,6 +438,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, velocityx_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, velocityy_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, invokerid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, sectorno_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::PacketBody, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -461,7 +462,7 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 58, -1, sizeof(::server2N::EventUserSync)},
   { 63, -1, sizeof(::server2N::EventDeath)},
   { 69, -1, sizeof(::server2N::GameEvent)},
-  { 89, -1, sizeof(::server2N::PacketBody)},
+  { 90, -1, sizeof(::server2N::PacketBody)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -521,7 +522,7 @@ void AddDescriptorsImpl() {
       "(\005\"Q\n\010EventHit\022\020\n\010attacker\030\001 \001(\005\022\016\n\006dama"
       "ge\030\002 \001(\002\022\016\n\006impact\030\003 \001(\005\022\023\n\013impactAngle\030"
       "\004 \001(\005\"\014\n\nEventSpawn\"\017\n\rEventUserSync\"\037\n\n"
-      "EventDeath\022\021\n\ttriggerId\030\001 \001(\005\"\255\005\n\tGameEv"
+      "EventDeath\022\021\n\ttriggerId\030\001 \001(\005\"\272\005\n\tGameEv"
       "ent\022&\n\tmoveEvent\030m \001(\0132\023.server2N.EventM"
       "ove\022&\n\tstopEvent\030n \001(\0132\023.server2N.EventS"
       "top\022&\n\tjumpEvent\030o \001(\0132\023.server2N.EventJ"
@@ -534,21 +535,22 @@ void AddDescriptorsImpl() {
       "GameEvent.action\022\026\n\016actionProperty\030\005 \001(\005"
       "\022\026\n\016EventPositionX\030\006 \001(\002\022\026\n\016EventPositio"
       "nY\030\007 \001(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVelocityY"
-      "\030\t \001(\002\022\021\n\tinvokerId\030\n \003(\005\"\251\001\n\006action\022\013\n\007"
-      "Nothing\020\000\022\r\n\tEventMove\020d\022\r\n\tEventStop\020e\022"
-      "\r\n\tEventJump\020f\022\016\n\nEventShoot\020g\022\014\n\010EventH"
-      "it\020h\022\016\n\nEventSpawn\020i\022\021\n\rEventUserSync\020j\022"
-      "\016\n\nEventDeath\020k\022\024\n\020EventSectorInOut\020l\"\220\002"
-      "\n\nPacketBody\0222\n\007msgType\030\220N \001(\0162 .server2"
-      "N.PacketBody.messageType\022)\n\007connect\030\006 \001("
-      "\0132\030.server2N.UserConnection\022\'\n\006notice\030\221N"
-      " \001(\0132\026.server2N.GlobalNotice\022\"\n\005event\030\007 "
-      "\001(\0132\023.server2N.GameEvent\022\020\n\010senderId\030\010 \001"
-      "(\005\"D\n\013messageType\022\r\n\tGameEvent\020\000\022\023\n\016User"
-      "Connection\020\220N\022\021\n\014GlobalNotice\020\221Nb\006proto3"
+      "\030\t \001(\002\022\021\n\tinvokerId\030\n \003(\005\022\020\n\010sectorNo\030\013 "
+      "\001(\005\"\244\001\n\006action\022\013\n\007Nothing\020\000\022\r\n\tEventMove"
+      "\020d\022\r\n\tEventStop\020e\022\r\n\tEventJump\020f\022\016\n\nEven"
+      "tShoot\020g\022\014\n\010EventHit\020h\022\016\n\nEventSpawn\020i\022\021"
+      "\n\rEventUserSync\020j\022\016\n\nEventDeath\020k\022\017\n\013Eve"
+      "ntBullet\020l\"\220\002\n\nPacketBody\0222\n\007msgType\030\220N "
+      "\001(\0162 .server2N.PacketBody.messageType\022)\n"
+      "\007connect\030\006 \001(\0132\030.server2N.UserConnection"
+      "\022\'\n\006notice\030\221N \001(\0132\026.server2N.GlobalNotic"
+      "e\022\"\n\005event\030\007 \001(\0132\023.server2N.GameEvent\022\020\n"
+      "\010senderId\030\010 \001(\005\"D\n\013messageType\022\r\n\tGameEv"
+      "ent\020\000\022\023\n\016UserConnection\020\220N\022\021\n\014GlobalNoti"
+      "ce\020\221Nb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1800);
+      descriptor, 1813);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "gameContent.proto", &protobuf_RegisterTypes);
 }
@@ -674,7 +676,7 @@ const GameEvent_action GameEvent::EventHit;
 const GameEvent_action GameEvent::EventSpawn;
 const GameEvent_action GameEvent::EventUserSync;
 const GameEvent_action GameEvent::EventDeath;
-const GameEvent_action GameEvent::EventSectorInOut;
+const GameEvent_action GameEvent::EventBullet;
 const GameEvent_action GameEvent::action_MIN;
 const GameEvent_action GameEvent::action_MAX;
 const int GameEvent::action_ARRAYSIZE;
@@ -3506,6 +3508,7 @@ const int GameEvent::kEventPositionYFieldNumber;
 const int GameEvent::kVelocityXFieldNumber;
 const int GameEvent::kVelocityYFieldNumber;
 const int GameEvent::kInvokerIdFieldNumber;
+const int GameEvent::kSectorNoFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 GameEvent::GameEvent()
@@ -3563,15 +3566,15 @@ GameEvent::GameEvent(const GameEvent& from)
     deathevent_ = NULL;
   }
   ::memcpy(&acttype_, &from.acttype_,
-    static_cast<size_t>(reinterpret_cast<char*>(&velocityy_) -
-    reinterpret_cast<char*>(&acttype_)) + sizeof(velocityy_));
+    static_cast<size_t>(reinterpret_cast<char*>(&sectorno_) -
+    reinterpret_cast<char*>(&acttype_)) + sizeof(sectorno_));
   // @@protoc_insertion_point(copy_constructor:server2N.GameEvent)
 }
 
 void GameEvent::SharedCtor() {
   ::memset(&moveevent_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&velocityy_) -
-      reinterpret_cast<char*>(&moveevent_)) + sizeof(velocityy_));
+      reinterpret_cast<char*>(&sectorno_) -
+      reinterpret_cast<char*>(&moveevent_)) + sizeof(sectorno_));
   _cached_size_ = 0;
 }
 
@@ -3647,8 +3650,8 @@ void GameEvent::Clear() {
   }
   deathevent_ = NULL;
   ::memset(&acttype_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&velocityy_) -
-      reinterpret_cast<char*>(&acttype_)) + sizeof(velocityy_));
+      reinterpret_cast<char*>(&sectorno_) -
+      reinterpret_cast<char*>(&acttype_)) + sizeof(sectorno_));
   _internal_metadata_.Clear();
 }
 
@@ -3760,6 +3763,20 @@ bool GameEvent::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  1, 82u, input, this->mutable_invokerid())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 sectorNo = 11;
+      case 11: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &sectorno_)));
         } else {
           goto handle_unusual;
         }
@@ -3930,6 +3947,11 @@ void GameEvent::SerializeWithCachedSizes(
       this->invokerid(i), output);
   }
 
+  // int32 sectorNo = 11;
+  if (this->sectorno() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(11, this->sectorno(), output);
+  }
+
   // .server2N.EventMove moveEvent = 109;
   if (this->has_moveevent()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
@@ -4034,6 +4056,11 @@ void GameEvent::SerializeWithCachedSizes(
             _invokerid_cached_byte_size_), target);
     target = ::google::protobuf::internal::WireFormatLite::
       WriteInt32NoTagToArray(this->invokerid_, target);
+  }
+
+  // int32 sectorNo = 11;
+  if (this->sectorno() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(11, this->sectorno(), target);
   }
 
   // .server2N.EventMove moveEvent = 109;
@@ -4214,6 +4241,13 @@ size_t GameEvent::ByteSizeLong() const {
     total_size += 1 + 4;
   }
 
+  // int32 sectorNo = 11;
+  if (this->sectorno() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->sectorno());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -4286,6 +4320,9 @@ void GameEvent::MergeFrom(const GameEvent& from) {
   if (from.velocityy() != 0) {
     set_velocityy(from.velocityy());
   }
+  if (from.sectorno() != 0) {
+    set_sectorno(from.sectorno());
+  }
 }
 
 void GameEvent::CopyFrom(const ::google::protobuf::Message& from) {
@@ -4327,6 +4364,7 @@ void GameEvent::InternalSwap(GameEvent* other) {
   swap(eventpositiony_, other->eventpositiony_);
   swap(velocityx_, other->velocityx_);
   swap(velocityy_, other->velocityy_);
+  swap(sectorno_, other->sectorno_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
