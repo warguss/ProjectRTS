@@ -232,8 +232,8 @@ bool childProcessLogic()
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventShoot, ActionPartSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventHit, ActionPartSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventSpawn, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventUserSync, ActionAllSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventDeath, ActionAllSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventUserSync, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventDeath, ActionPartSendFunc) );
 
 	/*******************************************************
 	 * Noti 관련 함수 Add

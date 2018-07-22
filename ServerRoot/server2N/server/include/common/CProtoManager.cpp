@@ -345,7 +345,7 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 		}
 	}
 
-	tEvent->set_setcorno(eventUser->_sectorNo);
+	tEvent.set_sectorno(eventUser->_sector);
 	if ( !isSelfEvent )
 	{
 		(*packet)->_protoEvent->CopyFrom(tEvent);
