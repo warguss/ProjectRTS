@@ -15,23 +15,20 @@ extern CLoging g_logger;
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
-//#define LOG_INFO(fmt, ...) { printf("INFO|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
 #define LOG_INFO(...) { g_logger.log(CLoging::Info, __FILENAME__, __LINE__, __VA_ARGS__); }
 
-
-//#define LOG_WARN(fmt, ...) { printf("WARN|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
 #define LOG_WARN(...) { g_logger.log(CLoging::Warn, __FILENAME__, __LINE__, __VA_ARGS__); }
 
-
-//#define LOG_DEBUG(fmt, ...) { printf("DEBUG|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
 #define LOG_DEBUG(...) { g_logger.log(CLoging::Debug, __FILENAME__, __LINE__, __VA_ARGS__); }
 
-//#define LOG_ERROR(fmt, ...) { printf("ERR|%s|%s(%d)[%s] : " fmt "\n", __DATE__, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
 #define LOG_ERROR(...) { g_logger.log(CLoging::Error, __FILENAME__, __LINE__, __VA_ARGS__); }
 
+#define LOG_SUCC(...) { g_logger.log(CLoging::Success, __FILENAME__, __LINE__, __VA_ARGS__); }
+
+#define LOG_FAIL(...) { g_logger.log(CLoging::Fail, __FILENAME__, __LINE__, __VA_ARGS__); }
 
 /* Type관련 Define */
-#define NOT_SET 0
+#define NOT_SET 1
 #define READ_TYPE 100
 #define WRITE_TYPE 101
 
@@ -45,6 +42,9 @@ extern CLoging g_logger;
 #define PART_SEND 1001
 
 #define INVALID_USER 10001
+#define ATTENTION_SECTOR_RANGE 3
+#define NOT_ATTENTION_SECTOR_RANGE 5
+
 #define X_SECTOR_MAX 20
 #define Y_SECTOR_MAX 20
 #define X_GAME_MAX 100

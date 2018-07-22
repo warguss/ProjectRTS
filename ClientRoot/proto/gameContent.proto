@@ -63,6 +63,7 @@ message EventHit{
 	float damage = 2;
 	int32 impact = 3;
 	int32 impactAngle = 4;
+	float currentHP = 5;
 }
 
 message EventSpawn{
@@ -70,7 +71,7 @@ message EventSpawn{
 }
 
 message EventUserSync{
-
+	float currentHP = 1;
 }
 
 message EventDeath{
@@ -107,6 +108,7 @@ message GameEvent{
 	float VelocityY = 9;
 	repeated int32 invokerId = 10;
 	int32 sectorNo = 11;
+	bool isInterested = 12;
 }
 
 message PacketBody{

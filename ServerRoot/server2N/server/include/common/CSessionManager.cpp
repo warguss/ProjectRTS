@@ -38,7 +38,7 @@ int CSessionManager::connectInitialize()
 	_serverSock = socket(AF_INET, SOCK_STREAM, 0);
     if ( _serverSock <= 0 )
     {
-        LOG_ERROR("---ConnectInitialize() Error Sock Open(%d)(%s)", errno, strerror(errno));
+        LOG_ERROR("Error Sock Open(%d)(%s)", errno, strerror(errno));
         return -1;
     }
 
@@ -47,8 +47,6 @@ int CSessionManager::connectInitialize()
 	 ************************/ 
 	int option = 1;
 	setsockopt(_serverSock, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option));
-	printf("Test Init");
-	LOG_DEBUG("---ConnectInitialize() serverSock [%d]", _serverSock);
     memset(&serverAddr, '\0', sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -56,13 +54,13 @@ int CSessionManager::connectInitialize()
 
     if ( bind(_serverSock, (sockaddr*)&serverAddr, sizeof(serverAddr)) < 0 )
     {
-        LOG_ERROR("---ConnectInitialize() Serv SOck Bind Error(%d)(%s)", errno, strerror(errno));
+        LOG_ERROR("Serv SOck Bind Error(%d)(%s)", errno, strerror(errno));
         return -1;
     }
 
     if ( listen(_serverSock , BACKLOG_SIZE) < 0 )
     {
-        LOG_ERROR("---ConnectInitialize() Errror List(%d)(%s)", errno, strerror(errno));
+        LOG_ERROR("Errror List(%d)(%s)", errno, strerror(errno));
         return -1;
     }
 
@@ -72,7 +70,7 @@ int CSessionManager::connectInitialize()
     _init_ev.data.fd = _serverSock;
     epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, _serverSock, &_init_ev);
 
-	LOG_DEBUG("---connectInitialize() Connect Initialize Complete");
+	LOG_DEBUG("Connect Initialize Complete");
 	return 0;
 }
 
@@ -80,20 +78,19 @@ static void* CSessionManager::waitEvent(void* val)
 {
     while(1)
     {
-		LOG_DEBUG("---waitEvent() epoll wait");
+		LOG_DEBUG("epoll wait");
         int event_count = epoll_wait(_epoll_fd, _events, EPOLL_SIZE, -1);
         if ( event_count == -1 )
         {
             break;
         }
 
-		LOG_DEBUG("---waitEvent() Epoll Count [%d]", event_count);
+		LOG_DEBUG("Epoll Count [%d]", event_count);
         for ( int i = 0; i < event_count; ++i )
         {
-			LOG_DEBUG("---waitEvent() Epoll Event");
             if ( _events[i].data.fd == _serverSock )
             {
-				LOG_DEBUG("---waitEvent() Connect Epoll Event");
+				LOG_DEBUG("Connect Epoll Event");
                 /* Client 접속 */
                 struct sockaddr_in clntAddr;
                 int clntAddrSize = sizeof(clntAddr);
@@ -140,7 +137,6 @@ static void* CSessionManager::waitEvent(void* val)
 				{
 					LOG_ERROR("Error, Delete Socket[%d](%d)(%s)", fd, errno, strerror(errno));    
 					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
-					g_userPool.delUserInPool(fd);
 					/**********************************
 					 * Disconnect Event 보내야함
 					 **********************************/
@@ -149,6 +145,7 @@ static void* CSessionManager::waitEvent(void* val)
 					disConnPacket->_fd = fd;
 					m_readQ_Manager.enqueue(disConnPacket);
 					close(fd);
+					LOG_SUCC("@SUCC UID:%d NName:%s ATP:LOGOUT SECTOR:%d", disConnPacket->_fd, disConnPacket->_nickName.c_str(), disConnPacket->_sector);
 					continue;
 				}
 
@@ -190,6 +187,7 @@ static void* CSessionManager::waitEvent(void* val)
 				}
 				packet->_fd = fd;
 				packet->_sector = user->_sector;
+				packet->_nickName = user->_nickName;
 				LOG_INFO("Sector Set event(%d) user(%d)", packet->_sector, user->_sector);
 				/******************************************
 				 * QueueManger에 넣는다.
@@ -197,6 +195,7 @@ static void* CSessionManager::waitEvent(void* val)
 				 * userPool 에서 꺼내야할듯
 				 ******************************************/
 				m_readQ_Manager.enqueue(packet);
+				LOG_SUCC("@SUCC UID:%d NName:%s ATP:LOGIN SECTOR:%d", packet->_fd, packet->_nickName.c_str(), packet->_sector);
             }
         }
     }
@@ -226,7 +225,7 @@ static void* CSessionManager::writeEvent(void* val)
 
 			if ( (writeSize = write(packet->_fd, header, sizeof(unsigned char) * HEADER_SIZE )) < 0 ) 
 			{
-				LOG_ERROR("---writeEvent() Write Error Socket[%d] writeSize[%d] (%d)(%s)", packet->_fd, writeSize, errno, strerror(errno));
+				LOG_ERROR("Write Error Socket[%d] writeSize[%d] (%d)(%s)", packet->_fd, writeSize, errno, strerror(errno));
 				continue ; 
 			}
 
@@ -243,10 +242,10 @@ static void* CSessionManager::writeEvent(void* val)
 
 			if ( (writeSize = write(packet->_fd, body, sizeof(unsigned char) * bodyLength )) < 0 ) 
 			{
-				LOG_ERROR("---writeEvent() Write Error Socket[%d] writeSize[%d](%d)(%s)", packet->_fd, writeSize, errno, strerror(errno));
+				LOG_ERROR("Write Error Socket[%d] writeSize[%d](%d)(%s)", packet->_fd, writeSize, errno, strerror(errno));
 				continue ;
 			}
-			LOG_INFO("Write User WriteBody(%d)", writeSize);
+			LOG_SUCC("@SUCC UID:%d NName:%s ATP:LOGIN SECTOR:%d", packet->_fd, packet->_nickName.c_str(), packet->_sector);
 		}
 	}
 

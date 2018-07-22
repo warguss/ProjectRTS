@@ -11,6 +11,8 @@ class CProtoPacket
 		int _fd;
 		int32_t _type;
 		int32_t _sector;
+		string _act;
+		string _nickName;
 
 		CProtoPacket();
 		~CProtoPacket();
