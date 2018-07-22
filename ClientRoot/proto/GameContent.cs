@@ -37,32 +37,33 @@ namespace Server2N {
             "ZWZ0EAESCQoFUmlnaHQQAhIICgREb3duEAMSBgoCVXAQBCILCglFdmVudFN0",
             "b3AiCwoJRXZlbnRKdW1wIlAKCkV2ZW50U2hvb3QSDQoFYW5nbGUYASABKAIS",
             "DgoGZGFtYWdlGAIgASgCEg4KBmltcGFjdBgDIAEoBRITCgtpbXBhY3RBbmds",
-            "ZRgEIAEoBSJRCghFdmVudEhpdBIQCghhdHRhY2tlchgBIAEoBRIOCgZkYW1h",
+            "ZRgEIAEoBSJkCghFdmVudEhpdBIQCghhdHRhY2tlchgBIAEoBRIOCgZkYW1h",
             "Z2UYAiABKAISDgoGaW1wYWN0GAMgASgFEhMKC2ltcGFjdEFuZ2xlGAQgASgF",
-            "IgwKCkV2ZW50U3Bhd24iDwoNRXZlbnRVc2VyU3luYyIfCgpFdmVudERlYXRo",
-            "EhEKCXRyaWdnZXJJZBgBIAEoBSK6BQoJR2FtZUV2ZW50EiYKCW1vdmVFdmVu",
-            "dBhtIAEoCzITLnNlcnZlcjJOLkV2ZW50TW92ZRImCglzdG9wRXZlbnQYbiAB",
-            "KAsyEy5zZXJ2ZXIyTi5FdmVudFN0b3ASJgoJanVtcEV2ZW50GG8gASgLMhMu",
-            "c2VydmVyMk4uRXZlbnRKdW1wEigKCnNob290RXZlbnQYcCABKAsyFC5zZXJ2",
-            "ZXIyTi5FdmVudFNob290EiQKCGhpdEV2ZW50GHEgASgLMhIuc2VydmVyMk4u",
-            "RXZlbnRIaXQSKAoKc3Bhd25FdmVudBhyIAEoCzIULnNlcnZlcjJOLkV2ZW50",
-            "U3Bhd24SKgoJc3luY0V2ZW50GHMgASgLMhcuc2VydmVyMk4uRXZlbnRVc2Vy",
-            "U3luYxIoCgpkZWF0aEV2ZW50GHQgASgLMhQuc2VydmVyMk4uRXZlbnREZWF0",
-            "aBIrCgdhY3RUeXBlGAEgASgOMhouc2VydmVyMk4uR2FtZUV2ZW50LmFjdGlv",
-            "bhIWCg5hY3Rpb25Qcm9wZXJ0eRgFIAEoBRIWCg5FdmVudFBvc2l0aW9uWBgG",
-            "IAEoAhIWCg5FdmVudFBvc2l0aW9uWRgHIAEoAhIRCglWZWxvY2l0eVgYCCAB",
-            "KAISEQoJVmVsb2NpdHlZGAkgASgCEhEKCWludm9rZXJJZBgKIAMoBRIQCghz",
-            "ZWN0b3JObxgLIAEoBSKkAQoGYWN0aW9uEgsKB05vdGhpbmcQABINCglFdmVu",
-            "dE1vdmUQZBINCglFdmVudFN0b3AQZRINCglFdmVudEp1bXAQZhIOCgpFdmVu",
-            "dFNob290EGcSDAoIRXZlbnRIaXQQaBIOCgpFdmVudFNwYXduEGkSEQoNRXZl",
-            "bnRVc2VyU3luYxBqEg4KCkV2ZW50RGVhdGgQaxIPCgtFdmVudEJ1bGxldBBs",
-            "IpACCgpQYWNrZXRCb2R5EjIKB21zZ1R5cGUYkE4gASgOMiAuc2VydmVyMk4u",
-            "UGFja2V0Qm9keS5tZXNzYWdlVHlwZRIpCgdjb25uZWN0GAYgASgLMhguc2Vy",
-            "dmVyMk4uVXNlckNvbm5lY3Rpb24SJwoGbm90aWNlGJFOIAEoCzIWLnNlcnZl",
-            "cjJOLkdsb2JhbE5vdGljZRIiCgVldmVudBgHIAEoCzITLnNlcnZlcjJOLkdh",
-            "bWVFdmVudBIQCghzZW5kZXJJZBgIIAEoBSJECgttZXNzYWdlVHlwZRINCglH",
-            "YW1lRXZlbnQQABITCg5Vc2VyQ29ubmVjdGlvbhCQThIRCgxHbG9iYWxOb3Rp",
-            "Y2UQkU5iBnByb3RvMw=="));
+            "EhEKCWN1cnJlbnRIUBgFIAEoAiIMCgpFdmVudFNwYXduIiIKDUV2ZW50VXNl",
+            "clN5bmMSEQoJY3VycmVudEhQGAEgASgCIh8KCkV2ZW50RGVhdGgSEQoJdHJp",
+            "Z2dlcklkGAEgASgFItAFCglHYW1lRXZlbnQSJgoJbW92ZUV2ZW50GG0gASgL",
+            "MhMuc2VydmVyMk4uRXZlbnRNb3ZlEiYKCXN0b3BFdmVudBhuIAEoCzITLnNl",
+            "cnZlcjJOLkV2ZW50U3RvcBImCglqdW1wRXZlbnQYbyABKAsyEy5zZXJ2ZXIy",
+            "Ti5FdmVudEp1bXASKAoKc2hvb3RFdmVudBhwIAEoCzIULnNlcnZlcjJOLkV2",
+            "ZW50U2hvb3QSJAoIaGl0RXZlbnQYcSABKAsyEi5zZXJ2ZXIyTi5FdmVudEhp",
+            "dBIoCgpzcGF3bkV2ZW50GHIgASgLMhQuc2VydmVyMk4uRXZlbnRTcGF3bhIq",
+            "CglzeW5jRXZlbnQYcyABKAsyFy5zZXJ2ZXIyTi5FdmVudFVzZXJTeW5jEigK",
+            "CmRlYXRoRXZlbnQYdCABKAsyFC5zZXJ2ZXIyTi5FdmVudERlYXRoEisKB2Fj",
+            "dFR5cGUYASABKA4yGi5zZXJ2ZXIyTi5HYW1lRXZlbnQuYWN0aW9uEhYKDmFj",
+            "dGlvblByb3BlcnR5GAUgASgFEhYKDkV2ZW50UG9zaXRpb25YGAYgASgCEhYK",
+            "DkV2ZW50UG9zaXRpb25ZGAcgASgCEhEKCVZlbG9jaXR5WBgIIAEoAhIRCglW",
+            "ZWxvY2l0eVkYCSABKAISEQoJaW52b2tlcklkGAogAygFEhAKCHNlY3Rvck5v",
+            "GAsgASgFEhQKDGlzSW50ZXJlc3RlZBgMIAEoCCKkAQoGYWN0aW9uEgsKB05v",
+            "dGhpbmcQABINCglFdmVudE1vdmUQZBINCglFdmVudFN0b3AQZRINCglFdmVu",
+            "dEp1bXAQZhIOCgpFdmVudFNob290EGcSDAoIRXZlbnRIaXQQaBIOCgpFdmVu",
+            "dFNwYXduEGkSEQoNRXZlbnRVc2VyU3luYxBqEg4KCkV2ZW50RGVhdGgQaxIP",
+            "CgtFdmVudEJ1bGxldBBsIpACCgpQYWNrZXRCb2R5EjIKB21zZ1R5cGUYkE4g",
+            "ASgOMiAuc2VydmVyMk4uUGFja2V0Qm9keS5tZXNzYWdlVHlwZRIpCgdjb25u",
+            "ZWN0GAYgASgLMhguc2VydmVyMk4uVXNlckNvbm5lY3Rpb24SJwoGbm90aWNl",
+            "GJFOIAEoCzIWLnNlcnZlcjJOLkdsb2JhbE5vdGljZRIiCgVldmVudBgHIAEo",
+            "CzITLnNlcnZlcjJOLkdhbWVFdmVudBIQCghzZW5kZXJJZBgIIAEoBSJECgtt",
+            "ZXNzYWdlVHlwZRINCglHYW1lRXZlbnQQABITCg5Vc2VyQ29ubmVjdGlvbhCQ",
+            "ThIRCgxHbG9iYWxOb3RpY2UQkU5iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -72,11 +73,11 @@ namespace Server2N {
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventStop), global::Server2N.EventStop.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventJump), global::Server2N.EventJump.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventShoot), global::Server2N.EventShoot.Parser, new[]{ "Angle", "Damage", "Impact", "ImpactAngle" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventHit), global::Server2N.EventHit.Parser, new[]{ "Attacker", "Damage", "Impact", "ImpactAngle" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventHit), global::Server2N.EventHit.Parser, new[]{ "Attacker", "Damage", "Impact", "ImpactAngle", "CurrentHP" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventSpawn), global::Server2N.EventSpawn.Parser, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventUserSync), global::Server2N.EventUserSync.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventUserSync), global::Server2N.EventUserSync.Parser, new[]{ "CurrentHP" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventDeath), global::Server2N.EventDeath.Parser, new[]{ "TriggerId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "MoveEvent", "StopEvent", "JumpEvent", "ShootEvent", "HitEvent", "SpawnEvent", "SyncEvent", "DeathEvent", "ActType", "ActionProperty", "EventPositionX", "EventPositionY", "VelocityX", "VelocityY", "InvokerId", "SectorNo" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.action) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "MoveEvent", "StopEvent", "JumpEvent", "ShootEvent", "HitEvent", "SpawnEvent", "SyncEvent", "DeathEvent", "ActType", "ActionProperty", "EventPositionX", "EventPositionY", "VelocityX", "VelocityY", "InvokerId", "SectorNo", "IsInterested" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.action) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.PacketBody), global::Server2N.PacketBody.Parser, new[]{ "MsgType", "Connect", "Notice", "Event", "SenderId" }, null, new[]{ typeof(global::Server2N.PacketBody.Types.messageType) }, null)
           }));
     }
@@ -1045,6 +1046,7 @@ namespace Server2N {
       damage_ = other.damage_;
       impact_ = other.impact_;
       impactAngle_ = other.impactAngle_;
+      currentHP_ = other.currentHP_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1096,6 +1098,17 @@ namespace Server2N {
       }
     }
 
+    /// <summary>Field number for the "currentHP" field.</summary>
+    public const int CurrentHPFieldNumber = 5;
+    private float currentHP_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float CurrentHP {
+      get { return currentHP_; }
+      set {
+        currentHP_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as EventHit);
@@ -1113,6 +1126,7 @@ namespace Server2N {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Damage, other.Damage)) return false;
       if (Impact != other.Impact) return false;
       if (ImpactAngle != other.ImpactAngle) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(CurrentHP, other.CurrentHP)) return false;
       return true;
     }
 
@@ -1123,6 +1137,7 @@ namespace Server2N {
       if (Damage != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Damage);
       if (Impact != 0) hash ^= Impact.GetHashCode();
       if (ImpactAngle != 0) hash ^= ImpactAngle.GetHashCode();
+      if (CurrentHP != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(CurrentHP);
       return hash;
     }
 
@@ -1149,6 +1164,10 @@ namespace Server2N {
         output.WriteRawTag(32);
         output.WriteInt32(ImpactAngle);
       }
+      if (CurrentHP != 0F) {
+        output.WriteRawTag(45);
+        output.WriteFloat(CurrentHP);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1165,6 +1184,9 @@ namespace Server2N {
       }
       if (ImpactAngle != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(ImpactAngle);
+      }
+      if (CurrentHP != 0F) {
+        size += 1 + 4;
       }
       return size;
     }
@@ -1185,6 +1207,9 @@ namespace Server2N {
       }
       if (other.ImpactAngle != 0) {
         ImpactAngle = other.ImpactAngle;
+      }
+      if (other.CurrentHP != 0F) {
+        CurrentHP = other.CurrentHP;
       }
     }
 
@@ -1210,6 +1235,10 @@ namespace Server2N {
           }
           case 32: {
             ImpactAngle = input.ReadInt32();
+            break;
+          }
+          case 45: {
+            CurrentHP = input.ReadFloat();
             break;
           }
         }
@@ -1331,11 +1360,23 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public EventUserSync(EventUserSync other) : this() {
+      currentHP_ = other.currentHP_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public EventUserSync Clone() {
       return new EventUserSync(this);
+    }
+
+    /// <summary>Field number for the "currentHP" field.</summary>
+    public const int CurrentHPFieldNumber = 1;
+    private float currentHP_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float CurrentHP {
+      get { return currentHP_; }
+      set {
+        currentHP_ = value;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1351,12 +1392,14 @@ namespace Server2N {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(CurrentHP, other.CurrentHP)) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (CurrentHP != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(CurrentHP);
       return hash;
     }
 
@@ -1367,11 +1410,18 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      if (CurrentHP != 0F) {
+        output.WriteRawTag(13);
+        output.WriteFloat(CurrentHP);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (CurrentHP != 0F) {
+        size += 1 + 4;
+      }
       return size;
     }
 
@@ -1379,6 +1429,9 @@ namespace Server2N {
     public void MergeFrom(EventUserSync other) {
       if (other == null) {
         return;
+      }
+      if (other.CurrentHP != 0F) {
+        CurrentHP = other.CurrentHP;
       }
     }
 
@@ -1390,6 +1443,10 @@ namespace Server2N {
           default:
             input.SkipLastField();
             break;
+          case 13: {
+            CurrentHP = input.ReadFloat();
+            break;
+          }
         }
       }
     }
@@ -1553,6 +1610,7 @@ namespace Server2N {
       velocityY_ = other.velocityY_;
       invokerId_ = other.invokerId_.Clone();
       sectorNo_ = other.sectorNo_;
+      isInterested_ = other.isInterested_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1735,6 +1793,17 @@ namespace Server2N {
       }
     }
 
+    /// <summary>Field number for the "isInterested" field.</summary>
+    public const int IsInterestedFieldNumber = 12;
+    private bool isInterested_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool IsInterested {
+      get { return isInterested_; }
+      set {
+        isInterested_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as GameEvent);
@@ -1764,6 +1833,7 @@ namespace Server2N {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(VelocityY, other.VelocityY)) return false;
       if(!invokerId_.Equals(other.invokerId_)) return false;
       if (SectorNo != other.SectorNo) return false;
+      if (IsInterested != other.IsInterested) return false;
       return true;
     }
 
@@ -1786,6 +1856,7 @@ namespace Server2N {
       if (VelocityY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(VelocityY);
       hash ^= invokerId_.GetHashCode();
       if (SectorNo != 0) hash ^= SectorNo.GetHashCode();
+      if (IsInterested != false) hash ^= IsInterested.GetHashCode();
       return hash;
     }
 
@@ -1824,6 +1895,10 @@ namespace Server2N {
       if (SectorNo != 0) {
         output.WriteRawTag(88);
         output.WriteInt32(SectorNo);
+      }
+      if (IsInterested != false) {
+        output.WriteRawTag(96);
+        output.WriteBool(IsInterested);
       }
       if (moveEvent_ != null) {
         output.WriteRawTag(234, 6);
@@ -1908,6 +1983,9 @@ namespace Server2N {
       if (SectorNo != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(SectorNo);
       }
+      if (IsInterested != false) {
+        size += 1 + 1;
+      }
       return size;
     }
 
@@ -1986,6 +2064,9 @@ namespace Server2N {
       if (other.SectorNo != 0) {
         SectorNo = other.SectorNo;
       }
+      if (other.IsInterested != false) {
+        IsInterested = other.IsInterested;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2027,6 +2108,10 @@ namespace Server2N {
           }
           case 88: {
             SectorNo = input.ReadInt32();
+            break;
+          }
+          case 96: {
+            IsInterested = input.ReadBool();
             break;
           }
           case 874: {

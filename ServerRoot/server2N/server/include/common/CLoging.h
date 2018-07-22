@@ -13,12 +13,14 @@ class CLoging
 	public:
 		enum LogLevel
 		{
-			Trace = 6, 
+			Trace = 7, 
+			Warn = 6,
 			Debug = 5,
-			Info = 4,
-			Warn = 3,
+			Fail = 4,
+			Info = 3,
 			Error = 2,
-			Fatal = 1
+			Fatal = 1,
+			Success = 0
 		};
 
 		FILE *_fp;
