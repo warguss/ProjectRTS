@@ -53,10 +53,10 @@ public class Bullet : MonoBehaviour {
             MainCharacter targetPlayer = other.gameObject.GetComponent<MainCharacter>();
             if (targetPlayer.OwnerId != damageInfo.AttackerId)
             {
-                if (targetPlayer.OwnerId == GameLogic.Instance.myId)
+                if (targetPlayer.IsLocalPlayer)
                 {
                     targetPlayer.GetHit(damageInfo);
-                    TestUI.Instance.PrintText("BulletOnTriggerEnter2D");
+                    //TestUI.Instance.PrintText("BulletOnTriggerEnter2D");
                 }
 
                 Destroy(gameObject);

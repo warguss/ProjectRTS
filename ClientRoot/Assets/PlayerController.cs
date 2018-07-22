@@ -126,9 +126,9 @@ public class PlayerController {
         Character.ShootWithDamageInfo(info, position);
     }
 
-    public void GetHit(DamageInfo info)
+    public void GetHit(DamageInfo info, float? remainingHp = null)
     {
-        Character.GetHit(info);
+        Character.GetHit(info, remainingHp);
     }
 
     public void InitialSync()

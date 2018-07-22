@@ -23,6 +23,8 @@ public class GameLogic : MonoBehaviour
 
     Dictionary<int, PlayerController> playerControllers;
     MapData mapData;
+
+    int testId1P = 0;
     int testId2P = 1;
 
     byte[] msgBuffer = new byte[256];
@@ -41,8 +43,9 @@ public class GameLogic : MonoBehaviour
 
         if (TestMode)
         {
-            userJoin(0, "test1p", true);
-            userJoin(testId2P, "test2p", false);
+            myId = testId1P;
+            userJoin(testId1P, "test1p", true);
+            userJoin(testId2P, "test2p", false, true);
             SpawnPlayer(testId2P, new Vector2(2, 2));
         }
     }
@@ -71,15 +74,16 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void userJoin(int id, string name, bool isMe = false)
+    void userJoin(int id, string name, bool isMe = false, bool isLocalPlayer = false)
     {
-        AddPlayer(id, name);
+        AddPlayer(id, name, isMe || isLocalPlayer);
         PlayerController player = playerControllers[id];
         if (isMe)
         {
-            myId = id;
             CameraScript.SetTarget(playerControllers[myId].Character.GetGameObject());
-
+        }
+        if(isMe || isLocalPlayer)
+        { 
             player.Character.MoveEvent += PlayerEventMove;
             player.Character.StopEvent += PlayerEventStop;
             player.Character.JumpEvent += PlayerEventJump;
@@ -102,11 +106,13 @@ public class GameLogic : MonoBehaviour
         playerControllers.Remove(id);
     }
 
-    void AddPlayer(int playerId, string playerName)
+    void AddPlayer(int playerId, string playerName, bool isLocalPlayer)
     {
         if (!playerControllers.ContainsKey(playerId))
         {
             MainCharacter characterScript = Instantiate(PlayerPrefab, new Vector3(1,3,0), new Quaternion()).GetComponent<MainCharacter>();
+            characterScript.IsLocalPlayer = isLocalPlayer;
+
             PlayerController controller = new PlayerController();
             controller.Character = characterScript;
             controller.PlayerId = playerId;
@@ -183,9 +189,6 @@ public class GameLogic : MonoBehaviour
                 if (myId != packetBody.Event.InvokerId[0])
                     ProcessEventPacket(packetBody.Event);
                 break;
-            //case PacketBody.Types.messageType.UserInfo:
-                //ProcessUserInfoPacket(packetBody.UserInfo);
-                //break;
             case PacketBody.Types.messageType.GlobalNotice:
                 break;
             default:
@@ -215,7 +218,7 @@ public class GameLogic : MonoBehaviour
                                          + " / Death = " + ConnectorDeathCount);
 
                 isOnline = true;
-                NetworkModule.instance.myId = connectorId;
+                myId = connectorId;
                 userJoin(connectorId, connectorName, true);
             }
             else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.Connect)
@@ -248,11 +251,6 @@ public class GameLogic : MonoBehaviour
                 mySector = sectorNo;
                 continue;
             }
-            //if(isInterested)
-            //{
-            //    if (!playerControllers[invokerId].IsInterested)
-            //        RequestPlayerInfo(invokerId);
-            //}
             //playerControllers[invokerId].IsInterested = isInterested;
 
             Vector2 position = new Vector2(EventPacket.EventPositionX, EventPacket.EventPositionY);
@@ -328,7 +326,8 @@ public class GameLogic : MonoBehaviour
                             Impact = info.Impact,/////////////
                             ImpactAngle = info.ImpactAngle///////////
                         };
-                        playerControllers[invokerId].GetHit(damageInfo);
+                        float currentHp = info.CurrentHP;
+                        playerControllers[invokerId].GetHit(damageInfo, currentHp);
                         break;
                     }
 
@@ -345,18 +344,17 @@ public class GameLogic : MonoBehaviour
 
                 case GameEvent.Types.action.EventUserSync:
                     {
+                        var info = EventPacket.SyncEvent;
+                        float currentHp = info.CurrentHP;
+
                         playerControllers[invokerId].MoveWithInterpolation(position, velocity);
+                        playerControllers[invokerId].SetHP(currentHp);
 
                         break;
                     }
             }
         }
     }
-
-    //void ProcessUserInfoPacket(UserInfo InfoPacket)
-    //{
-
-    //}
 
     void CheckPacket()
     {
@@ -367,73 +365,68 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void RequestPlayerInfo(int playerId)
-    {
-        //플레이어 정보 요청(다른 섹터에서 들어온 플레이어 정보 갱신을 위함)
-    }
-
-    void PlayerEventMove(Vector2 position, Vector2 velocity, bool isLeft)
+    void PlayerEventMove(int invokerId, Vector2 position, Vector2 velocity, bool isLeft)
     {
         if (isOnline)
         {
-            NetworkModule.instance.WriteEventMove(position, velocity, isLeft);
+            NetworkModule.instance.WriteEventMove(invokerId, position, velocity, isLeft);
         }
     }
 
-    void PlayerEventStop(Vector2 position, Vector2 velocity)
+    void PlayerEventStop(int invokerId, Vector2 position, Vector2 velocity)
     {
         if (isOnline)
         {
-            NetworkModule.instance.WriteEventStop(position, velocity);
+            NetworkModule.instance.WriteEventStop(invokerId, position, velocity);
         }
     }
 
-    void PlayerEventGetHit(Vector2 position, Vector2 velocity, DamageInfo info)
+    void PlayerEventGetHit(int invokerId, Vector2 position, Vector2 velocity, DamageInfo info)
     {
         if (isOnline)
         {
-            NetworkModule.instance.WriteEventGetHit(position, velocity, info);
+            NetworkModule.instance.WriteEventGetHit(invokerId, position, velocity, info);
         }
     }
 
-    void PlayerEventJump(Vector2 position, Vector2 velocity)
+    void PlayerEventJump(int invokerId, Vector2 position, Vector2 velocity)
     {
         if (isOnline)
         {
-            NetworkModule.instance.WriteEventJump(position, velocity);
+            NetworkModule.instance.WriteEventJump(invokerId, position, velocity);
         }
     }
 
-    void PlayerEventShoot(Vector2 position, Vector2 velocity, DamageInfo info)
+    void PlayerEventShoot(int invokerId, Vector2 position, Vector2 velocity, DamageInfo info)
     {
         if (isOnline)
         {
-            NetworkModule.instance.WriteEventShoot(position, velocity, info);
+            NetworkModule.instance.WriteEventShoot(invokerId, position, velocity, info);
         }
     }
 
-    void PlayerEventSpawn(Vector2 position)
+    void PlayerEventSpawn(int invokerId, Vector2 position)
     {
         if (isOnline)
         {
-            NetworkModule.instance.WriteEventSpawn(position);
+            NetworkModule.instance.WriteEventSpawn(invokerId, position);
         }
     }
 
-    void PlayerEventDie(Vector2 position, int AttackerId)
+    void PlayerEventDie(int invokerId, Vector2 position, int AttackerId)
     {
-        StartCoroutine(SpawnAfterSeconds(myId, new Vector2(2, 2), 5));
+        StartCoroutine(SpawnAfterSeconds(invokerId, new Vector2(2, 2), 5));
         if (isOnline)
         {
-            NetworkModule.instance.WriteEventDead(position, AttackerId);
+            NetworkModule.instance.WriteEventDead(invokerId, position, AttackerId);
         }
     }
 
-    void PlayerEventSync(Vector2 position, Vector2 velocity)
+    void PlayerEventSync(int invokerId, Vector2 position, Vector2 velocity)
     {
         if (isOnline)
         {
-            NetworkModule.instance.WriteEventSync(position, velocity);
+            NetworkModule.instance.WriteEventSync(invokerId, position, velocity);
         }
     }
 

@@ -271,9 +271,13 @@ public class MainCharacter : ControllableCharacter
         jumpCount = 0;
     }
 
-    public override void GetHit(DamageInfo info)
+    public override void GetHit(DamageInfo info, float? remainingHp = null)
     {
-        hp -= info.Damage;
+        if (remainingHp == null)
+            hp -= info.Damage;
+        else
+            hp = (float)remainingHp;
+
         TestUI.Instance.PrintText("player" + OwnerId + "hp : " + hp + " / Attacker : " + info.AttackerId);
 
         float radian = Mathf.PI * (float)info.ImpactAngle / 180f;
@@ -285,7 +289,7 @@ public class MainCharacter : ControllableCharacter
 
         InvokeEventGetHit(CurrentPosition, CurrentVelocity, info);
 
-        if (hp <= 0)
+        if (IsLocalPlayer && hp <= 0)
         {
             PlayerDie();
         }

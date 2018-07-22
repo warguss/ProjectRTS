@@ -34,7 +34,18 @@ public class NetworkModule : MonoBehaviour
     object ReadQueueLock;
     object WriteQueueLock;
 
-    public int myId = -1;
+    private int MyId
+    {
+        set
+        {
+            GameLogic.Instance.myId = value;
+        }
+        get
+        {
+            return GameLogic.Instance.myId;
+        }
+
+    }
 
     //int testCount = 0;
 
@@ -325,23 +336,23 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
-    public void WriteEventSync(Vector2 position, Vector2 velocity)
+    public void WriteEventSync(int InvokerId, Vector2 position, Vector2 velocity)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventUserSync, myId, position, velocity);
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventUserSync, InvokerId, position, velocity);
 
         EnqueueSendPacket(packet);
     }
 
-    public void WriteEventSpawn(Vector2 position)
+    public void WriteEventSpawn(int InvokerId, Vector2 position)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventSpawn, myId, position, new Vector2(0, 0));
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventSpawn, InvokerId, position, new Vector2(0, 0));
 
         EnqueueSendPacket(packet);
     }
 
-    public void WriteEventDead(Vector2 position, int AttackerId)
+    public void WriteEventDead(int InvokerId, Vector2 position, int AttackerId)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventDeath, myId, position, new Vector2(0, 0));
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventDeath, InvokerId, position, new Vector2(0, 0));
         packet.Event.DeathEvent = new EventDeath
         {
             TriggerId = AttackerId
@@ -350,13 +361,13 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
-    public void WriteEventMove(Vector2 position, Vector2 velocity, bool isLeft)
+    public void WriteEventMove(int InvokerId, Vector2 position, Vector2 velocity, bool isLeft)
     {
         EventMove.Types.Direction direction = EventMove.Types.Direction.Left ;
         if (!isLeft)
             direction = EventMove.Types.Direction.Right;
 
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventMove, myId, position, velocity);
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventMove, InvokerId, position, velocity);
         packet.Event.MoveEvent = new EventMove
         {
             Type = direction
@@ -365,9 +376,9 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
-    public void WriteEventStop(Vector2 position, Vector2 velocity)
+    public void WriteEventStop(int InvokerId, Vector2 position, Vector2 velocity)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventStop, myId, position, velocity);
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventStop, InvokerId, position, velocity);
         packet.Event.StopEvent = new EventStop
         {
 
@@ -376,9 +387,9 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
-    public void WriteEventGetHit(Vector2 position, Vector2 velocity, DamageInfo info)
+    public void WriteEventGetHit(int InvokerId, Vector2 position, Vector2 velocity, DamageInfo info)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventHit, myId, position, velocity);
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventHit, InvokerId, position, velocity);
         packet.Event.HitEvent = new EventHit
         {
             Attacker = info.AttackerId,
@@ -390,9 +401,9 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
-    public void WriteEventJump(Vector2 position, Vector2 velocity)
+    public void WriteEventJump(int InvokerId, Vector2 position, Vector2 velocity)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventJump, myId, position, velocity);
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventJump, InvokerId, position, velocity);
         packet.Event.JumpEvent = new EventJump
         {
 
@@ -401,9 +412,9 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
-    public void WriteEventShoot(Vector2 position, Vector2 velocity, DamageInfo info)
+    public void WriteEventShoot(int InvokerId, Vector2 position, Vector2 velocity, DamageInfo info)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventShoot, myId, position, velocity);
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventShoot, InvokerId, position, velocity);
         packet.Event.ShootEvent = new EventShoot
         {
             Impact = info.Impact,
