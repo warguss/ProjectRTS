@@ -92,9 +92,9 @@ public class GameLogic : MonoBehaviour
             player.Character.SpawnEvent += PlayerEventSpawn;
             player.Character.DieEvent += PlayerEventDie;
             player.Character.SyncEvent += PlayerEventSync;
-
-            SpawnPlayer(id, new Vector2(2, 2));
         }
+
+        SpawnPlayer(id, new Vector2(2, 2));
 
         TestUI.Instance.PrintText("User Join : " + id + isMe);
     }
@@ -343,10 +343,10 @@ public class GameLogic : MonoBehaviour
                 case GameEvent.Types.action.EventUserSync:
                     {
                         var info = EventPacket.SyncEvent;
-                        float currentHp = info.CurrentHP;
+                        //float currentHp = info.CurrentHP;
 
                         playerControllers[invokerId].MoveWithInterpolation(position, velocity);
-                        playerControllers[invokerId].SetHP(currentHp);
+                        //playerControllers[invokerId].SetHP(currentHp);
 
                         break;
                     }
