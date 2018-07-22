@@ -175,7 +175,7 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 {
 	if ( type < 0 || fd <= 0 || !eventUser || eventUser->_fd <= 0 )
 	{
-		LOG_ERROR("Not Exist User , User ProtoPacket");
+		LOG_ERROR("Not Exist User , User ProtoPacket fd(%d) type(%d) isExist Event(%s)", fd, type, (eventUser) ? "Exist" : "Not Exist");
 		return false;
 	}
 
@@ -218,6 +218,7 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 			{
 				return true;
 			} 
+
 			/* Add 시점 생각해야할듯, 아니며 여기서 자기자신 예외처리필요함 */
 			for ( ; it != allUser.end(); it++ )
 			{
@@ -244,9 +245,6 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 			(*packet)->_protoConnect->add_nickname(eventUser->_nickName.c_str());
 			(*packet)->_proto->set_allocated_connect((*packet)->_protoConnect);
 		}
-
-		//cout << "CONNECT PACKET " << (*packet)->_proto->DebugString() << endl;
-		//LOG_DEBUG("Send Packet Set(%s)", (*packet)->_proto->DebugString().c_str());
 	}
 	else if ( type == (int32_t)server2N::UserConnection_ConnectionType_DisConnect )
 	{
@@ -347,6 +345,7 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 		}
 	}
 
+	tEvent->set_setcorno(eventUser->_sectorNo);
 	if ( !isSelfEvent )
 	{
 		(*packet)->_protoEvent->CopyFrom(tEvent);
@@ -366,9 +365,9 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 	return true;
 }
 
-bool CProtoManager::setNotiType(int type, CUser* senderUser, CProtoPacket* eventUser, list<CUser*> allUser, CProtoPacket** packet)
+bool CProtoManager::setNotiType(int type, CUser* recvUser, CProtoPacket* eventUser, list<CUser*> allUser, CProtoPacket** packet)
 {
-	if ( type < 0 || !eventUser || eventUser->_fd <= 0 || senderUser <= 0 )
+	if ( type < 0 || !eventUser || eventUser->_fd <= 0 || recvUser <= 0 )
 	{
 		LOG_ERROR("Not Exist User , User ProtoPacket");
 		return false;

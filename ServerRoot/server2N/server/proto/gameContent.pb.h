@@ -1189,6 +1189,12 @@ class EventHit : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::int32 impactangle() const;
   void set_impactangle(::google::protobuf::int32 value);
 
+  // float currentHP = 5;
+  void clear_currenthp();
+  static const int kCurrentHPFieldNumber = 5;
+  float currenthp() const;
+  void set_currenthp(float value);
+
   // @@protoc_insertion_point(class_scope:server2N.EventHit)
  private:
 
@@ -1197,6 +1203,7 @@ class EventHit : public ::google::protobuf::Message /* @@protoc_insertion_point(
   float damage_;
   ::google::protobuf::int32 impact_;
   ::google::protobuf::int32 impactangle_;
+  float currenthp_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventHitImpl();
@@ -1385,10 +1392,17 @@ class EventUserSync : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
+  // float currentHP = 1;
+  void clear_currenthp();
+  static const int kCurrentHPFieldNumber = 1;
+  float currenthp() const;
+  void set_currenthp(float value);
+
   // @@protoc_insertion_point(class_scope:server2N.EventUserSync)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  float currenthp_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventUserSyncImpl();
@@ -1752,6 +1766,12 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::int32 sectorno() const;
   void set_sectorno(::google::protobuf::int32 value);
 
+  // bool isInterested = 12;
+  void clear_isinterested();
+  static const int kIsInterestedFieldNumber = 12;
+  bool isinterested() const;
+  void set_isinterested(bool value);
+
   // @@protoc_insertion_point(class_scope:server2N.GameEvent)
  private:
 
@@ -1773,6 +1793,7 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   float velocityx_;
   float velocityy_;
   ::google::protobuf::int32 sectorno_;
+  bool isinterested_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsGameEventImpl();
@@ -2390,6 +2411,20 @@ inline void EventHit::set_impactangle(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:server2N.EventHit.impactAngle)
 }
 
+// float currentHP = 5;
+inline void EventHit::clear_currenthp() {
+  currenthp_ = 0;
+}
+inline float EventHit::currenthp() const {
+  // @@protoc_insertion_point(field_get:server2N.EventHit.currentHP)
+  return currenthp_;
+}
+inline void EventHit::set_currenthp(float value) {
+  
+  currenthp_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventHit.currentHP)
+}
+
 // -------------------------------------------------------------------
 
 // EventSpawn
@@ -2397,6 +2432,20 @@ inline void EventHit::set_impactangle(::google::protobuf::int32 value) {
 // -------------------------------------------------------------------
 
 // EventUserSync
+
+// float currentHP = 1;
+inline void EventUserSync::clear_currenthp() {
+  currenthp_ = 0;
+}
+inline float EventUserSync::currenthp() const {
+  // @@protoc_insertion_point(field_get:server2N.EventUserSync.currentHP)
+  return currenthp_;
+}
+inline void EventUserSync::set_currenthp(float value) {
+  
+  currenthp_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventUserSync.currentHP)
+}
 
 // -------------------------------------------------------------------
 
@@ -2954,6 +3003,20 @@ inline void GameEvent::set_sectorno(::google::protobuf::int32 value) {
   
   sectorno_ = value;
   // @@protoc_insertion_point(field_set:server2N.GameEvent.sectorNo)
+}
+
+// bool isInterested = 12;
+inline void GameEvent::clear_isinterested() {
+  isinterested_ = false;
+}
+inline bool GameEvent::isinterested() const {
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.isInterested)
+  return isinterested_;
+}
+inline void GameEvent::set_isinterested(bool value) {
+  
+  isinterested_ = value;
+  // @@protoc_insertion_point(field_set:server2N.GameEvent.isInterested)
 }
 
 // -------------------------------------------------------------------

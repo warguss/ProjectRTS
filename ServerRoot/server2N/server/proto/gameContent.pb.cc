@@ -402,6 +402,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventHit, damage_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventHit, impact_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventHit, impactangle_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventHit, currenthp_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventSpawn, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -412,6 +413,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventUserSync, currenthp_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventDeath, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -439,6 +441,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, velocityy_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, invokerid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, sectorno_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, isinterested_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::PacketBody, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -458,11 +461,11 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 30, -1, sizeof(::server2N::EventJump)},
   { 35, -1, sizeof(::server2N::EventShoot)},
   { 44, -1, sizeof(::server2N::EventHit)},
-  { 53, -1, sizeof(::server2N::EventSpawn)},
-  { 58, -1, sizeof(::server2N::EventUserSync)},
-  { 63, -1, sizeof(::server2N::EventDeath)},
-  { 69, -1, sizeof(::server2N::GameEvent)},
-  { 90, -1, sizeof(::server2N::PacketBody)},
+  { 54, -1, sizeof(::server2N::EventSpawn)},
+  { 59, -1, sizeof(::server2N::EventUserSync)},
+  { 65, -1, sizeof(::server2N::EventDeath)},
+  { 71, -1, sizeof(::server2N::GameEvent)},
+  { 93, -1, sizeof(::server2N::PacketBody)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -519,38 +522,39 @@ void AddDescriptorsImpl() {
       "Down\020\003\022\006\n\002Up\020\004\"\013\n\tEventStop\"\013\n\tEventJump"
       "\"P\n\nEventShoot\022\r\n\005angle\030\001 \001(\002\022\016\n\006damage\030"
       "\002 \001(\002\022\016\n\006impact\030\003 \001(\005\022\023\n\013impactAngle\030\004 \001"
-      "(\005\"Q\n\010EventHit\022\020\n\010attacker\030\001 \001(\005\022\016\n\006dama"
+      "(\005\"d\n\010EventHit\022\020\n\010attacker\030\001 \001(\005\022\016\n\006dama"
       "ge\030\002 \001(\002\022\016\n\006impact\030\003 \001(\005\022\023\n\013impactAngle\030"
-      "\004 \001(\005\"\014\n\nEventSpawn\"\017\n\rEventUserSync\"\037\n\n"
-      "EventDeath\022\021\n\ttriggerId\030\001 \001(\005\"\272\005\n\tGameEv"
-      "ent\022&\n\tmoveEvent\030m \001(\0132\023.server2N.EventM"
-      "ove\022&\n\tstopEvent\030n \001(\0132\023.server2N.EventS"
-      "top\022&\n\tjumpEvent\030o \001(\0132\023.server2N.EventJ"
-      "ump\022(\n\nshootEvent\030p \001(\0132\024.server2N.Event"
-      "Shoot\022$\n\010hitEvent\030q \001(\0132\022.server2N.Event"
-      "Hit\022(\n\nspawnEvent\030r \001(\0132\024.server2N.Event"
-      "Spawn\022*\n\tsyncEvent\030s \001(\0132\027.server2N.Even"
-      "tUserSync\022(\n\ndeathEvent\030t \001(\0132\024.server2N"
-      ".EventDeath\022+\n\007actType\030\001 \001(\0162\032.server2N."
-      "GameEvent.action\022\026\n\016actionProperty\030\005 \001(\005"
-      "\022\026\n\016EventPositionX\030\006 \001(\002\022\026\n\016EventPositio"
-      "nY\030\007 \001(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVelocityY"
-      "\030\t \001(\002\022\021\n\tinvokerId\030\n \003(\005\022\020\n\010sectorNo\030\013 "
-      "\001(\005\"\244\001\n\006action\022\013\n\007Nothing\020\000\022\r\n\tEventMove"
-      "\020d\022\r\n\tEventStop\020e\022\r\n\tEventJump\020f\022\016\n\nEven"
-      "tShoot\020g\022\014\n\010EventHit\020h\022\016\n\nEventSpawn\020i\022\021"
-      "\n\rEventUserSync\020j\022\016\n\nEventDeath\020k\022\017\n\013Eve"
-      "ntBullet\020l\"\220\002\n\nPacketBody\0222\n\007msgType\030\220N "
-      "\001(\0162 .server2N.PacketBody.messageType\022)\n"
-      "\007connect\030\006 \001(\0132\030.server2N.UserConnection"
-      "\022\'\n\006notice\030\221N \001(\0132\026.server2N.GlobalNotic"
-      "e\022\"\n\005event\030\007 \001(\0132\023.server2N.GameEvent\022\020\n"
-      "\010senderId\030\010 \001(\005\"D\n\013messageType\022\r\n\tGameEv"
-      "ent\020\000\022\023\n\016UserConnection\020\220N\022\021\n\014GlobalNoti"
-      "ce\020\221Nb\006proto3"
+      "\004 \001(\005\022\021\n\tcurrentHP\030\005 \001(\002\"\014\n\nEventSpawn\"\""
+      "\n\rEventUserSync\022\021\n\tcurrentHP\030\001 \001(\002\"\037\n\nEv"
+      "entDeath\022\021\n\ttriggerId\030\001 \001(\005\"\320\005\n\tGameEven"
+      "t\022&\n\tmoveEvent\030m \001(\0132\023.server2N.EventMov"
+      "e\022&\n\tstopEvent\030n \001(\0132\023.server2N.EventSto"
+      "p\022&\n\tjumpEvent\030o \001(\0132\023.server2N.EventJum"
+      "p\022(\n\nshootEvent\030p \001(\0132\024.server2N.EventSh"
+      "oot\022$\n\010hitEvent\030q \001(\0132\022.server2N.EventHi"
+      "t\022(\n\nspawnEvent\030r \001(\0132\024.server2N.EventSp"
+      "awn\022*\n\tsyncEvent\030s \001(\0132\027.server2N.EventU"
+      "serSync\022(\n\ndeathEvent\030t \001(\0132\024.server2N.E"
+      "ventDeath\022+\n\007actType\030\001 \001(\0162\032.server2N.Ga"
+      "meEvent.action\022\026\n\016actionProperty\030\005 \001(\005\022\026"
+      "\n\016EventPositionX\030\006 \001(\002\022\026\n\016EventPositionY"
+      "\030\007 \001(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVelocityY\030\t"
+      " \001(\002\022\021\n\tinvokerId\030\n \003(\005\022\020\n\010sectorNo\030\013 \001("
+      "\005\022\024\n\014isInterested\030\014 \001(\010\"\244\001\n\006action\022\013\n\007No"
+      "thing\020\000\022\r\n\tEventMove\020d\022\r\n\tEventStop\020e\022\r\n"
+      "\tEventJump\020f\022\016\n\nEventShoot\020g\022\014\n\010EventHit"
+      "\020h\022\016\n\nEventSpawn\020i\022\021\n\rEventUserSync\020j\022\016\n"
+      "\nEventDeath\020k\022\017\n\013EventBullet\020l\"\220\002\n\nPacke"
+      "tBody\0222\n\007msgType\030\220N \001(\0162 .server2N.Packe"
+      "tBody.messageType\022)\n\007connect\030\006 \001(\0132\030.ser"
+      "ver2N.UserConnection\022\'\n\006notice\030\221N \001(\0132\026."
+      "server2N.GlobalNotice\022\"\n\005event\030\007 \001(\0132\023.s"
+      "erver2N.GameEvent\022\020\n\010senderId\030\010 \001(\005\"D\n\013m"
+      "essageType\022\r\n\tGameEvent\020\000\022\023\n\016UserConnect"
+      "ion\020\220N\022\021\n\014GlobalNotice\020\221Nb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1813);
+      descriptor, 1873);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "gameContent.proto", &protobuf_RegisterTypes);
 }
@@ -2533,6 +2537,7 @@ const int EventHit::kAttackerFieldNumber;
 const int EventHit::kDamageFieldNumber;
 const int EventHit::kImpactFieldNumber;
 const int EventHit::kImpactAngleFieldNumber;
+const int EventHit::kCurrentHPFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 EventHit::EventHit()
@@ -2549,15 +2554,15 @@ EventHit::EventHit(const EventHit& from)
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&attacker_, &from.attacker_,
-    static_cast<size_t>(reinterpret_cast<char*>(&impactangle_) -
-    reinterpret_cast<char*>(&attacker_)) + sizeof(impactangle_));
+    static_cast<size_t>(reinterpret_cast<char*>(&currenthp_) -
+    reinterpret_cast<char*>(&attacker_)) + sizeof(currenthp_));
   // @@protoc_insertion_point(copy_constructor:server2N.EventHit)
 }
 
 void EventHit::SharedCtor() {
   ::memset(&attacker_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&impactangle_) -
-      reinterpret_cast<char*>(&attacker_)) + sizeof(impactangle_));
+      reinterpret_cast<char*>(&currenthp_) -
+      reinterpret_cast<char*>(&attacker_)) + sizeof(currenthp_));
   _cached_size_ = 0;
 }
 
@@ -2592,8 +2597,8 @@ void EventHit::Clear() {
   (void) cached_has_bits;
 
   ::memset(&attacker_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&impactangle_) -
-      reinterpret_cast<char*>(&attacker_)) + sizeof(impactangle_));
+      reinterpret_cast<char*>(&currenthp_) -
+      reinterpret_cast<char*>(&attacker_)) + sizeof(currenthp_));
   _internal_metadata_.Clear();
 }
 
@@ -2663,6 +2668,20 @@ bool EventHit::MergePartialFromCodedStream(
         break;
       }
 
+      // float currentHP = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(45u /* 45 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &currenthp_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -2709,6 +2728,11 @@ void EventHit::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->impactangle(), output);
   }
 
+  // float currentHP = 5;
+  if (this->currenthp() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->currenthp(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -2741,6 +2765,11 @@ void EventHit::SerializeWithCachedSizes(
   // int32 impactAngle = 4;
   if (this->impactangle() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->impactangle(), target);
+  }
+
+  // float currentHP = 5;
+  if (this->currenthp() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(5, this->currenthp(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2786,6 +2815,11 @@ size_t EventHit::ByteSizeLong() const {
         this->impactangle());
   }
 
+  // float currentHP = 5;
+  if (this->currenthp() != 0) {
+    total_size += 1 + 4;
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -2827,6 +2861,9 @@ void EventHit::MergeFrom(const EventHit& from) {
   if (from.impactangle() != 0) {
     set_impactangle(from.impactangle());
   }
+  if (from.currenthp() != 0) {
+    set_currenthp(from.currenthp());
+  }
 }
 
 void EventHit::CopyFrom(const ::google::protobuf::Message& from) {
@@ -2857,6 +2894,7 @@ void EventHit::InternalSwap(EventHit* other) {
   swap(damage_, other->damage_);
   swap(impact_, other->impact_);
   swap(impactangle_, other->impactangle_);
+  swap(currenthp_, other->currenthp_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
@@ -3059,6 +3097,7 @@ void EventSpawn::InternalSwap(EventSpawn* other) {
 void EventUserSync::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int EventUserSync::kCurrentHPFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 EventUserSync::EventUserSync()
@@ -3074,10 +3113,12 @@ EventUserSync::EventUserSync(const EventUserSync& from)
       _internal_metadata_(NULL),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
+  currenthp_ = from.currenthp_;
   // @@protoc_insertion_point(copy_constructor:server2N.EventUserSync)
 }
 
 void EventUserSync::SharedCtor() {
+  currenthp_ = 0;
   _cached_size_ = 0;
 }
 
@@ -3111,6 +3152,7 @@ void EventUserSync::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  currenthp_ = 0;
   _internal_metadata_.Clear();
 }
 
@@ -3123,12 +3165,31 @@ bool EventUserSync::MergePartialFromCodedStream(
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
-  handle_unusual:
-    if (tag == 0) {
-      goto success;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // float currentHP = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(13u /* 13 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &currenthp_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
     }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
-          input, tag, _internal_metadata_.mutable_unknown_fields()));
   }
 success:
   // @@protoc_insertion_point(parse_success:server2N.EventUserSync)
@@ -3145,6 +3206,11 @@ void EventUserSync::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  // float currentHP = 1;
+  if (this->currenthp() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->currenthp(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -3158,6 +3224,11 @@ void EventUserSync::SerializeWithCachedSizes(
   // @@protoc_insertion_point(serialize_to_array_start:server2N.EventUserSync)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
+
+  // float currentHP = 1;
+  if (this->currenthp() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->currenthp(), target);
+  }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
@@ -3176,6 +3247,11 @@ size_t EventUserSync::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
+  // float currentHP = 1;
+  if (this->currenthp() != 0) {
+    total_size += 1 + 4;
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -3205,6 +3281,9 @@ void EventUserSync::MergeFrom(const EventUserSync& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.currenthp() != 0) {
+    set_currenthp(from.currenthp());
+  }
 }
 
 void EventUserSync::CopyFrom(const ::google::protobuf::Message& from) {
@@ -3231,6 +3310,7 @@ void EventUserSync::Swap(EventUserSync* other) {
 }
 void EventUserSync::InternalSwap(EventUserSync* other) {
   using std::swap;
+  swap(currenthp_, other->currenthp_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
@@ -3509,6 +3589,7 @@ const int GameEvent::kVelocityXFieldNumber;
 const int GameEvent::kVelocityYFieldNumber;
 const int GameEvent::kInvokerIdFieldNumber;
 const int GameEvent::kSectorNoFieldNumber;
+const int GameEvent::kIsInterestedFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 GameEvent::GameEvent()
@@ -3566,15 +3647,15 @@ GameEvent::GameEvent(const GameEvent& from)
     deathevent_ = NULL;
   }
   ::memcpy(&acttype_, &from.acttype_,
-    static_cast<size_t>(reinterpret_cast<char*>(&sectorno_) -
-    reinterpret_cast<char*>(&acttype_)) + sizeof(sectorno_));
+    static_cast<size_t>(reinterpret_cast<char*>(&isinterested_) -
+    reinterpret_cast<char*>(&acttype_)) + sizeof(isinterested_));
   // @@protoc_insertion_point(copy_constructor:server2N.GameEvent)
 }
 
 void GameEvent::SharedCtor() {
   ::memset(&moveevent_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&sectorno_) -
-      reinterpret_cast<char*>(&moveevent_)) + sizeof(sectorno_));
+      reinterpret_cast<char*>(&isinterested_) -
+      reinterpret_cast<char*>(&moveevent_)) + sizeof(isinterested_));
   _cached_size_ = 0;
 }
 
@@ -3650,8 +3731,8 @@ void GameEvent::Clear() {
   }
   deathevent_ = NULL;
   ::memset(&acttype_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&sectorno_) -
-      reinterpret_cast<char*>(&acttype_)) + sizeof(sectorno_));
+      reinterpret_cast<char*>(&isinterested_) -
+      reinterpret_cast<char*>(&acttype_)) + sizeof(isinterested_));
   _internal_metadata_.Clear();
 }
 
@@ -3777,6 +3858,20 @@ bool GameEvent::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &sectorno_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool isInterested = 12;
+      case 12: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(96u /* 96 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &isinterested_)));
         } else {
           goto handle_unusual;
         }
@@ -3952,6 +4047,11 @@ void GameEvent::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(11, this->sectorno(), output);
   }
 
+  // bool isInterested = 12;
+  if (this->isinterested() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(12, this->isinterested(), output);
+  }
+
   // .server2N.EventMove moveEvent = 109;
   if (this->has_moveevent()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
@@ -4061,6 +4161,11 @@ void GameEvent::SerializeWithCachedSizes(
   // int32 sectorNo = 11;
   if (this->sectorno() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(11, this->sectorno(), target);
+  }
+
+  // bool isInterested = 12;
+  if (this->isinterested() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(12, this->isinterested(), target);
   }
 
   // .server2N.EventMove moveEvent = 109;
@@ -4248,6 +4353,11 @@ size_t GameEvent::ByteSizeLong() const {
         this->sectorno());
   }
 
+  // bool isInterested = 12;
+  if (this->isinterested() != 0) {
+    total_size += 1 + 1;
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -4323,6 +4433,9 @@ void GameEvent::MergeFrom(const GameEvent& from) {
   if (from.sectorno() != 0) {
     set_sectorno(from.sectorno());
   }
+  if (from.isinterested() != 0) {
+    set_isinterested(from.isinterested());
+  }
 }
 
 void GameEvent::CopyFrom(const ::google::protobuf::Message& from) {
@@ -4365,6 +4478,7 @@ void GameEvent::InternalSwap(GameEvent* other) {
   swap(velocityx_, other->velocityx_);
   swap(velocityy_, other->velocityy_);
   swap(sectorno_, other->sectorno_);
+  swap(isinterested_, other->isinterested_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }

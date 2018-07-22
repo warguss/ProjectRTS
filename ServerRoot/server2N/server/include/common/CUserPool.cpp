@@ -12,6 +12,14 @@ CUserPool::CUserPool()
 	_pool_cond = NULL;
 }
 
+CUserPool::~CUserPool()
+{
+	/****************************
+	 * Clear Logic 필요
+	 ****************************/
+    userInfo.clear();
+}
+
 void CUserPool::initialize()
 {
 	int idx = 0;
@@ -38,14 +46,53 @@ void CUserPool::initialize()
 	} 
 } 
 
-CUserPool::~CUserPool()
+int CUserPool::_getUpLeftDiagnol(int sector)
 {
-	/****************************
-	 * Clear Logic 필요
-	 ****************************/
-    userInfo.clear();
+	int returnSector = 0;
+	int sectorLine = sector / _yUnit;
+	sector--;
+	if ( sector < 0 || (sectorLine != (sector / _yUnit)) )
+	{
+		return -1;
+	}
+
+	returnSector = sector + _yUnit;
+	LOG_DEBUG("sector Change LeftMoveSector(%d) UpMoveSector(%d) sectorLine(%d)", sector, returnSector, sectorLine);
+
+	return returnSector;
 }
 
+int CUserPool::_getRightSector(int sector)
+{
+	int returnSector = 0;
+	int sectorLine = sector / _yUnit;
+	sector++;
+	if ( sector < 0 || (sectorLine != (sector / _yUnit)) )
+	{
+		return -1;
+	}
+
+	returnSector = sector;
+	LOG_DEBUG("sector Change RightMoveSector(%d) sectorLine(%d)", returnSector, sectorLine);
+
+	return returnSector;
+}
+
+int CUserPool::_getDownSector(int sector)
+{
+	int returnSector = 0;
+	int sectorLine = sector / _yUnit;
+	sector = sector - _yUnit;
+	if ( sector < 0 || (sectorLine >= (sector / _yUnit)) )
+	{
+		return -1;
+	}
+
+	returnSector = sector;
+	LOG_DEBUG("sector Change DownSector(%d) DownMoveSector(%d) sectorLine(%d)", sector, returnSector, sectorLine);
+
+	return returnSector;
+}
 
 int CUserPool::getSectionNo(CUser* user)
 {
@@ -249,6 +296,7 @@ CUser* CUserPool::findUserInPool(int fd, int sector)
 		{
 			LOG_ERROR("User Not Exist in Map User(%d)", fd);
 		}
+		LOG_DEBUG("Find User(%d)", fd);
 	}
 
 	return user;
@@ -284,23 +332,29 @@ void CUserPool::getPartUserList(list<CUser*>& userConnection, int sector)
 	map<int, CUser*>* tMap = NULL;
 	map<int, map<int, CUser*>* >::iterator it_sectorMap;
 	map<int, CUser*>::iterator it_user;
-	it_sectorMap = userInfo.find(sector);
-	if ( it_sectorMap == userInfo.end() )
-	{
-		LOG_ERROR("Not Exist Sector");
-		return ;
-	} 
+	int32_t attensionSector = ATTENTION_SECTOR_RANGE;
+	int32_t notAttensionSector = NOT_ATTENTION_SECTOR_RANGE * NOT_ATTENSION_SECTOR_RANGE;
 
-	tMap = (map< int, CUser* >*)it_sectorMap->second;
-	for ( it_user = tMap->begin(); it_user != tMap->end(); it_user++ )
+	for( int32_t idx = notAttensionSector ; ) 
 	{
-		CUser* user = (CUser*)it_user->second;
-		if ( !user )
+		it_sectorMap = userInfo.find(sector);
+		if ( it_sectorMap == userInfo.end() )
 		{
-			continue ; 
+			LOG_ERROR("Not Exist Sector");
+			return ;
+		} 
+
+		tMap = (map< int, CUser* >*)it_sectorMap->second;
+		for ( it_user = tMap->begin(); it_user != tMap->end(); it_user++ )
+		{
+			CUser* user = (CUser*)it_user->second;
+			if ( !user )
+			{
+				continue ; 
+			}
+			userConnection.push_back(user);
 		}
-		userConnection.push_back(user);
+		LOG_DEBUG("Part Send List Set Sector(%d), size(%d)", sector, userConnection.size());
 	}
-	LOG_DEBUG("Part Send List Set Sector(%d), size(%d)", sector, userConnection.size());
 }
 
