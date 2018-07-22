@@ -245,7 +245,7 @@ public class GameLogic : MonoBehaviour
         foreach (int invokerId in EventPacket.InvokerId)
         {
             int sectorNo = EventPacket.SectorNo;
-            //bool isInterested = EventPacket.isInterested;
+            bool isInterested = EventPacket.IsInterested;
             if (invokerId == myId)
             {
                 mySector = sectorNo;
@@ -301,7 +301,6 @@ public class GameLogic : MonoBehaviour
                         var info = EventPacket.ShootEvent;
                         DamageInfo damageInfo = new DamageInfo
                         {
-                            AttackerId = invokerId,
                             Damage = (int)info.Damage,
                             shootAngle = info.Angle,
                             HitRecovery = 10,/////////unused
@@ -320,14 +319,13 @@ public class GameLogic : MonoBehaviour
                         var info = EventPacket.HitEvent;
                         DamageInfo damageInfo = new DamageInfo
                         {
-                            AttackerId = info.Attacker,
                             Damage = (int)info.Damage,
                             HitRecovery = 10,/////////unused
                             Impact = info.Impact,/////////////
                             ImpactAngle = info.ImpactAngle///////////
                         };
                         float currentHp = info.CurrentHP;
-                        playerControllers[invokerId].GetHit(damageInfo, currentHp);
+                        playerControllers[invokerId].GetHit(info.Attacker, damageInfo, currentHp);
                         break;
                     }
 
@@ -381,11 +379,11 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void PlayerEventGetHit(int invokerId, Vector2 position, Vector2 velocity, DamageInfo info)
+    void PlayerEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, DamageInfo info)
     {
         if (isOnline)
         {
-            NetworkModule.instance.WriteEventGetHit(invokerId, position, velocity, info);
+            NetworkModule.instance.WriteEventGetHit(invokerId, position, velocity, attackerId, info);
         }
     }
 

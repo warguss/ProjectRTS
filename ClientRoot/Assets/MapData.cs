@@ -63,10 +63,12 @@ public class MapData : MonoBehaviour {
 
     public void DrawMap()
     {
-        for(int i=0; i<tileList.Count; i++)
+        var MapTiles = new GameObject("MapTiles");
+
+        for (int i=0; i<tileList.Count; i++)
         {
             TileInfo currentTileInfo = tileList[i];
-            GameObject tile = Instantiate(UnitTile);
+            GameObject tile = Instantiate(UnitTile, MapTiles.transform);
             SpriteRenderer tileRenderer = tile.GetComponent<SpriteRenderer>();
             BoxCollider2D tileCollider = tile.GetComponent<BoxCollider2D>();
 

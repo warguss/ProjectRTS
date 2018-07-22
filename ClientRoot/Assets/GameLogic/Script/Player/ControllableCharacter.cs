@@ -3,7 +3,6 @@ using System.Collections;
 
 public class DamageInfo
 {
-    public int AttackerId = -1;
     public float shootAngle;//unuse when hit()
     public int Damage;
     public int HitRecovery;// currently unuse
@@ -14,7 +13,7 @@ public class DamageInfo
 public delegate void CharEventMove(int invokerId, Vector2 position, Vector2 velocity, bool isLeft);
 public delegate void CharEventStop(int invokerId, Vector2 position, Vector2 velocity);
 public delegate void CharEventJump(int invokerId, Vector2 position, Vector2 velocity);
-public delegate void CharEventGetHit(int invokerId, Vector2 position, Vector2 velocity, DamageInfo info);
+public delegate void CharEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, DamageInfo info);
 public delegate void CharEventShoot(int invokerId, Vector2 position, Vector2 velocity, DamageInfo info);
 public delegate void CharEventSpawn(int invokerId, Vector2 position);
 public delegate void CharEventDead(int invokerId, Vector2 position, int attackerId);
@@ -37,6 +36,8 @@ public abstract class ControllableCharacter : MonoBehaviour
 
     protected CharacterStatus status = CharacterStatus.Neutral;
     protected int hitRecovery = 0;
+
+    //protected WeaponId CurrentWeapon;
 
     protected float hp;
     protected int jumpCount = 0;
@@ -68,9 +69,9 @@ public abstract class ControllableCharacter : MonoBehaviour
     {
         JumpEvent?.Invoke(OwnerId, position, velocity);
     }
-    protected void InvokeEventGetHit(Vector2 position, Vector2 velocity, DamageInfo info)
+    protected void InvokeEventGetHit(Vector2 position, Vector2 velocity, int attackerId, DamageInfo info)
     {
-        GetHitEvent?.Invoke(OwnerId, position, velocity, info);
+        GetHitEvent?.Invoke(OwnerId, position, velocity, attackerId, info);
     }
     protected void InvokeEventShoot(Vector2 position, Vector2 velocity, DamageInfo info)
     {
@@ -134,7 +135,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     public abstract void SetLocation(Vector2 position);
     public abstract void MoveWithInterpolation(Vector2 position, Vector2 velocity);
 
-    public abstract void GetHit(DamageInfo info, float? remainingHp = null);
+    public abstract void GetHit(int attackerId, DamageInfo info, float? remainingHp = null);
 
     public abstract GameObject GetGameObject();
 }

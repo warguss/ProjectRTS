@@ -151,6 +151,7 @@
     <Compile Include="Assets\TouchButtonsInterface.cs" />
     <Compile Include="Assets\TouchDirectionInterface.cs" />
     <Compile Include="Assets\Utils.cs" />
+    <Compile Include="Assets\Weapon.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/blurtic/Documents/git/ProjectRTS/ClientRoot/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

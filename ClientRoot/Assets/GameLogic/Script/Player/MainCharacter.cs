@@ -204,7 +204,6 @@ public class MainCharacter : ControllableCharacter
 
             DamageInfo damageInfo = new DamageInfo
             {
-                AttackerId = OwnerId,
                 shootAngle = shootAngle,
                 ImpactAngle = shootAngle,
                 Impact = 50,
@@ -226,13 +225,14 @@ public class MainCharacter : ControllableCharacter
         {
             GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position, new Quaternion());
             Bullet bulletScript = bullet.GetComponent<Bullet>();
+            bulletScript.OwnerId = OwnerId;
 
             if (info != null)
             {
-                bulletScript.SetInfo(info);
+                bulletScript.DamageInfo = info;
             }
 
-            InvokeEventShoot(CurrentPosition, CurrentVelocity, bulletScript.GetDamageInfo());
+            InvokeEventShoot(CurrentPosition, CurrentVelocity, bulletScript.DamageInfo);
         }
     }
 
@@ -271,23 +271,23 @@ public class MainCharacter : ControllableCharacter
         jumpCount = 0;
     }
 
-    public override void GetHit(DamageInfo info, float? remainingHp = null)
+    public override void GetHit(int attackerId, DamageInfo info, float? remainingHp = null)
     {
         if (remainingHp == null)
             hp -= info.Damage;
         else
             hp = (float)remainingHp;
 
-        TestUI.Instance.PrintText("player" + OwnerId + "hp : " + hp + " / Attacker : " + info.AttackerId);
+        TestUI.Instance.PrintText("player" + OwnerId + "hp : " + hp + " / Attacker : " + attackerId);
 
         float radian = Mathf.PI * (float)info.ImpactAngle / 180f;
         float impactX = Mathf.Cos(radian);
         float impactY = Mathf.Sin(radian);
         charRigidbody.AddForce(new Vector2(impactX, impactY) * info.Impact);
 
-        lastAttackedPlayerId = info.AttackerId;
+        lastAttackedPlayerId = attackerId;
 
-        InvokeEventGetHit(CurrentPosition, CurrentVelocity, info);
+        InvokeEventGetHit(CurrentPosition, CurrentVelocity, attackerId, info);
 
         if (IsLocalPlayer && hp <= 0)
         {

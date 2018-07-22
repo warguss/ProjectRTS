@@ -7,7 +7,8 @@ public class Bullet : MonoBehaviour {
     public float bulletSpeed;
     public float range;
 
-    private DamageInfo damageInfo; 
+    public int OwnerId { get; set; }
+    public  DamageInfo DamageInfo { get; set; }
 
     private Vector2 StartPosition;
 
@@ -16,9 +17,9 @@ public class Bullet : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //currently, Damageinfo is constant.
-        damageInfo.Damage = 10;
-        damageInfo.HitRecovery = 10;
-        damageInfo.Impact = 50;
+        DamageInfo.Damage = 10;
+        DamageInfo.HitRecovery = 10;
+        DamageInfo.Impact = 50;
 
         StartPosition = rb2d.position;
     }
@@ -26,7 +27,7 @@ public class Bullet : MonoBehaviour {
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        damageInfo = new DamageInfo();
+        DamageInfo = new DamageInfo();
     }
 	
 	// Update is called once per frame
@@ -36,9 +37,9 @@ public class Bullet : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if(damageInfo.shootAngle == 180)
+        if(DamageInfo.shootAngle == 180)
             rb2d.velocity = Vector2.left * bulletSpeed;
-        else if(damageInfo.shootAngle == 0)
+        else if(DamageInfo.shootAngle == 0)
             rb2d.velocity = Vector2.right * bulletSpeed;
 
         Vector2 CurrentPosition = rb2d.position;
@@ -51,11 +52,11 @@ public class Bullet : MonoBehaviour {
         if (other.tag == "Player")
         {
             MainCharacter targetPlayer = other.gameObject.GetComponent<MainCharacter>();
-            if (targetPlayer.OwnerId != damageInfo.AttackerId)
+            if (targetPlayer.OwnerId != OwnerId)
             {
                 if (targetPlayer.IsLocalPlayer)
                 {
-                    targetPlayer.GetHit(damageInfo);
+                    targetPlayer.GetHit(OwnerId, DamageInfo);
                     //TestUI.Instance.PrintText("BulletOnTriggerEnter2D");
                 }
 
@@ -69,15 +70,5 @@ public class Bullet : MonoBehaviour {
         {
             Destroy(gameObject);
         }
-    }
-
-    public DamageInfo GetDamageInfo()
-    {
-        return damageInfo;
-    }
-
-    public void SetInfo(DamageInfo info)
-    {
-        damageInfo = info;
     }
 }
