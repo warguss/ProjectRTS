@@ -387,7 +387,7 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
-    public void WriteEventGetHit(int InvokerId, Vector2 position, Vector2 velocity, int attackerId, DamageInfo info)
+    public void WriteEventGetHit(int InvokerId, Vector2 position, Vector2 velocity, int attackerId, DamageInfo info, float remainingHp)
     {
         var packet = CreateCommonEventPacket(GameEvent.Types.action.EventHit, InvokerId, position, velocity);
         packet.Event.HitEvent = new EventHit
@@ -395,7 +395,8 @@ public class NetworkModule : MonoBehaviour
             Attacker = attackerId,
             ImpactAngle = info.ImpactAngle,
             Impact = info.Impact,
-            Damage = info.Damage
+            Damage = info.Damage,
+            CurrentHP = remainingHp
         };
 
         EnqueueSendPacket(packet);

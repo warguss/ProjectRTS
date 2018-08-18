@@ -9,6 +9,8 @@ public enum WeaponId : int
 
 public struct Weapon
 {
-    int weaponId;
-    DamageInfo defaultDamageInfo;
+    int WeaponId;
+    float BulletSpeed;
+    float Range;
+    DamageInfo DamageInfo;
 }

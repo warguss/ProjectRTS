@@ -190,9 +190,12 @@ public class GameLogic : MonoBehaviour
                     ProcessEventPacket(packetBody.Event);
                 break;
             case PacketBody.Types.messageType.GlobalNotice:
+                message = "GlobalNotice data Received.";
+                TestUI.Instance.PrintText(message);
+                ProcessNoticePacket(packetBody.Notice);
                 break;
             default:
-                message = "UnknownType : " + (int)packetBody.MsgType;
+                message = "UnknownType packet received: " + (int)packetBody.MsgType;
                 TestUI.Instance.PrintText(message);
                 break;
         }
@@ -354,6 +357,23 @@ public class GameLogic : MonoBehaviour
         }
     }
 
+    void ProcessNoticePacket(GlobalNotice noticePacket)
+    {
+        switch(noticePacket.NotiType)
+        {
+            case GlobalNotice.Types.NoticeInfo.KillInfo:
+                int perfomerId = noticePacket.Performer;
+                var victimId = noticePacket.Victim;
+                TestUI.Instance.PrintText("perfomer : " + noticePacket.Performer + "(" + playerControllers[perfomerId].PlayerName + ")" + 
+                    " / victim : " + noticePacket.Victim + "(" + playerControllers[victimId[0]].PlayerName + ")");
+                break;
+
+            case GlobalNotice.Types.NoticeInfo.Notice:
+                TestUI.Instance.PrintText("message : " + noticePacket.Notice);
+                break;
+        }
+    }
+
     void CheckPacket()
     {
         PacketBody Packet = NetworkModule.instance.GetReceivedPacketBody();
@@ -379,11 +399,11 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void PlayerEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, DamageInfo info)
+    void PlayerEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, DamageInfo info, float remainingHp)
     {
         if (isOnline)
         {
-            NetworkModule.instance.WriteEventGetHit(invokerId, position, velocity, attackerId, info);
+            NetworkModule.instance.WriteEventGetHit(invokerId, position, velocity, attackerId, info, remainingHp);
         }
     }
 

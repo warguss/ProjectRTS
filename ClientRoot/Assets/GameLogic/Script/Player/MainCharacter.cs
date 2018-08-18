@@ -287,7 +287,7 @@ public class MainCharacter : ControllableCharacter
 
         lastAttackedPlayerId = attackerId;
 
-        InvokeEventGetHit(CurrentPosition, CurrentVelocity, attackerId, info);
+        InvokeEventGetHit(CurrentPosition, CurrentVelocity, attackerId, info, hp);
 
         if (IsLocalPlayer && hp <= 0)
         {
