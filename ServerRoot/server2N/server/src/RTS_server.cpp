@@ -21,6 +21,7 @@ using namespace std;
 bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventUser);
 bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser);
 bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser);
+bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser);
 typedef bool (*CallBackFunc)(CSessionManager&, CProtoPacket*);
 
 extern int32_t g_sectorIdx;
@@ -119,6 +120,12 @@ bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		session.m_writeQ_Manager.enqueue(packet);
 		LOG_DEBUG("User(%d) Send Noti", packet->_fd);
 	}
+
+	if ( type == (int32_t)server2N::GameEvent_action_EventDeath )
+	{
+		NotiAllSendFunc(session, eventUser);
+	}
+
 	LOG_DEBUG("End Part Send");
 
 	return true;
@@ -200,7 +207,7 @@ bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		/*********************************
 		 * Enqueue
 		 *********************************/
-		session.m_writeQ_Manager.releaseLock();
+		//session.m_writeQ_Manager.releaseLock();
 		session.m_writeQ_Manager.enqueue(packet);
 		LOG_INFO("User(%d) Send Noti", packet->_fd);
 	}
@@ -283,12 +290,10 @@ bool childProcessLogic()
 				continue ;
 			}
 
-			LOG_DEBUG("User Type (%d)", type); 
 			void (*func)(CSessionManager&, CProtoPacket*) = NULL;
 			func = funcMap.find(type)->second;
 			if ( func )
 			{
-				LOG_DEBUG("Start Func");
 				func(session, data);
 			}
 			else
