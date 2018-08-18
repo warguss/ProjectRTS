@@ -145,7 +145,9 @@ static void* CSessionManager::waitEvent(void* val)
 					disConnPacket->_fd = fd;
 					m_readQ_Manager.enqueue(disConnPacket);
 					close(fd);
-					LOG_SUCC("@SUCC UID:%d NName:%s ATP:LOGOUT SECTOR:%d", disConnPacket->_fd, disConnPacket->_nickName.c_str(), disConnPacket->_sector);
+
+					g_userPool.delUserInPool(fd);
+					LOG_INFO("@SUCC UID:%d NName:%s ATP:LOGOUT SECTOR:%d", disConnPacket->_fd, disConnPacket->_nickName.c_str(), disConnPacket->_sector);
 					continue;
 				}
 
@@ -172,7 +174,6 @@ static void* CSessionManager::waitEvent(void* val)
 					continue;
 				}
 				
-				LOG_DEBUG("Body Set headerSize(%d) readSize(%d)", bodyLength, readn);
 				CProtoPacket* packet = NULL;
 				if ( !g_packetManager.decodingBody(bodyBuf, readn, bodyLength, &packet) || !packet || !packet->SyncUser(user))
 				{
@@ -195,7 +196,7 @@ static void* CSessionManager::waitEvent(void* val)
 				 * userPool 에서 꺼내야할듯
 				 ******************************************/
 				m_readQ_Manager.enqueue(packet);
-				LOG_SUCC("@SUCC UID:%d NName:%s ATP:LOGIN SECTOR:%d", packet->_fd, packet->_nickName.c_str(), packet->_sector);
+				LOG_INFO("@SUCC UID:%d NName:%s ATP:%s SECTOR:%d", packet->_fd, packet->_nickName.c_str(), packet->_act.c_str(), packet->_sector);
             }
         }
     }
@@ -206,7 +207,6 @@ static void* CSessionManager::writeEvent(void* val)
 	while(1) 
 	{
 		/* signal ... */
-		//m_writeQ_Manager.setStartLock();
 		CProtoPacket* packet = NULL;
 		if ( packet = m_writeQ_Manager.dequeue() )
 		{
@@ -245,7 +245,7 @@ static void* CSessionManager::writeEvent(void* val)
 				LOG_ERROR("Write Error Socket[%d] writeSize[%d](%d)(%s)", packet->_fd, writeSize, errno, strerror(errno));
 				continue ;
 			}
-			LOG_SUCC("@SUCC UID:%d NName:%s ATP:LOGIN SECTOR:%d", packet->_fd, packet->_nickName.c_str(), packet->_sector);
+			LOG_INFO("@SUCC UID:%d NName:%s ATP:LOGIN SECTOR:%d", packet->_fd, packet->_nickName.c_str(), packet->_sector);
 		}
 	}
 

@@ -38,17 +38,6 @@ void CProtoManager::initialize()
 
 void CProtoManager::close()
 {
-#if 0 
-	if ( _connectCase )
-	{
-		//delete _connectCase;
-	}
-	
-	if ( _disConnectCase )
-	{
-		//delete _disConnectCase;
-	}
-#endif
 }
 
 bool CProtoManager::encodingHeader(unsigned char* outputBuf, server2N::PacketBody* protoPacket, uint32_t& bodyLength)
@@ -143,7 +132,6 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
     if ( (*protoPacket)->_proto->has_event() )
     {
         server2N::GameEvent tEvent = (*protoPacket)->_proto->event();
-        //cout << "Debug String" << tEvent.DebugString() << endl;
         LOG_DEBUG("Has Event (%s)", tEvent.DebugString().c_str());
 		(*protoPacket)->_type = tEvent.acttype();
 
@@ -151,14 +139,12 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
     else if ( (*protoPacket)->_proto->has_connect() )
     {
         server2N::UserConnection tConnect = (*protoPacket)->_proto->connect();
-        //cout << "Debug String" << tConnect.DebugString() << endl;
         LOG_DEBUG("Has Connect (%s)", tConnect.DebugString().c_str());
 		(*protoPacket)->_type = tConnect.contype();
     }
 	else if ( (*protoPacket)->_proto->has_notice() )
     {
         server2N::GlobalNotice tNoti = (*protoPacket)->_proto->notice();
-        //cout << "Debug String" << tNoti.DebugString() << endl;
         LOG_DEBUG("Has Notice (%s)", tNoti.DebugString().c_str());
 		(*protoPacket)->_type = tNoti.notitype();
     }
@@ -185,7 +171,6 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 	if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect )
 	{
 		LOG_INFO("USERID(%d) TRYCONNECT Change To AccepConnect", eventUser->_fd);
-		
 		(*packet)->_fd = eventUser->_fd;
 		(*packet)->_proto->set_senderid(eventUser->_fd);
 		(*packet)->_type = server2N::PacketBody_messageType_UserConnection;
@@ -197,8 +182,6 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 		(*packet)->_protoConnect->add_nickname(eventUser->_nickName.c_str());
 		
 		(*packet)->_proto->set_allocated_connect((*packet)->_protoConnect);
-		//cout << "TRYCONNECT PACKET " << (*packet)->_proto->DebugString() << endl;
-		//LOG_DEBUG("Send Packet Set(%s)", (*packet)->_proto->DebugString().c_str());
 	}
 	else if ( type == (int32_t)server2N::UserConnection_ConnectionType_Connect )
 	{
@@ -252,7 +235,6 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 		 * 기존 유저일 경우 eventFd만 전달
 		 **************************************/
 		LOG_DEBUG("USERID(%d) DisConnect", eventUser->_fd);
-		
 		(*packet)->_fd = fd;
 		(*packet)->_proto->set_senderid(fd);
 		(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_UserConnection);
@@ -345,7 +327,7 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 		}
 	}
 
-	tEvent->set_setcorno(eventUser->_sectorNo);
+	tEvent.set_sectorno(eventUser->_sector);
 	if ( !isSelfEvent )
 	{
 		(*packet)->_protoEvent->CopyFrom(tEvent);
@@ -375,7 +357,7 @@ bool CProtoManager::setNotiType(int type, CUser* recvUser, CProtoPacket* eventUs
 
 	(*packet) = new CProtoPacket();
 	(*packet)->_protoNoti = new server2N::GlobalNotice();
-	if ( type == (int32_t)server2N::GameEvent_action_EventDeath  )
+	if ( type == (int32_t)server2N::GameEvent_action_EventDeath )
 	{
 		type = (int32_t)server2N::GlobalNotice_NoticeInfo_KillInfo;
 		server2N::GameEvent tEvent = eventUser->_proto->event(); 
@@ -405,12 +387,15 @@ bool CProtoManager::setNotiType(int type, CUser* recvUser, CProtoPacket* eventUs
 			LOG_ERROR("Not Exist TriggerUser(%d)\n", triggerUser->_fd);
 			return false;
 		}
-		(*packet)->_protoNoti->add_victim((int32_t)triggerFd);
+		(*packet)->_protoNoti->set_performer((int32_t)triggerFd);
+		//LOG_DEBUG("Set Kill Trigger(%d)\n", triggerUser->_fd);
 		triggerUser->_killInfo++;
 	}
 
 	(*packet)->_type = type;
+	(*packet)->_fd = recvUser->_fd;
 	(*packet)->_protoNoti->set_notitype((int32_t)type);
+	(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_GlobalNotice);
 	(*packet)->_proto->set_allocated_notice((*packet)->_protoNoti);
 
 	return true;
