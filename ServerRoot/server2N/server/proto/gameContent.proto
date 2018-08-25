@@ -56,6 +56,7 @@ message EventShoot{
 	float damage = 2;
 	int32 impact = 3;
 	int32 impactAngle = 4;
+	int32 weaponId = 5;
 }
 
 message EventHit{
@@ -66,12 +67,17 @@ message EventHit{
 	float currentHP = 5;
 }
 
+message EventChangeWeapon{
+	int32 weaponId = 1;
+}
+
 message EventSpawn{
 	
 }
 
 message EventUserSync{
 	float currentHP = 1;
+	int32 weaponId = 2;
 }
 
 message EventDeath{
@@ -90,6 +96,7 @@ message GameEvent{
 		EventUserSync		= 106;
 		EventDeath			= 107;
 		EventBullet			= 108;
+		EventChangeWeapon	= 109;
 	}
 	EventMove moveEvent = 109;
 	EventStop stopEvent = 110;
@@ -99,6 +106,8 @@ message GameEvent{
 	EventSpawn spawnEvent = 114;
 	EventUserSync syncEvent = 115;
 	EventDeath deathEvent = 116;
+	EventChangeWeapon chWeaponEvent = 117;
+
 
 	action actType = 1;
 	int32 actionProperty = 5;
