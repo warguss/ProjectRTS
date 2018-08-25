@@ -1,16 +1,18 @@
 #include "CThreadLockManager.h"
 
-CThreadLockManager::CThreadLockManager(pthread_mutex_t* mutex, pthread_cond_t* cond)
+
+
+CThreadLockManager::CThreadLockManager()
 {
-	_mutex = mutex;
-	_cond = cond;
-	if ( _mutex && _cond )
+	printf("Test");
+}
+
+CThreadLockManager::CThreadLockManager(pthread_mutex_t* mutex, pthread_cond_t* cond, bool isAutoLock)
+	: _mutex(mutex), _cond(cond)
+{
+	if ( isAutoLock )
 	{
-		pthread_mutex_lock(_mutex);
-		while(!(cond))
-		{
-			pthread_cond_wait(_cond, _mutex);
-		}
+		lock();
 	}
 }
 
@@ -28,3 +30,24 @@ void CThreadLockManager::release()
 	}
 }
 
+void CThreadLockManager::lock()
+{
+	if ( _mutex && _cond )
+	{
+		pthread_mutex_lock(_mutex);
+		while(!(_cond))
+		{
+			pthread_cond_wait(_cond, _mutex);
+		}
+	}
+	else
+	{
+		printf("Not Exist thread");
+	}
+}
+
+void CThreadLockManager::setValue(pthread_mutex_t* mutex, pthread_cond_t* cond)
+{
+	_mutex = mutex;
+	_cond = cond;
+}
