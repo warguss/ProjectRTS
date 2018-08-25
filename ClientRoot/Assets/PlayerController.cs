@@ -126,6 +126,11 @@ public class PlayerController {
         Character.ShootWithDamageInfo(info, position);
     }
 
+    public void ChangeWeapon(WeaponId inWeaponId)
+    {
+        Character.ChangeWeapon(inWeaponId);
+    }
+
     public void GetHit(int attackerId, DamageInfo info, float? remainingHp = null)
     {
         Character.GetHit(attackerId, info, remainingHp);
@@ -154,5 +159,15 @@ public class PlayerController {
     public void LeaveGame()
     {
         Character.RemoveCharacter();
+    }
+
+    public List<WeaponId> GetInventory()
+    {
+        return Character.Inventory;
+    }
+
+    public WeaponId GetCurrentWeapon()
+    {
+        return Character.currentWeapon;
     }
 }

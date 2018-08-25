@@ -88,6 +88,7 @@ public class GameLogic : MonoBehaviour
             player.Character.StopEvent += PlayerEventStop;
             player.Character.JumpEvent += PlayerEventJump;
             player.Character.ShootEvent += PlayerEventShoot;
+            player.Character.ChangeWeaponEvent += PlayerEventChangeWeapon;
             player.Character.GetHitEvent += PlayerEventGetHit;
             player.Character.SpawnEvent += PlayerEventSpawn;
             player.Character.DieEvent += PlayerEventDie;
@@ -147,6 +148,16 @@ public class GameLogic : MonoBehaviour
                 SendInputToCharacter(myId, PlayerAction.Jump);
             if (inputInterface.GetFire())
                 SendInputToCharacter(myId, PlayerAction.Fire);
+            if(inputInterface.GetNextWeapon())
+            {
+                WeaponId CurrentWeaponId = playerControllers[myId].GetCurrentWeapon();
+                var CurrentInventory = playerControllers[myId].GetInventory();
+                int currentIndex = CurrentInventory.IndexOf(CurrentWeaponId);
+                int nextIndex = currentIndex + 1;
+                if (nextIndex >= CurrentInventory.Count)
+                    nextIndex = 0;
+                playerControllers[myId].ChangeWeapon(CurrentInventory[nextIndex]);
+            }
         }
 
         if(TestMode)
@@ -158,6 +169,16 @@ public class GameLogic : MonoBehaviour
                 SendInputToCharacter(testId2P, PlayerAction.Jump);
             if (Input.GetKeyDown(KeyCode.LeftShift))
                 SendInputToCharacter(testId2P, PlayerAction.Fire);
+            if(Input.GetKeyDown(KeyCode.Q))
+            {
+                WeaponId CurrentWeaponId = playerControllers[testId2P].GetCurrentWeapon();
+                var CurrentInventory = playerControllers[testId2P].GetInventory();
+                int currentIndex = CurrentInventory.IndexOf(CurrentWeaponId);
+                int nextIndex = currentIndex + 1;
+                if (nextIndex >= CurrentInventory.Count)
+                    nextIndex = 0;
+                playerControllers[testId2P].ChangeWeapon(CurrentInventory[nextIndex]);
+            }
         }
 
     }
@@ -420,6 +441,14 @@ public class GameLogic : MonoBehaviour
         if (isOnline)
         {
             NetworkModule.instance.WriteEventShoot(invokerId, position, velocity, info);
+        }
+    }
+
+    void PlayerEventChangeWeapon(int invokerId, Vector2 position, Vector2 velocity, WeaponId weaponId)
+    {
+        if (isOnline)
+        {
+            //NetworkModule.instance.WriteEventChangeWeapon(invokerId, position, velocity, weaponId);
         }
     }
 

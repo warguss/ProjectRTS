@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PistolBullet : Bullet
+public class SniperBullet : Bullet
 {
     // Use this for initialization
     void Start()
     {
-        weaponId = WeaponId.Pistol;
+        weaponId = WeaponId.Sniper;
         Initialize();
     }
 
@@ -29,7 +29,7 @@ public class PistolBullet : Bullet
             Destroy(gameObject);
     }
 
-    override public void SetAngle(int inAngle) 
+    override public void SetAngle(int inAngle)
     {
         DamageInfo.shootAngle = inAngle;
         DamageInfo.ImpactAngle = inAngle;

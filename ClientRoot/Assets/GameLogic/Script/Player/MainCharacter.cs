@@ -2,6 +2,7 @@
 using System.Collections;
 using RTS;
 using System;
+using System.Collections.Generic;
 
 public enum CharacterStatus
 {
@@ -25,8 +26,6 @@ public class MainCharacter : ControllableCharacter
 
     bool isSyncedXStop = false;
     bool isSyncedYStop = false;
-
-    public GameObject bulletPrefab;
 
     public override void Spawn(Vector2 position)
     {
@@ -61,6 +60,11 @@ public class MainCharacter : ControllableCharacter
         charRigidbody = GetComponent<Rigidbody2D>();
         charCollider = GetComponent<Collider2D>();
         charSpriteObject = transform.Find("Sprite").gameObject;
+
+        Inventory = new List<WeaponId>();
+        Inventory.Add(WeaponId.Pistol);////////////////////
+        Inventory.Add(WeaponId.Sniper);////////////////////
+        Inventory.Sort();
 
         var playerInfoDisplayGameObject = Instantiate(PlayerInfoDisplay, transform.Find("Sprite"));
         playerInfoDisplayGameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
@@ -195,22 +199,15 @@ public class MainCharacter : ControllableCharacter
     {
         if (!isDead)
         {
-            int shootAngle;
+            //DamageInfo damageInfo = new DamageInfo
+            //{
+            //    shootAngle = shootAngle,
+            //    ImpactAngle = shootAngle,
+            //    Impact = 50,
+            //    Damage = 10,
+            //};
 
-            if (isLeft)
-                shootAngle = 180;
-            else
-                shootAngle = 0;
-
-            DamageInfo damageInfo = new DamageInfo
-            {
-                shootAngle = shootAngle,
-                ImpactAngle = shootAngle,
-                Impact = 50,
-                Damage = 10,
-            };
-
-            ShootWithDamageInfo(damageInfo);
+            ShootWithDamageInfo(null);
         }
     }
 
@@ -223,7 +220,8 @@ public class MainCharacter : ControllableCharacter
     {
         if (!isDead)
         {
-            GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position, new Quaternion());
+            GameObject bullet = BulletFactory.Instance.InstantiateBullet(currentWeapon);
+            bullet.transform.position = new Vector3(position.x, position.y);
             Bullet bulletScript = bullet.GetComponent<Bullet>();
             bulletScript.OwnerId = OwnerId;
 
@@ -232,8 +230,26 @@ public class MainCharacter : ControllableCharacter
                 bulletScript.DamageInfo = info;
             }
 
+            else
+            {
+                int shootAngle;
+
+                if (isLeft)
+                    shootAngle = 180;
+                else
+                    shootAngle = 0;
+
+                bulletScript.SetAngle(shootAngle);
+            }
+
             InvokeEventShoot(CurrentPosition, CurrentVelocity, bulletScript.DamageInfo);
         }
+    }
+
+    public override void ChangeWeapon(WeaponId inWeaponId)
+    {
+        if (Inventory.Contains(inWeaponId))
+            currentWeapon = inWeaponId;
     }
 
     void CheckLand()

@@ -71,4 +71,13 @@ public class InputInterface : MonoBehaviour {
             return buttonInterface.GetFireDown();
         }
     }
+
+    public bool GetNextWeapon()
+    {
+        if (Input.GetKeyDown(KeyCode.Slash))
+            return true;
+
+        else
+            return false;
+    }
 }

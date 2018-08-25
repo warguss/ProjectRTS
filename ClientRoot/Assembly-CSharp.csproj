@@ -61,11 +61,14 @@
     <Compile Include="Assets\CameraMove.cs" />
     <Compile Include="Assets\GameLogic.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\Bullet.cs" />
+    <Compile Include="Assets\GameLogic\Script\Player\BulletFactory.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\ControllableCharacter.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\HPBar.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\MainCharacter.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\PistolBullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\PlayerInfoDisplay.cs" />
+    <Compile Include="Assets\GameLogic\Script\Player\SniperBullet.cs" />
+    <Compile Include="Assets\GameLogic\Script\Player\WeaponDatabase.cs" />
     <Compile Include="Assets\Google.Protobuf\ByteArray.cs" />
     <Compile Include="Assets\Google.Protobuf\ByteString.cs" />
     <Compile Include="Assets\Google.Protobuf\CodedInputStream.cs" />
@@ -152,7 +155,7 @@
     <Compile Include="Assets\TouchButtonsInterface.cs" />
     <Compile Include="Assets\TouchDirectionInterface.cs" />
     <Compile Include="Assets\Utils.cs" />
-    <Compile Include="Assets\Weapon.cs" />
+    <Compile Include="Assets\WeaponInfo.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/blurtic/Documents/git/ProjectRTS/ClientRoot/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

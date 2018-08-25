@@ -4,11 +4,12 @@ using RTS;
 
 abstract public class Bullet : MonoBehaviour {
 
-    public float bulletSpeed;
-    public float range;
-
     public int OwnerId { get; set; }
     public  DamageInfo DamageInfo { get; set; }
+
+    protected WeaponId weaponId;
+    protected float bulletSpeed;
+    protected float range;
 
     protected Vector2 StartPosition;
 
@@ -16,8 +17,7 @@ abstract public class Bullet : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //currently, Damageinfo is constant.
-        StartPosition = rb2d.position;
+        
     }
 
     void Awake()
@@ -59,6 +59,23 @@ abstract public class Bullet : MonoBehaviour {
         {
             Destroy(gameObject);
         }
+    }
+
+    protected void Initialize()
+    {
+        StartPosition = rb2d.position;
+        WeaponInfo info = WeaponDatabase.Instance.Weapons[weaponId];
+        bulletSpeed = info.BulletSpeed;
+        range = info.Range;
+        DamageInfo.Damage = info.Damage;
+        DamageInfo.HitRecovery = info.HitRecovery;
+        DamageInfo.Impact = info.Impact;
+    }
+
+    virtual public void SetAngle(int inAngle)
+    {
+        DamageInfo.shootAngle = inAngle;
+        DamageInfo.ImpactAngle = inAngle;///////////////////
     }
 
     protected abstract void UpdatePosition();
