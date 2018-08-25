@@ -14,6 +14,10 @@ static void* CSessionManager::writeEvent(void* val);
 CProtoManager g_packetManager;
 extern CUserPool g_userPool;
 
+pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t g_cond = PTHREAD_COND_INITIALIZER;
+CThreadLockManager g_lockManager(&g_mutex, &g_cond, false);
+
 CSessionManager::CSessionManager(int port)
 {
 	_port = port;
@@ -24,6 +28,8 @@ CSessionManager::CSessionManager(int port)
 	m_writeQ_Manager.setType(WRITE_TYPE);
     connectInitialize();
 
+	pthread_mutex_init(&g_mutex, (const pthread_mutexattr_t*)NULL);
+	pthread_cond_init(&g_cond, (const pthread_condattr_t*)NULL);
 }
 
 CSessionManager::~CSessionManager()
@@ -76,10 +82,12 @@ int CSessionManager::connectInitialize()
 
 static void* CSessionManager::waitEvent(void* val)
 {
+	LOG_DEBUG("Lock Init");
+	LOG_DEBUG("Lock");
     while(1)
     {
 		LOG_DEBUG("epoll wait");
-        int event_count = epoll_wait(_epoll_fd, _events, EPOLL_SIZE, -1);
+		int event_count = epoll_wait(_epoll_fd, _events, EPOLL_SIZE, -1);
         if ( event_count == -1 )
         {
             break;
@@ -195,8 +203,10 @@ static void* CSessionManager::waitEvent(void* val)
 				 * QueueManager 내부에서 Lock 처리한다.
 				 * userPool 에서 꺼내야할듯
 				 ******************************************/
+				m_readQ_Manager.unLock();
 				m_readQ_Manager.enqueue(packet);
 				LOG_INFO("@SUCC UID:%d NName:%s ATP:%s SECTOR:%d", packet->_fd, packet->_nickName.c_str(), packet->_act.c_str(), packet->_sector);
+
             }
         }
     }
@@ -207,8 +217,9 @@ static void* CSessionManager::writeEvent(void* val)
 	while(1) 
 	{
 		/* signal ... */
+		LOG_DEBUG("Is Lock?");
 		CProtoPacket* packet = NULL;
-		if ( packet = m_writeQ_Manager.dequeue() )
+		if ( m_writeQ_Manager.isQueueDataExist() && (packet = m_writeQ_Manager.dequeue()) && packet )
 		{
 			/***************************************
 			 * Write Header 

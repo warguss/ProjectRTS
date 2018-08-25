@@ -1,6 +1,7 @@
 #include "CQueueManager.h"
 
 CQueueManager::CQueueManager()
+	: lockManager(NULL, NULL, false)
 {
     _queue.clear();
     _queueSize = 0;
@@ -14,6 +15,9 @@ CQueueManager::CQueueManager()
 
 	pthread_mutex_init(&_queue_mutex, (const pthread_mutexattr_t*)NULL);
 	pthread_cond_init(&_queue_cond, (const pthread_condattr_t*)NULL);
+	lockManager.setValue(&_queue_mutex, &_queue_cond);
+
+	isLock = false;
 }
 
 CQueueManager::~CQueueManager()
@@ -69,15 +73,26 @@ bool CQueueManager::enqueue(CProtoPacket* packet)
 		return false; 
 	}
 
+	LOG_DEBUG("ENQUEUE");
+	if ( isLock )
+	{
+		lockManager.release();
+	}
+
     /***********************
 	 * Auto Lock 
 	 * 공유자원에 대한 Lock
 	 ***********************/
-	//CThreadLockManager lock(_type);
-	CThreadLockManager lock(&_queue_mutex, &_queue_cond);
+	//CThreadLockManager lock(&_queue_mutex, &_queue_cond);
+	lockManager.lock();
     _queue.push_back(packet);
     _queueSize++;
 
+	if ( unLock() )
+	{
+		LOG_DEBUG("UnLock");
+	}
+	lockManager.release();
     return true;
 }
 
@@ -93,11 +108,17 @@ CProtoPacket* CQueueManager::dequeue()
 	 * Auto Lock 
 	 * 공유자원에 대한 Lock
 	 ***********************/
-	//CThreadLockManager lock(_type);
-	CThreadLockManager lock(&_queue_mutex, &_queue_cond);
+	//CThreadLockManager lock(&_queue_mutex, &_queue_cond);
+	if ( isLock )
+	{
+		lockManager.release();
+	}	
+
+	lockManager.lock();
 	packet = _queue.front();
 	_queue.pop_front();
 	_queueSize--;
+	lockManager.release();
 
     return packet;
 }
@@ -106,32 +127,41 @@ bool CQueueManager::isQueueDataExist()
 {
     if ( _queueSize > 0 )
     {
+		lockManager.release();
+		LOG_DEBUG("release Lock");
         return true;
     }
 
+	isLock = true;
+	lockManager.lock();
+	LOG_DEBUG("Lock");
     return false;
 }
 
 bool CQueueManager::unLock()
 {
-	if ( _queueSize > 0 )
+	if ( _queueSize <= 0 )
 	{
 		return false;
 	} 
-	pthread_mutex_unlock(&_queue_mutex);
-	pthread_cond_signal(&_queue_cond);
-	
+
+	isLock = false;
+	lockManager.release();
 	return true;
 }
 
 bool CQueueManager::lock()
 {
-	if ( _queueSize == 0 )
+	if ( _queueSize <= 0 )
 	{
+		/*
 		LOG_DEBUG("Thread Lock");
 		pthread_mutex_lock(&_queue_mutex);
+		*/
+		lockManager.lock();
 		return true;
 	}
+
 	return false;
 }
 
