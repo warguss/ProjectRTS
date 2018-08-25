@@ -87,7 +87,6 @@ bool CLoging::wlog(int lv, const char* file, int line, const char* fmt, va_list 
 	}
 	va_copy(copied, args);
 	vsnprintf(pMsg, sizeof(pMsg), fmt, copied);
-	//printf("%s|%s|%s(%d):%s\n",  pType, pTime, file, line, pMsg);
 	if ( fp )
 	{
 		fprintf(fp, "%s|%s|%s(%d):%s\n",  pType, pTime, file, line, pMsg);

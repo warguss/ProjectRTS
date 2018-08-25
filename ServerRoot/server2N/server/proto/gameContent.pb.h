@@ -37,7 +37,7 @@ namespace protobuf_gameContent_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[12];
+  static const ::google::protobuf::internal::ParseTable schema[13];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -57,6 +57,8 @@ void InitDefaultsEventShootImpl();
 void InitDefaultsEventShoot();
 void InitDefaultsEventHitImpl();
 void InitDefaultsEventHit();
+void InitDefaultsEventChangeWeaponImpl();
+void InitDefaultsEventChangeWeapon();
 void InitDefaultsEventSpawnImpl();
 void InitDefaultsEventSpawn();
 void InitDefaultsEventUserSyncImpl();
@@ -75,6 +77,7 @@ inline void InitDefaults() {
   InitDefaultsEventJump();
   InitDefaultsEventShoot();
   InitDefaultsEventHit();
+  InitDefaultsEventChangeWeapon();
   InitDefaultsEventSpawn();
   InitDefaultsEventUserSync();
   InitDefaultsEventDeath();
@@ -83,6 +86,9 @@ inline void InitDefaults() {
 }
 }  // namespace protobuf_gameContent_2eproto
 namespace server2N {
+class EventChangeWeapon;
+class EventChangeWeaponDefaultTypeInternal;
+extern EventChangeWeaponDefaultTypeInternal _EventChangeWeapon_default_instance_;
 class EventDeath;
 class EventDeathDefaultTypeInternal;
 extern EventDeathDefaultTypeInternal _EventDeath_default_instance_;
@@ -122,6 +128,7 @@ extern UserConnectionDefaultTypeInternal _UserConnection_default_instance_;
 }  // namespace server2N
 namespace google {
 namespace protobuf {
+template<> ::server2N::EventChangeWeapon* Arena::Create< ::server2N::EventChangeWeapon>(Arena*);
 template<> ::server2N::EventDeath* Arena::Create< ::server2N::EventDeath>(Arena*);
 template<> ::server2N::EventHit* Arena::Create< ::server2N::EventHit>(Arena*);
 template<> ::server2N::EventJump* Arena::Create< ::server2N::EventJump>(Arena*);
@@ -219,12 +226,13 @@ enum GameEvent_action {
   GameEvent_action_EventUserSync = 106,
   GameEvent_action_EventDeath = 107,
   GameEvent_action_EventBullet = 108,
+  GameEvent_action_EventChangeWeapon = 109,
   GameEvent_action_GameEvent_action_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   GameEvent_action_GameEvent_action_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool GameEvent_action_IsValid(int value);
 const GameEvent_action GameEvent_action_action_MIN = GameEvent_action_Nothing;
-const GameEvent_action GameEvent_action_action_MAX = GameEvent_action_EventBullet;
+const GameEvent_action GameEvent_action_action_MAX = GameEvent_action_EventChangeWeapon;
 const int GameEvent_action_action_ARRAYSIZE = GameEvent_action_action_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* GameEvent_action_descriptor();
@@ -1065,6 +1073,12 @@ class EventShoot : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::int32 impactangle() const;
   void set_impactangle(::google::protobuf::int32 value);
 
+  // int32 weaponId = 5;
+  void clear_weaponid();
+  static const int kWeaponIdFieldNumber = 5;
+  ::google::protobuf::int32 weaponid() const;
+  void set_weaponid(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:server2N.EventShoot)
  private:
 
@@ -1073,6 +1087,7 @@ class EventShoot : public ::google::protobuf::Message /* @@protoc_insertion_poin
   float damage_;
   ::google::protobuf::int32 impact_;
   ::google::protobuf::int32 impactangle_;
+  ::google::protobuf::int32 weaponid_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventShootImpl();
@@ -1210,6 +1225,109 @@ class EventHit : public ::google::protobuf::Message /* @@protoc_insertion_point(
 };
 // -------------------------------------------------------------------
 
+class EventChangeWeapon : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.EventChangeWeapon) */ {
+ public:
+  EventChangeWeapon();
+  virtual ~EventChangeWeapon();
+
+  EventChangeWeapon(const EventChangeWeapon& from);
+
+  inline EventChangeWeapon& operator=(const EventChangeWeapon& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EventChangeWeapon(EventChangeWeapon&& from) noexcept
+    : EventChangeWeapon() {
+    *this = ::std::move(from);
+  }
+
+  inline EventChangeWeapon& operator=(EventChangeWeapon&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EventChangeWeapon& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EventChangeWeapon* internal_default_instance() {
+    return reinterpret_cast<const EventChangeWeapon*>(
+               &_EventChangeWeapon_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    7;
+
+  void Swap(EventChangeWeapon* other);
+  friend void swap(EventChangeWeapon& a, EventChangeWeapon& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EventChangeWeapon* New() const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventChangeWeapon>(NULL);
+  }
+
+  EventChangeWeapon* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventChangeWeapon>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const EventChangeWeapon& from);
+  void MergeFrom(const EventChangeWeapon& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(EventChangeWeapon* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // int32 weaponId = 1;
+  void clear_weaponid();
+  static const int kWeaponIdFieldNumber = 1;
+  ::google::protobuf::int32 weaponid() const;
+  void set_weaponid(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:server2N.EventChangeWeapon)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::int32 weaponid_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_gameContent_2eproto::TableStruct;
+  friend void ::protobuf_gameContent_2eproto::InitDefaultsEventChangeWeaponImpl();
+};
+// -------------------------------------------------------------------
+
 class EventSpawn : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.EventSpawn) */ {
  public:
   EventSpawn();
@@ -1245,7 +1363,7 @@ class EventSpawn : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_EventSpawn_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    7;
+    8;
 
   void Swap(EventSpawn* other);
   friend void swap(EventSpawn& a, EventSpawn& b) {
@@ -1341,7 +1459,7 @@ class EventUserSync : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_EventUserSync_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    8;
+    9;
 
   void Swap(EventUserSync* other);
   friend void swap(EventUserSync& a, EventUserSync& b) {
@@ -1398,11 +1516,18 @@ class EventUserSync : public ::google::protobuf::Message /* @@protoc_insertion_p
   float currenthp() const;
   void set_currenthp(float value);
 
+  // int32 weaponId = 2;
+  void clear_weaponid();
+  static const int kWeaponIdFieldNumber = 2;
+  ::google::protobuf::int32 weaponid() const;
+  void set_weaponid(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:server2N.EventUserSync)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   float currenthp_;
+  ::google::protobuf::int32 weaponid_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventUserSyncImpl();
@@ -1444,7 +1569,7 @@ class EventDeath : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_EventDeath_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    9;
+    10;
 
   void Swap(EventDeath* other);
   friend void swap(EventDeath& a, EventDeath& b) {
@@ -1547,7 +1672,7 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_GameEvent_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    10;
+    11;
 
   void Swap(GameEvent* other);
   friend void swap(GameEvent& a, GameEvent& b) {
@@ -1617,6 +1742,8 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
     GameEvent_action_EventDeath;
   static const action EventBullet =
     GameEvent_action_EventBullet;
+  static const action EventChangeWeapon =
+    GameEvent_action_EventChangeWeapon;
   static inline bool action_IsValid(int value) {
     return GameEvent_action_IsValid(value);
   }
@@ -1724,6 +1851,15 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::server2N::EventDeath* mutable_deathevent();
   void set_allocated_deathevent(::server2N::EventDeath* deathevent);
 
+  // .server2N.EventChangeWeapon chWeaponEvent = 117;
+  bool has_chweaponevent() const;
+  void clear_chweaponevent();
+  static const int kChWeaponEventFieldNumber = 117;
+  const ::server2N::EventChangeWeapon& chweaponevent() const;
+  ::server2N::EventChangeWeapon* release_chweaponevent();
+  ::server2N::EventChangeWeapon* mutable_chweaponevent();
+  void set_allocated_chweaponevent(::server2N::EventChangeWeapon* chweaponevent);
+
   // .server2N.GameEvent.action actType = 1;
   void clear_acttype();
   static const int kActTypeFieldNumber = 1;
@@ -1786,6 +1922,7 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::server2N::EventSpawn* spawnevent_;
   ::server2N::EventUserSync* syncevent_;
   ::server2N::EventDeath* deathevent_;
+  ::server2N::EventChangeWeapon* chweaponevent_;
   int acttype_;
   ::google::protobuf::int32 actionproperty_;
   float eventpositionx_;
@@ -1835,7 +1972,7 @@ class PacketBody : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_PacketBody_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    11;
+    12;
 
   void Swap(PacketBody* other);
   friend void swap(PacketBody& a, PacketBody& b) {
@@ -2351,6 +2488,20 @@ inline void EventShoot::set_impactangle(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:server2N.EventShoot.impactAngle)
 }
 
+// int32 weaponId = 5;
+inline void EventShoot::clear_weaponid() {
+  weaponid_ = 0;
+}
+inline ::google::protobuf::int32 EventShoot::weaponid() const {
+  // @@protoc_insertion_point(field_get:server2N.EventShoot.weaponId)
+  return weaponid_;
+}
+inline void EventShoot::set_weaponid(::google::protobuf::int32 value) {
+  
+  weaponid_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventShoot.weaponId)
+}
+
 // -------------------------------------------------------------------
 
 // EventHit
@@ -2427,6 +2578,24 @@ inline void EventHit::set_currenthp(float value) {
 
 // -------------------------------------------------------------------
 
+// EventChangeWeapon
+
+// int32 weaponId = 1;
+inline void EventChangeWeapon::clear_weaponid() {
+  weaponid_ = 0;
+}
+inline ::google::protobuf::int32 EventChangeWeapon::weaponid() const {
+  // @@protoc_insertion_point(field_get:server2N.EventChangeWeapon.weaponId)
+  return weaponid_;
+}
+inline void EventChangeWeapon::set_weaponid(::google::protobuf::int32 value) {
+  
+  weaponid_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventChangeWeapon.weaponId)
+}
+
+// -------------------------------------------------------------------
+
 // EventSpawn
 
 // -------------------------------------------------------------------
@@ -2445,6 +2614,20 @@ inline void EventUserSync::set_currenthp(float value) {
   
   currenthp_ = value;
   // @@protoc_insertion_point(field_set:server2N.EventUserSync.currentHP)
+}
+
+// int32 weaponId = 2;
+inline void EventUserSync::clear_weaponid() {
+  weaponid_ = 0;
+}
+inline ::google::protobuf::int32 EventUserSync::weaponid() const {
+  // @@protoc_insertion_point(field_get:server2N.EventUserSync.weaponId)
+  return weaponid_;
+}
+inline void EventUserSync::set_weaponid(::google::protobuf::int32 value) {
+  
+  weaponid_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventUserSync.weaponId)
 }
 
 // -------------------------------------------------------------------
@@ -2877,6 +3060,57 @@ inline void GameEvent::set_allocated_deathevent(::server2N::EventDeath* deatheve
   // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.deathEvent)
 }
 
+// .server2N.EventChangeWeapon chWeaponEvent = 117;
+inline bool GameEvent::has_chweaponevent() const {
+  return this != internal_default_instance() && chweaponevent_ != NULL;
+}
+inline void GameEvent::clear_chweaponevent() {
+  if (GetArenaNoVirtual() == NULL && chweaponevent_ != NULL) {
+    delete chweaponevent_;
+  }
+  chweaponevent_ = NULL;
+}
+inline const ::server2N::EventChangeWeapon& GameEvent::chweaponevent() const {
+  const ::server2N::EventChangeWeapon* p = chweaponevent_;
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.chWeaponEvent)
+  return p != NULL ? *p : *reinterpret_cast<const ::server2N::EventChangeWeapon*>(
+      &::server2N::_EventChangeWeapon_default_instance_);
+}
+inline ::server2N::EventChangeWeapon* GameEvent::release_chweaponevent() {
+  // @@protoc_insertion_point(field_release:server2N.GameEvent.chWeaponEvent)
+  
+  ::server2N::EventChangeWeapon* temp = chweaponevent_;
+  chweaponevent_ = NULL;
+  return temp;
+}
+inline ::server2N::EventChangeWeapon* GameEvent::mutable_chweaponevent() {
+  
+  if (chweaponevent_ == NULL) {
+    chweaponevent_ = ::google::protobuf::Arena::Create< ::server2N::EventChangeWeapon >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:server2N.GameEvent.chWeaponEvent)
+  return chweaponevent_;
+}
+inline void GameEvent::set_allocated_chweaponevent(::server2N::EventChangeWeapon* chweaponevent) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete chweaponevent_;
+  }
+  if (chweaponevent) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      chweaponevent = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, chweaponevent, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  chweaponevent_ = chweaponevent;
+  // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.chWeaponEvent)
+}
+
 // .server2N.GameEvent.action actType = 1;
 inline void GameEvent::clear_acttype() {
   acttype_ = 0;
@@ -3207,6 +3441,8 @@ inline void PacketBody::set_senderid(::google::protobuf::int32 value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
