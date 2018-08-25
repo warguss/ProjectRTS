@@ -16,6 +16,7 @@ class CUserPool
 		
 		int _xUnit;
 		int _yUnit;
+		int _diagnolCount;
     public:
 		/***********************************
 		 * first Map Key	= Sector
@@ -46,6 +47,10 @@ class CUserPool
 		int _getUpLeftDiagnolSector(int sector);
 		int _getRightSector(int sector);
 		int _getDownSector(int sector);
+		int _getUpSector(int sector);
+		int _getLeftSector(int sector);
+		int _getXSectorPosition(int sector);
+		bool _addConnectionListBySector(list<CUser*>& userConnection, int sector);
 
 };
 
