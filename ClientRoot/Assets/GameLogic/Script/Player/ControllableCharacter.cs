@@ -15,7 +15,7 @@ public delegate void CharEventMove(int invokerId, Vector2 position, Vector2 velo
 public delegate void CharEventStop(int invokerId, Vector2 position, Vector2 velocity);
 public delegate void CharEventJump(int invokerId, Vector2 position, Vector2 velocity);
 public delegate void CharEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, DamageInfo info, float remainingHp);
-public delegate void CharEventShoot(int invokerId, Vector2 position, Vector2 velocity, DamageInfo info);
+public delegate void CharEventShoot(int invokerId, Vector2 position, Vector2 velocity, DamageInfo info, WeaponId weaponId);
 public delegate void CharEventChangeWeapon(int invokerId, Vector2 position, Vector2 velocity, WeaponId WeaponId);
 public delegate void CharEventSpawn(int invokerId, Vector2 position);
 public delegate void CharEventDead(int invokerId, Vector2 position, int attackerId);
@@ -79,9 +79,9 @@ public abstract class ControllableCharacter : MonoBehaviour
     {
         GetHitEvent?.Invoke(OwnerId, position, velocity, attackerId, info, remainingHp);
     }
-    protected void InvokeEventShoot(Vector2 position, Vector2 velocity, DamageInfo info)
+    protected void InvokeEventShoot(Vector2 position, Vector2 velocity, DamageInfo info, WeaponId weaponId)
     {
-        ShootEvent?.Invoke(OwnerId, position, velocity, info);
+        ShootEvent?.Invoke(OwnerId, position, velocity, info, weaponId);
     }
     protected void InvokeEventChangeWeapon(Vector2 position, Vector2 velocity, WeaponId weaponId)
     {

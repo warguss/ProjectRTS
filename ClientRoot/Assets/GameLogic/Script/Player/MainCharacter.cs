@@ -242,7 +242,7 @@ public class MainCharacter : ControllableCharacter
                 bulletScript.SetAngle(shootAngle);
             }
 
-            InvokeEventShoot(CurrentPosition, CurrentVelocity, bulletScript.DamageInfo);
+            InvokeEventShoot(CurrentPosition, CurrentVelocity, bulletScript.DamageInfo, currentWeapon);
         }
     }
 

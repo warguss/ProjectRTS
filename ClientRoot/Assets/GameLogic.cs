@@ -323,6 +323,7 @@ public class GameLogic : MonoBehaviour
                         playerControllers[invokerId].MoveWithInterpolation(position, velocity);
 
                         var info = EventPacket.ShootEvent;
+                        int weaponId = info.WeaponId;
                         DamageInfo damageInfo = new DamageInfo
                         {
                             Damage = (int)info.Damage,
@@ -332,7 +333,18 @@ public class GameLogic : MonoBehaviour
                             ImpactAngle = info.ImpactAngle///////////
                         };
                         //SendInputToCharacter(invokerId, PlayerAction.Fire);
+                        playerControllers[invokerId].ChangeWeapon((WeaponId)weaponId);
                         playerControllers[invokerId].ShootWithDamageInfo(damageInfo, position);
+                        break;
+                    }
+
+                case GameEvent.Types.action.EventChangeWeapon:
+                    {
+                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
+
+                        var info = EventPacket.ChWeaponEvent;
+                        int weaponId = info.WeaponId;
+                        playerControllers[invokerId].ChangeWeapon((WeaponId)weaponId);
                         break;
                     }
 
@@ -368,9 +380,11 @@ public class GameLogic : MonoBehaviour
                     {
                         var info = EventPacket.SyncEvent;
                         //float currentHp = info.CurrentHP;
+                        //int weaponId = info.WeaponId;
 
                         playerControllers[invokerId].MoveWithInterpolation(position, velocity);
                         //playerControllers[invokerId].SetHP(currentHp);
+                        //playerControllers[invokerIs].ChangeWeapon(weaponId);
 
                         break;
                     }
@@ -436,11 +450,11 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void PlayerEventShoot(int invokerId, Vector2 position, Vector2 velocity, DamageInfo info)
+    void PlayerEventShoot(int invokerId, Vector2 position, Vector2 velocity, DamageInfo info, WeaponId weaponId)
     {
         if (isOnline)
         {
-            NetworkModule.instance.WriteEventShoot(invokerId, position, velocity, info);
+            NetworkModule.instance.WriteEventShoot(invokerId, position, velocity, info, weaponId);
         }
     }
 
@@ -448,7 +462,7 @@ public class GameLogic : MonoBehaviour
     {
         if (isOnline)
         {
-            //NetworkModule.instance.WriteEventChangeWeapon(invokerId, position, velocity, weaponId);
+            NetworkModule.instance.WriteEventChangeWeapon(invokerId, position, velocity, weaponId);
         }
     }
 

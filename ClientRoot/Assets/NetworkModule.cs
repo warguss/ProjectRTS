@@ -413,7 +413,7 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
-    public void WriteEventShoot(int InvokerId, Vector2 position, Vector2 velocity, DamageInfo info)
+    public void WriteEventShoot(int InvokerId, Vector2 position, Vector2 velocity, DamageInfo info, WeaponId weaponId)
     {
         var packet = CreateCommonEventPacket(GameEvent.Types.action.EventShoot, InvokerId, position, velocity);
         packet.Event.ShootEvent = new EventShoot
@@ -421,7 +421,19 @@ public class NetworkModule : MonoBehaviour
             Impact = info.Impact,
             ImpactAngle = info.ImpactAngle,
             Angle = info.shootAngle,
-            Damage = info.Damage
+            Damage = info.Damage,
+            WeaponId = (int)weaponId 
+        };
+
+        EnqueueSendPacket(packet);
+    }
+
+    public void WriteEventChangeWeapon(int InvokerId, Vector2 position, Vector2 velocity, WeaponId weaponId)
+    {
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventChangeWeapon, InvokerId, position, velocity);
+        packet.Event.ChWeaponEvent = new EventChangeWeapon
+        {
+            WeaponId = (int)weaponId
         };
 
         EnqueueSendPacket(packet);
