@@ -16,14 +16,22 @@ public class WeaponDatabase {
     }
     private static WeaponDatabase m_Instance;
 
-    public Dictionary<WeaponId, WeaponInfo> Weapons;
+    private Dictionary<WeaponId, WeaponStat> weapons;
 
     WeaponDatabase()
     {
-        Weapons = new Dictionary<WeaponId, WeaponInfo>
+        weapons = new Dictionary<WeaponId, WeaponStat>
         {
-            { WeaponId.Pistol, new WeaponInfo(10, 15, 10, 0, 50, 0) },
-            { WeaponId.Sniper, new WeaponInfo(15, 20, 15, 0, 60, 0) }
+            { WeaponId.Pistol, new WeaponStat(10, 15, 10, 0, 50, 0, 0.25f) },
+            { WeaponId.Sniper, new WeaponStat(15, 20, 15, 0, 60, 0, 0.5f) }
         };
+    }
+
+    public WeaponStat GetDefaultWeaponStat(WeaponId id)
+    {
+        if (weapons.ContainsKey(id))
+            return weapons[id];
+        else
+            return new WeaponStat();
     }
 }

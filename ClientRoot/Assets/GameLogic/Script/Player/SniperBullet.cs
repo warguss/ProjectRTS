@@ -7,7 +7,6 @@ public class SniperBullet : Bullet
     void Start()
     {
         weaponId = WeaponId.Sniper;
-        Initialize();
     }
 
     // Update is called once per frame

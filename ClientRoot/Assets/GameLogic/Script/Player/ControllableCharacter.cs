@@ -30,8 +30,8 @@ public abstract class ControllableCharacter : MonoBehaviour
 
     public bool IsLocalPlayer = false;
 
-    public List<WeaponId> Inventory;
-    public WeaponId currentWeapon = WeaponId.Pistol;
+    public Dictionary<WeaponId, PlayerWeapon> Inventory;
+    public WeaponId currentWeaponId = WeaponId.Pistol;
 
     protected Rigidbody2D charRigidbody;
     protected Collider2D charCollider;
@@ -42,8 +42,6 @@ public abstract class ControllableCharacter : MonoBehaviour
     protected CharacterStatus status = CharacterStatus.Neutral;
     protected int hitRecovery = 0;
 
-    //protected WeaponId CurrentWeapon;
-
     protected float hp;
     protected int jumpCount = 0;
     protected int lastAttackedPlayerId = -1;
@@ -52,6 +50,11 @@ public abstract class ControllableCharacter : MonoBehaviour
     protected bool isLeft = true;
     protected bool isMoving = false;
     protected bool isDead = false;
+
+    public bool IsGrounded { get { return isGrounded; } }
+    public bool IsLeft { get { return isLeft; } }
+    public bool IsMoving { get { return isMoving; } }
+    public bool IsDead { get { return isDead; } }
 
     public event CharEventMove MoveEvent;
     public event CharEventStop StopEvent;

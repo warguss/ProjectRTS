@@ -61,10 +61,11 @@ public class MainCharacter : ControllableCharacter
         charCollider = GetComponent<Collider2D>();
         charSpriteObject = transform.Find("Sprite").gameObject;
 
-        Inventory = new List<WeaponId>();
-        Inventory.Add(WeaponId.Pistol);////////////////////
-        Inventory.Add(WeaponId.Sniper);////////////////////
-        Inventory.Sort();
+        Inventory = new Dictionary<WeaponId, PlayerWeapon>();
+        var pistol = new PlayerWeapon(WeaponId.Pistol, this);
+        var sniper = new PlayerWeapon(WeaponId.Sniper, this);
+        Inventory.Add(WeaponId.Pistol, pistol);////////////////////
+        Inventory.Add(WeaponId.Sniper, sniper);////////////////////
 
         var playerInfoDisplayGameObject = Instantiate(PlayerInfoDisplay, transform.Find("Sprite"));
         playerInfoDisplayGameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
@@ -82,6 +83,10 @@ public class MainCharacter : ControllableCharacter
 	void Update()
     {
         playerInfoDisplay.SetHP(hp / DefaultHP);
+        foreach(var playerWeapon in Inventory) // 연사 딜레이 계산
+        {
+            playerWeapon.Value.UpdateInterval(Time.deltaTime);
+        }
 
         if (isInterpolating)
         {
@@ -220,36 +225,20 @@ public class MainCharacter : ControllableCharacter
     {
         if (!isDead)
         {
-            GameObject bullet = BulletFactory.Instance.InstantiateBullet(currentWeapon);
-            bullet.transform.position = new Vector3(position.x, position.y);
-            Bullet bulletScript = bullet.GetComponent<Bullet>();
-            bulletScript.OwnerId = OwnerId;
-
-            if (info != null)
+            PlayerWeapon currentWeapon = Inventory[currentWeaponId];
+            if (currentWeapon.IsShootable() || !IsLocalPlayer)
             {
-                bulletScript.DamageInfo = info;
+                var bullet = currentWeapon.Shoot(info, position);
+
+                InvokeEventShoot(CurrentPosition, CurrentVelocity, bullet.DamageInfo, currentWeaponId);
             }
-
-            else
-            {
-                int shootAngle;
-
-                if (isLeft)
-                    shootAngle = 180;
-                else
-                    shootAngle = 0;
-
-                bulletScript.SetAngle(shootAngle);
-            }
-
-            InvokeEventShoot(CurrentPosition, CurrentVelocity, bulletScript.DamageInfo, currentWeapon);
         }
     }
 
     public override void ChangeWeapon(WeaponId inWeaponId)
     {
-        if (Inventory.Contains(inWeaponId))
-            currentWeapon = inWeaponId;
+        if (Inventory.ContainsKey(inWeaponId))
+            currentWeaponId = inWeaponId;
     }
 
     void CheckLand()

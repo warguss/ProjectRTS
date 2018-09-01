@@ -61,15 +61,15 @@ abstract public class Bullet : MonoBehaviour {
         }
     }
 
-    protected void Initialize()
+    public void Initialize(int inOwnerId, WeaponStat info)
     {
         StartPosition = rb2d.position;
-        WeaponInfo info = WeaponDatabase.Instance.Weapons[weaponId];
         bulletSpeed = info.BulletSpeed;
         range = info.Range;
         DamageInfo.Damage = info.Damage;
         DamageInfo.HitRecovery = info.HitRecovery;
         DamageInfo.Impact = info.Impact;
+        OwnerId = inOwnerId;
     }
 
     virtual public void SetAngle(int inAngle)

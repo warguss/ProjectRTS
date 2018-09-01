@@ -67,6 +67,7 @@
     <Compile Include="Assets\GameLogic\Script\Player\MainCharacter.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\PistolBullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\PlayerInfoDisplay.cs" />
+    <Compile Include="Assets\GameLogic\Script\Player\PlayerWeapon.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\SniperBullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\WeaponDatabase.cs" />
     <Compile Include="Assets\Google.Protobuf\ByteArray.cs" />

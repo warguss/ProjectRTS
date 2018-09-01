@@ -152,11 +152,15 @@ public class GameLogic : MonoBehaviour
             {
                 WeaponId CurrentWeaponId = playerControllers[myId].GetCurrentWeapon();
                 var CurrentInventory = playerControllers[myId].GetInventory();
-                int currentIndex = CurrentInventory.IndexOf(CurrentWeaponId);
+                var keys = CurrentInventory.Keys;
+                List<WeaponId> keysList = new List<WeaponId>(keys);
+                keysList.Sort();
+                
+                int currentIndex = keysList.IndexOf(CurrentWeaponId);
                 int nextIndex = currentIndex + 1;
-                if (nextIndex >= CurrentInventory.Count)
+                if (nextIndex >= keysList.Count)
                     nextIndex = 0;
-                playerControllers[myId].ChangeWeapon(CurrentInventory[nextIndex]);
+                playerControllers[myId].ChangeWeapon(keysList[nextIndex]);
             }
         }
 
@@ -173,11 +177,15 @@ public class GameLogic : MonoBehaviour
             {
                 WeaponId CurrentWeaponId = playerControllers[testId2P].GetCurrentWeapon();
                 var CurrentInventory = playerControllers[testId2P].GetInventory();
-                int currentIndex = CurrentInventory.IndexOf(CurrentWeaponId);
+                var keys = CurrentInventory.Keys;
+                List<WeaponId> keysList = new List<WeaponId>(keys);
+                keysList.Sort();
+
+                int currentIndex = keysList.IndexOf(CurrentWeaponId);
                 int nextIndex = currentIndex + 1;
-                if (nextIndex >= CurrentInventory.Count)
+                if (nextIndex >= keysList.Count)
                     nextIndex = 0;
-                playerControllers[testId2P].ChangeWeapon(CurrentInventory[nextIndex]);
+                playerControllers[testId2P].ChangeWeapon(keysList[nextIndex]);
             }
         }
 

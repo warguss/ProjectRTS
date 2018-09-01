@@ -7,7 +7,6 @@ public class PistolBullet : Bullet
     void Start()
     {
         weaponId = WeaponId.Pistol;
-        Initialize();
     }
 
     // Update is called once per frame
