@@ -57,6 +57,8 @@ message EventShoot{
 	int32 impact = 3;
 	int32 impactAngle = 4;
 	int32 weaponId = 5;
+	float bulletSpeeed = 6;
+	float bulletRange = 7;
 }
 
 message EventHit{
@@ -65,6 +67,7 @@ message EventHit{
 	int32 impact = 3;
 	int32 impactAngle = 4;
 	float currentHP = 5;
+	int32 hitType = 6;
 }
 
 message EventChangeWeapon{

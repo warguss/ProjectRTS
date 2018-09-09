@@ -18,6 +18,10 @@ private:
 
     pthread_mutex_t _queue_mutex;
     pthread_cond_t _queue_cond;
+
+	CThreadLockManager lockManager;
+
+	bool isLock;
 public:
     CQueueManager();
     ~CQueueManager();

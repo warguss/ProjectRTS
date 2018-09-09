@@ -26,6 +26,7 @@ typedef bool (*CallBackFunc)(CSessionManager&, CProtoPacket*);
 
 extern int32_t g_sectorIdx;
 extern CUserPool g_userPool;
+extern CThreadLockManager g_lockManager;
 
 bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 {
@@ -77,7 +78,7 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 		 * Enqueue
 		 *********************************/
 		cout << "Test: " <<  packet->_proto->DebugString() << endl;
-		//session.m_writeQ_Manager.releaseLock();
+		session.m_writeQ_Manager.unLock();
 		session.m_writeQ_Manager.enqueue(packet);
 		LOG_INFO("User(%d) Send Noti", packet->_fd);
 	}
@@ -117,6 +118,7 @@ bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		 * Enqueue
 		 *********************************/
 		cout << "Test: " <<  packet->_proto->DebugString() << endl;
+		session.m_writeQ_Manager.unLock();
 		session.m_writeQ_Manager.enqueue(packet);
 		LOG_DEBUG("User(%d) Send Noti", packet->_fd);
 	}
@@ -158,23 +160,9 @@ bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		/*********************************
 		 * Enqueue
 		 *********************************/
+		session.m_writeQ_Manager.unLock();
 		session.m_writeQ_Manager.enqueue(packet);
 		LOG_INFO("User(%d) Send Noti", packet->_fd);
-
-
-		if ( type == (int32_t)server2N::GameEvent_action_EventDeath )
-		{
-			CProtoPacket *notiPacket = NULL;
-			if ( !g_packetManager.setNotiType(type, user, eventUser, connectList, &notiPacket) || !notiPacket )
-			{
-				LOG_ERROR("Error Connector Type");
-				return false;
-			}
-
-			//session.m_writeQ_Manager.releaseLock();
-			session.m_writeQ_Manager.enqueue(notiPacket);
-			LOG_INFO("User(%d) Send Noti", packet->_fd);
-		}
 	}
 	LOG_DEBUG("End All Send");
 	return true;
@@ -207,7 +195,7 @@ bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		/*********************************
 		 * Enqueue
 		 *********************************/
-		//session.m_writeQ_Manager.releaseLock();
+		session.m_writeQ_Manager.unLock();
 		session.m_writeQ_Manager.enqueue(packet);
 		LOG_INFO("User(%d) Send Noti", packet->_fd);
 	}
@@ -254,6 +242,9 @@ bool childProcessLogic()
 	g_sectorIdx = ((X_GAME_MAX * Y_GAME_MAX)) / ((X_SECTOR_MAX * Y_SECTOR_MAX));
 	g_userPool.initialize();
 
+	session.m_readQ_Manager.lock();
+	session.m_writeQ_Manager.lock();
+
 	LOG_DEBUG("g_sector initialize(%d)", g_sectorIdx);
 	if ( pthread_create(&thread, NULL, session.waitEvent, (void*)&port) < 0 )
 	{
@@ -273,6 +264,7 @@ bool childProcessLogic()
 		 * BusyWait가 되어버린다.
 		 * Signal Wait가 필요할거 같기도하다. 
 		 ***********************************************/
+		LOG_DEBUG("Is Lock?");
 		CProtoPacket* data = NULL;
 		if ( session.m_readQ_Manager.isQueueDataExist() && (data = session.m_readQ_Manager.dequeue()) && data ) 
 		{
