@@ -421,7 +421,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventShoot, impact_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventShoot, impactangle_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventShoot, weaponid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventShoot, bulletspeeed_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventShoot, bulletspeed_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventShoot, bulletrange_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventHit, _internal_metadata_),
@@ -561,47 +561,47 @@ void AddDescriptorsImpl() {
       ".server2N.EventMove.Direction\"\?\n\tDirecti"
       "on\022\013\n\007Nothing\020\000\022\010\n\004Left\020\001\022\t\n\005Right\020\002\022\010\n\004"
       "Down\020\003\022\006\n\002Up\020\004\"\013\n\tEventStop\"\013\n\tEventJump"
-      "\"\215\001\n\nEventShoot\022\r\n\005angle\030\001 \001(\002\022\016\n\006damage"
+      "\"\214\001\n\nEventShoot\022\r\n\005angle\030\001 \001(\002\022\016\n\006damage"
       "\030\002 \001(\002\022\016\n\006impact\030\003 \001(\005\022\023\n\013impactAngle\030\004 "
-      "\001(\005\022\020\n\010weaponId\030\005 \001(\005\022\024\n\014bulletSpeeed\030\006 "
-      "\001(\002\022\023\n\013bulletRange\030\007 \001(\002\"u\n\010EventHit\022\020\n\010"
-      "attacker\030\001 \001(\005\022\016\n\006damage\030\002 \001(\002\022\016\n\006impact"
-      "\030\003 \001(\005\022\023\n\013impactAngle\030\004 \001(\005\022\021\n\tcurrentHP"
-      "\030\005 \001(\002\022\017\n\007hitType\030\006 \001(\005\"%\n\021EventChangeWe"
-      "apon\022\020\n\010weaponId\030\001 \001(\005\"\014\n\nEventSpawn\"4\n\r"
-      "EventUserSync\022\021\n\tcurrentHP\030\001 \001(\002\022\020\n\010weap"
-      "onId\030\002 \001(\005\"\037\n\nEventDeath\022\021\n\ttriggerId\030\001 "
-      "\001(\005\"\233\006\n\tGameEvent\022&\n\tmoveEvent\030m \001(\0132\023.s"
-      "erver2N.EventMove\022&\n\tstopEvent\030n \001(\0132\023.s"
-      "erver2N.EventStop\022&\n\tjumpEvent\030o \001(\0132\023.s"
-      "erver2N.EventJump\022(\n\nshootEvent\030p \001(\0132\024."
-      "server2N.EventShoot\022$\n\010hitEvent\030q \001(\0132\022."
-      "server2N.EventHit\022(\n\nspawnEvent\030r \001(\0132\024."
-      "server2N.EventSpawn\022*\n\tsyncEvent\030s \001(\0132\027"
-      ".server2N.EventUserSync\022(\n\ndeathEvent\030t "
-      "\001(\0132\024.server2N.EventDeath\0222\n\rchWeaponEve"
-      "nt\030u \001(\0132\033.server2N.EventChangeWeapon\022+\n"
-      "\007actType\030\001 \001(\0162\032.server2N.GameEvent.acti"
-      "on\022\026\n\016actionProperty\030\005 \001(\005\022\026\n\016EventPosit"
-      "ionX\030\006 \001(\002\022\026\n\016EventPositionY\030\007 \001(\002\022\021\n\tVe"
-      "locityX\030\010 \001(\002\022\021\n\tVelocityY\030\t \001(\002\022\021\n\tinvo"
-      "kerId\030\n \003(\005\022\020\n\010sectorNo\030\013 \001(\005\022\024\n\014isInter"
-      "ested\030\014 \001(\010\"\273\001\n\006action\022\013\n\007Nothing\020\000\022\r\n\tE"
-      "ventMove\020d\022\r\n\tEventStop\020e\022\r\n\tEventJump\020f"
-      "\022\016\n\nEventShoot\020g\022\014\n\010EventHit\020h\022\016\n\nEventS"
-      "pawn\020i\022\021\n\rEventUserSync\020j\022\016\n\nEventDeath\020"
-      "k\022\017\n\013EventBullet\020l\022\025\n\021EventChangeWeapon\020"
-      "m\"\220\002\n\nPacketBody\0222\n\007msgType\030\220N \001(\0162 .ser"
-      "ver2N.PacketBody.messageType\022)\n\007connect\030"
-      "\006 \001(\0132\030.server2N.UserConnection\022\'\n\006notic"
-      "e\030\221N \001(\0132\026.server2N.GlobalNotice\022\"\n\005even"
-      "t\030\007 \001(\0132\023.server2N.GameEvent\022\020\n\010senderId"
-      "\030\010 \001(\005\"D\n\013messageType\022\r\n\tGameEvent\020\000\022\023\n\016"
-      "UserConnection\020\220N\022\021\n\014GlobalNotice\020\221Nb\006pr"
-      "oto3"
+      "\001(\005\022\020\n\010weaponId\030\005 \001(\005\022\023\n\013bulletSpeed\030\006 \001"
+      "(\002\022\023\n\013bulletRange\030\007 \001(\002\"u\n\010EventHit\022\020\n\010a"
+      "ttacker\030\001 \001(\005\022\016\n\006damage\030\002 \001(\002\022\016\n\006impact\030"
+      "\003 \001(\005\022\023\n\013impactAngle\030\004 \001(\005\022\021\n\tcurrentHP\030"
+      "\005 \001(\002\022\017\n\007hitType\030\006 \001(\005\"%\n\021EventChangeWea"
+      "pon\022\020\n\010weaponId\030\001 \001(\005\"\014\n\nEventSpawn\"4\n\rE"
+      "ventUserSync\022\021\n\tcurrentHP\030\001 \001(\002\022\020\n\010weapo"
+      "nId\030\002 \001(\005\"\037\n\nEventDeath\022\021\n\ttriggerId\030\001 \001"
+      "(\005\"\233\006\n\tGameEvent\022&\n\tmoveEvent\030m \001(\0132\023.se"
+      "rver2N.EventMove\022&\n\tstopEvent\030n \001(\0132\023.se"
+      "rver2N.EventStop\022&\n\tjumpEvent\030o \001(\0132\023.se"
+      "rver2N.EventJump\022(\n\nshootEvent\030p \001(\0132\024.s"
+      "erver2N.EventShoot\022$\n\010hitEvent\030q \001(\0132\022.s"
+      "erver2N.EventHit\022(\n\nspawnEvent\030r \001(\0132\024.s"
+      "erver2N.EventSpawn\022*\n\tsyncEvent\030s \001(\0132\027."
+      "server2N.EventUserSync\022(\n\ndeathEvent\030t \001"
+      "(\0132\024.server2N.EventDeath\0222\n\rchWeaponEven"
+      "t\030u \001(\0132\033.server2N.EventChangeWeapon\022+\n\007"
+      "actType\030\001 \001(\0162\032.server2N.GameEvent.actio"
+      "n\022\026\n\016actionProperty\030\005 \001(\005\022\026\n\016EventPositi"
+      "onX\030\006 \001(\002\022\026\n\016EventPositionY\030\007 \001(\002\022\021\n\tVel"
+      "ocityX\030\010 \001(\002\022\021\n\tVelocityY\030\t \001(\002\022\021\n\tinvok"
+      "erId\030\n \003(\005\022\020\n\010sectorNo\030\013 \001(\005\022\024\n\014isIntere"
+      "sted\030\014 \001(\010\"\273\001\n\006action\022\013\n\007Nothing\020\000\022\r\n\tEv"
+      "entMove\020d\022\r\n\tEventStop\020e\022\r\n\tEventJump\020f\022"
+      "\016\n\nEventShoot\020g\022\014\n\010EventHit\020h\022\016\n\nEventSp"
+      "awn\020i\022\021\n\rEventUserSync\020j\022\016\n\nEventDeath\020k"
+      "\022\017\n\013EventBullet\020l\022\025\n\021EventChangeWeapon\020m"
+      "\"\220\002\n\nPacketBody\0222\n\007msgType\030\220N \001(\0162 .serv"
+      "er2N.PacketBody.messageType\022)\n\007connect\030\006"
+      " \001(\0132\030.server2N.UserConnection\022\'\n\006notice"
+      "\030\221N \001(\0132\026.server2N.GlobalNotice\022\"\n\005event"
+      "\030\007 \001(\0132\023.server2N.GameEvent\022\020\n\010senderId\030"
+      "\010 \001(\005\"D\n\013messageType\022\r\n\tGameEvent\020\000\022\023\n\016U"
+      "serConnection\020\220N\022\021\n\014GlobalNotice\020\221Nb\006pro"
+      "to3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2084);
+      descriptor, 2083);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "gameContent.proto", &protobuf_RegisterTypes);
 }
@@ -2246,7 +2246,7 @@ const int EventShoot::kDamageFieldNumber;
 const int EventShoot::kImpactFieldNumber;
 const int EventShoot::kImpactAngleFieldNumber;
 const int EventShoot::kWeaponIdFieldNumber;
-const int EventShoot::kBulletSpeeedFieldNumber;
+const int EventShoot::kBulletSpeedFieldNumber;
 const int EventShoot::kBulletRangeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -2392,14 +2392,14 @@ bool EventShoot::MergePartialFromCodedStream(
         break;
       }
 
-      // float bulletSpeeed = 6;
+      // float bulletSpeed = 6;
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(53u /* 53 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &bulletspeeed_)));
+                 input, &bulletspeed_)));
         } else {
           goto handle_unusual;
         }
@@ -2471,9 +2471,9 @@ void EventShoot::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->weaponid(), output);
   }
 
-  // float bulletSpeeed = 6;
-  if (this->bulletspeeed() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(6, this->bulletspeeed(), output);
+  // float bulletSpeed = 6;
+  if (this->bulletspeed() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(6, this->bulletspeed(), output);
   }
 
   // float bulletRange = 7;
@@ -2520,9 +2520,9 @@ void EventShoot::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->weaponid(), target);
   }
 
-  // float bulletSpeeed = 6;
-  if (this->bulletspeeed() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(6, this->bulletspeeed(), target);
+  // float bulletSpeed = 6;
+  if (this->bulletspeed() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(6, this->bulletspeed(), target);
   }
 
   // float bulletRange = 7;
@@ -2578,8 +2578,8 @@ size_t EventShoot::ByteSizeLong() const {
         this->weaponid());
   }
 
-  // float bulletSpeeed = 6;
-  if (this->bulletspeeed() != 0) {
+  // float bulletSpeed = 6;
+  if (this->bulletspeed() != 0) {
     total_size += 1 + 4;
   }
 
@@ -2632,8 +2632,8 @@ void EventShoot::MergeFrom(const EventShoot& from) {
   if (from.weaponid() != 0) {
     set_weaponid(from.weaponid());
   }
-  if (from.bulletspeeed() != 0) {
-    set_bulletspeeed(from.bulletspeeed());
+  if (from.bulletspeed() != 0) {
+    set_bulletspeed(from.bulletspeed());
   }
   if (from.bulletrange() != 0) {
     set_bulletrange(from.bulletrange());
@@ -2669,7 +2669,7 @@ void EventShoot::InternalSwap(EventShoot* other) {
   swap(impact_, other->impact_);
   swap(impactangle_, other->impactangle_);
   swap(weaponid_, other->weaponid_);
-  swap(bulletspeeed_, other->bulletspeeed_);
+  swap(bulletspeed_, other->bulletspeed_);
   swap(bulletrange_, other->bulletrange_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
