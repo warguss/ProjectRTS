@@ -57,7 +57,7 @@ message EventShoot{
 	int32 impact = 3;
 	int32 impactAngle = 4;
 	int32 weaponId = 5;
-	float bulletSpeeed = 6;
+	float bulletSpeed = 6;
 	float bulletRange = 7;
 }
 
