@@ -332,17 +332,19 @@ public class GameLogic : MonoBehaviour
 
                         var info = EventPacket.ShootEvent;
                         int weaponId = info.WeaponId;
-                        DamageInfo damageInfo = new DamageInfo
+                        ShootInfo shootInfo = new ShootInfo
                         {
+                            HitType = (WeaponId)weaponId,
                             Damage = (int)info.Damage,
                             shootAngle = info.Angle,
                             HitRecovery = 10,/////////unused
                             Impact = info.Impact,/////////////
-                            ImpactAngle = info.ImpactAngle///////////
+                            BulletRange = info.BulletRange,
+                            BulletSpeed = info.BulletSpeed,
                         };
                         //SendInputToCharacter(invokerId, PlayerAction.Fire);
                         playerControllers[invokerId].ChangeWeapon((WeaponId)weaponId);
-                        playerControllers[invokerId].ShootWithDamageInfo(damageInfo, position);
+                        playerControllers[invokerId].ShootWithShootInfo(shootInfo, position);
                         break;
                     }
 
@@ -361,15 +363,15 @@ public class GameLogic : MonoBehaviour
                         playerControllers[invokerId].MoveWithInterpolation(position, velocity);
 
                         var info = EventPacket.HitEvent;
-                        DamageInfo damageInfo = new DamageInfo
+                        ShootInfo shootInfo = new ShootInfo
                         {
+                            HitType = (WeaponId)info.HitType,
                             Damage = (int)info.Damage,
                             HitRecovery = 10,/////////unused
                             Impact = info.Impact,/////////////
-                            ImpactAngle = info.ImpactAngle///////////
                         };
                         float currentHp = info.CurrentHP;
-                        playerControllers[invokerId].GetHit(info.Attacker, damageInfo, currentHp);
+                        playerControllers[invokerId].GetHit(info.Attacker, shootInfo, currentHp);
                         break;
                     }
 
@@ -442,7 +444,7 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void PlayerEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, DamageInfo info, float remainingHp)
+    void PlayerEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, ShootInfo info, float remainingHp)
     {
         if (isOnline)
         {
@@ -458,7 +460,7 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void PlayerEventShoot(int invokerId, Vector2 position, Vector2 velocity, DamageInfo info, WeaponId weaponId)
+    void PlayerEventShoot(int invokerId, Vector2 position, Vector2 velocity, ShootInfo info, WeaponId weaponId)
     {
         if (isOnline)
         {

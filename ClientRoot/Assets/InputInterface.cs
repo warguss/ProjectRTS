@@ -78,6 +78,8 @@ public class InputInterface : MonoBehaviour {
             return true;
 
         else
-            return false;
+        {
+            return buttonInterface.GetWeaponChangeDown();
+        }
     }
 }

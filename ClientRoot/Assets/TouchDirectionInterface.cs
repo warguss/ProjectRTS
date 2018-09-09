@@ -78,7 +78,7 @@ public class TouchDirectionInterface : MonoBehaviour, IDragHandler, IPointerDown
             (eventData.position.x - CenterPosition.x) * 100 / ScaledRadius,
             (eventData.position.y - CenterPosition.y) * 100 / ScaledRadius
             );
-        //Debug.Log(NomalizedPosition);
+        Debug.Log(NomalizedPosition);
 
         return NomalizedPosition;
     }

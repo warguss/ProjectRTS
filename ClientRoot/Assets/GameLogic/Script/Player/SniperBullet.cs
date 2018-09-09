@@ -6,7 +6,7 @@ public class SniperBullet : Bullet
     // Use this for initialization
     void Start()
     {
-        weaponId = WeaponId.Sniper;
+        
     }
 
     // Update is called once per frame
@@ -17,20 +17,19 @@ public class SniperBullet : Bullet
 
     protected override void UpdatePosition()
     {
-        float radian = Mathf.PI * (float)DamageInfo.shootAngle / 180f;
+        float radian = Mathf.PI * (float)BulletStat.shootAngle / 180f;
         float impactX = Mathf.Cos(radian);
         float impactY = Mathf.Sin(radian);
 
-        rb2d.velocity = new Vector2(impactX, impactY) * bulletSpeed;
+        rb2d.velocity = new Vector2(impactX, impactY) * BulletStat.BulletSpeed;
 
         Vector2 CurrentPosition = rb2d.position;
-        if (Vector2.Distance(StartPosition, CurrentPosition) > range)
+        if (Vector2.Distance(StartPosition, CurrentPosition) > BulletStat.BulletRange)
             Destroy(gameObject);
     }
 
     override public void SetAngle(int inAngle)
     {
-        DamageInfo.shootAngle = inAngle;
-        DamageInfo.ImpactAngle = inAngle;
+        BulletStat.shootAngle = inAngle;
     }
 }

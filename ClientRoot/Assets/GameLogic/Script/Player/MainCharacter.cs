@@ -67,6 +67,8 @@ public class MainCharacter : ControllableCharacter
         Inventory.Add(WeaponId.Pistol, pistol);////////////////////
         Inventory.Add(WeaponId.Sniper, sniper);////////////////////
 
+        state = new CharacterState();
+
         var playerInfoDisplayGameObject = Instantiate(PlayerInfoDisplay, transform.Find("Sprite"));
         playerInfoDisplayGameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
         playerInfoDisplay = playerInfoDisplayGameObject.GetComponent<PlayerInfoDisplay>();
@@ -204,7 +206,7 @@ public class MainCharacter : ControllableCharacter
     {
         if (!isDead)
         {
-            //DamageInfo damageInfo = new DamageInfo
+            //ShootInfo shootInfo = new ShootInfo
             //{
             //    shootAngle = shootAngle,
             //    ImpactAngle = shootAngle,
@@ -212,16 +214,16 @@ public class MainCharacter : ControllableCharacter
             //    Damage = 10,
             //};
 
-            ShootWithDamageInfo(null);
+            ShootWithShootInfo(null);
         }
     }
 
-    public override void ShootWithDamageInfo(DamageInfo info)
+    public override void ShootWithShootInfo(ShootInfo info)
     {
-        ShootWithDamageInfo(info, gameObject.transform.position);
+        ShootWithShootInfo(info, gameObject.transform.position);
     }
 
-    public override void ShootWithDamageInfo(DamageInfo info, Vector2 position)
+    public override void ShootWithShootInfo(ShootInfo info, Vector2 position)
     {
         if (!isDead)
         {
@@ -230,7 +232,7 @@ public class MainCharacter : ControllableCharacter
             {
                 var bullet = currentWeapon.Shoot(info, position);
 
-                InvokeEventShoot(CurrentPosition, CurrentVelocity, bullet.DamageInfo, currentWeaponId);
+                InvokeEventShoot(CurrentPosition, CurrentVelocity, bullet.BulletStat, currentWeaponId);
             }
         }
     }
@@ -276,7 +278,7 @@ public class MainCharacter : ControllableCharacter
         jumpCount = 0;
     }
 
-    public override void GetHit(int attackerId, DamageInfo info, float? remainingHp = null)
+    public override void GetHit(int attackerId, ShootInfo info, float? remainingHp = null)
     {
         if (remainingHp == null)
             hp -= info.Damage;
@@ -285,10 +287,16 @@ public class MainCharacter : ControllableCharacter
 
         TestUI.Instance.PrintText("player" + OwnerId + "hp : " + hp + " / Attacker : " + attackerId);
 
-        float radian = Mathf.PI * (float)info.ImpactAngle / 180f;
-        float impactX = Mathf.Cos(radian);
-        float impactY = Mathf.Sin(radian);
-        charRigidbody.AddForce(new Vector2(impactX, impactY) * info.Impact);
+        switch(info.HitType)
+        {
+            case WeaponId.Pistol:
+            case WeaponId.Sniper:
+                float radian = Mathf.PI * (float)info.shootAngle / 180f;
+                float impactX = Mathf.Cos(radian);
+                float impactY = Mathf.Sin(radian);
+                charRigidbody.AddForce(new Vector2(impactX, impactY) * info.Impact);
+                break;
+        }
 
         lastAttackedPlayerId = attackerId;
 

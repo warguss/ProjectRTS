@@ -2,20 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class DamageInfo
-{
-    public float shootAngle;//unuse when hit()
-    public int Damage;
-    public int HitRecovery;// currently unuse
-    public int Impact;
-    public int ImpactAngle;// currently unuse
-}
-
 public delegate void CharEventMove(int invokerId, Vector2 position, Vector2 velocity, bool isLeft);
 public delegate void CharEventStop(int invokerId, Vector2 position, Vector2 velocity);
 public delegate void CharEventJump(int invokerId, Vector2 position, Vector2 velocity);
-public delegate void CharEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, DamageInfo info, float remainingHp);
-public delegate void CharEventShoot(int invokerId, Vector2 position, Vector2 velocity, DamageInfo info, WeaponId weaponId);
+public delegate void CharEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, ShootInfo info, float remainingHp);
+public delegate void CharEventShoot(int invokerId, Vector2 position, Vector2 velocity, ShootInfo info, WeaponId weaponId);
 public delegate void CharEventChangeWeapon(int invokerId, Vector2 position, Vector2 velocity, WeaponId WeaponId);
 public delegate void CharEventSpawn(int invokerId, Vector2 position);
 public delegate void CharEventDead(int invokerId, Vector2 position, int attackerId);
@@ -43,6 +34,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     protected int hitRecovery = 0;
 
     protected float hp;
+    protected CharacterState state;
     protected int jumpCount = 0;
     protected int lastAttackedPlayerId = -1;
 
@@ -78,11 +70,11 @@ public abstract class ControllableCharacter : MonoBehaviour
     {
         JumpEvent?.Invoke(OwnerId, position, velocity);
     }
-    protected void InvokeEventGetHit(Vector2 position, Vector2 velocity, int attackerId, DamageInfo info, float remainingHp)
+    protected void InvokeEventGetHit(Vector2 position, Vector2 velocity, int attackerId, ShootInfo info, float remainingHp)
     {
         GetHitEvent?.Invoke(OwnerId, position, velocity, attackerId, info, remainingHp);
     }
-    protected void InvokeEventShoot(Vector2 position, Vector2 velocity, DamageInfo info, WeaponId weaponId)
+    protected void InvokeEventShoot(Vector2 position, Vector2 velocity, ShootInfo info, WeaponId weaponId)
     {
         ShootEvent?.Invoke(OwnerId, position, velocity, info, weaponId);
     }
@@ -138,8 +130,8 @@ public abstract class ControllableCharacter : MonoBehaviour
     public abstract void MoveStop();
     public abstract void Jump();
     public abstract void Shoot();
-    public abstract void ShootWithDamageInfo(DamageInfo info, Vector2 position);
-    public abstract void ShootWithDamageInfo(DamageInfo info);
+    public abstract void ShootWithShootInfo(ShootInfo info, Vector2 position);
+    public abstract void ShootWithShootInfo(ShootInfo info);
     public abstract void ChangeWeapon(WeaponId inWeaponId);
     public abstract void Spawn(Vector2 position);
     public abstract void PlayerDie();
@@ -149,7 +141,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     public abstract void SetLocation(Vector2 position);
     public abstract void MoveWithInterpolation(Vector2 position, Vector2 velocity);
 
-    public abstract void GetHit(int attackerId, DamageInfo info, float? remainingHp = null);
+    public abstract void GetHit(int attackerId, ShootInfo info, float? remainingHp = null);
 
     public abstract GameObject GetGameObject();
 }

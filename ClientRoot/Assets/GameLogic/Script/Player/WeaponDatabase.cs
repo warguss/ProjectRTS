@@ -22,8 +22,8 @@ public class WeaponDatabase {
     {
         weapons = new Dictionary<WeaponId, WeaponStat>
         {
-            { WeaponId.Pistol, new WeaponStat(10, 15, 10, 0, 50, 0, 0.25f) },
-            { WeaponId.Sniper, new WeaponStat(15, 20, 15, 0, 60, 0, 0.5f) }
+            { WeaponId.Pistol, new WeaponStat(WeaponId.Pistol, 10, 15, 10, 0, 50, 0, 0.2f) },
+            { WeaponId.Sniper, new WeaponStat(WeaponId.Sniper, 20, 25, 20, 0, 60, 0, 0.5f) }
         };
     }
 

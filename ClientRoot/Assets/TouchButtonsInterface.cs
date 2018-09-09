@@ -6,14 +6,17 @@ public class TouchButtonsInterface : MonoBehaviour {
 
     TouchButton ButtonJump;
     TouchButton ButtonFire;
+    TouchButton ButtonWeaponChange;
 
     bool JumpInput = false;
     bool FireInput = false;
+    bool WeaponChangeInput = false;
 
     private void Awake()
     {
         ButtonJump = transform.Find("Jump").gameObject.GetComponent<TouchButton>();
         ButtonFire = transform.Find("Fire").gameObject.GetComponent<TouchButton>();
+        ButtonWeaponChange = transform.Find("WeaponChange").gameObject.GetComponent<TouchButton>();
     }
 
     // Use this for initialization
@@ -34,6 +37,12 @@ public class TouchButtonsInterface : MonoBehaviour {
             FireInput = true;
             ButtonFire.CurrentState = false;
         }
+
+        if (ButtonWeaponChange.CurrentState)
+        {
+            WeaponChangeInput = true;
+            ButtonWeaponChange.CurrentState = false;
+        }
     }
 
     public bool GetJumpDown()
@@ -51,6 +60,16 @@ public class TouchButtonsInterface : MonoBehaviour {
         if (FireInput)
         {
             FireInput = false;
+            return true;
+        }
+        return false;
+    }
+
+    public bool GetWeaponChangeDown()
+    {
+        if (WeaponChangeInput)
+        {
+            WeaponChangeInput = false;
             return true;
         }
         return false;

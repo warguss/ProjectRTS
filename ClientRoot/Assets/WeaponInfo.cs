@@ -20,6 +20,7 @@ public enum WeaponId : int
 
 public class WeaponStat
 {
+    public WeaponId WeaponId = WeaponId.Pistol;
     public float BulletSpeed = WeaponConstants.DEFAULT_BULLET_SPEED;
     public float Range = WeaponConstants.DEFAULT_RANGE;
     public int Damage = WeaponConstants.DEFAULT_DAMAGE;
@@ -33,8 +34,9 @@ public class WeaponStat
         
     }
 
-    public WeaponStat(float inBulletSpeed, float inRange, int inDamage, int inHitRecovery, int inImpact, int inImpactAngle, float inRapidInterval)
+    public WeaponStat(WeaponId inWeaponId, float inBulletSpeed, float inRange, int inDamage, int inHitRecovery, int inImpact, int inImpactAngle, float inRapidInterval)
     {
+        WeaponId = inWeaponId;
         BulletSpeed = inBulletSpeed;
         Range = inRange;
         Damage = inDamage;

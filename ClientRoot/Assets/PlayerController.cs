@@ -121,9 +121,9 @@ public class PlayerController {
         Character.MoveWithInterpolation(position, velocity);
     }
 
-    public void ShootWithDamageInfo(DamageInfo info, Vector2 position)
+    public void ShootWithShootInfo(ShootInfo info, Vector2 position)
     {
-        Character.ShootWithDamageInfo(info, position);
+        Character.ShootWithShootInfo(info, position);
     }
 
     public void ChangeWeapon(WeaponId inWeaponId)
@@ -131,7 +131,7 @@ public class PlayerController {
         Character.ChangeWeapon(inWeaponId);
     }
 
-    public void GetHit(int attackerId, DamageInfo info, float? remainingHp = null)
+    public void GetHit(int attackerId, ShootInfo info, float? remainingHp = null)
     {
         Character.GetHit(attackerId, info, remainingHp);
     }

@@ -62,12 +62,14 @@
     <Compile Include="Assets\GameLogic.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\Bullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\BulletFactory.cs" />
+    <Compile Include="Assets\GameLogic\Script\Player\CharacterState.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\ControllableCharacter.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\HPBar.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\MainCharacter.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\PistolBullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\PlayerInfoDisplay.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\PlayerWeapon.cs" />
+    <Compile Include="Assets\GameLogic\Script\Player\ShootInfo.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\SniperBullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\WeaponDatabase.cs" />
     <Compile Include="Assets\Google.Protobuf\ByteArray.cs" />

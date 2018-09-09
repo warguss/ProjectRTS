@@ -31,7 +31,7 @@ public class PlayerWeapon
             return false;
     }
 
-    public Bullet Shoot(DamageInfo info, Vector2 position)
+    public Bullet Shoot(ShootInfo info, Vector2 position)
     {
         GameObject bullet = BulletFactory.Instance.InstantiateBullet(weaponId);
         bullet.transform.position = new Vector3(position.x, position.y);
@@ -40,7 +40,7 @@ public class PlayerWeapon
 
         if (info != null)//For Non local Player
         {
-            bulletScript.DamageInfo = info;
+            bulletScript.BulletStat = info;
         }
 
         else

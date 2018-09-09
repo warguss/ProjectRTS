@@ -5,11 +5,9 @@ using RTS;
 abstract public class Bullet : MonoBehaviour {
 
     public int OwnerId { get; set; }
-    public  DamageInfo DamageInfo { get; set; }
+    public  ShootInfo BulletStat { get; set; }
 
-    protected WeaponId weaponId;
-    protected float bulletSpeed;
-    protected float range;
+    protected WeaponId weaponId = WeaponId.Pistol;
 
     protected Vector2 StartPosition;
 
@@ -23,7 +21,7 @@ abstract public class Bullet : MonoBehaviour {
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        DamageInfo = new DamageInfo();
+        BulletStat = new ShootInfo();
     }
 	
 	// Update is called once per frame
@@ -45,7 +43,7 @@ abstract public class Bullet : MonoBehaviour {
             {
                 if (targetPlayer.IsLocalPlayer)
                 {
-                    targetPlayer.GetHit(OwnerId, DamageInfo);
+                    targetPlayer.GetHit(OwnerId, BulletStat);
                     //TestUI.Instance.PrintText("BulletOnTriggerEnter2D");
                 }
 
@@ -61,21 +59,23 @@ abstract public class Bullet : MonoBehaviour {
         }
     }
 
-    public void Initialize(int inOwnerId, WeaponStat info)
+    virtual public void Initialize(int inOwnerId, WeaponStat info)
     {
         StartPosition = rb2d.position;
-        bulletSpeed = info.BulletSpeed;
-        range = info.Range;
-        DamageInfo.Damage = info.Damage;
-        DamageInfo.HitRecovery = info.HitRecovery;
-        DamageInfo.Impact = info.Impact;
+        weaponId = info.WeaponId;
+
+        BulletStat.BulletRange = info.Range;
+        BulletStat.BulletSpeed = info.BulletSpeed;
+        BulletStat.HitType = weaponId;
+        BulletStat.Damage = info.Damage;
+        BulletStat.HitRecovery = info.HitRecovery;
+        BulletStat.Impact = info.Impact;
         OwnerId = inOwnerId;
     }
 
     virtual public void SetAngle(int inAngle)
     {
-        DamageInfo.shootAngle = inAngle;
-        DamageInfo.ImpactAngle = inAngle;///////////////////
+        BulletStat.shootAngle = inAngle;
     }
 
     protected abstract void UpdatePosition();

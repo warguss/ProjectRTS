@@ -387,13 +387,13 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
-    public void WriteEventGetHit(int InvokerId, Vector2 position, Vector2 velocity, int attackerId, DamageInfo info, float remainingHp)
+    public void WriteEventGetHit(int InvokerId, Vector2 position, Vector2 velocity, int attackerId, ShootInfo info, float remainingHp)
     {
         var packet = CreateCommonEventPacket(GameEvent.Types.action.EventHit, InvokerId, position, velocity);
         packet.Event.HitEvent = new EventHit
         {
             Attacker = attackerId,
-            ImpactAngle = info.ImpactAngle,
+            HitType = (int)info.HitType,
             Impact = info.Impact,
             Damage = info.Damage,
             CurrentHP = remainingHp
@@ -413,13 +413,14 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
-    public void WriteEventShoot(int InvokerId, Vector2 position, Vector2 velocity, DamageInfo info, WeaponId weaponId)
+    public void WriteEventShoot(int InvokerId, Vector2 position, Vector2 velocity, ShootInfo info, WeaponId weaponId)
     {
         var packet = CreateCommonEventPacket(GameEvent.Types.action.EventShoot, InvokerId, position, velocity);
         packet.Event.ShootEvent = new EventShoot
         {
+            BulletSpeed = info.BulletSpeed,
+            BulletRange = info.BulletRange,
             Impact = info.Impact,
-            ImpactAngle = info.ImpactAngle,
             Angle = info.shootAngle,
             Damage = info.Damage,
             WeaponId = (int)weaponId 
