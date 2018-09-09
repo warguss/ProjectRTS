@@ -1079,11 +1079,11 @@ class EventShoot : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::int32 weaponid() const;
   void set_weaponid(::google::protobuf::int32 value);
 
-  // float bulletSpeeed = 6;
-  void clear_bulletspeeed();
-  static const int kBulletSpeeedFieldNumber = 6;
-  float bulletspeeed() const;
-  void set_bulletspeeed(float value);
+  // float bulletSpeed = 6;
+  void clear_bulletspeed();
+  static const int kBulletSpeedFieldNumber = 6;
+  float bulletspeed() const;
+  void set_bulletspeed(float value);
 
   // float bulletRange = 7;
   void clear_bulletrange();
@@ -1100,7 +1100,7 @@ class EventShoot : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::int32 impact_;
   ::google::protobuf::int32 impactangle_;
   ::google::protobuf::int32 weaponid_;
-  float bulletspeeed_;
+  float bulletspeed_;
   float bulletrange_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
@@ -2523,18 +2523,18 @@ inline void EventShoot::set_weaponid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:server2N.EventShoot.weaponId)
 }
 
-// float bulletSpeeed = 6;
-inline void EventShoot::clear_bulletspeeed() {
-  bulletspeeed_ = 0;
+// float bulletSpeed = 6;
+inline void EventShoot::clear_bulletspeed() {
+  bulletspeed_ = 0;
 }
-inline float EventShoot::bulletspeeed() const {
-  // @@protoc_insertion_point(field_get:server2N.EventShoot.bulletSpeeed)
-  return bulletspeeed_;
+inline float EventShoot::bulletspeed() const {
+  // @@protoc_insertion_point(field_get:server2N.EventShoot.bulletSpeed)
+  return bulletspeed_;
 }
-inline void EventShoot::set_bulletspeeed(float value) {
+inline void EventShoot::set_bulletspeed(float value) {
   
-  bulletspeeed_ = value;
-  // @@protoc_insertion_point(field_set:server2N.EventShoot.bulletSpeeed)
+  bulletspeed_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventShoot.bulletSpeed)
 }
 
 // float bulletRange = 7;
