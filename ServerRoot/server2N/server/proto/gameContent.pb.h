@@ -1079,6 +1079,18 @@ class EventShoot : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::int32 weaponid() const;
   void set_weaponid(::google::protobuf::int32 value);
 
+  // float bulletSpeeed = 6;
+  void clear_bulletspeeed();
+  static const int kBulletSpeeedFieldNumber = 6;
+  float bulletspeeed() const;
+  void set_bulletspeeed(float value);
+
+  // float bulletRange = 7;
+  void clear_bulletrange();
+  static const int kBulletRangeFieldNumber = 7;
+  float bulletrange() const;
+  void set_bulletrange(float value);
+
   // @@protoc_insertion_point(class_scope:server2N.EventShoot)
  private:
 
@@ -1088,6 +1100,8 @@ class EventShoot : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::int32 impact_;
   ::google::protobuf::int32 impactangle_;
   ::google::protobuf::int32 weaponid_;
+  float bulletspeeed_;
+  float bulletrange_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventShootImpl();
@@ -1210,6 +1224,12 @@ class EventHit : public ::google::protobuf::Message /* @@protoc_insertion_point(
   float currenthp() const;
   void set_currenthp(float value);
 
+  // int32 hitType = 6;
+  void clear_hittype();
+  static const int kHitTypeFieldNumber = 6;
+  ::google::protobuf::int32 hittype() const;
+  void set_hittype(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:server2N.EventHit)
  private:
 
@@ -1219,6 +1239,7 @@ class EventHit : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::int32 impact_;
   ::google::protobuf::int32 impactangle_;
   float currenthp_;
+  ::google::protobuf::int32 hittype_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventHitImpl();
@@ -2502,6 +2523,34 @@ inline void EventShoot::set_weaponid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:server2N.EventShoot.weaponId)
 }
 
+// float bulletSpeeed = 6;
+inline void EventShoot::clear_bulletspeeed() {
+  bulletspeeed_ = 0;
+}
+inline float EventShoot::bulletspeeed() const {
+  // @@protoc_insertion_point(field_get:server2N.EventShoot.bulletSpeeed)
+  return bulletspeeed_;
+}
+inline void EventShoot::set_bulletspeeed(float value) {
+  
+  bulletspeeed_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventShoot.bulletSpeeed)
+}
+
+// float bulletRange = 7;
+inline void EventShoot::clear_bulletrange() {
+  bulletrange_ = 0;
+}
+inline float EventShoot::bulletrange() const {
+  // @@protoc_insertion_point(field_get:server2N.EventShoot.bulletRange)
+  return bulletrange_;
+}
+inline void EventShoot::set_bulletrange(float value) {
+  
+  bulletrange_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventShoot.bulletRange)
+}
+
 // -------------------------------------------------------------------
 
 // EventHit
@@ -2574,6 +2623,20 @@ inline void EventHit::set_currenthp(float value) {
   
   currenthp_ = value;
   // @@protoc_insertion_point(field_set:server2N.EventHit.currentHP)
+}
+
+// int32 hitType = 6;
+inline void EventHit::clear_hittype() {
+  hittype_ = 0;
+}
+inline ::google::protobuf::int32 EventHit::hittype() const {
+  // @@protoc_insertion_point(field_get:server2N.EventHit.hitType)
+  return hittype_;
+}
+inline void EventHit::set_hittype(::google::protobuf::int32 value) {
+  
+  hittype_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventHit.hitType)
 }
 
 // -------------------------------------------------------------------
