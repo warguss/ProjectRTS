@@ -421,6 +421,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventShoot, impact_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventShoot, impactangle_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventShoot, weaponid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventShoot, bulletspeeed_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventShoot, bulletrange_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventHit, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -431,6 +433,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventHit, impact_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventHit, impactangle_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventHit, currenthp_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventHit, hittype_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventChangeWeapon, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -496,13 +499,13 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 25, -1, sizeof(::server2N::EventStop)},
   { 30, -1, sizeof(::server2N::EventJump)},
   { 35, -1, sizeof(::server2N::EventShoot)},
-  { 45, -1, sizeof(::server2N::EventHit)},
-  { 55, -1, sizeof(::server2N::EventChangeWeapon)},
-  { 61, -1, sizeof(::server2N::EventSpawn)},
-  { 66, -1, sizeof(::server2N::EventUserSync)},
-  { 73, -1, sizeof(::server2N::EventDeath)},
-  { 79, -1, sizeof(::server2N::GameEvent)},
-  { 102, -1, sizeof(::server2N::PacketBody)},
+  { 47, -1, sizeof(::server2N::EventHit)},
+  { 58, -1, sizeof(::server2N::EventChangeWeapon)},
+  { 64, -1, sizeof(::server2N::EventSpawn)},
+  { 69, -1, sizeof(::server2N::EventUserSync)},
+  { 76, -1, sizeof(::server2N::EventDeath)},
+  { 82, -1, sizeof(::server2N::GameEvent)},
+  { 105, -1, sizeof(::server2N::PacketBody)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -558,45 +561,47 @@ void AddDescriptorsImpl() {
       ".server2N.EventMove.Direction\"\?\n\tDirecti"
       "on\022\013\n\007Nothing\020\000\022\010\n\004Left\020\001\022\t\n\005Right\020\002\022\010\n\004"
       "Down\020\003\022\006\n\002Up\020\004\"\013\n\tEventStop\"\013\n\tEventJump"
-      "\"b\n\nEventShoot\022\r\n\005angle\030\001 \001(\002\022\016\n\006damage\030"
-      "\002 \001(\002\022\016\n\006impact\030\003 \001(\005\022\023\n\013impactAngle\030\004 \001"
-      "(\005\022\020\n\010weaponId\030\005 \001(\005\"d\n\010EventHit\022\020\n\010atta"
-      "cker\030\001 \001(\005\022\016\n\006damage\030\002 \001(\002\022\016\n\006impact\030\003 \001"
-      "(\005\022\023\n\013impactAngle\030\004 \001(\005\022\021\n\tcurrentHP\030\005 \001"
-      "(\002\"%\n\021EventChangeWeapon\022\020\n\010weaponId\030\001 \001("
-      "\005\"\014\n\nEventSpawn\"4\n\rEventUserSync\022\021\n\tcurr"
-      "entHP\030\001 \001(\002\022\020\n\010weaponId\030\002 \001(\005\"\037\n\nEventDe"
-      "ath\022\021\n\ttriggerId\030\001 \001(\005\"\233\006\n\tGameEvent\022&\n\t"
-      "moveEvent\030m \001(\0132\023.server2N.EventMove\022&\n\t"
-      "stopEvent\030n \001(\0132\023.server2N.EventStop\022&\n\t"
-      "jumpEvent\030o \001(\0132\023.server2N.EventJump\022(\n\n"
-      "shootEvent\030p \001(\0132\024.server2N.EventShoot\022$"
-      "\n\010hitEvent\030q \001(\0132\022.server2N.EventHit\022(\n\n"
-      "spawnEvent\030r \001(\0132\024.server2N.EventSpawn\022*"
-      "\n\tsyncEvent\030s \001(\0132\027.server2N.EventUserSy"
-      "nc\022(\n\ndeathEvent\030t \001(\0132\024.server2N.EventD"
-      "eath\0222\n\rchWeaponEvent\030u \001(\0132\033.server2N.E"
-      "ventChangeWeapon\022+\n\007actType\030\001 \001(\0162\032.serv"
-      "er2N.GameEvent.action\022\026\n\016actionProperty\030"
-      "\005 \001(\005\022\026\n\016EventPositionX\030\006 \001(\002\022\026\n\016EventPo"
-      "sitionY\030\007 \001(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVelo"
-      "cityY\030\t \001(\002\022\021\n\tinvokerId\030\n \003(\005\022\020\n\010sector"
-      "No\030\013 \001(\005\022\024\n\014isInterested\030\014 \001(\010\"\273\001\n\006actio"
-      "n\022\013\n\007Nothing\020\000\022\r\n\tEventMove\020d\022\r\n\tEventSt"
-      "op\020e\022\r\n\tEventJump\020f\022\016\n\nEventShoot\020g\022\014\n\010E"
-      "ventHit\020h\022\016\n\nEventSpawn\020i\022\021\n\rEventUserSy"
-      "nc\020j\022\016\n\nEventDeath\020k\022\017\n\013EventBullet\020l\022\025\n"
-      "\021EventChangeWeapon\020m\"\220\002\n\nPacketBody\0222\n\007m"
-      "sgType\030\220N \001(\0162 .server2N.PacketBody.mess"
-      "ageType\022)\n\007connect\030\006 \001(\0132\030.server2N.User"
-      "Connection\022\'\n\006notice\030\221N \001(\0132\026.server2N.G"
-      "lobalNotice\022\"\n\005event\030\007 \001(\0132\023.server2N.Ga"
-      "meEvent\022\020\n\010senderId\030\010 \001(\005\"D\n\013messageType"
-      "\022\r\n\tGameEvent\020\000\022\023\n\016UserConnection\020\220N\022\021\n\014"
-      "GlobalNotice\020\221Nb\006proto3"
+      "\"\215\001\n\nEventShoot\022\r\n\005angle\030\001 \001(\002\022\016\n\006damage"
+      "\030\002 \001(\002\022\016\n\006impact\030\003 \001(\005\022\023\n\013impactAngle\030\004 "
+      "\001(\005\022\020\n\010weaponId\030\005 \001(\005\022\024\n\014bulletSpeeed\030\006 "
+      "\001(\002\022\023\n\013bulletRange\030\007 \001(\002\"u\n\010EventHit\022\020\n\010"
+      "attacker\030\001 \001(\005\022\016\n\006damage\030\002 \001(\002\022\016\n\006impact"
+      "\030\003 \001(\005\022\023\n\013impactAngle\030\004 \001(\005\022\021\n\tcurrentHP"
+      "\030\005 \001(\002\022\017\n\007hitType\030\006 \001(\005\"%\n\021EventChangeWe"
+      "apon\022\020\n\010weaponId\030\001 \001(\005\"\014\n\nEventSpawn\"4\n\r"
+      "EventUserSync\022\021\n\tcurrentHP\030\001 \001(\002\022\020\n\010weap"
+      "onId\030\002 \001(\005\"\037\n\nEventDeath\022\021\n\ttriggerId\030\001 "
+      "\001(\005\"\233\006\n\tGameEvent\022&\n\tmoveEvent\030m \001(\0132\023.s"
+      "erver2N.EventMove\022&\n\tstopEvent\030n \001(\0132\023.s"
+      "erver2N.EventStop\022&\n\tjumpEvent\030o \001(\0132\023.s"
+      "erver2N.EventJump\022(\n\nshootEvent\030p \001(\0132\024."
+      "server2N.EventShoot\022$\n\010hitEvent\030q \001(\0132\022."
+      "server2N.EventHit\022(\n\nspawnEvent\030r \001(\0132\024."
+      "server2N.EventSpawn\022*\n\tsyncEvent\030s \001(\0132\027"
+      ".server2N.EventUserSync\022(\n\ndeathEvent\030t "
+      "\001(\0132\024.server2N.EventDeath\0222\n\rchWeaponEve"
+      "nt\030u \001(\0132\033.server2N.EventChangeWeapon\022+\n"
+      "\007actType\030\001 \001(\0162\032.server2N.GameEvent.acti"
+      "on\022\026\n\016actionProperty\030\005 \001(\005\022\026\n\016EventPosit"
+      "ionX\030\006 \001(\002\022\026\n\016EventPositionY\030\007 \001(\002\022\021\n\tVe"
+      "locityX\030\010 \001(\002\022\021\n\tVelocityY\030\t \001(\002\022\021\n\tinvo"
+      "kerId\030\n \003(\005\022\020\n\010sectorNo\030\013 \001(\005\022\024\n\014isInter"
+      "ested\030\014 \001(\010\"\273\001\n\006action\022\013\n\007Nothing\020\000\022\r\n\tE"
+      "ventMove\020d\022\r\n\tEventStop\020e\022\r\n\tEventJump\020f"
+      "\022\016\n\nEventShoot\020g\022\014\n\010EventHit\020h\022\016\n\nEventS"
+      "pawn\020i\022\021\n\rEventUserSync\020j\022\016\n\nEventDeath\020"
+      "k\022\017\n\013EventBullet\020l\022\025\n\021EventChangeWeapon\020"
+      "m\"\220\002\n\nPacketBody\0222\n\007msgType\030\220N \001(\0162 .ser"
+      "ver2N.PacketBody.messageType\022)\n\007connect\030"
+      "\006 \001(\0132\030.server2N.UserConnection\022\'\n\006notic"
+      "e\030\221N \001(\0132\026.server2N.GlobalNotice\022\"\n\005even"
+      "t\030\007 \001(\0132\023.server2N.GameEvent\022\020\n\010senderId"
+      "\030\010 \001(\005\"D\n\013messageType\022\r\n\tGameEvent\020\000\022\023\n\016"
+      "UserConnection\020\220N\022\021\n\014GlobalNotice\020\221Nb\006pr"
+      "oto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2023);
+      descriptor, 2084);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "gameContent.proto", &protobuf_RegisterTypes);
 }
@@ -2241,6 +2246,8 @@ const int EventShoot::kDamageFieldNumber;
 const int EventShoot::kImpactFieldNumber;
 const int EventShoot::kImpactAngleFieldNumber;
 const int EventShoot::kWeaponIdFieldNumber;
+const int EventShoot::kBulletSpeeedFieldNumber;
+const int EventShoot::kBulletRangeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 EventShoot::EventShoot()
@@ -2257,15 +2264,15 @@ EventShoot::EventShoot(const EventShoot& from)
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&angle_, &from.angle_,
-    static_cast<size_t>(reinterpret_cast<char*>(&weaponid_) -
-    reinterpret_cast<char*>(&angle_)) + sizeof(weaponid_));
+    static_cast<size_t>(reinterpret_cast<char*>(&bulletrange_) -
+    reinterpret_cast<char*>(&angle_)) + sizeof(bulletrange_));
   // @@protoc_insertion_point(copy_constructor:server2N.EventShoot)
 }
 
 void EventShoot::SharedCtor() {
   ::memset(&angle_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&weaponid_) -
-      reinterpret_cast<char*>(&angle_)) + sizeof(weaponid_));
+      reinterpret_cast<char*>(&bulletrange_) -
+      reinterpret_cast<char*>(&angle_)) + sizeof(bulletrange_));
   _cached_size_ = 0;
 }
 
@@ -2300,8 +2307,8 @@ void EventShoot::Clear() {
   (void) cached_has_bits;
 
   ::memset(&angle_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&weaponid_) -
-      reinterpret_cast<char*>(&angle_)) + sizeof(weaponid_));
+      reinterpret_cast<char*>(&bulletrange_) -
+      reinterpret_cast<char*>(&angle_)) + sizeof(bulletrange_));
   _internal_metadata_.Clear();
 }
 
@@ -2385,6 +2392,34 @@ bool EventShoot::MergePartialFromCodedStream(
         break;
       }
 
+      // float bulletSpeeed = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(53u /* 53 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &bulletspeeed_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // float bulletRange = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(61u /* 61 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &bulletrange_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -2436,6 +2471,16 @@ void EventShoot::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->weaponid(), output);
   }
 
+  // float bulletSpeeed = 6;
+  if (this->bulletspeeed() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(6, this->bulletspeeed(), output);
+  }
+
+  // float bulletRange = 7;
+  if (this->bulletrange() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(7, this->bulletrange(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -2473,6 +2518,16 @@ void EventShoot::SerializeWithCachedSizes(
   // int32 weaponId = 5;
   if (this->weaponid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->weaponid(), target);
+  }
+
+  // float bulletSpeeed = 6;
+  if (this->bulletspeeed() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(6, this->bulletspeeed(), target);
+  }
+
+  // float bulletRange = 7;
+  if (this->bulletrange() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(7, this->bulletrange(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2523,6 +2578,16 @@ size_t EventShoot::ByteSizeLong() const {
         this->weaponid());
   }
 
+  // float bulletSpeeed = 6;
+  if (this->bulletspeeed() != 0) {
+    total_size += 1 + 4;
+  }
+
+  // float bulletRange = 7;
+  if (this->bulletrange() != 0) {
+    total_size += 1 + 4;
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -2567,6 +2632,12 @@ void EventShoot::MergeFrom(const EventShoot& from) {
   if (from.weaponid() != 0) {
     set_weaponid(from.weaponid());
   }
+  if (from.bulletspeeed() != 0) {
+    set_bulletspeeed(from.bulletspeeed());
+  }
+  if (from.bulletrange() != 0) {
+    set_bulletrange(from.bulletrange());
+  }
 }
 
 void EventShoot::CopyFrom(const ::google::protobuf::Message& from) {
@@ -2598,6 +2669,8 @@ void EventShoot::InternalSwap(EventShoot* other) {
   swap(impact_, other->impact_);
   swap(impactangle_, other->impactangle_);
   swap(weaponid_, other->weaponid_);
+  swap(bulletspeeed_, other->bulletspeeed_);
+  swap(bulletrange_, other->bulletrange_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
@@ -2618,6 +2691,7 @@ const int EventHit::kDamageFieldNumber;
 const int EventHit::kImpactFieldNumber;
 const int EventHit::kImpactAngleFieldNumber;
 const int EventHit::kCurrentHPFieldNumber;
+const int EventHit::kHitTypeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 EventHit::EventHit()
@@ -2634,15 +2708,15 @@ EventHit::EventHit(const EventHit& from)
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&attacker_, &from.attacker_,
-    static_cast<size_t>(reinterpret_cast<char*>(&currenthp_) -
-    reinterpret_cast<char*>(&attacker_)) + sizeof(currenthp_));
+    static_cast<size_t>(reinterpret_cast<char*>(&hittype_) -
+    reinterpret_cast<char*>(&attacker_)) + sizeof(hittype_));
   // @@protoc_insertion_point(copy_constructor:server2N.EventHit)
 }
 
 void EventHit::SharedCtor() {
   ::memset(&attacker_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&currenthp_) -
-      reinterpret_cast<char*>(&attacker_)) + sizeof(currenthp_));
+      reinterpret_cast<char*>(&hittype_) -
+      reinterpret_cast<char*>(&attacker_)) + sizeof(hittype_));
   _cached_size_ = 0;
 }
 
@@ -2677,8 +2751,8 @@ void EventHit::Clear() {
   (void) cached_has_bits;
 
   ::memset(&attacker_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&currenthp_) -
-      reinterpret_cast<char*>(&attacker_)) + sizeof(currenthp_));
+      reinterpret_cast<char*>(&hittype_) -
+      reinterpret_cast<char*>(&attacker_)) + sizeof(hittype_));
   _internal_metadata_.Clear();
 }
 
@@ -2762,6 +2836,20 @@ bool EventHit::MergePartialFromCodedStream(
         break;
       }
 
+      // int32 hitType = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &hittype_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -2813,6 +2901,11 @@ void EventHit::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->currenthp(), output);
   }
 
+  // int32 hitType = 6;
+  if (this->hittype() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->hittype(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -2850,6 +2943,11 @@ void EventHit::SerializeWithCachedSizes(
   // float currentHP = 5;
   if (this->currenthp() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(5, this->currenthp(), target);
+  }
+
+  // int32 hitType = 6;
+  if (this->hittype() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->hittype(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2900,6 +2998,13 @@ size_t EventHit::ByteSizeLong() const {
     total_size += 1 + 4;
   }
 
+  // int32 hitType = 6;
+  if (this->hittype() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->hittype());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -2944,6 +3049,9 @@ void EventHit::MergeFrom(const EventHit& from) {
   if (from.currenthp() != 0) {
     set_currenthp(from.currenthp());
   }
+  if (from.hittype() != 0) {
+    set_hittype(from.hittype());
+  }
 }
 
 void EventHit::CopyFrom(const ::google::protobuf::Message& from) {
@@ -2975,6 +3083,7 @@ void EventHit::InternalSwap(EventHit* other) {
   swap(impact_, other->impact_);
   swap(impactangle_, other->impactangle_);
   swap(currenthp_, other->currenthp_);
+  swap(hittype_, other->hittype_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }

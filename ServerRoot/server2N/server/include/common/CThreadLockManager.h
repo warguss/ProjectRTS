@@ -17,12 +17,14 @@ private:
 	pthread_cond_t* _cond;
 
 public:
+	CThreadLockManager();
 	CThreadLockManager(int type = -1, int idx = -1);
-	CThreadLockManager(pthread_mutex_t* mutex, pthread_cond_t* cond);
+	CThreadLockManager(pthread_mutex_t* mutex, pthread_cond_t* cond, bool isAuto = true);
 	~CThreadLockManager();
 
-
+	void lock();
 	void release();
+	void setValue(pthread_mutex_t* mutex, pthread_cond_t* cond);
 };
 
 #endif
