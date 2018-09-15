@@ -156,23 +156,9 @@ int CUserPool::getSectionNo(CUser* user)
 		line = (_yUnit - 1);
 		yIdx = (line * _yUnit);
 	}
-	
-
-	/*
-	if ( yIdx > _yUnit )
-	{
-		yIdx = _yUnit;
-	} 
-
-	int xCol = x
-	if ( xIdx > _xUnit )
-	{
-		xIdx = _xUnit;
-	}
-	*/
 
 	idx = yIdx + xIdx;
-	LOG_INFO("User Sector xIdx(%d) + yIdx(%d) = idx(%d)", xIdx, yIdx, idx);
+	LOG_DEBUG("User Sector xIdx(%d) + yIdx(%d) = idx(%d)", xIdx, yIdx, idx);
 
 	return idx;
 }
@@ -401,7 +387,6 @@ void CUserPool::getPartUserList(list<CUser*>& userConnection, int sector)
 	int yBaseSector = NOT_ATTENTION_SECTOR_RANGE;
 	int xBaseSector = NOT_ATTENTION_SECTOR_RANGE;
 
-	LOG_DEBUG("count(%d) xBase(%d) yBase(%d)", countLeftUpDiagnol, xBaseSector, yBaseSector);
 	for ( int idx = 0; idx < countLeftUpDiagnol; idx++ )
 	{
 		int getSector = _getLeftSector(diagnolSector);
@@ -426,7 +411,6 @@ void CUserPool::getPartUserList(list<CUser*>& userConnection, int sector)
 			diagnolSector = getSector;
 		}
 	} 
-	LOG_DEBUG("after count(%d) xBase(%d) yBase(%d)", countLeftUpDiagnol, xBaseSector, yBaseSector);
 
 	int firstSector = diagnolSector;
 	for ( int yIdx = 0; yIdx < yBaseSector; yIdx++ )
@@ -449,27 +433,6 @@ void CUserPool::getPartUserList(list<CUser*>& userConnection, int sector)
 			break;
 		} 
 	}	
-
-	/*
-	it_sectorMap = userInfo.find(sector);
-	if ( it_sectorMap == userInfo.end() )
-	{
-		LOG_ERROR("Not Exist Sector");
-		return ;
-	} 
-
-	tMap = (map< int, CUser* >*)it_sectorMap->second;
-	for ( it_user = tMap->begin(); it_user != tMap->end(); it_user++ )
-	{
-		CUser* user = (CUser*)it_user->second;
-		if ( !user )
-		{
-			continue ; 
-		}
-		userConnection.push_back(user);
-	}
-	LOG_DEBUG("Part Send List Set Sector(%d), size(%d)", sector, userConnection.size());
-	*/
 }
 
 bool CUserPool::_addConnectionListBySector(list<CUser*>& userConnection, int sector)
