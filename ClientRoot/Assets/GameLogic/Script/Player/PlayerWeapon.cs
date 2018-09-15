@@ -3,11 +3,12 @@ using System.Collections;
 
 public class PlayerWeapon
 {
-    private WeaponId weaponId;
     private WeaponStat stat;
     private ControllableCharacter owner;
+    
+    public int CurrentAmmo { get; private set; }
+    public WeaponId WeaponId { get; private set; }
 
-    private int currentAmmo = -1;
     private float currentInterval = 0;
 
     public void UpdateInterval(float deltaTime)
@@ -25,7 +26,7 @@ public class PlayerWeapon
 
     public bool IsShootable()
     {
-        if ((currentAmmo > 0 || currentAmmo == -1)&& currentInterval == 0)
+        if ((CurrentAmmo > 0 || CurrentAmmo == -1)&& currentInterval == 0)
             return true;
         else
             return false;
@@ -33,10 +34,11 @@ public class PlayerWeapon
 
     public Bullet Shoot(ShootInfo info, Vector2 position)
     {
-        GameObject bullet = BulletFactory.Instance.InstantiateBullet(weaponId);
+        GameObject bullet = BulletFactory.Instance.InstantiateBullet(WeaponId);
         bullet.transform.position = new Vector3(position.x, position.y);
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         bulletScript.Initialize(owner.OwnerId, stat);
+        CurrentAmmo -= 1;
 
         if (info != null)//For Non local Player
         {
@@ -62,8 +64,9 @@ public class PlayerWeapon
 
     void SetWeaponInfo(WeaponId id, ControllableCharacter inOwner)
     {
-        weaponId = id;
+        WeaponId = id;
         stat = WeaponDatabase.Instance.GetDefaultWeaponStat(id);
+        CurrentAmmo = stat.Ammo;
         owner = inOwner;
     }
 }

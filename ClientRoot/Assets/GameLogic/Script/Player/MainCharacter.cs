@@ -240,7 +240,10 @@ public class MainCharacter : ControllableCharacter
     public override void ChangeWeapon(WeaponId inWeaponId)
     {
         if (Inventory.ContainsKey(inWeaponId))
+        {
             currentWeaponId = inWeaponId;
+            InvokeEventChangeWeapon(CurrentPosition, CurrentVelocity, currentWeaponId);
+        }
     }
 
     void CheckLand()

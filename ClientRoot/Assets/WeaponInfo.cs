@@ -10,6 +10,7 @@ public static class WeaponConstants
     public const int DEAFULT_IMPACT = 50;
     public const int DEFAuLT_IMPACT_ANGLE = 0;
     public const float DEFAULT_RAPID_INTERVAL = 0;
+    public const int DEFAULT_AMMO = 50;
 }
 
 public enum WeaponId : int
@@ -28,13 +29,14 @@ public class WeaponStat
     public int Impact = WeaponConstants.DEAFULT_IMPACT;
     public int ImpactAngle = WeaponConstants.DEFAuLT_IMPACT_ANGLE;
     public float RapidInterval = WeaponConstants.DEFAULT_RAPID_INTERVAL;
+    public int Ammo = WeaponConstants.DEFAULT_AMMO;
 
     public WeaponStat()
     {
         
     }
 
-    public WeaponStat(WeaponId inWeaponId, float inBulletSpeed, float inRange, int inDamage, int inHitRecovery, int inImpact, int inImpactAngle, float inRapidInterval)
+    public WeaponStat(WeaponId inWeaponId, float inBulletSpeed, float inRange, int inDamage, int inHitRecovery, int inImpact, int inImpactAngle, float inRapidInterval, int inAmmo)
     {
         WeaponId = inWeaponId;
         BulletSpeed = inBulletSpeed;
@@ -44,5 +46,6 @@ public class WeaponStat
         Impact = inImpact;
         ImpactAngle = inImpactAngle;
         RapidInterval = inRapidInterval;
+        Ammo = inAmmo;
     }
 }
