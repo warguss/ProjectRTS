@@ -4,7 +4,6 @@
 
 CThreadLockManager::CThreadLockManager()
 {
-	printf("Test");
 }
 
 CThreadLockManager::CThreadLockManager(pthread_mutex_t* mutex, pthread_cond_t* cond, bool isAutoLock)
@@ -42,7 +41,6 @@ void CThreadLockManager::lock()
 	}
 	else
 	{
-		printf("Not Exist thread");
 	}
 }
 

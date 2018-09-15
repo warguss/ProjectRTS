@@ -73,7 +73,6 @@ bool CQueueManager::enqueue(CProtoPacket* packet)
 		return false; 
 	}
 
-	LOG_DEBUG("ENQUEUE");
 	if ( isLock )
 	{
 		lockManager.release();
@@ -83,7 +82,6 @@ bool CQueueManager::enqueue(CProtoPacket* packet)
 	 * Auto Lock 
 	 * 공유자원에 대한 Lock
 	 ***********************/
-	//CThreadLockManager lock(&_queue_mutex, &_queue_cond);
 	lockManager.lock();
     _queue.push_back(packet);
     _queueSize++;
@@ -108,7 +106,6 @@ CProtoPacket* CQueueManager::dequeue()
 	 * Auto Lock 
 	 * 공유자원에 대한 Lock
 	 ***********************/
-	//CThreadLockManager lock(&_queue_mutex, &_queue_cond);
 	if ( isLock )
 	{
 		lockManager.release();
@@ -134,7 +131,6 @@ bool CQueueManager::isQueueDataExist()
 
 	isLock = true;
 	lockManager.lock();
-	LOG_DEBUG("Lock");
     return false;
 }
 
@@ -154,10 +150,6 @@ bool CQueueManager::lock()
 {
 	if ( _queueSize <= 0 )
 	{
-		/*
-		LOG_DEBUG("Thread Lock");
-		pthread_mutex_lock(&_queue_mutex);
-		*/
 		lockManager.lock();
 		return true;
 	}

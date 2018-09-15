@@ -30,20 +30,10 @@ CUser::CUser(int fd, int32_t x, int32_t y)
 
 CUser::~CUser()
 {
-#if 0 
-	if ( _protoPacket )
-	{
-		_protoPacket->clear_connect();
-		_protoPacket->clear_event();
-		delete _protoPacket;
-	}
-	_protoPacket = NULL;
-#endif
 }
 
 bool CUser::setData(int fd, int type)
 {
-	LOG_INFO("CUser::SetData fd[%d]\n", fd);
 	_fd = fd;
 	_type = type;
 	
