@@ -155,7 +155,7 @@ static void* CSessionManager::waitEvent(void* val)
 					close(fd);
 
 					g_userPool.delUserInPool(fd);
-					LOG_INFO("@SUCC UID:%d NName:%s ATP:LOGOUT SECTOR:%d", disConnPacket->_fd, disConnPacket->_nickName.c_str(), disConnPacket->_sector);
+					LOG_INFO("@SUCC UID:%d NName:%s ATP:LOGOUT SECTOR:%d DES:Networks Error", disConnPacket->_fd, disConnPacket->_nickName.c_str(), disConnPacket->_sector);
 					continue;
 				}
 
@@ -189,8 +189,7 @@ static void* CSessionManager::waitEvent(void* val)
 					m_readQ_Manager.enqueue(disConnPacket);
 					g_userPool.delUserInPool(fd);
 					close(fd);
-					LOG_INFO("@SUCC UID:%d NName:%s ATP:LOGOUT SECTOR:%d", disConnPacket->_fd, disConnPacket->_nickName.c_str(), disConnPacket->_sector);
-
+					LOG_INFO("@SUCC UID:%d NName:%s ATP:LOGOUT SECTOR:%d DES:Networks Error", disConnPacket->_fd, disConnPacket->_nickName.c_str(), disConnPacket->_sector);
 					continue;
 				}
 				
@@ -203,7 +202,14 @@ static void* CSessionManager::waitEvent(void* val)
 	
 				if ( isFirst )
 				{
-					g_userPool.addUserInPool(user);
+					int sector = g_userPool.addUserInPool(user);
+					if ( sector < 0 )
+					{
+						LOG_ERROR("Pool Not Available");
+						continue ; 
+					} 
+					LOG_DEBUG("Sector Check(%d)", sector);
+					user->_sector = sector;
 				}
 
 				packet->_fd = fd;
