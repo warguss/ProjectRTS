@@ -60,8 +60,6 @@ int CUserPool::_getUpLeftDiagnolSector(int sector)
 	}
 
 	returnSector = sector + _yUnit;
-	LOG_DEBUG("sector Change LeftMoveSector(%d) UpMoveSector(%d) sectorLine(%d)", sector, returnSector, sectorLine);
-
 	return returnSector;
 }
 
@@ -76,8 +74,6 @@ int CUserPool::_getRightSector(int sector)
 	}
 
 	returnSector = sector;
-	LOG_DEBUG("sector Change RightMoveSector(%d) sectorLine(%d)", returnSector, sectorLine);
-
 	return returnSector;
 }
 
@@ -92,8 +88,6 @@ int CUserPool::_getLeftSector(int sector)
 	}
 
 	returnSector = sector;
-	LOG_DEBUG("sector Change RightMoveSector(%d) sectorLine(%d)", returnSector, sectorLine);
-
 	return returnSector;
 }
 
@@ -108,7 +102,6 @@ int CUserPool::_getUpSector(int sector)
 	}
 
 	returnSector = sector;
-	LOG_DEBUG("sector Change RightMoveSector(%d) sectorLine(%d)", returnSector, sectorLine);
 	return returnSector;
 }
 
@@ -132,8 +125,6 @@ int CUserPool::_getDownSector(int sector)
 	}
 
 	returnSector = sector;
-	LOG_DEBUG("sector Change DownSector(%d) DownMoveSector(%d) sectorLine(%d)", sector, returnSector, sectorLine);
-
 	return returnSector;
 }
 
@@ -164,25 +155,23 @@ int CUserPool::getSectionNo(CUser* user)
 }
 
 
-bool CUserPool::addUserInPool(CUser* user)
+int32_t CUserPool::addUserInPool(CUser* user)
 {
 	/***********************************
 	 * 추가 부는 Lock이 필요없다.
 	 ***********************************/
 	int idx = getSectionNo(user);
-	user->_sector = idx;
 	itVal = userInfo.find(idx);
     if ( totalUser >= POOL_SIZE || itVal == userInfo.end() )
     {
 		LOG_ERROR("Error User In Pool");
-        return false;
+        return -1;
     }
 
 	map<int, CUser*>* tMap = (map<int, CUser*>*)itVal->second;
 	CThreadLockManager lock(&_pool_mutex[idx], &_pool_cond[idx]);
-	user->_sector = idx;
 	tMap->insert(std::pair<int, CUser*>(user->_fd, user));
-    return true;
+    return idx;
 }
 
 bool CUserPool::delUserInPool(int fd, int sector)
@@ -418,14 +407,12 @@ void CUserPool::getPartUserList(list<CUser*>& userConnection, int sector)
 		int connectionSector = firstSector;
 		for ( int xIdx = 0; xIdx < xBaseSector; xIdx++ )
 		{
-			LOG_DEBUG("Right Connection Sector(%d)", connectionSector);
 			_addConnectionListBySector(userConnection, connectionSector);
 			connectionSector = _getRightSector(connectionSector);
 			if ( connectionSector < 0 )
 			{
 				break;
 			} 
-			LOG_DEBUG("After Right Connection Sector(%d)", connectionSector);
 		}
 		firstSector = _getDownSector(firstSector);
 		if ( firstSector < 0 )
@@ -458,8 +445,6 @@ bool CUserPool::_addConnectionListBySector(list<CUser*>& userConnection, int sec
         }
         userConnection.push_back(user);
     }
-
-    LOG_DEBUG("Part Send List Set Sector(%d), size(%d)", sector, userConnection.size());
     return true;
 }
 
