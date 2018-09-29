@@ -161,13 +161,13 @@ public class PlayerController {
         Character.RemoveCharacter();
     }
 
-    public Dictionary<WeaponId, PlayerWeapon> GetInventory()
+    public PlayerInventory GetInventory()
     {
         return Character.Inventory;
     }
 
     public WeaponId GetCurrentWeapon()
     {
-        return Character.currentWeaponId;
+        return Character.Inventory.currentWeaponId;
     }
 }

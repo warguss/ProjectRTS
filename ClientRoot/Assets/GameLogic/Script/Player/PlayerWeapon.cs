@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerWeapon
 {
     private WeaponStat stat;
-    private ControllableCharacter owner;
+    private ControllableCharacter owner; //필요없는 구조로 개선 예정
     
     public int CurrentAmmo { get; private set; }
     public WeaponId WeaponId { get; private set; }
@@ -22,6 +22,18 @@ public class PlayerWeapon
     public PlayerWeapon(WeaponId id, ControllableCharacter owner)
     {
         SetWeaponInfo(id, owner);
+    }
+
+    public void AddAmmo(int amount = 0)
+    {
+        if(amount==0)
+        {
+            CurrentAmmo += stat.Ammo;
+        }
+        else
+        {
+            CurrentAmmo += amount;
+        }
     }
 
     public bool IsShootable()

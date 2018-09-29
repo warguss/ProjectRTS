@@ -155,15 +155,10 @@ public class GameLogic : MonoBehaviour
             {
                 WeaponId CurrentWeaponId = playerControllers[myId].GetCurrentWeapon();
                 var CurrentInventory = playerControllers[myId].GetInventory();
-                var keys = CurrentInventory.Keys;
-                List<WeaponId> keysList = new List<WeaponId>(keys);
-                keysList.Sort();
-                
-                int currentIndex = keysList.IndexOf(CurrentWeaponId);
-                int nextIndex = currentIndex + 1;
-                if (nextIndex >= keysList.Count)
-                    nextIndex = 0;
-                playerControllers[myId].ChangeWeapon(keysList[nextIndex]);
+
+                CurrentInventory.SetToNextWeapon();
+
+                //playerControllers[myId].ChangeWeapon(keysList[nextIndex]);
             }
         }
 
@@ -180,15 +175,8 @@ public class GameLogic : MonoBehaviour
             {
                 WeaponId CurrentWeaponId = playerControllers[testId2P].GetCurrentWeapon();
                 var CurrentInventory = playerControllers[testId2P].GetInventory();
-                var keys = CurrentInventory.Keys;
-                List<WeaponId> keysList = new List<WeaponId>(keys);
-                keysList.Sort();
-
-                int currentIndex = keysList.IndexOf(CurrentWeaponId);
-                int nextIndex = currentIndex + 1;
-                if (nextIndex >= keysList.Count)
-                    nextIndex = 0;
-                playerControllers[testId2P].ChangeWeapon(keysList[nextIndex]);
+                CurrentInventory.SetToNextWeapon();
+                //playerControllers[testId2P].ChangeWeapon(keysList[nextIndex]);
             }
         }
 
@@ -519,14 +507,14 @@ public class GameLogic : MonoBehaviour
         SpawnPlayer(playerId, position);
     }
 
-    void UpdateWeaponUI(Dictionary<WeaponId, PlayerWeapon> inventory, WeaponId currentWeapon)
+    void UpdateWeaponUI(PlayerInventory inventory, WeaponId currentWeapon)
     {
-        foreach(var weapon in inventory)
-        {
-            WeaponUI.Instance.AddWeapon(weapon.Value.WeaponId);
-            WeaponUI.Instance.SetAmmo(weapon.Value.WeaponId, weapon.Value.CurrentAmmo);
-        }
-        WeaponUI.Instance.SetCurrentWeapon(currentWeapon);
+        //foreach (var weapon in inventory)
+        //{
+        //    WeaponUI.Instance.AddWeapon(weapon.Value.WeaponId);
+        //    WeaponUI.Instance.SetAmmo(weapon.Value.WeaponId, weapon.Value.CurrentAmmo);
+        //}
+        //WeaponUI.Instance.SetCurrentWeapon(currentWeapon);
     }
 }
    

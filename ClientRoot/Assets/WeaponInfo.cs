@@ -15,8 +15,9 @@ public static class WeaponConstants
 
 public enum WeaponId : int
 {
-    Pistol = 0,
-    Sniper = 1,
+    None = 0,
+    Pistol = 1,
+    Sniper = 2,
 }
 
 public class WeaponStat

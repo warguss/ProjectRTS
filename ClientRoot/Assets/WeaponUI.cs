@@ -14,11 +14,8 @@ public class WeaponUI : MonoBehaviour {
     {
         Instance = this;
         weaponSlots = new WeaponSlot[GameLogic.WEAPON_SLOT_COUNT];
-    }
 
-    // Use this for initialization
-    void Start () {
-		for(int i=0; i<GameLogic.WEAPON_SLOT_COUNT; i++)
+        for (int i = 0; i < GameLogic.WEAPON_SLOT_COUNT; i++)
         {
             GameObject slotObject = Instantiate(WeaponSlotPrefab);
             WeaponSlot slotScript = slotObject.GetComponent<WeaponSlot>();
@@ -27,6 +24,11 @@ public class WeaponUI : MonoBehaviour {
             weaponSlots[i] = slotScript;
             slotScript.SetEmpty();
         }
+    }
+
+    // Use this for initialization
+    void Start () {
+		
 	}
 	
 	// Update is called once per frame
@@ -45,11 +47,16 @@ public class WeaponUI : MonoBehaviour {
             }
             else if(weaponSlots[i].WeaponId == (int)weaponId)
             {
-                Debug.Log("WeaponUI Error : Trying to add duplicate weapon");
+                Debug.LogWarning("WeaponUI Error : Trying to add duplicate weapon");
                 break;
             }
-            Debug.Log("WeaponUI Error : Trying to add weapon over the limit");
+            Debug.LogWarning("WeaponUI Error : Trying to add weapon over the limit");
         }
+    }
+
+    public void DeleteWeapon(WeaponId weaponId)
+    {
+
     }
 
     public void SetAmmo(WeaponId weaponId, int ammo)
@@ -61,7 +68,7 @@ public class WeaponUI : MonoBehaviour {
                 weaponSlots[i].SetRemainingAmmo(ammo);
                 break;
             }
-            Debug.Log("WeaponUI Error : Trying to modify ammo of not added weapon");
+            Debug.LogWarning("WeaponUI Error : Trying to modify ammo of not added weapon");
         }
     }
 

@@ -21,8 +21,7 @@ public abstract class ControllableCharacter : MonoBehaviour
 
     public bool IsLocalPlayer = false;
 
-    public Dictionary<WeaponId, PlayerWeapon> Inventory;
-    public WeaponId currentWeaponId = WeaponId.Pistol;
+    public PlayerInventory Inventory;
 
     protected Rigidbody2D charRigidbody;
     protected Collider2D charCollider;

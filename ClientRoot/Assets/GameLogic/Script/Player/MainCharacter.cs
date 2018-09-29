@@ -61,11 +61,9 @@ public class MainCharacter : ControllableCharacter
         charCollider = GetComponent<Collider2D>();
         charSpriteObject = transform.Find("Sprite").gameObject;
 
-        Inventory = new Dictionary<WeaponId, PlayerWeapon>();
-        var pistol = new PlayerWeapon(WeaponId.Pistol, this);
-        var sniper = new PlayerWeapon(WeaponId.Sniper, this);
-        Inventory.Add(WeaponId.Pistol, pistol);////////////////////
-        Inventory.Add(WeaponId.Sniper, sniper);////////////////////
+        Inventory = new PlayerInventory(this);
+        Inventory.AddItem(WeaponId.Pistol);////////////////////
+        Inventory.AddItem(WeaponId.Sniper);////////////////////
 
         state = new CharacterState();
 
@@ -85,11 +83,8 @@ public class MainCharacter : ControllableCharacter
 	void Update()
     {
         playerInfoDisplay.SetHP(hp / DefaultHP);
-        foreach(var playerWeapon in Inventory) // 연사 딜레이 계산
-        {
-            playerWeapon.Value.UpdateInterval(Time.deltaTime);
-        }
-
+        Inventory.UpdateWeaponInterval(Time.deltaTime);
+        
         if (isInterpolating)
         {
             float x = interpolationSrc.x + ((transform.position.x - interpolationSrc.x) * accumulatedInterpolationTime / interpolationTime);
@@ -227,23 +222,27 @@ public class MainCharacter : ControllableCharacter
     {
         if (!isDead)
         {
-            PlayerWeapon currentWeapon = Inventory[currentWeaponId];
-            if (currentWeapon.IsShootable() || !IsLocalPlayer)
+            PlayerWeapon currentWeapon = Inventory.GetCurrentWeapon();
+            if (currentWeapon != null)
             {
-                var bullet = currentWeapon.Shoot(info, position);
+                if (currentWeapon.IsShootable() || !IsLocalPlayer)
+                {
+                    var bullet = currentWeapon.Shoot(info, position);
 
-                InvokeEventShoot(CurrentPosition, CurrentVelocity, bullet.BulletStat, currentWeaponId);
+                    InvokeEventShoot(CurrentPosition, CurrentVelocity, bullet.BulletStat, currentWeapon.WeaponId);
+
+                    if (currentWeapon.CurrentAmmo == 0)
+                    {
+                        Inventory.DeleteItem(currentWeapon.WeaponId);
+                    }
+                }
             }
         }
     }
 
     public override void ChangeWeapon(WeaponId inWeaponId)
     {
-        if (Inventory.ContainsKey(inWeaponId))
-        {
-            currentWeaponId = inWeaponId;
-            InvokeEventChangeWeapon(CurrentPosition, CurrentVelocity, currentWeaponId);
-        }
+        Inventory.ChangeWeapon(inWeaponId);
     }
 
     void CheckLand()

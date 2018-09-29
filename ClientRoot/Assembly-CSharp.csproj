@@ -68,6 +68,7 @@
     <Compile Include="Assets\GameLogic\Script\Player\MainCharacter.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\PistolBullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\PlayerInfoDisplay.cs" />
+    <Compile Include="Assets\GameLogic\Script\Player\playerInventory.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\PlayerWeapon.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\ShootInfo.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\SniperBullet.cs" />
