@@ -82,11 +82,8 @@ int CSessionManager::connectInitialize()
 
 static void* CSessionManager::waitEvent(void* val)
 {
-	LOG_DEBUG("Lock Init");
-	LOG_DEBUG("Lock");
     while(1)
     {
-		LOG_DEBUG("epoll wait");
 		int event_count = epoll_wait(_epoll_fd, _events, EPOLL_SIZE, -1);
         if ( event_count == -1 )
         {
@@ -148,9 +145,12 @@ static void* CSessionManager::waitEvent(void* val)
 					/**********************************
 					 * Disconnect Event 보내야함
 					 **********************************/
+					CUser* user = g_userPool.findUserInPool(fd);
 					CProtoPacket* disConnPacket = new CProtoPacket;
 					disConnPacket->_type = (int32_t)server2N::UserConnection_ConnectionType_DisConnect;
 					disConnPacket->_fd = fd;
+					disConnPacket->_nickName = user->_nickName.c_str();
+					disConnPacket->_sector = user->_sector;
 					m_readQ_Manager.enqueue(disConnPacket);
 					close(fd);
 
@@ -177,8 +177,20 @@ static void* CSessionManager::waitEvent(void* val)
 				{
 					LOG_ERROR("Error, Delete Socket[%d]", fd);
 					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
+					/**********************************
+					 * Disconnect Event 보내야함
+					 **********************************/
+					CUser* user = g_userPool.findUserInPool(fd);
+					CProtoPacket* disConnPacket = new CProtoPacket;
+					disConnPacket->_type = (int32_t)server2N::UserConnection_ConnectionType_DisConnect;
+					disConnPacket->_fd = fd;
+					disConnPacket->_nickName = user->_nickName.c_str();
+					disConnPacket->_sector = user->_sector;
+					m_readQ_Manager.enqueue(disConnPacket);
 					g_userPool.delUserInPool(fd);
 					close(fd);
+					LOG_INFO("@SUCC UID:%d NName:%s ATP:LOGOUT SECTOR:%d", disConnPacket->_fd, disConnPacket->_nickName.c_str(), disConnPacket->_sector);
+
 					continue;
 				}
 				
@@ -191,9 +203,9 @@ static void* CSessionManager::waitEvent(void* val)
 	
 				if ( isFirst )
 				{
-					LOG_DEBUG("Set addUserInPool");
 					g_userPool.addUserInPool(user);
 				}
+
 				packet->_fd = fd;
 				packet->_sector = user->_sector;
 				packet->_nickName = user->_nickName;
@@ -217,7 +229,6 @@ static void* CSessionManager::writeEvent(void* val)
 	while(1) 
 	{
 		/* signal ... */
-		LOG_DEBUG("Is Lock?");
 		CProtoPacket* packet = NULL;
 		if ( m_writeQ_Manager.isQueueDataExist() && (packet = m_writeQ_Manager.dequeue()) && packet )
 		{
@@ -227,7 +238,6 @@ static void* CSessionManager::writeEvent(void* val)
 			uint32_t writeSize = 0;
 			uint32_t bodyLength = 0;
 			unsigned char header[HEADER_SIZE] = {'\0' , };
-			LOG_DEBUG("Server -> User(%d) String(%s)", packet->_fd, packet->_proto->DebugString().c_str());
 			if ( !g_packetManager.encodingHeader(header, packet->_proto, bodyLength) || bodyLength <= 0 )
 			{
 				LOG_ERROR("Error User ProtoPacket Not Exist");
@@ -256,7 +266,7 @@ static void* CSessionManager::writeEvent(void* val)
 				LOG_ERROR("Write Error Socket[%d] writeSize[%d](%d)(%s)", packet->_fd, writeSize, errno, strerror(errno));
 				continue ;
 			}
-			LOG_INFO("@SUCC UID:%d NName:%s ATP:LOGIN SECTOR:%d", packet->_fd, packet->_nickName.c_str(), packet->_sector);
+			LOG_INFO("@SUCC UID:%d NName:%s ATP:%s SECTOR:%d", packet->_fd, packet->_nickName.c_str(), packet->_act.c_str(), packet->_sector);
 		}
 	}
 
