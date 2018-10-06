@@ -36,13 +36,14 @@ public class WeaponUI : MonoBehaviour {
 		
 	}
 
-    public void AddWeapon(WeaponId weaponId)
+    public void AddWeapon(WeaponId weaponId, int ammo)
     {
         for(int i=0; i<GameLogic.WEAPON_SLOT_COUNT; i++)
         {
             if(weaponSlots[i].WeaponId == -1)
             {
                 weaponSlots[i].SetWeapon(weaponId);
+                SetAmmo(weaponId, ammo);
                 break;
             }
             else if(weaponSlots[i].WeaponId == (int)weaponId)
@@ -85,5 +86,21 @@ public class WeaponUI : MonoBehaviour {
                 weaponSlots[i].DisableCurrentWeapon();
             }
         }
+    }
+
+    public void ClearWeaponSlots()
+    {
+        for (int i = 0; i < GameLogic.WEAPON_SLOT_COUNT; i++)
+        {
+            weaponSlots[i].SetEmpty();
+        }
+    }
+
+    public void SetInventory(PlayerInventory inventory)
+    {
+        ClearWeaponSlots();
+        inventory.AddItemEvent += AddWeapon;
+        inventory.SetAmmoEvent+= SetAmmo;
+        inventory.DeleteItemEvent += DeleteWeapon;
     }
 }

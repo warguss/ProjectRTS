@@ -83,7 +83,7 @@ public class GameLogic : MonoBehaviour
         if (isMe)
         {
             CameraScript.SetTarget(playerControllers[myId].Character.GetGameObject());
-            UpdateWeaponUI(player.GetInventory(), player.GetCurrentWeapon());
+            WeaponUI.Instance.SetInventory(player.GetInventory());
         }
         if(isMe || isLocalPlayer)
         { 
@@ -453,7 +453,6 @@ public class GameLogic : MonoBehaviour
     void PlayerEventShoot(int invokerId, Vector2 position, Vector2 velocity, ShootInfo info, WeaponId weaponId)
     {
         PlayerController player = playerControllers[myId];
-        UpdateWeaponUI(player.GetInventory(), player.GetCurrentWeapon());
         if (isOnline)
         {
             NetworkModule.instance.WriteEventShoot(invokerId, position, velocity, info, weaponId);
@@ -463,7 +462,6 @@ public class GameLogic : MonoBehaviour
     void PlayerEventChangeWeapon(int invokerId, Vector2 position, Vector2 velocity, WeaponId weaponId)
     {
         PlayerController player = playerControllers[myId];
-        UpdateWeaponUI(player.GetInventory(), player.GetCurrentWeapon());
         if (isOnline)
         {
             NetworkModule.instance.WriteEventChangeWeapon(invokerId, position, velocity, weaponId);
@@ -505,16 +503,6 @@ public class GameLogic : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         SpawnPlayer(playerId, position);
-    }
-
-    void UpdateWeaponUI(PlayerInventory inventory, WeaponId currentWeapon)
-    {
-        //foreach (var weapon in inventory)
-        //{
-        //    WeaponUI.Instance.AddWeapon(weapon.Value.WeaponId);
-        //    WeaponUI.Instance.SetAmmo(weapon.Value.WeaponId, weapon.Value.CurrentAmmo);
-        //}
-        //WeaponUI.Instance.SetCurrentWeapon(currentWeapon);
     }
 }
    

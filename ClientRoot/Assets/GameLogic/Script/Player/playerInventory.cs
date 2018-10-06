@@ -4,28 +4,63 @@ using System.Collections.Generic;
 
 public class PlayerInventory
 {
+    public delegate void AddItemDelegate(WeaponId weaponId, int amount);
+    public delegate void DeleteItemDelegate(WeaponId weaponId);
+    public delegate void SetAmmoDelegate(WeaponId weaponId, int amount);
+    public delegate void ClearItemsDelegate();
+
+    public event AddItemDelegate AddItemEvent;
+    public event DeleteItemDelegate DeleteItemEvent;
+    public event SetAmmoDelegate SetAmmoEvent;
+    public event ClearItemsDelegate ClearItemsEvent;
+
+
     private ControllableCharacter owner; //필요없는 구조로 개선 예정
     private List<PlayerWeapon> items = new List<PlayerWeapon>();
     public WeaponId currentWeaponId = WeaponId.None;
+
+    public void InvokeAddItemEvent(WeaponId weaponId, int amount)
+    {
+        AddItemEvent?.Invoke(weaponId, amount);
+    }
+    public void InvokeDeleteItemEvent(WeaponId weaponId)
+    {
+        DeleteItemEvent?.Invoke(weaponId);
+    }
+    public void InvokeSetAmmoEvent(WeaponId weaponId, int amount)
+    {
+        SetAmmoEvent?.Invoke(weaponId, amount);
+    }
+    public void InvokeClearItemsEvent()
+    {
+        ClearItemsEvent?.Invoke();
+    }
 
     public PlayerInventory(ControllableCharacter inOwner)
     {
         owner = inOwner;
     }
 
-    public void AddItem(WeaponId weaponId, int amount = 0)
+    public void AddItem(WeaponId weaponId, int amount)
     {
         int itemIndex = FindWeaponIndex(weaponId);
         if (itemIndex == -1)
         {
-            PlayerWeapon weapon = new PlayerWeapon(weaponId, owner);
+            PlayerWeapon weapon = new PlayerWeapon(weaponId, amount, owner);
             items.Add(weapon);
             currentWeaponId = weaponId;
+            InvokeAddItemEvent(weaponId, amount);
         }
         else
         {
             items[itemIndex].AddAmmo(amount);
+            InvokeSetAmmoEvent(weaponId, items[itemIndex].CurrentAmmo);
         }
+    }
+
+    public void AddItem(WeaponId weaponId)
+    {
+        AddItem(weaponId, WeaponDatabase.Instance.GetDefaultWeaponStat(weaponId).Ammo);
     }
 
     public void DeleteItem(WeaponId weaponId)
@@ -34,6 +69,7 @@ public class PlayerInventory
         if (itemIndex != -1)
         {
             items.RemoveAt(itemIndex);
+            InvokeDeleteItemEvent(weaponId);
         }
         if(currentWeaponId == weaponId)
         {
@@ -46,6 +82,13 @@ public class PlayerInventory
                 currentWeaponId = items[0].WeaponId;
             }
         }
+    }
+
+    public void ClearItem()
+    {
+        items.Clear();
+        currentWeaponId = WeaponId.None;
+        InvokeClearItemsEvent();
     }
 
     public int GetCurrentWeaponIndex()

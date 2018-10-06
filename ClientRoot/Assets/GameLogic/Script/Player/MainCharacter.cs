@@ -34,6 +34,10 @@ public class MainCharacter : ControllableCharacter
         hp = DefaultHP;
         SetLocation(position);
 
+        Inventory.ClearItem();
+        Inventory.AddItem(WeaponId.Pistol);////////////////////
+        Inventory.AddItem(WeaponId.Sniper);////////////////////
+
         InvokeEventSpawn(position);
     }
 
@@ -62,8 +66,8 @@ public class MainCharacter : ControllableCharacter
         charSpriteObject = transform.Find("Sprite").gameObject;
 
         Inventory = new PlayerInventory(this);
-        Inventory.AddItem(WeaponId.Pistol);////////////////////
-        Inventory.AddItem(WeaponId.Sniper);////////////////////
+        //Inventory.AddItem(WeaponId.Pistol);////////////////////
+        //Inventory.AddItem(WeaponId.Sniper);////////////////////
 
         state = new CharacterState();
 
@@ -230,6 +234,7 @@ public class MainCharacter : ControllableCharacter
                     var bullet = currentWeapon.Shoot(info, position);
 
                     InvokeEventShoot(CurrentPosition, CurrentVelocity, bullet.BulletStat, currentWeapon.WeaponId);
+                    Inventory.InvokeSetAmmoEvent(currentWeapon.WeaponId, currentWeapon.CurrentAmmo);
 
                     if (currentWeapon.CurrentAmmo == 0)
                     {

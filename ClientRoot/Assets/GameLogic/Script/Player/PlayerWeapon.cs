@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerWeapon
 {
-    private WeaponStat stat;
+    public WeaponStat stat;
     private ControllableCharacter owner; //필요없는 구조로 개선 예정
     
     public int CurrentAmmo { get; private set; }
@@ -19,21 +19,14 @@ public class PlayerWeapon
             currentInterval = 0;
     }
 
-    public PlayerWeapon(WeaponId id, ControllableCharacter owner)
+    public PlayerWeapon(WeaponId id, int ammo, ControllableCharacter owner)
     {
-        SetWeaponInfo(id, owner);
+        SetWeaponInfo(id, ammo, owner);
     }
 
-    public void AddAmmo(int amount = 0)
+    public void AddAmmo(int amount)
     {
-        if(amount==0)
-        {
-            CurrentAmmo += stat.Ammo;
-        }
-        else
-        {
-            CurrentAmmo += amount;
-        }
+        CurrentAmmo += amount;
     }
 
     public bool IsShootable()
@@ -74,7 +67,7 @@ public class PlayerWeapon
         return bulletScript;
     }
 
-    void SetWeaponInfo(WeaponId id, ControllableCharacter inOwner)
+    void SetWeaponInfo(WeaponId id, int ammo, ControllableCharacter inOwner)
     {
         WeaponId = id;
         stat = WeaponDatabase.Instance.GetDefaultWeaponStat(id);
