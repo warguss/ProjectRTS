@@ -132,6 +132,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     public abstract void ShootWithShootInfo(ShootInfo info, Vector2 position);
     public abstract void ShootWithShootInfo(ShootInfo info);
     public abstract void ChangeWeapon(WeaponId inWeaponId);
+    public abstract void ChangeToNextWeapon();
     public abstract void Spawn(Vector2 position);
     public abstract void PlayerDie();
 

@@ -153,10 +153,9 @@ public class GameLogic : MonoBehaviour
                 SendInputToCharacter(myId, PlayerAction.Fire);
             if(inputInterface.GetNextWeapon())
             {
-                WeaponId CurrentWeaponId = playerControllers[myId].GetCurrentWeapon();
                 var CurrentInventory = playerControllers[myId].GetInventory();
 
-                CurrentInventory.SetToNextWeapon();
+                CurrentInventory.ChangeToNextWeapon();
 
                 //playerControllers[myId].ChangeWeapon(keysList[nextIndex]);
             }
@@ -175,7 +174,7 @@ public class GameLogic : MonoBehaviour
             {
                 WeaponId CurrentWeaponId = playerControllers[testId2P].GetCurrentWeapon();
                 var CurrentInventory = playerControllers[testId2P].GetInventory();
-                CurrentInventory.SetToNextWeapon();
+                CurrentInventory.ChangeToNextWeapon();
                 //playerControllers[testId2P].ChangeWeapon(keysList[nextIndex]);
             }
         }
@@ -493,6 +492,7 @@ public class GameLogic : MonoBehaviour
         if (isOnline)
         {
             NetworkModule.instance.WriteEventSync(invokerId, position, velocity);
+            
         }
     }
 

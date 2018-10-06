@@ -47,7 +47,7 @@ public class TouchDirectionInterface : MonoBehaviour, IDragHandler, IPointerDown
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
     public InputDirection GetCurrentDirection()

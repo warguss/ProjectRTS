@@ -131,6 +131,11 @@ public class PlayerController {
         Character.ChangeWeapon(inWeaponId);
     }
 
+    public void ChangeToNextWeapon()
+    {
+        Character.ChangeToNextWeapon();
+    }
+
     public void GetHit(int attackerId, ShootInfo info, float? remainingHp = null)
     {
         Character.GetHit(attackerId, info, remainingHp);

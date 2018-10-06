@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{8F2D13F7-116E-69EE-FB6A-F367211692F7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -68,7 +69,7 @@
     <Compile Include="Assets\GameLogic\Script\Player\MainCharacter.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\PistolBullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\PlayerInfoDisplay.cs" />
-    <Compile Include="Assets\GameLogic\Script\Player\playerInventory.cs" />
+    <Compile Include="Assets\GameLogic\Script\Player\PlayerInventory.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\PlayerWeapon.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\ShootInfo.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\SniperBullet.cs" />

@@ -243,6 +243,13 @@ public class MainCharacter : ControllableCharacter
     public override void ChangeWeapon(WeaponId inWeaponId)
     {
         Inventory.ChangeWeapon(inWeaponId);
+        InvokeEventChangeWeapon(CurrentPosition, CurrentVelocity, inWeaponId);
+    }
+
+    public override void ChangeToNextWeapon()
+    {
+        WeaponId nextWeapon = Inventory.ChangeToNextWeapon();
+        InvokeEventChangeWeapon(CurrentPosition, CurrentVelocity, nextWeapon);
     }
 
     void CheckLand()
