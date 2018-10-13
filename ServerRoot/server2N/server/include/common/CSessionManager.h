@@ -40,6 +40,7 @@ private:
     bool _connectUserEvent(int fd);
     bool _deleteUserEvent(int fd);
     bool _readUserEvent(int fd);
+	static bool _deleteUserAndEvent(CUser** user, bool isFirst);
 };
 
 #endif

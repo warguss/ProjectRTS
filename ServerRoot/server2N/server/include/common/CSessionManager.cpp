@@ -1,5 +1,7 @@
 #include "CSessionManager.h"
 #include "CUserPool.h"
+#include "CAuthManager.h"
+
 int CSessionManager::_serverSock = 0;
 int CSessionManager::_epoll_fd = 0;
 struct epoll_event CSessionManager::_init_ev;
@@ -10,6 +12,7 @@ CQueueManager CSessionManager::m_writeQ_Manager;
 
 static void* CSessionManager::waitEvent(void* val);
 static void* CSessionManager::writeEvent(void* val);
+static bool CSessionManager::_deleteUserAndEvent(CUser** user, bool isFirst);
 
 CProtoManager g_packetManager;
 extern CUserPool g_userPool;
@@ -80,9 +83,35 @@ int CSessionManager::connectInitialize()
 	return 0;
 }
 
+bool CSessionManager::_deleteUserAndEvent(CUser** user, bool isFirst)
+{
+	if ( !*user )
+	{
+		return false;
+	}
+
+	CProtoPacket* disConnPacket = new CProtoPacket;
+	disConnPacket->_type = (int32_t)server2N::UserConnection_ConnectionType_DisConnect;
+	disConnPacket->_fd = (*user)->_fd;
+	disConnPacket->_nickName = (*user)->_nickName.c_str();
+	disConnPacket->_sector = (*user)->_sector;
+	if ( isFirst )
+	{
+		delete *user;
+		*user = NULL;
+	}
+	else
+	{
+		g_userPool.delUserInPool((*user)->_fd, (*user)->_sector);
+	}
+
+	m_readQ_Manager.enqueue(disConnPacket);
+	return true;
+}
+
 static void* CSessionManager::waitEvent(void* val)
 {
-    while(1)
+    while(true)
     {
 		int event_count = epoll_wait(_epoll_fd, _events, EPOLL_SIZE, -1);
         if ( event_count == -1 )
@@ -109,26 +138,23 @@ static void* CSessionManager::waitEvent(void* val)
 				bool isSuccess = false;
 				_init_ev.events = EPOLLIN;
 				_init_ev.data.fd = clientSock;
-
 				epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, clientSock, &_init_ev);
             }
             else
             {
 				int fd = _events[i].data.fd;
 				/******************************************
-				 * fd해당하는 User를 Pool에서 먼저 찾는다.
-				 * 이건 필요함, 
-				 * Sector를 위해서도
-				 *
-				 * 전체 조회
+				 * 전체 조회(기존 접속 유저인지 판별)
 				 ******************************************/
 				bool isFirst = false;
-				CUser* user = g_userPool.findUserInPool(fd);
-				if ( !user )
+				CUser* inputUser = g_userPool.findUserInPool(fd);
+				if ( !inputUser )
 				{
-					user = new CUser;
-					user->setData(fd, READ_TYPE);
+					inputUser = new CUser;
+					inputUser->setData(fd, READ_TYPE);
 					isFirst = true;
+					CAuthManager auth;
+					auth.authAgent("");
 				}
 
 				/******************************************
@@ -140,22 +166,26 @@ static void* CSessionManager::waitEvent(void* val)
 				LOG_DEBUG("Client Input [%d], read size[%d]", fd, readn);
 				if ( readn <= 0 )
 				{
-					LOG_ERROR("Error, Delete Socket[%d](%d)(%s)", fd, errno, strerror(errno));    
+					LOG_INFO("@SUCC UID:%d NName:%s ATP:LOGOUT SECTOR:%d DES:(%d)(%s)", inputUser->_fd, inputUser->_nickName.c_str(), inputUser->_sector, errno, strerror(errno));
+					_deleteUserAndEvent(&inputUser, isFirst);
 					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
-					/**********************************
-					 * Disconnect Event 보내야함
-					 **********************************/
-					CUser* user = g_userPool.findUserInPool(fd);
-					CProtoPacket* disConnPacket = new CProtoPacket;
-					disConnPacket->_type = (int32_t)server2N::UserConnection_ConnectionType_DisConnect;
-					disConnPacket->_fd = fd;
-					disConnPacket->_nickName = user->_nickName.c_str();
-					disConnPacket->_sector = user->_sector;
-					m_readQ_Manager.enqueue(disConnPacket);
 					close(fd);
 
-					g_userPool.delUserInPool(fd);
-					LOG_INFO("@SUCC UID:%d NName:%s ATP:LOGOUT SECTOR:%d DES:Networks Error", disConnPacket->_fd, disConnPacket->_nickName.c_str(), disConnPacket->_sector);
+					/*
+					CUser* user = inputUser;
+					if ( user )
+					{
+						CProtoPacket* disConnPacket = new CProtoPacket;
+						disConnPacket->_type = (int32_t)server2N::UserConnection_ConnectionType_DisConnect;
+						disConnPacket->_fd = fd;
+						disConnPacket->_nickName = user->_nickName.c_str();
+						disConnPacket->_sector = user->_sector;
+						m_readQ_Manager.enqueue(disConnPacket);
+					}
+
+					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
+					close(fd);
+					*/
 					continue;
 				}
 
@@ -163,6 +193,9 @@ static void* CSessionManager::waitEvent(void* val)
 				if ( !g_packetManager.decodingHeader(header, readn, bodyLength) || bodyLength <= 0  )
 				{
 					LOG_ERROR("Error, Decoding Header Error[%d] length[%d]", fd, bodyLength);
+					_deleteUserAndEvent(&inputUser, isFirst);
+					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
+					close(fd);
 					continue;
 				}
 
@@ -176,46 +209,69 @@ static void* CSessionManager::waitEvent(void* val)
 				if ( readn <= 0 )
 				{
 					LOG_ERROR("Error, Delete Socket[%d]", fd);
-					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
 					/**********************************
 					 * Disconnect Event 보내야함
 					 **********************************/
-					CUser* user = g_userPool.findUserInPool(fd);
-					CProtoPacket* disConnPacket = new CProtoPacket;
-					disConnPacket->_type = (int32_t)server2N::UserConnection_ConnectionType_DisConnect;
-					disConnPacket->_fd = fd;
-					disConnPacket->_nickName = user->_nickName.c_str();
-					disConnPacket->_sector = user->_sector;
-					m_readQ_Manager.enqueue(disConnPacket);
-					g_userPool.delUserInPool(fd);
+
+					LOG_INFO("@SUCC UID:%d NName:%s ATP:LOGOUT SECTOR:%d DES:Networks Error", inputUser->_fd, inputUser->_nickName.c_str(), inputUser->_sector);
+					_deleteUserAndEvent(&inputUser, isFirst);
+					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
 					close(fd);
-					LOG_INFO("@SUCC UID:%d NName:%s ATP:LOGOUT SECTOR:%d DES:Networks Error", disConnPacket->_fd, disConnPacket->_nickName.c_str(), disConnPacket->_sector);
+					/*
+					CUser* user = NULL;
+					if ( isFirst )
+					{
+						user = inputUser;
+					} 
+					else
+					{
+						user = g_userPool.findUserInPool(fd);
+					}
+					
+					if ( user )
+					{
+						CProtoPacket* disConnPacket = new CProtoPacket;
+						disConnPacket->_type = (int32_t)server2N::UserConnection_ConnectionType_DisConnect;
+						disConnPacket->_fd = fd;
+						disConnPacket->_nickName = user->_nickName.c_str();
+						disConnPacket->_sector = user->_sector;
+						m_readQ_Manager.enqueue(disConnPacket);
+						g_userPool.delUserInPool(fd);
+					}
+					*/
+
 					continue;
 				}
 				
 				CProtoPacket* packet = NULL;
-				if ( !g_packetManager.decodingBody(bodyBuf, readn, bodyLength, &packet) || !packet || !packet->SyncUser(user))
+				if ( !g_packetManager.decodingBody(bodyBuf, readn, bodyLength, &packet) || !packet || !packet->SyncUser(inputUser))
 				{
 					LOG_ERROR("Error, Decoding Body Error[%d]", fd);
+					_deleteUserAndEvent(&inputUser, isFirst);
+					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
+					close(fd);
 					continue;
 				}
 	
 				if ( isFirst )
 				{
-					int sector = g_userPool.addUserInPool(user);
+					int sector = g_userPool.addUserInPool(inputUser);
 					if ( sector < 0 )
 					{
 						LOG_ERROR("Pool Not Available");
+						_deleteUserAndEvent(&inputUser, isFirst);
+						epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
+						close(fd);
 						continue ; 
 					} 
 					LOG_DEBUG("Sector Check(%d)", sector);
-					user->_sector = sector;
+					inputUser->_sector = sector;
 				}
 
 				packet->_fd = fd;
-				packet->_sector = user->_sector;
-				packet->_nickName = user->_nickName;
-				LOG_INFO("Sector Set event(%d) user(%d)", packet->_sector, user->_sector);
+				packet->_sector = inputUser->_sector;
+				packet->_nickName = inputUser->_nickName;
+				LOG_INFO("Sector Set event(%d) user(%d)", packet->_sector, inputUser->_sector);
 				/******************************************
 				 * QueueManger에 넣는다.
 				 * QueueManager 내부에서 Lock 처리한다.
@@ -224,7 +280,6 @@ static void* CSessionManager::waitEvent(void* val)
 				m_readQ_Manager.unLock();
 				m_readQ_Manager.enqueue(packet);
 				LOG_INFO("@SUCC UID:%d NName:%s ATP:%s SECTOR:%d", packet->_fd, packet->_nickName.c_str(), packet->_act.c_str(), packet->_sector);
-
             }
         }
     }
@@ -232,7 +287,7 @@ static void* CSessionManager::waitEvent(void* val)
 
 static void* CSessionManager::writeEvent(void* val)
 {
-	while(1) 
+	while(true) 
 	{
 		/* signal ... */
 		CProtoPacket* packet = NULL;
