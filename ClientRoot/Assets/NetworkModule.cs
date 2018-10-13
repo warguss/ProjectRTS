@@ -16,9 +16,11 @@ public class NetworkModule : MonoBehaviour
     public const float MaxInterpolationTime = 0.3f;
     public const float InterpolationLongestDistance = 5;
     public const float SERVER_TIMEOUT = 15;
+    public const int ZERO_OFFSET = 0;
 
     public static NetworkModule instance;
     public bool isConnected = false;
+    public bool isAuthSuccess = false;
 
     TcpClient client;
     NetworkStream ns;
@@ -76,12 +78,12 @@ public class NetworkModule : MonoBehaviour
                 if (ns.DataAvailable)
                 {
                     readPacket.AllocateRawData(0);
-                    ns.Read(readPacket.RawData, 0, Packet.HEADER_LENGTH);
+                    ns.Read(readPacket.RawData, ZERO_OFFSET, Packet.HEADER_LENGTH);
                     if (readPacket.Decode_Header())
                     {
                         byte[] packetBodyByteArray;
                         packetBodyByteArray = new byte[(int)readPacket.BodyLength];
-                        ns.Read(packetBodyByteArray, 0, (int)readPacket.BodyLength);
+                        ns.Read(packetBodyByteArray, ZERO_OFFSET, (int)readPacket.BodyLength);
 
                         Debug.Log("Decode_Header : " + readPacket.BodyLength);
                         var parsed = PacketBody.Parser.ParseFrom(packetBodyByteArray);
@@ -124,30 +126,24 @@ public class NetworkModule : MonoBehaviour
             }
         }
     }
-   
 
-        public void Connect(string ip, int port, string name = "")
+    public void Connect(string name = "")
     {
-        TestUI.Instance.PrintText("Trying to connect " + ip + ":" + port);
-
-        if (client == null)
+        try
         {
-            try
-            {
-                client = new TcpClient(ip, port);
-                ns = client.GetStream();
-                readThread = new Thread(NetworkReadThreadRoutine);
-                readThread.Start();
-                writeThread = new Thread(NetworkWriteThreadRoutine);
-                writeThread.Start();
-                TestUI.Instance.PrintText("Connected");
-                isConnected = true;
-            }
-            catch (Exception e)
-            {
-                TestUI.Instance.PrintText(e.Message);
-            }
+            readThread = new Thread(NetworkReadThreadRoutine);
+            readThread.Start();
+            writeThread = new Thread(NetworkWriteThreadRoutine);
+            writeThread.Start();
+
+            TestUI.Instance.PrintText("Connected");
+            isConnected = true;
         }
+        catch (Exception e)
+        {
+            TestUI.Instance.PrintText(e.Message);
+        }
+
         if (client != null && ns != null)
         {
             WriteTryConnection(name);
@@ -186,6 +182,52 @@ public class NetworkModule : MonoBehaviour
         isConnected = false;
     }
 
+    private bool _ReadStrBuffer(string buffer)
+    {
+        if ( buffer.Length > 0)
+        {
+            buffer.Remove(ZERO_OFFSET);
+        }
+
+        try
+        {
+            int bufferSize = 1024;
+            byte[] readBuffer = new byte[bufferSize];
+            ns.Read(readBuffer, ZERO_OFFSET, bufferSize);
+
+            buffer = System.Text.Encoding.Default.GetString(readBuffer);
+        }
+        catch (Exception e)
+        {
+            TestUI.Instance.PrintText("Send Buffer Failed : " + e.Message + "\n" + e.StackTrace);
+            return false;
+        }
+
+        return true;
+    }
+
+
+    private bool _SendStrBuffer(string buffer)
+    {
+        if ( buffer.Length <= 0 )
+        {
+            return false;
+        }
+
+        try
+        {
+            byte[] writeBuffer = System.Text.Encoding.UTF8.GetBytes(buffer);
+            ns.Write(writeBuffer, ZERO_OFFSET, writeBuffer.Length);
+            Debug.Log("BufferSended type : " + buffer + ", bufferLength : " + writeBuffer.Length);
+        }
+        catch (Exception e)
+        {
+            TestUI.Instance.PrintText("Send Buffer Failed : " + e.Message + "\n" + e.StackTrace);
+            return false;
+        }
+
+        return true;
+    }
 
     public void SendPacket(PacketBody packet)
     {
@@ -200,7 +242,7 @@ public class NetworkModule : MonoBehaviour
             //string hex = BitConverter.ToString(writeBuffer);
             //Debug.Log("packetBody : " + hex);
 
-            ns.Write(writePacket.RawData, 0, writePacket.RawData.Length);
+            ns.Write(writePacket.RawData, ZERO_OFFSET, writePacket.RawData.Length);
             //TestUI.Instance.PrintText("PacketSended type : " + packet.MsgType + ", BodyLength : " + writePacket.BodyLength);
             Debug.Log("PacketSended type : " + packet.MsgType + ", BodyLength : " + writePacket.BodyLength);
 
@@ -438,5 +480,74 @@ public class NetworkModule : MonoBehaviour
         };
 
         EnqueueSendPacket(packet);
+    }
+
+    /*********************************************
+     * Connect 관련
+     * Stream SET하는 부분 공통으로 처리
+     *********************************************/
+    public bool Initializer(string ip, int port)
+    {
+        TestUI.Instance.PrintText("Trying to connect " + ip + ":" + port);
+        if (client == null)
+        {
+            try
+            {
+                client = new TcpClient(ip, port);
+                ns = client.GetStream();
+            }
+            catch (Exception e)
+            {
+                TestUI.Instance.PrintText(e.Message);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /*********************************************
+     *  Agent 관련 로직
+     *********************************************/
+    public bool RequestAuthorization()
+    {
+        if (isAuthSuccess)
+        {
+            return true;
+        }
+
+        do
+        {
+            ServiceAuth auth = new ServiceAuth();
+            string authKey = auth._getServiceAuthKey();
+            if (!_SendStrBuffer(authKey))
+            {
+                break;
+            }
+
+            string recvBuffer = "";
+            if (!_ReadStrBuffer(recvBuffer))
+            {
+                break;
+            }
+
+            /**********************************************
+             * Response에 대해 처리
+             **********************************************/
+            if (recvBuffer.Length <= 0)
+            {
+                break;
+            }
+
+            recvBuffer = recvBuffer.ToLower();
+            if (!recvBuffer.Contains("Success"))
+            {
+                break;
+            }
+            isAuthSuccess = true;
+        }
+        while (false);
+
+        return isAuthSuccess;
     }
 }

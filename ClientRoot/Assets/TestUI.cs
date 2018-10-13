@@ -61,12 +61,22 @@ public class TestUI : MonoBehaviour {
 
     void OnClickConnect()
     {
+        string ip = IpInput.text;
+        int port = int.Parse(PortInput.text);
+        if ( !NetworkModule.instance.Initializer(ip, port) )
+        {
+            return;
+        }
+
+        if ( !NetworkModule.instance.RequestAuthorization() )
+        {
+            return;
+        }
+
         if (!NetworkModule.instance.isConnected)
         {
-            string ip = IpInput.text;
-            int port = int.Parse(PortInput.text);
             string name = NameInput.text;
-            NetworkModule.instance.Connect(ip, port, name);
+            NetworkModule.instance.Connect(name);
         }
     }
 
