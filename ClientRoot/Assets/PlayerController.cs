@@ -173,6 +173,6 @@ public class PlayerController {
 
     public WeaponId GetCurrentWeapon()
     {
-        return Character.Inventory.currentWeaponId;
+        return Character.Inventory.CurrentWeaponId;
     }
 }

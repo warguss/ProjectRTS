@@ -44,15 +44,15 @@ public class WeaponUI : MonoBehaviour {
             {
                 weaponSlots[i].SetWeapon(weaponId);
                 SetAmmo(weaponId, ammo);
-                break;
+                return;
             }
             else if(weaponSlots[i].WeaponId == (int)weaponId)
             {
                 Debug.LogWarning("WeaponUI Error : Trying to add duplicate weapon");
-                break;
+                return;
             }
-            Debug.LogWarning("WeaponUI Error : Trying to add weapon over the limit");
         }
+        Debug.LogWarning("WeaponUI Error : Trying to add weapon over the limit");
     }
 
     public void DeleteWeapon(WeaponId weaponId)
@@ -67,10 +67,10 @@ public class WeaponUI : MonoBehaviour {
             if (weaponSlots[i].WeaponId == (int)weaponId)
             {
                 weaponSlots[i].SetRemainingAmmo(ammo);
-                break;
-            }
-            Debug.LogWarning("WeaponUI Error : Trying to modify ammo of not added weapon");
+                return;
+            } 
         }
+        Debug.LogWarning("WeaponUI Error : Trying to modify ammo of not added weapon");
     }
 
     public void SetCurrentWeapon(WeaponId weaponId)
@@ -102,5 +102,7 @@ public class WeaponUI : MonoBehaviour {
         inventory.AddItemEvent += AddWeapon;
         inventory.SetAmmoEvent+= SetAmmo;
         inventory.DeleteItemEvent += DeleteWeapon;
+        inventory.ClearItemsEvent += ClearWeaponSlots;
+        inventory.ChangeItemEvent += SetCurrentWeapon;
     }
 }

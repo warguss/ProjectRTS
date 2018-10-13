@@ -8,32 +8,34 @@ public class PlayerInventory
     public delegate void DeleteItemDelegate(WeaponId weaponId);
     public delegate void SetAmmoDelegate(WeaponId weaponId, int amount);
     public delegate void ClearItemsDelegate();
+    public delegate void ChangeItemDelegate(WeaponId weaponId);
 
     public event AddItemDelegate AddItemEvent;
     public event DeleteItemDelegate DeleteItemEvent;
     public event SetAmmoDelegate SetAmmoEvent;
     public event ClearItemsDelegate ClearItemsEvent;
+    public event ChangeItemDelegate ChangeItemEvent;
 
 
     private ControllableCharacter owner; //필요없는 구조로 개선 예정
     private List<PlayerWeapon> items = new List<PlayerWeapon>();
-    public WeaponId currentWeaponId = WeaponId.None;
+    private WeaponId m_CurrentWeaponId = WeaponId.None;
 
-    public void InvokeAddItemEvent(WeaponId weaponId, int amount)
-    {
-        AddItemEvent?.Invoke(weaponId, amount);
+    public WeaponId CurrentWeaponId {
+        get
+        {
+            return m_CurrentWeaponId;
+        }
+        private set
+        {
+            m_CurrentWeaponId = value;
+            ChangeItemEvent?.Invoke(value);
+        }
     }
-    public void InvokeDeleteItemEvent(WeaponId weaponId)
-    {
-        DeleteItemEvent?.Invoke(weaponId);
-    }
+
     public void InvokeSetAmmoEvent(WeaponId weaponId, int amount)
     {
         SetAmmoEvent?.Invoke(weaponId, amount);
-    }
-    public void InvokeClearItemsEvent()
-    {
-        ClearItemsEvent?.Invoke();
     }
 
     public PlayerInventory(ControllableCharacter inOwner)
@@ -48,8 +50,9 @@ public class PlayerInventory
         {
             PlayerWeapon weapon = new PlayerWeapon(weaponId, amount, owner);
             items.Add(weapon);
-            currentWeaponId = weaponId;
-            InvokeAddItemEvent(weaponId, amount);
+            AddItemEvent?.Invoke(weaponId, amount);
+            if (items.Count == 1)
+                CurrentWeaponId = weaponId;
         }
         else
         {
@@ -69,17 +72,17 @@ public class PlayerInventory
         if (itemIndex != -1)
         {
             items.RemoveAt(itemIndex);
-            InvokeDeleteItemEvent(weaponId);
+            DeleteItemEvent?.Invoke(weaponId);
         }
-        if(currentWeaponId == weaponId)
+        if(CurrentWeaponId == weaponId)
         {
             if(items.Count==0)
             {
-                currentWeaponId = WeaponId.None;
+                CurrentWeaponId = WeaponId.None;
             }
             else
             {
-                currentWeaponId = items[0].WeaponId;
+                CurrentWeaponId = items[0].WeaponId;
             }
         }
     }
@@ -87,13 +90,13 @@ public class PlayerInventory
     public void ClearItem()
     {
         items.Clear();
-        currentWeaponId = WeaponId.None;
-        InvokeClearItemsEvent();
+        CurrentWeaponId = WeaponId.None;
+        ClearItemsEvent?.Invoke();
     }
 
     public int GetCurrentWeaponIndex()
     {
-        return FindWeaponIndex(currentWeaponId);
+        return FindWeaponIndex(CurrentWeaponId);
     }
 
     public void ChangeWeapon(WeaponId weaponId)
@@ -101,7 +104,7 @@ public class PlayerInventory
         int index = FindWeaponIndex(weaponId);
         if(index != -1)
         {
-            currentWeaponId = weaponId;
+            CurrentWeaponId = weaponId;
         }
     }
 
