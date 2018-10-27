@@ -37,7 +37,7 @@ namespace protobuf_gameContent_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[13];
+  static const ::google::protobuf::internal::ParseTable schema[14];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -65,6 +65,8 @@ void InitDefaultsEventUserSyncImpl();
 void InitDefaultsEventUserSync();
 void InitDefaultsEventDeathImpl();
 void InitDefaultsEventDeath();
+void InitDefaultsEventSpawnItemImpl();
+void InitDefaultsEventSpawnItem();
 void InitDefaultsGameEventImpl();
 void InitDefaultsGameEvent();
 void InitDefaultsPacketBodyImpl();
@@ -81,6 +83,7 @@ inline void InitDefaults() {
   InitDefaultsEventSpawn();
   InitDefaultsEventUserSync();
   InitDefaultsEventDeath();
+  InitDefaultsEventSpawnItem();
   InitDefaultsGameEvent();
   InitDefaultsPacketBody();
 }
@@ -107,6 +110,9 @@ extern EventShootDefaultTypeInternal _EventShoot_default_instance_;
 class EventSpawn;
 class EventSpawnDefaultTypeInternal;
 extern EventSpawnDefaultTypeInternal _EventSpawn_default_instance_;
+class EventSpawnItem;
+class EventSpawnItemDefaultTypeInternal;
+extern EventSpawnItemDefaultTypeInternal _EventSpawnItem_default_instance_;
 class EventStop;
 class EventStopDefaultTypeInternal;
 extern EventStopDefaultTypeInternal _EventStop_default_instance_;
@@ -135,6 +141,7 @@ template<> ::server2N::EventJump* Arena::Create< ::server2N::EventJump>(Arena*);
 template<> ::server2N::EventMove* Arena::Create< ::server2N::EventMove>(Arena*);
 template<> ::server2N::EventShoot* Arena::Create< ::server2N::EventShoot>(Arena*);
 template<> ::server2N::EventSpawn* Arena::Create< ::server2N::EventSpawn>(Arena*);
+template<> ::server2N::EventSpawnItem* Arena::Create< ::server2N::EventSpawnItem>(Arena*);
 template<> ::server2N::EventStop* Arena::Create< ::server2N::EventStop>(Arena*);
 template<> ::server2N::EventUserSync* Arena::Create< ::server2N::EventUserSync>(Arena*);
 template<> ::server2N::GameEvent* Arena::Create< ::server2N::GameEvent>(Arena*);
@@ -215,6 +222,49 @@ inline bool EventMove_Direction_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<EventMove_Direction>(
     EventMove_Direction_descriptor(), name, value);
 }
+enum EventSpawnItem_itemType {
+  EventSpawnItem_itemType_Recover = 0,
+  EventSpawnItem_itemType_Weapone = 1,
+  EventSpawnItem_itemType_EventSpawnItem_itemType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EventSpawnItem_itemType_EventSpawnItem_itemType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EventSpawnItem_itemType_IsValid(int value);
+const EventSpawnItem_itemType EventSpawnItem_itemType_itemType_MIN = EventSpawnItem_itemType_Recover;
+const EventSpawnItem_itemType EventSpawnItem_itemType_itemType_MAX = EventSpawnItem_itemType_Weapone;
+const int EventSpawnItem_itemType_itemType_ARRAYSIZE = EventSpawnItem_itemType_itemType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EventSpawnItem_itemType_descriptor();
+inline const ::std::string& EventSpawnItem_itemType_Name(EventSpawnItem_itemType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EventSpawnItem_itemType_descriptor(), value);
+}
+inline bool EventSpawnItem_itemType_Parse(
+    const ::std::string& name, EventSpawnItem_itemType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EventSpawnItem_itemType>(
+    EventSpawnItem_itemType_descriptor(), name, value);
+}
+enum EventSpawnItem_weaponId {
+  EventSpawnItem_weaponId_Nothing = 0,
+  EventSpawnItem_weaponId_Pistol = 1,
+  EventSpawnItem_weaponId_Sniper = 2,
+  EventSpawnItem_weaponId_EventSpawnItem_weaponId_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EventSpawnItem_weaponId_EventSpawnItem_weaponId_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EventSpawnItem_weaponId_IsValid(int value);
+const EventSpawnItem_weaponId EventSpawnItem_weaponId_weaponId_MIN = EventSpawnItem_weaponId_Nothing;
+const EventSpawnItem_weaponId EventSpawnItem_weaponId_weaponId_MAX = EventSpawnItem_weaponId_Sniper;
+const int EventSpawnItem_weaponId_weaponId_ARRAYSIZE = EventSpawnItem_weaponId_weaponId_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EventSpawnItem_weaponId_descriptor();
+inline const ::std::string& EventSpawnItem_weaponId_Name(EventSpawnItem_weaponId value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EventSpawnItem_weaponId_descriptor(), value);
+}
+inline bool EventSpawnItem_weaponId_Parse(
+    const ::std::string& name, EventSpawnItem_weaponId* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EventSpawnItem_weaponId>(
+    EventSpawnItem_weaponId_descriptor(), name, value);
+}
 enum GameEvent_action {
   GameEvent_action_Nothing = 0,
   GameEvent_action_EventMove = 100,
@@ -227,12 +277,13 @@ enum GameEvent_action {
   GameEvent_action_EventDeath = 107,
   GameEvent_action_EventBullet = 108,
   GameEvent_action_EventChangeWeapon = 109,
+  GameEvent_action_EventSpawnItem = 110,
   GameEvent_action_GameEvent_action_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   GameEvent_action_GameEvent_action_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool GameEvent_action_IsValid(int value);
 const GameEvent_action GameEvent_action_action_MIN = GameEvent_action_Nothing;
-const GameEvent_action GameEvent_action_action_MAX = GameEvent_action_EventChangeWeapon;
+const GameEvent_action GameEvent_action_action_MAX = GameEvent_action_EventSpawnItem;
 const int GameEvent_action_action_ARRAYSIZE = GameEvent_action_action_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* GameEvent_action_descriptor();
@@ -1658,6 +1709,184 @@ class EventDeath : public ::google::protobuf::Message /* @@protoc_insertion_poin
 };
 // -------------------------------------------------------------------
 
+class EventSpawnItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.EventSpawnItem) */ {
+ public:
+  EventSpawnItem();
+  virtual ~EventSpawnItem();
+
+  EventSpawnItem(const EventSpawnItem& from);
+
+  inline EventSpawnItem& operator=(const EventSpawnItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EventSpawnItem(EventSpawnItem&& from) noexcept
+    : EventSpawnItem() {
+    *this = ::std::move(from);
+  }
+
+  inline EventSpawnItem& operator=(EventSpawnItem&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EventSpawnItem& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EventSpawnItem* internal_default_instance() {
+    return reinterpret_cast<const EventSpawnItem*>(
+               &_EventSpawnItem_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    11;
+
+  void Swap(EventSpawnItem* other);
+  friend void swap(EventSpawnItem& a, EventSpawnItem& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EventSpawnItem* New() const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventSpawnItem>(NULL);
+  }
+
+  EventSpawnItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventSpawnItem>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const EventSpawnItem& from);
+  void MergeFrom(const EventSpawnItem& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(EventSpawnItem* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  typedef EventSpawnItem_itemType itemType;
+  static const itemType Recover =
+    EventSpawnItem_itemType_Recover;
+  static const itemType Weapone =
+    EventSpawnItem_itemType_Weapone;
+  static inline bool itemType_IsValid(int value) {
+    return EventSpawnItem_itemType_IsValid(value);
+  }
+  static const itemType itemType_MIN =
+    EventSpawnItem_itemType_itemType_MIN;
+  static const itemType itemType_MAX =
+    EventSpawnItem_itemType_itemType_MAX;
+  static const int itemType_ARRAYSIZE =
+    EventSpawnItem_itemType_itemType_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  itemType_descriptor() {
+    return EventSpawnItem_itemType_descriptor();
+  }
+  static inline const ::std::string& itemType_Name(itemType value) {
+    return EventSpawnItem_itemType_Name(value);
+  }
+  static inline bool itemType_Parse(const ::std::string& name,
+      itemType* value) {
+    return EventSpawnItem_itemType_Parse(name, value);
+  }
+
+  typedef EventSpawnItem_weaponId weaponId;
+  static const weaponId Nothing =
+    EventSpawnItem_weaponId_Nothing;
+  static const weaponId Pistol =
+    EventSpawnItem_weaponId_Pistol;
+  static const weaponId Sniper =
+    EventSpawnItem_weaponId_Sniper;
+  static inline bool weaponId_IsValid(int value) {
+    return EventSpawnItem_weaponId_IsValid(value);
+  }
+  static const weaponId weaponId_MIN =
+    EventSpawnItem_weaponId_weaponId_MIN;
+  static const weaponId weaponId_MAX =
+    EventSpawnItem_weaponId_weaponId_MAX;
+  static const int weaponId_ARRAYSIZE =
+    EventSpawnItem_weaponId_weaponId_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  weaponId_descriptor() {
+    return EventSpawnItem_weaponId_descriptor();
+  }
+  static inline const ::std::string& weaponId_Name(weaponId value) {
+    return EventSpawnItem_weaponId_Name(value);
+  }
+  static inline bool weaponId_Parse(const ::std::string& name,
+      weaponId* value) {
+    return EventSpawnItem_weaponId_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // int32 itemId = 1;
+  void clear_itemid();
+  static const int kItemIdFieldNumber = 1;
+  ::google::protobuf::int32 itemid() const;
+  void set_itemid(::google::protobuf::int32 value);
+
+  // float posX = 2;
+  void clear_posx();
+  static const int kPosXFieldNumber = 2;
+  float posx() const;
+  void set_posx(float value);
+
+  // float posY = 3;
+  void clear_posy();
+  static const int kPosYFieldNumber = 3;
+  float posy() const;
+  void set_posy(float value);
+
+  // int32 amount = 4;
+  void clear_amount();
+  static const int kAmountFieldNumber = 4;
+  ::google::protobuf::int32 amount() const;
+  void set_amount(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:server2N.EventSpawnItem)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::int32 itemid_;
+  float posx_;
+  float posy_;
+  ::google::protobuf::int32 amount_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_gameContent_2eproto::TableStruct;
+  friend void ::protobuf_gameContent_2eproto::InitDefaultsEventSpawnItemImpl();
+};
+// -------------------------------------------------------------------
+
 class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.GameEvent) */ {
  public:
   GameEvent();
@@ -1693,7 +1922,7 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_GameEvent_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    11;
+    12;
 
   void Swap(GameEvent* other);
   friend void swap(GameEvent& a, GameEvent& b) {
@@ -1765,6 +1994,8 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
     GameEvent_action_EventBullet;
   static const action EventChangeWeapon =
     GameEvent_action_EventChangeWeapon;
+  static const action EventSpawnItem =
+    GameEvent_action_EventSpawnItem;
   static inline bool action_IsValid(int value) {
     return GameEvent_action_IsValid(value);
   }
@@ -1881,6 +2112,15 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::server2N::EventChangeWeapon* mutable_chweaponevent();
   void set_allocated_chweaponevent(::server2N::EventChangeWeapon* chweaponevent);
 
+  // .server2N.EventSpawnItem spawnItemEvent = 118;
+  bool has_spawnitemevent() const;
+  void clear_spawnitemevent();
+  static const int kSpawnItemEventFieldNumber = 118;
+  const ::server2N::EventSpawnItem& spawnitemevent() const;
+  ::server2N::EventSpawnItem* release_spawnitemevent();
+  ::server2N::EventSpawnItem* mutable_spawnitemevent();
+  void set_allocated_spawnitemevent(::server2N::EventSpawnItem* spawnitemevent);
+
   // .server2N.GameEvent.action actType = 1;
   void clear_acttype();
   static const int kActTypeFieldNumber = 1;
@@ -1944,6 +2184,7 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::server2N::EventUserSync* syncevent_;
   ::server2N::EventDeath* deathevent_;
   ::server2N::EventChangeWeapon* chweaponevent_;
+  ::server2N::EventSpawnItem* spawnitemevent_;
   int acttype_;
   ::google::protobuf::int32 actionproperty_;
   float eventpositionx_;
@@ -1993,7 +2234,7 @@ class PacketBody : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_PacketBody_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    12;
+    13;
 
   void Swap(PacketBody* other);
   friend void swap(PacketBody& a, PacketBody& b) {
@@ -2713,6 +2954,66 @@ inline void EventDeath::set_triggerid(::google::protobuf::int32 value) {
 
 // -------------------------------------------------------------------
 
+// EventSpawnItem
+
+// int32 itemId = 1;
+inline void EventSpawnItem::clear_itemid() {
+  itemid_ = 0;
+}
+inline ::google::protobuf::int32 EventSpawnItem::itemid() const {
+  // @@protoc_insertion_point(field_get:server2N.EventSpawnItem.itemId)
+  return itemid_;
+}
+inline void EventSpawnItem::set_itemid(::google::protobuf::int32 value) {
+  
+  itemid_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventSpawnItem.itemId)
+}
+
+// float posX = 2;
+inline void EventSpawnItem::clear_posx() {
+  posx_ = 0;
+}
+inline float EventSpawnItem::posx() const {
+  // @@protoc_insertion_point(field_get:server2N.EventSpawnItem.posX)
+  return posx_;
+}
+inline void EventSpawnItem::set_posx(float value) {
+  
+  posx_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventSpawnItem.posX)
+}
+
+// float posY = 3;
+inline void EventSpawnItem::clear_posy() {
+  posy_ = 0;
+}
+inline float EventSpawnItem::posy() const {
+  // @@protoc_insertion_point(field_get:server2N.EventSpawnItem.posY)
+  return posy_;
+}
+inline void EventSpawnItem::set_posy(float value) {
+  
+  posy_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventSpawnItem.posY)
+}
+
+// int32 amount = 4;
+inline void EventSpawnItem::clear_amount() {
+  amount_ = 0;
+}
+inline ::google::protobuf::int32 EventSpawnItem::amount() const {
+  // @@protoc_insertion_point(field_get:server2N.EventSpawnItem.amount)
+  return amount_;
+}
+inline void EventSpawnItem::set_amount(::google::protobuf::int32 value) {
+  
+  amount_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventSpawnItem.amount)
+}
+
+// -------------------------------------------------------------------
+
 // GameEvent
 
 // .server2N.EventMove moveEvent = 109;
@@ -3174,6 +3475,57 @@ inline void GameEvent::set_allocated_chweaponevent(::server2N::EventChangeWeapon
   // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.chWeaponEvent)
 }
 
+// .server2N.EventSpawnItem spawnItemEvent = 118;
+inline bool GameEvent::has_spawnitemevent() const {
+  return this != internal_default_instance() && spawnitemevent_ != NULL;
+}
+inline void GameEvent::clear_spawnitemevent() {
+  if (GetArenaNoVirtual() == NULL && spawnitemevent_ != NULL) {
+    delete spawnitemevent_;
+  }
+  spawnitemevent_ = NULL;
+}
+inline const ::server2N::EventSpawnItem& GameEvent::spawnitemevent() const {
+  const ::server2N::EventSpawnItem* p = spawnitemevent_;
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.spawnItemEvent)
+  return p != NULL ? *p : *reinterpret_cast<const ::server2N::EventSpawnItem*>(
+      &::server2N::_EventSpawnItem_default_instance_);
+}
+inline ::server2N::EventSpawnItem* GameEvent::release_spawnitemevent() {
+  // @@protoc_insertion_point(field_release:server2N.GameEvent.spawnItemEvent)
+  
+  ::server2N::EventSpawnItem* temp = spawnitemevent_;
+  spawnitemevent_ = NULL;
+  return temp;
+}
+inline ::server2N::EventSpawnItem* GameEvent::mutable_spawnitemevent() {
+  
+  if (spawnitemevent_ == NULL) {
+    spawnitemevent_ = ::google::protobuf::Arena::Create< ::server2N::EventSpawnItem >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:server2N.GameEvent.spawnItemEvent)
+  return spawnitemevent_;
+}
+inline void GameEvent::set_allocated_spawnitemevent(::server2N::EventSpawnItem* spawnitemevent) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete spawnitemevent_;
+  }
+  if (spawnitemevent) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      spawnitemevent = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, spawnitemevent, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  spawnitemevent_ = spawnitemevent;
+  // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.spawnItemEvent)
+}
+
 // .server2N.GameEvent.action actType = 1;
 inline void GameEvent::clear_acttype() {
   acttype_ = 0;
@@ -3528,6 +3880,8 @@ inline void PacketBody::set_senderid(::google::protobuf::int32 value) {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -3550,6 +3904,16 @@ template <> struct is_proto_enum< ::server2N::EventMove_Direction> : ::google::p
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::server2N::EventMove_Direction>() {
   return ::server2N::EventMove_Direction_descriptor();
+}
+template <> struct is_proto_enum< ::server2N::EventSpawnItem_itemType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::server2N::EventSpawnItem_itemType>() {
+  return ::server2N::EventSpawnItem_itemType_descriptor();
+}
+template <> struct is_proto_enum< ::server2N::EventSpawnItem_weaponId> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::server2N::EventSpawnItem_weaponId>() {
+  return ::server2N::EventSpawnItem_weaponId_descriptor();
 }
 template <> struct is_proto_enum< ::server2N::GameEvent_action> : ::google::protobuf::internal::true_type {};
 template <>

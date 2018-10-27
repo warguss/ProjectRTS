@@ -87,6 +87,27 @@ message EventDeath{
 	int32 triggerId = 1;
 }
 
+message EventSpawnItem
+{
+	enum itemType
+	{
+		Recover = 0;
+		Weapone = 1;
+	}
+	
+	enum weaponId
+	{
+		Nothing = 0;
+		Pistol = 1;
+		Sniper = 2;
+	}
+
+	int32 itemId = 1;
+	float posX = 2;
+	float posY = 3;
+	int32 amount = 4;
+}
+
 message GameEvent{
 	enum action{
 		Nothing				= 0;
@@ -100,6 +121,7 @@ message GameEvent{
 		EventDeath			= 107;
 		EventBullet			= 108;
 		EventChangeWeapon	= 109;
+		EventSpawnItem		= 110;
 	}
 	EventMove moveEvent = 109;
 	EventStop stopEvent = 110;
@@ -110,7 +132,7 @@ message GameEvent{
 	EventUserSync syncEvent = 115;
 	EventDeath deathEvent = 116;
 	EventChangeWeapon chWeaponEvent = 117;
-
+	EventSpawnItem spawnItemEvent = 118;
 
 	action actType = 1;
 	int32 actionProperty = 5;
