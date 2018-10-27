@@ -33,6 +33,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     protected int hitRecovery = 0;
 
     protected float hp;
+    public float MaxHP;
     protected CharacterState state;
     protected int jumpCount = 0;
     protected int lastAttackedPlayerId = -1;
@@ -122,6 +123,13 @@ public abstract class ControllableCharacter : MonoBehaviour
     public void SetHP(float inHp)
     {
         hp = inHp;   
+    }
+
+    public void RecoverHp(float inHp)
+    {
+        hp += inHp;
+        if (inHp > MaxHP)
+            hp = MaxHP;
     }
 
     public abstract void MoveLeft();

@@ -45,6 +45,9 @@ public class PlayerInventory
 
     public void AddItem(WeaponId weaponId, int amount)
     {
+        if (weaponId == WeaponId.None)
+            return;
+
         int itemIndex = FindWeaponIndex(weaponId);
         if (itemIndex == -1)
         {

@@ -12,9 +12,9 @@ public class FieldItem : MonoBehaviour {
 
     public SpriteRenderer spriteRenderer;
 
-    public ItemType ItemType { get; private set; }
-    public WeaponId WeaponId { get; private set; }
-    public int Amount { get; private set; }
+    public ItemType ItemType;
+    public WeaponId WeaponId;
+    public int Amount;
 
 	// Use this for initialization
 	void Start () {
@@ -69,6 +69,7 @@ public class FieldItem : MonoBehaviour {
         if (other.tag == "Player")
         {
             MainCharacter targetPlayer = other.gameObject.GetComponent<MainCharacter>();
+            targetPlayer.GetItem(this);
             Destroy(gameObject);
         }
     }

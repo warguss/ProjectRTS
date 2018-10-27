@@ -17,6 +17,7 @@ public class GameLogic : MonoBehaviour
 
     public GameObject PlayerPrefab;
     public GameObject MapDataPrefab;
+    public GameObject ItemPrefab;
     public CameraMove CameraScript;
     public bool isOnline = false;
 
@@ -503,6 +504,15 @@ public class GameLogic : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         SpawnPlayer(playerId, position);
+    }
+
+    void CreateItem(Vector2 position, ItemType type, WeaponId weapon, int amount = 0)
+    {
+        GameObject created = Instantiate(ItemPrefab, new Vector3(position.x, position.y, 0), new Quaternion());
+        FieldItem item = created.GetComponent<FieldItem>();
+        item.ItemType = type;
+        item.WeaponId = weapon;
+        item.Amount = amount;
     }
 }
    

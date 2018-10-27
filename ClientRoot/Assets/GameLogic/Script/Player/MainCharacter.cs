@@ -16,7 +16,6 @@ public class MainCharacter : ControllableCharacter
     public float MaxMoveSpeed;
     public float MoveForce;
     public float JumpForce;
-    public float DefaultHP;
     public int MaxJumpCount = 2;
 
     bool isInterpolating = false;
@@ -31,7 +30,7 @@ public class MainCharacter : ControllableCharacter
     {
         gameObject.SetActive(true);
         isDead = false;
-        hp = DefaultHP;
+        hp = MaxHP;
         SetLocation(position);
 
         Inventory.ClearItem();
@@ -86,7 +85,7 @@ public class MainCharacter : ControllableCharacter
 	// Update is called once per frame
 	void Update()
     {
-        playerInfoDisplay.SetHP(hp / DefaultHP);
+        playerInfoDisplay.SetHP(hp / MaxHP);
         Inventory.UpdateWeaponInterval(Time.deltaTime);
         
         if (isInterpolating)
@@ -359,6 +358,21 @@ public class MainCharacter : ControllableCharacter
                 charRigidbody.MovePosition(position);
                 charRigidbody.velocity = velocity;
             }
+        }
+    }
+
+    public void GetItem(FieldItem item)
+    {
+        if(item.ItemType == ItemType.Recover)
+        {
+            RecoverHp(item.Amount);
+        }
+        else if(item.ItemType == ItemType.Weapon)
+        {
+            if (item.Amount == 0)
+                Inventory.AddItem(item.WeaponId);
+            else
+                Inventory.AddItem(item.WeaponId, item.Amount);
         }
     }
 
