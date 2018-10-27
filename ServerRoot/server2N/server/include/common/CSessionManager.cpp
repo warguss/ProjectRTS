@@ -150,11 +150,56 @@ static void* CSessionManager::waitEvent(void* val)
 				CUser* inputUser = g_userPool.findUserInPool(fd);
 				if ( !inputUser )
 				{
+					/**************************************
+					 * 신규 접속 유저의 경우
+					 * Agent를 우선 확인한다.
+					 **************************************/
+					CAuthManager auth;
+					bool isAgentSucc = true;
+					do 
+					{
+						char buffer[AUTH_BYTE] = {'\0',};
+						int32_t readn = read(fd, buffer, AUTH_BYTE);
+						if ( readn <= 0 )
+						{
+							LOG_ERROR("Agent Buffer Not Exist (%d)", fd);
+							isAgentSucc = false;
+						} 
+
+						isFirst = true;
+						if ( !auth.authAgent(buffer) )
+						{
+							LOG_ERROR("Agent Fail (%d)", fd);
+							isAgentSucc = false;
+						}
+					}
+					while(false);
+
+					CProtoPacket* authPacket = new CProtoPacket();
+					auth.agentReturnBuffer(authPacket->_buffer, isAgentSucc);
+
 					inputUser = new CUser;
 					inputUser->setData(fd, READ_TYPE);
-					isFirst = true;
-					CAuthManager auth;
-					auth.authAgent("");
+					authPacket->_fd = fd;
+					authPacket->_authAgent = true;
+					LOG_DEBUG("auth Buffer(%s)", authPacket->_buffer);
+
+					int sector = g_userPool.addUserInPool(inputUser);
+					if ( sector < 0 )
+					{
+						LOG_ERROR("Pool Not Available");
+						_deleteUserAndEvent(&inputUser, isFirst);
+						epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
+						close(fd);
+						continue ; 
+					} 
+					LOG_DEBUG("Sector Check(%d)", sector);
+					inputUser->_sector = sector;
+
+
+					m_readQ_Manager.unLock();
+					m_readQ_Manager.enqueue(authPacket);
+					continue ;
 				}
 
 				/******************************************
@@ -253,6 +298,7 @@ static void* CSessionManager::waitEvent(void* val)
 					continue;
 				}
 	
+#if 0 
 				if ( isFirst )
 				{
 					int sector = g_userPool.addUserInPool(inputUser);
@@ -267,6 +313,7 @@ static void* CSessionManager::waitEvent(void* val)
 					LOG_DEBUG("Sector Check(%d)", sector);
 					inputUser->_sector = sector;
 				}
+#endif
 
 				packet->_fd = fd;
 				packet->_sector = inputUser->_sector;
@@ -293,10 +340,20 @@ static void* CSessionManager::writeEvent(void* val)
 		CProtoPacket* packet = NULL;
 		if ( m_writeQ_Manager.isQueueDataExist() && (packet = m_writeQ_Manager.dequeue()) && packet )
 		{
+			uint32_t writeSize = 0;
+			if ( packet->_authAgent )
+			{
+				LOG_DEBUG("auth Agent Send(%s) length(%d)", packet->_buffer, sizeof(char) * AUTH_BYTE);
+				if ( writeSize = write(packet->_fd, packet->_buffer, sizeof(char) * AUTH_BYTE) <= 0 )
+				{
+					LOG_ERROR("Agent Packet Send Error (%d)", packet->_fd);
+				}
+				continue ;
+			}
+
 			/***************************************
 			 * Write Header 
 			 ***************************************/ 
-			uint32_t writeSize = 0;
 			uint32_t bodyLength = 0;
 			unsigned char header[HEADER_SIZE] = {'\0' , };
 			if ( !g_packetManager.encodingHeader(header, packet->_proto, bodyLength) || bodyLength <= 0 )
@@ -327,6 +384,10 @@ static void* CSessionManager::writeEvent(void* val)
 				LOG_ERROR("Write Error Socket[%d] writeSize[%d](%d)(%s)", packet->_fd, writeSize, errno, strerror(errno));
 				continue ;
 			}
+			/****************************************
+			 * Packet Write 하고
+			 * delete가 필요함
+			 ****************************************/
 			LOG_INFO("@SUCC UID:%d NName:%s ATP:%s SECTOR:%d", packet->_fd, packet->_nickName.c_str(), packet->_act.c_str(), packet->_sector);
 		}
 	}

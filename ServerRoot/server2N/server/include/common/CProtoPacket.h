@@ -13,6 +13,8 @@ class CProtoPacket
 		int32_t _sector;
 		string _act;
 		string _nickName;
+		char _buffer[AUTH_BYTE];
+		bool _authAgent;
 
 		CProtoPacket();
 		~CProtoPacket();
@@ -25,5 +27,8 @@ class CProtoPacket
 		server2N::GlobalNotice* _protoNoti;
 
 		bool SyncUser(CUser* user);
+		bool setBuffer(char* buffer);
+		bool clearPacket();
+		bool clearForPool();
 };
 #endif
