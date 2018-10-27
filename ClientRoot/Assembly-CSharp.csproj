@@ -155,6 +155,7 @@
     <Compile Include="Assets\Packet.cs" />
     <Compile Include="Assets\PlayerController.cs" />
     <Compile Include="Assets\Server\proto\GameContent.cs" />
+    <Compile Include="Assets\ServiceAuth.cs" />
     <Compile Include="Assets\TestUI.cs" />
     <Compile Include="Assets\TouchButton.cs" />
     <Compile Include="Assets\TouchButtonsInterface.cs" />
