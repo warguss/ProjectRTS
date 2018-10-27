@@ -75,6 +75,11 @@ class EventDeathDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<EventDeath>
       _instance;
 } _EventDeath_default_instance_;
+class EventSpawnItemDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<EventSpawnItem>
+      _instance;
+} _EventSpawnItem_default_instance_;
 class GameEventDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<GameEvent>
@@ -318,6 +323,27 @@ void InitDefaultsEventDeath() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsEventDeathImpl);
 }
 
+void InitDefaultsEventSpawnItemImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
+#else
+  ::google::protobuf::internal::InitProtobufDefaults();
+#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  {
+    void* ptr = &::server2N::_EventSpawnItem_default_instance_;
+    new (ptr) ::server2N::EventSpawnItem();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::server2N::EventSpawnItem::InitAsDefaultInstance();
+}
+
+void InitDefaultsEventSpawnItem() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsEventSpawnItemImpl);
+}
+
 void InitDefaultsGameEventImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -335,6 +361,7 @@ void InitDefaultsGameEventImpl() {
   protobuf_gameContent_2eproto::InitDefaultsEventUserSync();
   protobuf_gameContent_2eproto::InitDefaultsEventDeath();
   protobuf_gameContent_2eproto::InitDefaultsEventChangeWeapon();
+  protobuf_gameContent_2eproto::InitDefaultsEventSpawnItem();
   {
     void* ptr = &::server2N::_GameEvent_default_instance_;
     new (ptr) ::server2N::GameEvent();
@@ -372,8 +399,8 @@ void InitDefaultsPacketBody() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsPacketBodyImpl);
 }
 
-::google::protobuf::Metadata file_level_metadata[13];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[5];
+::google::protobuf::Metadata file_level_metadata[14];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[7];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -459,6 +486,15 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventDeath, triggerid_),
   ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventSpawnItem, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventSpawnItem, itemid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventSpawnItem, posx_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventSpawnItem, posy_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventSpawnItem, amount_),
+  ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -472,6 +508,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, syncevent_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, deathevent_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, chweaponevent_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, spawnitemevent_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, acttype_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, actionproperty_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, eventpositionx_),
@@ -504,8 +541,9 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 64, -1, sizeof(::server2N::EventSpawn)},
   { 69, -1, sizeof(::server2N::EventUserSync)},
   { 76, -1, sizeof(::server2N::EventDeath)},
-  { 82, -1, sizeof(::server2N::GameEvent)},
-  { 105, -1, sizeof(::server2N::PacketBody)},
+  { 82, -1, sizeof(::server2N::EventSpawnItem)},
+  { 91, -1, sizeof(::server2N::GameEvent)},
+  { 115, -1, sizeof(::server2N::PacketBody)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -520,6 +558,7 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_EventSpawn_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_EventUserSync_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_EventDeath_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_EventSpawnItem_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_GameEvent_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_PacketBody_default_instance_),
 };
@@ -540,7 +579,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 13);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 14);
 }
 
 void AddDescriptorsImpl() {
@@ -571,37 +610,42 @@ void AddDescriptorsImpl() {
       "pon\022\020\n\010weaponId\030\001 \001(\005\"\014\n\nEventSpawn\"4\n\rE"
       "ventUserSync\022\021\n\tcurrentHP\030\001 \001(\002\022\020\n\010weapo"
       "nId\030\002 \001(\005\"\037\n\nEventDeath\022\021\n\ttriggerId\030\001 \001"
-      "(\005\"\233\006\n\tGameEvent\022&\n\tmoveEvent\030m \001(\0132\023.se"
-      "rver2N.EventMove\022&\n\tstopEvent\030n \001(\0132\023.se"
-      "rver2N.EventStop\022&\n\tjumpEvent\030o \001(\0132\023.se"
-      "rver2N.EventJump\022(\n\nshootEvent\030p \001(\0132\024.s"
-      "erver2N.EventShoot\022$\n\010hitEvent\030q \001(\0132\022.s"
-      "erver2N.EventHit\022(\n\nspawnEvent\030r \001(\0132\024.s"
-      "erver2N.EventSpawn\022*\n\tsyncEvent\030s \001(\0132\027."
-      "server2N.EventUserSync\022(\n\ndeathEvent\030t \001"
-      "(\0132\024.server2N.EventDeath\0222\n\rchWeaponEven"
-      "t\030u \001(\0132\033.server2N.EventChangeWeapon\022+\n\007"
-      "actType\030\001 \001(\0162\032.server2N.GameEvent.actio"
-      "n\022\026\n\016actionProperty\030\005 \001(\005\022\026\n\016EventPositi"
-      "onX\030\006 \001(\002\022\026\n\016EventPositionY\030\007 \001(\002\022\021\n\tVel"
-      "ocityX\030\010 \001(\002\022\021\n\tVelocityY\030\t \001(\002\022\021\n\tinvok"
-      "erId\030\n \003(\005\022\020\n\010sectorNo\030\013 \001(\005\022\024\n\014isIntere"
-      "sted\030\014 \001(\010\"\273\001\n\006action\022\013\n\007Nothing\020\000\022\r\n\tEv"
-      "entMove\020d\022\r\n\tEventStop\020e\022\r\n\tEventJump\020f\022"
-      "\016\n\nEventShoot\020g\022\014\n\010EventHit\020h\022\016\n\nEventSp"
-      "awn\020i\022\021\n\rEventUserSync\020j\022\016\n\nEventDeath\020k"
-      "\022\017\n\013EventBullet\020l\022\025\n\021EventChangeWeapon\020m"
-      "\"\220\002\n\nPacketBody\0222\n\007msgType\030\220N \001(\0162 .serv"
-      "er2N.PacketBody.messageType\022)\n\007connect\030\006"
-      " \001(\0132\030.server2N.UserConnection\022\'\n\006notice"
-      "\030\221N \001(\0132\026.server2N.GlobalNotice\022\"\n\005event"
-      "\030\007 \001(\0132\023.server2N.GameEvent\022\020\n\010senderId\030"
-      "\010 \001(\005\"D\n\013messageType\022\r\n\tGameEvent\020\000\022\023\n\016U"
-      "serConnection\020\220N\022\021\n\014GlobalNotice\020\221Nb\006pro"
-      "to3"
+      "(\005\"\243\001\n\016EventSpawnItem\022\016\n\006itemId\030\001 \001(\005\022\014\n"
+      "\004posX\030\002 \001(\002\022\014\n\004posY\030\003 \001(\002\022\016\n\006amount\030\004 \001("
+      "\005\"$\n\010itemType\022\013\n\007Recover\020\000\022\013\n\007Weapone\020\001\""
+      "/\n\010weaponId\022\013\n\007Nothing\020\000\022\n\n\006Pistol\020\001\022\n\n\006"
+      "Sniper\020\002\"\341\006\n\tGameEvent\022&\n\tmoveEvent\030m \001("
+      "\0132\023.server2N.EventMove\022&\n\tstopEvent\030n \001("
+      "\0132\023.server2N.EventStop\022&\n\tjumpEvent\030o \001("
+      "\0132\023.server2N.EventJump\022(\n\nshootEvent\030p \001"
+      "(\0132\024.server2N.EventShoot\022$\n\010hitEvent\030q \001"
+      "(\0132\022.server2N.EventHit\022(\n\nspawnEvent\030r \001"
+      "(\0132\024.server2N.EventSpawn\022*\n\tsyncEvent\030s "
+      "\001(\0132\027.server2N.EventUserSync\022(\n\ndeathEve"
+      "nt\030t \001(\0132\024.server2N.EventDeath\0222\n\rchWeap"
+      "onEvent\030u \001(\0132\033.server2N.EventChangeWeap"
+      "on\0220\n\016spawnItemEvent\030v \001(\0132\030.server2N.Ev"
+      "entSpawnItem\022+\n\007actType\030\001 \001(\0162\032.server2N"
+      ".GameEvent.action\022\026\n\016actionProperty\030\005 \001("
+      "\005\022\026\n\016EventPositionX\030\006 \001(\002\022\026\n\016EventPositi"
+      "onY\030\007 \001(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVelocity"
+      "Y\030\t \001(\002\022\021\n\tinvokerId\030\n \003(\005\022\020\n\010sectorNo\030\013"
+      " \001(\005\022\024\n\014isInterested\030\014 \001(\010\"\317\001\n\006action\022\013\n"
+      "\007Nothing\020\000\022\r\n\tEventMove\020d\022\r\n\tEventStop\020e"
+      "\022\r\n\tEventJump\020f\022\016\n\nEventShoot\020g\022\014\n\010Event"
+      "Hit\020h\022\016\n\nEventSpawn\020i\022\021\n\rEventUserSync\020j"
+      "\022\016\n\nEventDeath\020k\022\017\n\013EventBullet\020l\022\025\n\021Eve"
+      "ntChangeWeapon\020m\022\022\n\016EventSpawnItem\020n\"\220\002\n"
+      "\nPacketBody\0222\n\007msgType\030\220N \001(\0162 .server2N"
+      ".PacketBody.messageType\022)\n\007connect\030\006 \001(\013"
+      "2\030.server2N.UserConnection\022\'\n\006notice\030\221N "
+      "\001(\0132\026.server2N.GlobalNotice\022\"\n\005event\030\007 \001"
+      "(\0132\023.server2N.GameEvent\022\020\n\010senderId\030\010 \001("
+      "\005\"D\n\013messageType\022\r\n\tGameEvent\020\000\022\023\n\016UserC"
+      "onnection\020\220N\022\021\n\014GlobalNotice\020\221Nb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2083);
+      descriptor, 2319);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "gameContent.proto", &protobuf_RegisterTypes);
 }
@@ -695,9 +739,53 @@ const EventMove_Direction EventMove::Direction_MIN;
 const EventMove_Direction EventMove::Direction_MAX;
 const int EventMove::Direction_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-const ::google::protobuf::EnumDescriptor* GameEvent_action_descriptor() {
+const ::google::protobuf::EnumDescriptor* EventSpawnItem_itemType_descriptor() {
   protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_gameContent_2eproto::file_level_enum_descriptors[3];
+}
+bool EventSpawnItem_itemType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const EventSpawnItem_itemType EventSpawnItem::Recover;
+const EventSpawnItem_itemType EventSpawnItem::Weapone;
+const EventSpawnItem_itemType EventSpawnItem::itemType_MIN;
+const EventSpawnItem_itemType EventSpawnItem::itemType_MAX;
+const int EventSpawnItem::itemType_ARRAYSIZE;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+const ::google::protobuf::EnumDescriptor* EventSpawnItem_weaponId_descriptor() {
+  protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_gameContent_2eproto::file_level_enum_descriptors[4];
+}
+bool EventSpawnItem_weaponId_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const EventSpawnItem_weaponId EventSpawnItem::Nothing;
+const EventSpawnItem_weaponId EventSpawnItem::Pistol;
+const EventSpawnItem_weaponId EventSpawnItem::Sniper;
+const EventSpawnItem_weaponId EventSpawnItem::weaponId_MIN;
+const EventSpawnItem_weaponId EventSpawnItem::weaponId_MAX;
+const int EventSpawnItem::weaponId_ARRAYSIZE;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+const ::google::protobuf::EnumDescriptor* GameEvent_action_descriptor() {
+  protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_gameContent_2eproto::file_level_enum_descriptors[5];
 }
 bool GameEvent_action_IsValid(int value) {
   switch (value) {
@@ -712,6 +800,7 @@ bool GameEvent_action_IsValid(int value) {
     case 107:
     case 108:
     case 109:
+    case 110:
       return true;
     default:
       return false;
@@ -730,13 +819,14 @@ const GameEvent_action GameEvent::EventUserSync;
 const GameEvent_action GameEvent::EventDeath;
 const GameEvent_action GameEvent::EventBullet;
 const GameEvent_action GameEvent::EventChangeWeapon;
+const GameEvent_action GameEvent::EventSpawnItem;
 const GameEvent_action GameEvent::action_MIN;
 const GameEvent_action GameEvent::action_MAX;
 const int GameEvent::action_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 const ::google::protobuf::EnumDescriptor* PacketBody_messageType_descriptor() {
   protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_gameContent_2eproto::file_level_enum_descriptors[4];
+  return protobuf_gameContent_2eproto::file_level_enum_descriptors[6];
 }
 bool PacketBody_messageType_IsValid(int value) {
   switch (value) {
@@ -4016,6 +4106,347 @@ void EventDeath::InternalSwap(EventDeath* other) {
 
 // ===================================================================
 
+void EventSpawnItem::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int EventSpawnItem::kItemIdFieldNumber;
+const int EventSpawnItem::kPosXFieldNumber;
+const int EventSpawnItem::kPosYFieldNumber;
+const int EventSpawnItem::kAmountFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+EventSpawnItem::EventSpawnItem()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_gameContent_2eproto::InitDefaultsEventSpawnItem();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:server2N.EventSpawnItem)
+}
+EventSpawnItem::EventSpawnItem(const EventSpawnItem& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&itemid_, &from.itemid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&amount_) -
+    reinterpret_cast<char*>(&itemid_)) + sizeof(amount_));
+  // @@protoc_insertion_point(copy_constructor:server2N.EventSpawnItem)
+}
+
+void EventSpawnItem::SharedCtor() {
+  ::memset(&itemid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&amount_) -
+      reinterpret_cast<char*>(&itemid_)) + sizeof(amount_));
+  _cached_size_ = 0;
+}
+
+EventSpawnItem::~EventSpawnItem() {
+  // @@protoc_insertion_point(destructor:server2N.EventSpawnItem)
+  SharedDtor();
+}
+
+void EventSpawnItem::SharedDtor() {
+}
+
+void EventSpawnItem::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* EventSpawnItem::descriptor() {
+  ::protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_gameContent_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const EventSpawnItem& EventSpawnItem::default_instance() {
+  ::protobuf_gameContent_2eproto::InitDefaultsEventSpawnItem();
+  return *internal_default_instance();
+}
+
+
+void EventSpawnItem::Clear() {
+// @@protoc_insertion_point(message_clear_start:server2N.EventSpawnItem)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&itemid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&amount_) -
+      reinterpret_cast<char*>(&itemid_)) + sizeof(amount_));
+  _internal_metadata_.Clear();
+}
+
+bool EventSpawnItem::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:server2N.EventSpawnItem)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // int32 itemId = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &itemid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // float posX = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(21u /* 21 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &posx_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // float posY = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(29u /* 29 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &posy_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 amount = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &amount_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:server2N.EventSpawnItem)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:server2N.EventSpawnItem)
+  return false;
+#undef DO_
+}
+
+void EventSpawnItem::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:server2N.EventSpawnItem)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 itemId = 1;
+  if (this->itemid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->itemid(), output);
+  }
+
+  // float posX = 2;
+  if (this->posx() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(2, this->posx(), output);
+  }
+
+  // float posY = 3;
+  if (this->posy() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->posy(), output);
+  }
+
+  // int32 amount = 4;
+  if (this->amount() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->amount(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:server2N.EventSpawnItem)
+}
+
+::google::protobuf::uint8* EventSpawnItem::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:server2N.EventSpawnItem)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 itemId = 1;
+  if (this->itemid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->itemid(), target);
+  }
+
+  // float posX = 2;
+  if (this->posx() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(2, this->posx(), target);
+  }
+
+  // float posY = 3;
+  if (this->posy() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->posy(), target);
+  }
+
+  // int32 amount = 4;
+  if (this->amount() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->amount(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:server2N.EventSpawnItem)
+  return target;
+}
+
+size_t EventSpawnItem::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:server2N.EventSpawnItem)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // int32 itemId = 1;
+  if (this->itemid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->itemid());
+  }
+
+  // float posX = 2;
+  if (this->posx() != 0) {
+    total_size += 1 + 4;
+  }
+
+  // float posY = 3;
+  if (this->posy() != 0) {
+    total_size += 1 + 4;
+  }
+
+  // int32 amount = 4;
+  if (this->amount() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->amount());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void EventSpawnItem::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:server2N.EventSpawnItem)
+  GOOGLE_DCHECK_NE(&from, this);
+  const EventSpawnItem* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const EventSpawnItem>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:server2N.EventSpawnItem)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:server2N.EventSpawnItem)
+    MergeFrom(*source);
+  }
+}
+
+void EventSpawnItem::MergeFrom(const EventSpawnItem& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:server2N.EventSpawnItem)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.itemid() != 0) {
+    set_itemid(from.itemid());
+  }
+  if (from.posx() != 0) {
+    set_posx(from.posx());
+  }
+  if (from.posy() != 0) {
+    set_posy(from.posy());
+  }
+  if (from.amount() != 0) {
+    set_amount(from.amount());
+  }
+}
+
+void EventSpawnItem::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:server2N.EventSpawnItem)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void EventSpawnItem::CopyFrom(const EventSpawnItem& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:server2N.EventSpawnItem)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool EventSpawnItem::IsInitialized() const {
+  return true;
+}
+
+void EventSpawnItem::Swap(EventSpawnItem* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void EventSpawnItem::InternalSwap(EventSpawnItem* other) {
+  using std::swap;
+  swap(itemid_, other->itemid_);
+  swap(posx_, other->posx_);
+  swap(posy_, other->posy_);
+  swap(amount_, other->amount_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata EventSpawnItem::GetMetadata() const {
+  protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_gameContent_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
 void GameEvent::InitAsDefaultInstance() {
   ::server2N::_GameEvent_default_instance_._instance.get_mutable()->moveevent_ = const_cast< ::server2N::EventMove*>(
       ::server2N::EventMove::internal_default_instance());
@@ -4035,6 +4466,8 @@ void GameEvent::InitAsDefaultInstance() {
       ::server2N::EventDeath::internal_default_instance());
   ::server2N::_GameEvent_default_instance_._instance.get_mutable()->chweaponevent_ = const_cast< ::server2N::EventChangeWeapon*>(
       ::server2N::EventChangeWeapon::internal_default_instance());
+  ::server2N::_GameEvent_default_instance_._instance.get_mutable()->spawnitemevent_ = const_cast< ::server2N::EventSpawnItem*>(
+      ::server2N::EventSpawnItem::internal_default_instance());
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int GameEvent::kMoveEventFieldNumber;
@@ -4046,6 +4479,7 @@ const int GameEvent::kSpawnEventFieldNumber;
 const int GameEvent::kSyncEventFieldNumber;
 const int GameEvent::kDeathEventFieldNumber;
 const int GameEvent::kChWeaponEventFieldNumber;
+const int GameEvent::kSpawnItemEventFieldNumber;
 const int GameEvent::kActTypeFieldNumber;
 const int GameEvent::kActionPropertyFieldNumber;
 const int GameEvent::kEventPositionXFieldNumber;
@@ -4116,6 +4550,11 @@ GameEvent::GameEvent(const GameEvent& from)
   } else {
     chweaponevent_ = NULL;
   }
+  if (from.has_spawnitemevent()) {
+    spawnitemevent_ = new ::server2N::EventSpawnItem(*from.spawnitemevent_);
+  } else {
+    spawnitemevent_ = NULL;
+  }
   ::memcpy(&acttype_, &from.acttype_,
     static_cast<size_t>(reinterpret_cast<char*>(&isinterested_) -
     reinterpret_cast<char*>(&acttype_)) + sizeof(isinterested_));
@@ -4144,6 +4583,7 @@ void GameEvent::SharedDtor() {
   if (this != internal_default_instance()) delete syncevent_;
   if (this != internal_default_instance()) delete deathevent_;
   if (this != internal_default_instance()) delete chweaponevent_;
+  if (this != internal_default_instance()) delete spawnitemevent_;
 }
 
 void GameEvent::SetCachedSize(int size) const {
@@ -4205,6 +4645,10 @@ void GameEvent::Clear() {
     delete chweaponevent_;
   }
   chweaponevent_ = NULL;
+  if (GetArenaNoVirtual() == NULL && spawnitemevent_ != NULL) {
+    delete spawnitemevent_;
+  }
+  spawnitemevent_ = NULL;
   ::memset(&acttype_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&isinterested_) -
       reinterpret_cast<char*>(&acttype_)) + sizeof(isinterested_));
@@ -4461,6 +4905,18 @@ bool GameEvent::MergePartialFromCodedStream(
         break;
       }
 
+      // .server2N.EventSpawnItem spawnItemEvent = 118;
+      case 118: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(178u /* 946 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_spawnitemevent()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -4591,6 +5047,12 @@ void GameEvent::SerializeWithCachedSizes(
   if (this->has_chweaponevent()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       117, *chweaponevent_, output);
+  }
+
+  // .server2N.EventSpawnItem spawnItemEvent = 118;
+  if (this->has_spawnitemevent()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      118, *spawnitemevent_, output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -4724,6 +5186,13 @@ void GameEvent::SerializeWithCachedSizes(
         117, *chweaponevent_, deterministic, target);
   }
 
+  // .server2N.EventSpawnItem spawnItemEvent = 118;
+  if (this->has_spawnitemevent()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        118, *spawnitemevent_, deterministic, target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -4818,6 +5287,13 @@ size_t GameEvent::ByteSizeLong() const {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
         *chweaponevent_);
+  }
+
+  // .server2N.EventSpawnItem spawnItemEvent = 118;
+  if (this->has_spawnitemevent()) {
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::MessageSize(
+        *spawnitemevent_);
   }
 
   // .server2N.GameEvent.action actType = 1;
@@ -4922,6 +5398,9 @@ void GameEvent::MergeFrom(const GameEvent& from) {
   if (from.has_chweaponevent()) {
     mutable_chweaponevent()->::server2N::EventChangeWeapon::MergeFrom(from.chweaponevent());
   }
+  if (from.has_spawnitemevent()) {
+    mutable_spawnitemevent()->::server2N::EventSpawnItem::MergeFrom(from.spawnitemevent());
+  }
   if (from.acttype() != 0) {
     set_acttype(from.acttype());
   }
@@ -4982,6 +5461,7 @@ void GameEvent::InternalSwap(GameEvent* other) {
   swap(syncevent_, other->syncevent_);
   swap(deathevent_, other->deathevent_);
   swap(chweaponevent_, other->chweaponevent_);
+  swap(spawnitemevent_, other->spawnitemevent_);
   swap(acttype_, other->acttype_);
   swap(actionproperty_, other->actionproperty_);
   swap(eventpositionx_, other->eventpositionx_);
@@ -5458,6 +5938,9 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::server2N::EventUserSync* Arena::
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::server2N::EventDeath* Arena::Create< ::server2N::EventDeath >(Arena* arena) {
   return Arena::CreateInternal< ::server2N::EventDeath >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::server2N::EventSpawnItem* Arena::Create< ::server2N::EventSpawnItem >(Arena* arena) {
+  return Arena::CreateInternal< ::server2N::EventSpawnItem >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::server2N::GameEvent* Arena::Create< ::server2N::GameEvent >(Arena* arena) {
   return Arena::CreateInternal< ::server2N::GameEvent >(arena);

@@ -33,7 +33,6 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 	/*************************************
 	 * 전체 유저 연결 정보 획득
 	 *************************************/
-	LOG_DEBUG("All Send Connect");
 	list<CUser*> userConnector;
 	g_userPool.getAllUserList(userConnector);
 
@@ -56,14 +55,13 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 			return false;
 		}
 
-		cout <<  connectPacket->_proto->DebugString() << endl;
+		//cout <<  connectPacket->_proto->DebugString() << endl;
 		session.m_writeQ_Manager.enqueue(connectPacket);
 		type = server2N::UserConnection_ConnectionType_Connect;
 	}
 
 	int userConnectSize = userConnector.size(); 
 	list<CUser*>::iterator it = userConnector.begin();
-	LOG_DEBUG("Connector User Size(%d)", userConnectSize);
 	for ( ; it != userConnector.end(); it++ )
 	{
 		CUser* user = *it;
@@ -77,17 +75,16 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 		/*********************************
 		 * Enqueue
 		 *********************************/
-		cout << "Test: " <<  packet->_proto->DebugString() << endl;
 		session.m_writeQ_Manager.unLock();
 		session.m_writeQ_Manager.enqueue(packet);
-		LOG_INFO("User(%d) Send Noti", packet->_fd);
+		LOG_INFO("User(%d) All Send Connection Event", packet->_fd);
 	}
+
 	return true;
 }
 
 bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 {
-	LOG_DEBUG("Part Send Event sector(%d)", eventUser->_sector);
 	/*************************************
 	 * 파트 유저 연결 정보 획득
 	 *************************************/
@@ -105,7 +102,7 @@ bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		CProtoPacket *packet = NULL;
 		if ( !g_packetManager.setActionType(type, recvUser, eventUser, connectList, &packet) )
 		{
-			LOG_ERROR("Error Connector Type");
+			LOG_ERROR("Error Part Action Type");
 			return false;
 		} 
 
@@ -117,18 +114,15 @@ bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		/*********************************
 		 * Enqueue
 		 *********************************/
-		cout << "Test: " <<  packet->_proto->DebugString() << endl;
 		session.m_writeQ_Manager.unLock();
 		session.m_writeQ_Manager.enqueue(packet);
-		LOG_DEBUG("User(%d) Send Noti", packet->_fd);
+		LOG_DEBUG("User(%d) Part Send Action Event", packet->_fd);
 	}
 
 	if ( type == (int32_t)server2N::GameEvent_action_EventDeath )
 	{
 		NotiAllSendFunc(session, eventUser);
 	}
-
-	LOG_DEBUG("End Part Send");
 
 	return true;
 }
@@ -138,7 +132,6 @@ bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 	/*************************************
 	 * 파트 유저 연결 정보 획득
 	 *************************************/
-	LOG_DEBUG("Action All Send Connect");
 	list<CUser*> connectList;
 	g_userPool.getAllUserList(connectList);
 
@@ -153,7 +146,7 @@ bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		CProtoPacket *packet = NULL;
 		if ( !g_packetManager.setActionType(type, user, eventUser, connectList, &packet) || !packet )
 		{
-			LOG_ERROR("Error Connector Type");
+			LOG_ERROR("Error All Action Type");
 			return false;
 		} 
 
@@ -162,9 +155,9 @@ bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		 *********************************/
 		session.m_writeQ_Manager.unLock();
 		session.m_writeQ_Manager.enqueue(packet);
-		LOG_INFO("User(%d) Send Noti", packet->_fd);
+		LOG_INFO("User(%d) Send Action All Send", packet->_fd);
 	}
-	LOG_DEBUG("End All Send");
+
 	return true;
 }
 
@@ -188,7 +181,7 @@ bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		CProtoPacket *packet = NULL;
 		if ( !g_packetManager.setNotiType(type, user, eventUser, connectList, &packet) || !packet )
 		{
-			LOG_ERROR("Error Connector Type");
+			LOG_ERROR("Error Noti All Type");
 			return false;
 		} 
 
@@ -199,7 +192,7 @@ bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		session.m_writeQ_Manager.enqueue(packet);
 		LOG_INFO("User(%d) Send Noti", packet->_fd);
 	}
-	LOG_DEBUG("End All Send");
+
 	return true;
 }
 
@@ -248,15 +241,15 @@ bool childProcessLogic()
 	LOG_DEBUG("g_sector initialize(%d)", g_sectorIdx);
 	if ( pthread_create(&thread, NULL, session.waitEvent, (void*)&port) < 0 )
 	{
-		exit(0);
+		return ;
 	}
 	
 	if ( pthread_create(&thread, NULL, session.writeEvent, (void*)&port) < 0 )
 	{
-		exit(0);
+		return ;
 	}
 
-	while(1)
+	while(true)
 	{
 		/***********************************************
 		 * Queue를 하나 두고, 값을 확인해야 할거 같다. 		
@@ -264,10 +257,17 @@ bool childProcessLogic()
 		 * BusyWait가 되어버린다.
 		 * Signal Wait가 필요할거 같기도하다. 
 		 ***********************************************/
-		LOG_DEBUG("Is Lock?");
 		CProtoPacket* data = NULL;
 		if ( session.m_readQ_Manager.isQueueDataExist() && (data = session.m_readQ_Manager.dequeue()) && data ) 
 		{
+			if ( data->_authAgent )
+			{
+				LOG_DEBUG("agent Send Write Session Q");
+				session.m_writeQ_Manager.unLock();
+				session.m_writeQ_Manager.enqueue(data);
+				continue ;
+			}
+
 			/*************************************
 			 * Game Logic
 			 * ALL_SEND
@@ -297,7 +297,6 @@ bool childProcessLogic()
 	int status;
 	pthread_join(thread, (void**)&status);
 	google::protobuf::ShutdownProtobufLibrary();
-	LOG_DEBUG("Stop SuccessFully");
 	return true;
 } 
 
@@ -310,12 +309,11 @@ int main(int argc, char* argv[])
 	do 
 	{
 		pid_t pid;
-		pid = fork();
-		/*
 		close(STDIN_FILENO);
 		close(STDOUT_FILENO);
 		close(STDERR_FILENO);
-		*/
+
+		pid = fork();
 		if ( pid > 0 )
 		{
 			int status;

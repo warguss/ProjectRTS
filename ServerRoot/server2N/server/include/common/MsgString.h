@@ -50,4 +50,6 @@ extern CLoging g_logger;
 #define X_GAME_MAX 100
 #define Y_GAME_MAX 100
 
+#define AUTH_BYTE 1024
+
 #endif
