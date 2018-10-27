@@ -182,28 +182,23 @@ public class NetworkModule : MonoBehaviour
         isConnected = false;
     }
 
-    private bool _ReadStrBuffer(string buffer)
+    private String _ReadStrBuffer()
     {
-        if ( buffer.Length > 0)
-        {
-            buffer.Remove(ZERO_OFFSET);
-        }
-
+        String recvBuffer = "";
         try
         {
             int bufferSize = 1024;
             byte[] readBuffer = new byte[bufferSize];
             ns.Read(readBuffer, ZERO_OFFSET, bufferSize);
-
-            buffer = System.Text.Encoding.Default.GetString(readBuffer);
+            recvBuffer = System.Text.Encoding.Default.GetString(readBuffer);
         }
         catch (Exception e)
         {
-            TestUI.Instance.PrintText("Send Buffer Failed : " + e.Message + "\n" + e.StackTrace);
-            return false;
+            TestUI.Instance.PrintText("Read Buffer Failed : " + e.Message + "\n" + e.StackTrace);
+            return recvBuffer;
         }
 
-        return true;
+        return recvBuffer;
     }
 
 
@@ -522,26 +517,25 @@ public class NetworkModule : MonoBehaviour
             string authKey = auth._getServiceAuthKey();
             if (!_SendStrBuffer(authKey))
             {
-                break;
-            }
-
-            string recvBuffer = "";
-            if (!_ReadStrBuffer(recvBuffer))
-            {
+                TestUI.Instance.PrintText("Send Str Buffer Error ");
                 break;
             }
 
             /**********************************************
              * Response에 대해 처리
              **********************************************/
-            if (recvBuffer.Length <= 0)
+            string recvBuffer = _ReadStrBuffer();
+            if (recvBuffer.Length <= 0 )
             {
+                TestUI.Instance.PrintText("Read Str Buffer Error ");
                 break;
             }
 
+            TestUI.Instance.PrintText("recvBuffer (" + recvBuffer + ")");
             recvBuffer = recvBuffer.ToLower();
-            if (!recvBuffer.Contains("Success"))
+            if (!recvBuffer.Contains("success"))
             {
+                TestUI.Instance.PrintText("recvBuffer Not Exist");
                 break;
             }
             isAuthSuccess = true;
