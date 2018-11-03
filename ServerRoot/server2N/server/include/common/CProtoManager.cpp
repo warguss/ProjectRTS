@@ -31,13 +31,60 @@ void CProtoManager::initialize()
 	_disConnectCase->set_contype(server2N::UserConnection_ConnectionType_DisConnect);
 
 	/************************************
-	 * DisConnect
+	 * Loging Setup
+	 * Connection의 int To String Map 저장
+	 * Connection Int To String
 	 ************************************/
-	//_disConnectCase = new server2N::UserConnection;
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserConnection_ConnectionType_Nothing, (const char*)strdup("Connection_Nothing")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserConnection_ConnectionType_Connect, (const char*)strdup("Connection_Connect")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserConnection_ConnectionType_TryConnect, (const char*)strdup("Connection_TryConnect")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserConnection_ConnectionType_AcceptConnect, (const char*)strdup("Connection_AcceptConnect")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserConnection_ConnectionType_DisConnect, (const char*)strdup("Connection_DisConnect")) );
+
+	/************************************
+	 * Loging Setup
+	 * Action의 int To String Map 저장
+	 * GameEvent Int To String
+	 ************************************/
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_Nothing, (const char*)strdup("GameEvent_Nothing")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventMove, (const char*)strdup("GameEvent_EventMove")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventStop, (const char*)strdup("GameEvent_EventStop")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventJump, (const char*)strdup("GameEvent_EventJump")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventShoot, (const char*)strdup("GameEvent_EventShoot")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventHit, (const char*)strdup("GameEvent_EventHit")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventSpawn, (const char*)strdup("GameEvent_EventSpawn")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventUserSync, (const char*)strdup("GameEvent_EventUserSync")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventDeath, (const char*)strdup("GameEvent_EventDeath")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventBullet, (const char*)strdup("GameEvent_EventBullet")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventChangeWeapon, (const char*)strdup("GameEvent_EventChangeWeapon")) );
+
+	/************************************
+	 * Loging Setup
+	 * Noti의 int To String Map 저장
+	 * Noti Int To String
+	 ************************************/
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GlobalNotice_NoticeInfo_Nothing, (const char*)strdup("GlobalNotice_Nothing")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GlobalNotice_NoticeInfo_KillInfo, (const char*)strdup("GlobalNotice_KillInfo")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GlobalNotice_NoticeInfo_Notice, (const char*)strdup("GlobalNotice_Notice")) );
+
 }
 
 void CProtoManager::close()
 {
+	map<int, const char*>::iterator it = _userEventMsgMap.begin();
+	for ( ; it != _userEventMsgMap.end(); it++ )
+	{
+		char* psMsg = (char*)it->second;
+		if ( !psMsg )
+		{
+			continue ;
+		}
+		else 
+		{	
+			free(psMsg);
+			psMsg = NULL;
+		}
+	} 
 }
 
 bool CProtoManager::encodingHeader(unsigned char* outputBuf, server2N::PacketBody* protoPacket, uint32_t& bodyLength)
@@ -55,7 +102,6 @@ bool CProtoManager::encodingHeader(unsigned char* outputBuf, server2N::PacketBod
     int bitDigit = 256;
     uint32_t headerSize = (uint32_t)protoPacket->ByteSizeLong();
     bodyLength = headerSize;
-    LOG_DEBUG("Header Size:%d", headerSize);
     for ( int idx = 0; idx < HEADER_SIZE ; idx++, outputBuf++, headerSize /= bitDigit )
     {
         if ( !outputBuf )
@@ -107,10 +153,25 @@ bool CProtoManager::decodingHeader(unsigned char* buffer, uint32_t bufLength, ui
         bodyLength += (*buffer) << bitDigit;
     }
 
-    LOG_INFO("bodyLength [%d]", bodyLength);
     return true;
 }
 
+const char* CProtoManager::getLogValue(int32_t type, const char* psDefault)
+{
+	map<int, const char*>::iterator it = _userEventMsgMap.find(type);
+	if ( it == _userEventMsgMap.end() )
+	{
+		return psDefault;
+	}
+
+	const char* psMsg = (const char*)it->second;
+	if ( !psMsg )
+	{
+		return psDefault;
+	}
+
+	return (const char*)psMsg;
+} 
 
 bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint32_t bodyLength, CProtoPacket** protoPacket)
 {
@@ -129,12 +190,12 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
     }
 
     // 디버깅 용도, 있는지 없는 지만 체크하도 리턴해도 충분하다.
+	bool isSuccess = true;
     if ( (*protoPacket)->_proto->has_event() )
     {
         server2N::GameEvent tEvent = (*protoPacket)->_proto->event();
         LOG_DEBUG("Has Event (%s)", tEvent.DebugString().c_str());
 		(*protoPacket)->_type = tEvent.acttype();
-
     }
     else if ( (*protoPacket)->_proto->has_connect() )
     {
@@ -142,6 +203,7 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
         LOG_DEBUG("Has Connect (%s)", tConnect.DebugString().c_str());
 		(*protoPacket)->_type = tConnect.contype();
     }
+
 	else if ( (*protoPacket)->_proto->has_notice() )
     {
         server2N::GlobalNotice tNoti = (*protoPacket)->_proto->notice();
@@ -151,10 +213,11 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
     else
     {
         LOG_ERROR("Not Exist ProtoBuffer");
-        return false;
+		isSuccess = false;
     }
 
-    return true;
+	(*protoPacket)->_act = getLogValue((*protoPacket)->_type, "Invalid Action");
+    return isSuccess;
 }
 
 bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, list<CUser*> allUser, CProtoPacket** packet)
@@ -343,7 +406,6 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 		(*packet) = NULL;
 	} 
 	
-	LOG_INFO("Success Event Part");
 	return true;
 }
 
@@ -388,7 +450,6 @@ bool CProtoManager::setNotiType(int type, CUser* recvUser, CProtoPacket* eventUs
 			return false;
 		}
 		(*packet)->_protoNoti->set_performer((int32_t)triggerFd);
-		//LOG_DEBUG("Set Kill Trigger(%d)\n", triggerUser->_fd);
 		triggerUser->_killInfo++;
 	}
 

@@ -25,6 +25,7 @@ class CProtoManager
 		server2N::UserConnection* _connectCase;
 		server2N::UserConnection* _disConnectCase;
 
+		map< int32_t, const char* > _userEventMsgMap;
 	public:
 		CProtoManager();
 		~CProtoManager();
@@ -49,6 +50,8 @@ class CProtoManager
 		bool setNotiType(int type, CUser* senderUser, CProtoPacket* eventUser, list<CUser*> allUser, CProtoPacket** packet);
 
 		void resetProtoPacket(CProtoPacket* protoPacket);
+
+		const char* getLogValue(int32_t type, const char* psDefault = "");
 };
 extern CProtoManager g_packetManager;
 #endif
