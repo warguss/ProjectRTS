@@ -89,13 +89,13 @@ message EventDeath{
 
 message EventSpawnItem
 {
-	enum itemType
+	enum ItemType
 	{
 		Recover = 0;
 		Weapone = 1;
 	}
 	
-	enum weaponId
+	enum WeaponId
 	{
 		Nothing = 0;
 		Pistol = 1;
@@ -106,6 +106,9 @@ message EventSpawnItem
 	float posX = 2;
 	float posY = 3;
 	int32 amount = 4;
+
+	ItemType itemType = 5;
+	WeaponId weaponId = 6;
 }
 
 message GameEvent{

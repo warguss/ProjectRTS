@@ -222,48 +222,48 @@ inline bool EventMove_Direction_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<EventMove_Direction>(
     EventMove_Direction_descriptor(), name, value);
 }
-enum EventSpawnItem_itemType {
-  EventSpawnItem_itemType_Recover = 0,
-  EventSpawnItem_itemType_Weapone = 1,
-  EventSpawnItem_itemType_EventSpawnItem_itemType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  EventSpawnItem_itemType_EventSpawnItem_itemType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+enum EventSpawnItem_ItemType {
+  EventSpawnItem_ItemType_Recover = 0,
+  EventSpawnItem_ItemType_Weapone = 1,
+  EventSpawnItem_ItemType_EventSpawnItem_ItemType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EventSpawnItem_ItemType_EventSpawnItem_ItemType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool EventSpawnItem_itemType_IsValid(int value);
-const EventSpawnItem_itemType EventSpawnItem_itemType_itemType_MIN = EventSpawnItem_itemType_Recover;
-const EventSpawnItem_itemType EventSpawnItem_itemType_itemType_MAX = EventSpawnItem_itemType_Weapone;
-const int EventSpawnItem_itemType_itemType_ARRAYSIZE = EventSpawnItem_itemType_itemType_MAX + 1;
+bool EventSpawnItem_ItemType_IsValid(int value);
+const EventSpawnItem_ItemType EventSpawnItem_ItemType_ItemType_MIN = EventSpawnItem_ItemType_Recover;
+const EventSpawnItem_ItemType EventSpawnItem_ItemType_ItemType_MAX = EventSpawnItem_ItemType_Weapone;
+const int EventSpawnItem_ItemType_ItemType_ARRAYSIZE = EventSpawnItem_ItemType_ItemType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* EventSpawnItem_itemType_descriptor();
-inline const ::std::string& EventSpawnItem_itemType_Name(EventSpawnItem_itemType value) {
+const ::google::protobuf::EnumDescriptor* EventSpawnItem_ItemType_descriptor();
+inline const ::std::string& EventSpawnItem_ItemType_Name(EventSpawnItem_ItemType value) {
   return ::google::protobuf::internal::NameOfEnum(
-    EventSpawnItem_itemType_descriptor(), value);
+    EventSpawnItem_ItemType_descriptor(), value);
 }
-inline bool EventSpawnItem_itemType_Parse(
-    const ::std::string& name, EventSpawnItem_itemType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<EventSpawnItem_itemType>(
-    EventSpawnItem_itemType_descriptor(), name, value);
+inline bool EventSpawnItem_ItemType_Parse(
+    const ::std::string& name, EventSpawnItem_ItemType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EventSpawnItem_ItemType>(
+    EventSpawnItem_ItemType_descriptor(), name, value);
 }
-enum EventSpawnItem_weaponId {
-  EventSpawnItem_weaponId_Nothing = 0,
-  EventSpawnItem_weaponId_Pistol = 1,
-  EventSpawnItem_weaponId_Sniper = 2,
-  EventSpawnItem_weaponId_EventSpawnItem_weaponId_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  EventSpawnItem_weaponId_EventSpawnItem_weaponId_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+enum EventSpawnItem_WeaponId {
+  EventSpawnItem_WeaponId_Nothing = 0,
+  EventSpawnItem_WeaponId_Pistol = 1,
+  EventSpawnItem_WeaponId_Sniper = 2,
+  EventSpawnItem_WeaponId_EventSpawnItem_WeaponId_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EventSpawnItem_WeaponId_EventSpawnItem_WeaponId_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool EventSpawnItem_weaponId_IsValid(int value);
-const EventSpawnItem_weaponId EventSpawnItem_weaponId_weaponId_MIN = EventSpawnItem_weaponId_Nothing;
-const EventSpawnItem_weaponId EventSpawnItem_weaponId_weaponId_MAX = EventSpawnItem_weaponId_Sniper;
-const int EventSpawnItem_weaponId_weaponId_ARRAYSIZE = EventSpawnItem_weaponId_weaponId_MAX + 1;
+bool EventSpawnItem_WeaponId_IsValid(int value);
+const EventSpawnItem_WeaponId EventSpawnItem_WeaponId_WeaponId_MIN = EventSpawnItem_WeaponId_Nothing;
+const EventSpawnItem_WeaponId EventSpawnItem_WeaponId_WeaponId_MAX = EventSpawnItem_WeaponId_Sniper;
+const int EventSpawnItem_WeaponId_WeaponId_ARRAYSIZE = EventSpawnItem_WeaponId_WeaponId_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* EventSpawnItem_weaponId_descriptor();
-inline const ::std::string& EventSpawnItem_weaponId_Name(EventSpawnItem_weaponId value) {
+const ::google::protobuf::EnumDescriptor* EventSpawnItem_WeaponId_descriptor();
+inline const ::std::string& EventSpawnItem_WeaponId_Name(EventSpawnItem_WeaponId value) {
   return ::google::protobuf::internal::NameOfEnum(
-    EventSpawnItem_weaponId_descriptor(), value);
+    EventSpawnItem_WeaponId_descriptor(), value);
 }
-inline bool EventSpawnItem_weaponId_Parse(
-    const ::std::string& name, EventSpawnItem_weaponId* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<EventSpawnItem_weaponId>(
-    EventSpawnItem_weaponId_descriptor(), name, value);
+inline bool EventSpawnItem_WeaponId_Parse(
+    const ::std::string& name, EventSpawnItem_WeaponId* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EventSpawnItem_WeaponId>(
+    EventSpawnItem_WeaponId_descriptor(), name, value);
 }
 enum GameEvent_action {
   GameEvent_action_Nothing = 0,
@@ -1793,58 +1793,58 @@ class EventSpawnItem : public ::google::protobuf::Message /* @@protoc_insertion_
 
   // nested types ----------------------------------------------------
 
-  typedef EventSpawnItem_itemType itemType;
-  static const itemType Recover =
-    EventSpawnItem_itemType_Recover;
-  static const itemType Weapone =
-    EventSpawnItem_itemType_Weapone;
-  static inline bool itemType_IsValid(int value) {
-    return EventSpawnItem_itemType_IsValid(value);
+  typedef EventSpawnItem_ItemType ItemType;
+  static const ItemType Recover =
+    EventSpawnItem_ItemType_Recover;
+  static const ItemType Weapone =
+    EventSpawnItem_ItemType_Weapone;
+  static inline bool ItemType_IsValid(int value) {
+    return EventSpawnItem_ItemType_IsValid(value);
   }
-  static const itemType itemType_MIN =
-    EventSpawnItem_itemType_itemType_MIN;
-  static const itemType itemType_MAX =
-    EventSpawnItem_itemType_itemType_MAX;
-  static const int itemType_ARRAYSIZE =
-    EventSpawnItem_itemType_itemType_ARRAYSIZE;
+  static const ItemType ItemType_MIN =
+    EventSpawnItem_ItemType_ItemType_MIN;
+  static const ItemType ItemType_MAX =
+    EventSpawnItem_ItemType_ItemType_MAX;
+  static const int ItemType_ARRAYSIZE =
+    EventSpawnItem_ItemType_ItemType_ARRAYSIZE;
   static inline const ::google::protobuf::EnumDescriptor*
-  itemType_descriptor() {
-    return EventSpawnItem_itemType_descriptor();
+  ItemType_descriptor() {
+    return EventSpawnItem_ItemType_descriptor();
   }
-  static inline const ::std::string& itemType_Name(itemType value) {
-    return EventSpawnItem_itemType_Name(value);
+  static inline const ::std::string& ItemType_Name(ItemType value) {
+    return EventSpawnItem_ItemType_Name(value);
   }
-  static inline bool itemType_Parse(const ::std::string& name,
-      itemType* value) {
-    return EventSpawnItem_itemType_Parse(name, value);
+  static inline bool ItemType_Parse(const ::std::string& name,
+      ItemType* value) {
+    return EventSpawnItem_ItemType_Parse(name, value);
   }
 
-  typedef EventSpawnItem_weaponId weaponId;
-  static const weaponId Nothing =
-    EventSpawnItem_weaponId_Nothing;
-  static const weaponId Pistol =
-    EventSpawnItem_weaponId_Pistol;
-  static const weaponId Sniper =
-    EventSpawnItem_weaponId_Sniper;
-  static inline bool weaponId_IsValid(int value) {
-    return EventSpawnItem_weaponId_IsValid(value);
+  typedef EventSpawnItem_WeaponId WeaponId;
+  static const WeaponId Nothing =
+    EventSpawnItem_WeaponId_Nothing;
+  static const WeaponId Pistol =
+    EventSpawnItem_WeaponId_Pistol;
+  static const WeaponId Sniper =
+    EventSpawnItem_WeaponId_Sniper;
+  static inline bool WeaponId_IsValid(int value) {
+    return EventSpawnItem_WeaponId_IsValid(value);
   }
-  static const weaponId weaponId_MIN =
-    EventSpawnItem_weaponId_weaponId_MIN;
-  static const weaponId weaponId_MAX =
-    EventSpawnItem_weaponId_weaponId_MAX;
-  static const int weaponId_ARRAYSIZE =
-    EventSpawnItem_weaponId_weaponId_ARRAYSIZE;
+  static const WeaponId WeaponId_MIN =
+    EventSpawnItem_WeaponId_WeaponId_MIN;
+  static const WeaponId WeaponId_MAX =
+    EventSpawnItem_WeaponId_WeaponId_MAX;
+  static const int WeaponId_ARRAYSIZE =
+    EventSpawnItem_WeaponId_WeaponId_ARRAYSIZE;
   static inline const ::google::protobuf::EnumDescriptor*
-  weaponId_descriptor() {
-    return EventSpawnItem_weaponId_descriptor();
+  WeaponId_descriptor() {
+    return EventSpawnItem_WeaponId_descriptor();
   }
-  static inline const ::std::string& weaponId_Name(weaponId value) {
-    return EventSpawnItem_weaponId_Name(value);
+  static inline const ::std::string& WeaponId_Name(WeaponId value) {
+    return EventSpawnItem_WeaponId_Name(value);
   }
-  static inline bool weaponId_Parse(const ::std::string& name,
-      weaponId* value) {
-    return EventSpawnItem_weaponId_Parse(name, value);
+  static inline bool WeaponId_Parse(const ::std::string& name,
+      WeaponId* value) {
+    return EventSpawnItem_WeaponId_Parse(name, value);
   }
 
   // accessors -------------------------------------------------------
@@ -1873,6 +1873,18 @@ class EventSpawnItem : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::int32 amount() const;
   void set_amount(::google::protobuf::int32 value);
 
+  // .server2N.EventSpawnItem.ItemType itemType = 5;
+  void clear_itemtype();
+  static const int kItemTypeFieldNumber = 5;
+  ::server2N::EventSpawnItem_ItemType itemtype() const;
+  void set_itemtype(::server2N::EventSpawnItem_ItemType value);
+
+  // .server2N.EventSpawnItem.WeaponId weaponId = 6;
+  void clear_weaponid();
+  static const int kWeaponIdFieldNumber = 6;
+  ::server2N::EventSpawnItem_WeaponId weaponid() const;
+  void set_weaponid(::server2N::EventSpawnItem_WeaponId value);
+
   // @@protoc_insertion_point(class_scope:server2N.EventSpawnItem)
  private:
 
@@ -1881,6 +1893,8 @@ class EventSpawnItem : public ::google::protobuf::Message /* @@protoc_insertion_
   float posx_;
   float posy_;
   ::google::protobuf::int32 amount_;
+  int itemtype_;
+  int weaponid_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventSpawnItemImpl();
@@ -3012,6 +3026,34 @@ inline void EventSpawnItem::set_amount(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:server2N.EventSpawnItem.amount)
 }
 
+// .server2N.EventSpawnItem.ItemType itemType = 5;
+inline void EventSpawnItem::clear_itemtype() {
+  itemtype_ = 0;
+}
+inline ::server2N::EventSpawnItem_ItemType EventSpawnItem::itemtype() const {
+  // @@protoc_insertion_point(field_get:server2N.EventSpawnItem.itemType)
+  return static_cast< ::server2N::EventSpawnItem_ItemType >(itemtype_);
+}
+inline void EventSpawnItem::set_itemtype(::server2N::EventSpawnItem_ItemType value) {
+  
+  itemtype_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventSpawnItem.itemType)
+}
+
+// .server2N.EventSpawnItem.WeaponId weaponId = 6;
+inline void EventSpawnItem::clear_weaponid() {
+  weaponid_ = 0;
+}
+inline ::server2N::EventSpawnItem_WeaponId EventSpawnItem::weaponid() const {
+  // @@protoc_insertion_point(field_get:server2N.EventSpawnItem.weaponId)
+  return static_cast< ::server2N::EventSpawnItem_WeaponId >(weaponid_);
+}
+inline void EventSpawnItem::set_weaponid(::server2N::EventSpawnItem_WeaponId value) {
+  
+  weaponid_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventSpawnItem.weaponId)
+}
+
 // -------------------------------------------------------------------
 
 // GameEvent
@@ -3905,15 +3947,15 @@ template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::server2N::EventMove_Direction>() {
   return ::server2N::EventMove_Direction_descriptor();
 }
-template <> struct is_proto_enum< ::server2N::EventSpawnItem_itemType> : ::google::protobuf::internal::true_type {};
+template <> struct is_proto_enum< ::server2N::EventSpawnItem_ItemType> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::server2N::EventSpawnItem_itemType>() {
-  return ::server2N::EventSpawnItem_itemType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::server2N::EventSpawnItem_ItemType>() {
+  return ::server2N::EventSpawnItem_ItemType_descriptor();
 }
-template <> struct is_proto_enum< ::server2N::EventSpawnItem_weaponId> : ::google::protobuf::internal::true_type {};
+template <> struct is_proto_enum< ::server2N::EventSpawnItem_WeaponId> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::server2N::EventSpawnItem_weaponId>() {
-  return ::server2N::EventSpawnItem_weaponId_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::server2N::EventSpawnItem_WeaponId>() {
+  return ::server2N::EventSpawnItem_WeaponId_descriptor();
 }
 template <> struct is_proto_enum< ::server2N::GameEvent_action> : ::google::protobuf::internal::true_type {};
 template <>

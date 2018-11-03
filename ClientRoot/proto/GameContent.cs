@@ -44,36 +44,38 @@ namespace Server2N {
             "ZRgGIAEoBSIlChFFdmVudENoYW5nZVdlYXBvbhIQCgh3ZWFwb25JZBgBIAEo",
             "BSIMCgpFdmVudFNwYXduIjQKDUV2ZW50VXNlclN5bmMSEQoJY3VycmVudEhQ",
             "GAEgASgCEhAKCHdlYXBvbklkGAIgASgFIh8KCkV2ZW50RGVhdGgSEQoJdHJp",
-            "Z2dlcklkGAEgASgFIqMBCg5FdmVudFNwYXduSXRlbRIOCgZpdGVtSWQYASAB",
+            "Z2dlcklkGAEgASgFIo0CCg5FdmVudFNwYXduSXRlbRIOCgZpdGVtSWQYASAB",
             "KAUSDAoEcG9zWBgCIAEoAhIMCgRwb3NZGAMgASgCEg4KBmFtb3VudBgEIAEo",
-            "BSIkCghpdGVtVHlwZRILCgdSZWNvdmVyEAASCwoHV2VhcG9uZRABIi8KCHdl",
-            "YXBvbklkEgsKB05vdGhpbmcQABIKCgZQaXN0b2wQARIKCgZTbmlwZXIQAiLh",
-            "BgoJR2FtZUV2ZW50EiYKCW1vdmVFdmVudBhtIAEoCzITLnNlcnZlcjJOLkV2",
-            "ZW50TW92ZRImCglzdG9wRXZlbnQYbiABKAsyEy5zZXJ2ZXIyTi5FdmVudFN0",
-            "b3ASJgoJanVtcEV2ZW50GG8gASgLMhMuc2VydmVyMk4uRXZlbnRKdW1wEigK",
-            "CnNob290RXZlbnQYcCABKAsyFC5zZXJ2ZXIyTi5FdmVudFNob290EiQKCGhp",
-            "dEV2ZW50GHEgASgLMhIuc2VydmVyMk4uRXZlbnRIaXQSKAoKc3Bhd25FdmVu",
-            "dBhyIAEoCzIULnNlcnZlcjJOLkV2ZW50U3Bhd24SKgoJc3luY0V2ZW50GHMg",
-            "ASgLMhcuc2VydmVyMk4uRXZlbnRVc2VyU3luYxIoCgpkZWF0aEV2ZW50GHQg",
-            "ASgLMhQuc2VydmVyMk4uRXZlbnREZWF0aBIyCg1jaFdlYXBvbkV2ZW50GHUg",
-            "ASgLMhsuc2VydmVyMk4uRXZlbnRDaGFuZ2VXZWFwb24SMAoOc3Bhd25JdGVt",
-            "RXZlbnQYdiABKAsyGC5zZXJ2ZXIyTi5FdmVudFNwYXduSXRlbRIrCgdhY3RU",
-            "eXBlGAEgASgOMhouc2VydmVyMk4uR2FtZUV2ZW50LmFjdGlvbhIWCg5hY3Rp",
-            "b25Qcm9wZXJ0eRgFIAEoBRIWCg5FdmVudFBvc2l0aW9uWBgGIAEoAhIWCg5F",
-            "dmVudFBvc2l0aW9uWRgHIAEoAhIRCglWZWxvY2l0eVgYCCABKAISEQoJVmVs",
-            "b2NpdHlZGAkgASgCEhEKCWludm9rZXJJZBgKIAMoBRIQCghzZWN0b3JObxgL",
-            "IAEoBRIUCgxpc0ludGVyZXN0ZWQYDCABKAgizwEKBmFjdGlvbhILCgdOb3Ro",
-            "aW5nEAASDQoJRXZlbnRNb3ZlEGQSDQoJRXZlbnRTdG9wEGUSDQoJRXZlbnRK",
-            "dW1wEGYSDgoKRXZlbnRTaG9vdBBnEgwKCEV2ZW50SGl0EGgSDgoKRXZlbnRT",
-            "cGF3bhBpEhEKDUV2ZW50VXNlclN5bmMQahIOCgpFdmVudERlYXRoEGsSDwoL",
-            "RXZlbnRCdWxsZXQQbBIVChFFdmVudENoYW5nZVdlYXBvbhBtEhIKDkV2ZW50",
-            "U3Bhd25JdGVtEG4ikAIKClBhY2tldEJvZHkSMgoHbXNnVHlwZRiQTiABKA4y",
-            "IC5zZXJ2ZXIyTi5QYWNrZXRCb2R5Lm1lc3NhZ2VUeXBlEikKB2Nvbm5lY3QY",
-            "BiABKAsyGC5zZXJ2ZXIyTi5Vc2VyQ29ubmVjdGlvbhInCgZub3RpY2UYkU4g",
-            "ASgLMhYuc2VydmVyMk4uR2xvYmFsTm90aWNlEiIKBWV2ZW50GAcgASgLMhMu",
-            "c2VydmVyMk4uR2FtZUV2ZW50EhAKCHNlbmRlcklkGAggASgFIkQKC21lc3Nh",
-            "Z2VUeXBlEg0KCUdhbWVFdmVudBAAEhMKDlVzZXJDb25uZWN0aW9uEJBOEhEK",
-            "DEdsb2JhbE5vdGljZRCRTmIGcHJvdG8z"));
+            "BRIzCghpdGVtVHlwZRgFIAEoDjIhLnNlcnZlcjJOLkV2ZW50U3Bhd25JdGVt",
+            "Lkl0ZW1UeXBlEjMKCHdlYXBvbklkGAYgASgOMiEuc2VydmVyMk4uRXZlbnRT",
+            "cGF3bkl0ZW0uV2VhcG9uSWQiJAoISXRlbVR5cGUSCwoHUmVjb3ZlchAAEgsK",
+            "B1dlYXBvbmUQASIvCghXZWFwb25JZBILCgdOb3RoaW5nEAASCgoGUGlzdG9s",
+            "EAESCgoGU25pcGVyEAIi4QYKCUdhbWVFdmVudBImCgltb3ZlRXZlbnQYbSAB",
+            "KAsyEy5zZXJ2ZXIyTi5FdmVudE1vdmUSJgoJc3RvcEV2ZW50GG4gASgLMhMu",
+            "c2VydmVyMk4uRXZlbnRTdG9wEiYKCWp1bXBFdmVudBhvIAEoCzITLnNlcnZl",
+            "cjJOLkV2ZW50SnVtcBIoCgpzaG9vdEV2ZW50GHAgASgLMhQuc2VydmVyMk4u",
+            "RXZlbnRTaG9vdBIkCghoaXRFdmVudBhxIAEoCzISLnNlcnZlcjJOLkV2ZW50",
+            "SGl0EigKCnNwYXduRXZlbnQYciABKAsyFC5zZXJ2ZXIyTi5FdmVudFNwYXdu",
+            "EioKCXN5bmNFdmVudBhzIAEoCzIXLnNlcnZlcjJOLkV2ZW50VXNlclN5bmMS",
+            "KAoKZGVhdGhFdmVudBh0IAEoCzIULnNlcnZlcjJOLkV2ZW50RGVhdGgSMgoN",
+            "Y2hXZWFwb25FdmVudBh1IAEoCzIbLnNlcnZlcjJOLkV2ZW50Q2hhbmdlV2Vh",
+            "cG9uEjAKDnNwYXduSXRlbUV2ZW50GHYgASgLMhguc2VydmVyMk4uRXZlbnRT",
+            "cGF3bkl0ZW0SKwoHYWN0VHlwZRgBIAEoDjIaLnNlcnZlcjJOLkdhbWVFdmVu",
+            "dC5hY3Rpb24SFgoOYWN0aW9uUHJvcGVydHkYBSABKAUSFgoORXZlbnRQb3Np",
+            "dGlvblgYBiABKAISFgoORXZlbnRQb3NpdGlvblkYByABKAISEQoJVmVsb2Np",
+            "dHlYGAggASgCEhEKCVZlbG9jaXR5WRgJIAEoAhIRCglpbnZva2VySWQYCiAD",
+            "KAUSEAoIc2VjdG9yTm8YCyABKAUSFAoMaXNJbnRlcmVzdGVkGAwgASgIIs8B",
+            "CgZhY3Rpb24SCwoHTm90aGluZxAAEg0KCUV2ZW50TW92ZRBkEg0KCUV2ZW50",
+            "U3RvcBBlEg0KCUV2ZW50SnVtcBBmEg4KCkV2ZW50U2hvb3QQZxIMCghFdmVu",
+            "dEhpdBBoEg4KCkV2ZW50U3Bhd24QaRIRCg1FdmVudFVzZXJTeW5jEGoSDgoK",
+            "RXZlbnREZWF0aBBrEg8KC0V2ZW50QnVsbGV0EGwSFQoRRXZlbnRDaGFuZ2VX",
+            "ZWFwb24QbRISCg5FdmVudFNwYXduSXRlbRBuIpACCgpQYWNrZXRCb2R5EjIK",
+            "B21zZ1R5cGUYkE4gASgOMiAuc2VydmVyMk4uUGFja2V0Qm9keS5tZXNzYWdl",
+            "VHlwZRIpCgdjb25uZWN0GAYgASgLMhguc2VydmVyMk4uVXNlckNvbm5lY3Rp",
+            "b24SJwoGbm90aWNlGJFOIAEoCzIWLnNlcnZlcjJOLkdsb2JhbE5vdGljZRIi",
+            "CgVldmVudBgHIAEoCzITLnNlcnZlcjJOLkdhbWVFdmVudBIQCghzZW5kZXJJ",
+            "ZBgIIAEoBSJECgttZXNzYWdlVHlwZRINCglHYW1lRXZlbnQQABITCg5Vc2Vy",
+            "Q29ubmVjdGlvbhCQThIRCgxHbG9iYWxOb3RpY2UQkU5iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -88,7 +90,7 @@ namespace Server2N {
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventSpawn), global::Server2N.EventSpawn.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventUserSync), global::Server2N.EventUserSync.Parser, new[]{ "CurrentHP", "WeaponId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventDeath), global::Server2N.EventDeath.Parser, new[]{ "TriggerId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventSpawnItem), global::Server2N.EventSpawnItem.Parser, new[]{ "ItemId", "PosX", "PosY", "Amount" }, null, new[]{ typeof(global::Server2N.EventSpawnItem.Types.itemType), typeof(global::Server2N.EventSpawnItem.Types.weaponId) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventSpawnItem), global::Server2N.EventSpawnItem.Parser, new[]{ "ItemId", "PosX", "PosY", "Amount", "ItemType", "WeaponId" }, null, new[]{ typeof(global::Server2N.EventSpawnItem.Types.ItemType), typeof(global::Server2N.EventSpawnItem.Types.WeaponId) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "MoveEvent", "StopEvent", "JumpEvent", "ShootEvent", "HitEvent", "SpawnEvent", "SyncEvent", "DeathEvent", "ChWeaponEvent", "SpawnItemEvent", "ActType", "ActionProperty", "EventPositionX", "EventPositionY", "VelocityX", "VelocityY", "InvokerId", "SectorNo", "IsInterested" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.action) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.PacketBody), global::Server2N.PacketBody.Parser, new[]{ "MsgType", "Connect", "Notice", "Event", "SenderId" }, null, new[]{ typeof(global::Server2N.PacketBody.Types.messageType) }, null)
           }));
@@ -1867,6 +1869,8 @@ namespace Server2N {
       posX_ = other.posX_;
       posY_ = other.posY_;
       amount_ = other.amount_;
+      itemType_ = other.itemType_;
+      weaponId_ = other.weaponId_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1918,6 +1922,28 @@ namespace Server2N {
       }
     }
 
+    /// <summary>Field number for the "itemType" field.</summary>
+    public const int ItemTypeFieldNumber = 5;
+    private global::Server2N.EventSpawnItem.Types.ItemType itemType_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.EventSpawnItem.Types.ItemType ItemType {
+      get { return itemType_; }
+      set {
+        itemType_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "weaponId" field.</summary>
+    public const int WeaponIdFieldNumber = 6;
+    private global::Server2N.EventSpawnItem.Types.WeaponId weaponId_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.EventSpawnItem.Types.WeaponId WeaponId {
+      get { return weaponId_; }
+      set {
+        weaponId_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as EventSpawnItem);
@@ -1935,6 +1961,8 @@ namespace Server2N {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosX, other.PosX)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosY, other.PosY)) return false;
       if (Amount != other.Amount) return false;
+      if (ItemType != other.ItemType) return false;
+      if (WeaponId != other.WeaponId) return false;
       return true;
     }
 
@@ -1945,6 +1973,8 @@ namespace Server2N {
       if (PosX != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosX);
       if (PosY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosY);
       if (Amount != 0) hash ^= Amount.GetHashCode();
+      if (ItemType != 0) hash ^= ItemType.GetHashCode();
+      if (WeaponId != 0) hash ^= WeaponId.GetHashCode();
       return hash;
     }
 
@@ -1971,6 +2001,14 @@ namespace Server2N {
         output.WriteRawTag(32);
         output.WriteInt32(Amount);
       }
+      if (ItemType != 0) {
+        output.WriteRawTag(40);
+        output.WriteEnum((int) ItemType);
+      }
+      if (WeaponId != 0) {
+        output.WriteRawTag(48);
+        output.WriteEnum((int) WeaponId);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1987,6 +2025,12 @@ namespace Server2N {
       }
       if (Amount != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Amount);
+      }
+      if (ItemType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ItemType);
+      }
+      if (WeaponId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) WeaponId);
       }
       return size;
     }
@@ -2007,6 +2051,12 @@ namespace Server2N {
       }
       if (other.Amount != 0) {
         Amount = other.Amount;
+      }
+      if (other.ItemType != 0) {
+        ItemType = other.ItemType;
+      }
+      if (other.WeaponId != 0) {
+        WeaponId = other.WeaponId;
       }
     }
 
@@ -2034,6 +2084,14 @@ namespace Server2N {
             Amount = input.ReadInt32();
             break;
           }
+          case 40: {
+            itemType_ = (global::Server2N.EventSpawnItem.Types.ItemType) input.ReadEnum();
+            break;
+          }
+          case 48: {
+            weaponId_ = (global::Server2N.EventSpawnItem.Types.WeaponId) input.ReadEnum();
+            break;
+          }
         }
       }
     }
@@ -2042,12 +2100,12 @@ namespace Server2N {
     /// <summary>Container for nested types declared in the EventSpawnItem message type.</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static partial class Types {
-      public enum itemType {
+      public enum ItemType {
         [pbr::OriginalName("Recover")] Recover = 0,
         [pbr::OriginalName("Weapone")] Weapone = 1,
       }
 
-      public enum weaponId {
+      public enum WeaponId {
         [pbr::OriginalName("Nothing")] Nothing = 0,
         [pbr::OriginalName("Pistol")] Pistol = 1,
         [pbr::OriginalName("Sniper")] Sniper = 2,
