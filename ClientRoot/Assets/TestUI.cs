@@ -15,6 +15,7 @@ public class TestUI : MonoBehaviour {
     public InputField NameInput;
     public Button ConnectButton;
     public Button DisconnectButton;
+    public Button CreateItemButton;
 
     const int MAX_STRING = 100;
     StringBuilder concatString;
@@ -29,6 +30,7 @@ public class TestUI : MonoBehaviour {
 
         ConnectButton.onClick.AddListener(OnClickConnect);
         DisconnectButton.onClick.AddListener(OnClickDisconnect);
+        CreateItemButton.onClick.AddListener(OnClickItemCreate);
         IpInput.text = NetworkModule.SERVER_IP;
         PortInput.text = NetworkModule.SERVER_PORT.ToString();
     }
@@ -87,5 +89,10 @@ public class TestUI : MonoBehaviour {
             NetworkModule.instance.Disconnect();
             GameLogic.Instance.CleanUpGame();
         }
+    }
+
+    void OnClickItemCreate()
+    {
+        GameLogic.Instance.CreateItem(new Vector2(3, 3), 0, ItemType.Recover, WeaponId.Pistol);
     }
 }

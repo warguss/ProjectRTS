@@ -44,31 +44,38 @@ namespace Server2N {
             "ZRgGIAEoBSIlChFFdmVudENoYW5nZVdlYXBvbhIQCgh3ZWFwb25JZBgBIAEo",
             "BSIMCgpFdmVudFNwYXduIjQKDUV2ZW50VXNlclN5bmMSEQoJY3VycmVudEhQ",
             "GAEgASgCEhAKCHdlYXBvbklkGAIgASgFIh8KCkV2ZW50RGVhdGgSEQoJdHJp",
-            "Z2dlcklkGAEgASgFIpsGCglHYW1lRXZlbnQSJgoJbW92ZUV2ZW50GG0gASgL",
-            "MhMuc2VydmVyMk4uRXZlbnRNb3ZlEiYKCXN0b3BFdmVudBhuIAEoCzITLnNl",
-            "cnZlcjJOLkV2ZW50U3RvcBImCglqdW1wRXZlbnQYbyABKAsyEy5zZXJ2ZXIy",
-            "Ti5FdmVudEp1bXASKAoKc2hvb3RFdmVudBhwIAEoCzIULnNlcnZlcjJOLkV2",
-            "ZW50U2hvb3QSJAoIaGl0RXZlbnQYcSABKAsyEi5zZXJ2ZXIyTi5FdmVudEhp",
-            "dBIoCgpzcGF3bkV2ZW50GHIgASgLMhQuc2VydmVyMk4uRXZlbnRTcGF3bhIq",
-            "CglzeW5jRXZlbnQYcyABKAsyFy5zZXJ2ZXIyTi5FdmVudFVzZXJTeW5jEigK",
-            "CmRlYXRoRXZlbnQYdCABKAsyFC5zZXJ2ZXIyTi5FdmVudERlYXRoEjIKDWNo",
-            "V2VhcG9uRXZlbnQYdSABKAsyGy5zZXJ2ZXIyTi5FdmVudENoYW5nZVdlYXBv",
-            "bhIrCgdhY3RUeXBlGAEgASgOMhouc2VydmVyMk4uR2FtZUV2ZW50LmFjdGlv",
-            "bhIWCg5hY3Rpb25Qcm9wZXJ0eRgFIAEoBRIWCg5FdmVudFBvc2l0aW9uWBgG",
-            "IAEoAhIWCg5FdmVudFBvc2l0aW9uWRgHIAEoAhIRCglWZWxvY2l0eVgYCCAB",
-            "KAISEQoJVmVsb2NpdHlZGAkgASgCEhEKCWludm9rZXJJZBgKIAMoBRIQCghz",
-            "ZWN0b3JObxgLIAEoBRIUCgxpc0ludGVyZXN0ZWQYDCABKAgiuwEKBmFjdGlv",
-            "bhILCgdOb3RoaW5nEAASDQoJRXZlbnRNb3ZlEGQSDQoJRXZlbnRTdG9wEGUS",
-            "DQoJRXZlbnRKdW1wEGYSDgoKRXZlbnRTaG9vdBBnEgwKCEV2ZW50SGl0EGgS",
-            "DgoKRXZlbnRTcGF3bhBpEhEKDUV2ZW50VXNlclN5bmMQahIOCgpFdmVudERl",
-            "YXRoEGsSDwoLRXZlbnRCdWxsZXQQbBIVChFFdmVudENoYW5nZVdlYXBvbhBt",
-            "IpACCgpQYWNrZXRCb2R5EjIKB21zZ1R5cGUYkE4gASgOMiAuc2VydmVyMk4u",
-            "UGFja2V0Qm9keS5tZXNzYWdlVHlwZRIpCgdjb25uZWN0GAYgASgLMhguc2Vy",
-            "dmVyMk4uVXNlckNvbm5lY3Rpb24SJwoGbm90aWNlGJFOIAEoCzIWLnNlcnZl",
-            "cjJOLkdsb2JhbE5vdGljZRIiCgVldmVudBgHIAEoCzITLnNlcnZlcjJOLkdh",
-            "bWVFdmVudBIQCghzZW5kZXJJZBgIIAEoBSJECgttZXNzYWdlVHlwZRINCglH",
-            "YW1lRXZlbnQQABITCg5Vc2VyQ29ubmVjdGlvbhCQThIRCgxHbG9iYWxOb3Rp",
-            "Y2UQkU5iBnByb3RvMw=="));
+            "Z2dlcklkGAEgASgFIo0CCg5FdmVudFNwYXduSXRlbRIOCgZpdGVtSWQYASAB",
+            "KAUSDAoEcG9zWBgCIAEoAhIMCgRwb3NZGAMgASgCEg4KBmFtb3VudBgEIAEo",
+            "BRIzCghpdGVtVHlwZRgFIAEoDjIhLnNlcnZlcjJOLkV2ZW50U3Bhd25JdGVt",
+            "Lkl0ZW1UeXBlEjMKCHdlYXBvbklkGAYgASgOMiEuc2VydmVyMk4uRXZlbnRT",
+            "cGF3bkl0ZW0uV2VhcG9uSWQiJAoISXRlbVR5cGUSCwoHUmVjb3ZlchAAEgsK",
+            "B1dlYXBvbmUQASIvCghXZWFwb25JZBILCgdOb3RoaW5nEAASCgoGUGlzdG9s",
+            "EAESCgoGU25pcGVyEAIi4QYKCUdhbWVFdmVudBImCgltb3ZlRXZlbnQYbSAB",
+            "KAsyEy5zZXJ2ZXIyTi5FdmVudE1vdmUSJgoJc3RvcEV2ZW50GG4gASgLMhMu",
+            "c2VydmVyMk4uRXZlbnRTdG9wEiYKCWp1bXBFdmVudBhvIAEoCzITLnNlcnZl",
+            "cjJOLkV2ZW50SnVtcBIoCgpzaG9vdEV2ZW50GHAgASgLMhQuc2VydmVyMk4u",
+            "RXZlbnRTaG9vdBIkCghoaXRFdmVudBhxIAEoCzISLnNlcnZlcjJOLkV2ZW50",
+            "SGl0EigKCnNwYXduRXZlbnQYciABKAsyFC5zZXJ2ZXIyTi5FdmVudFNwYXdu",
+            "EioKCXN5bmNFdmVudBhzIAEoCzIXLnNlcnZlcjJOLkV2ZW50VXNlclN5bmMS",
+            "KAoKZGVhdGhFdmVudBh0IAEoCzIULnNlcnZlcjJOLkV2ZW50RGVhdGgSMgoN",
+            "Y2hXZWFwb25FdmVudBh1IAEoCzIbLnNlcnZlcjJOLkV2ZW50Q2hhbmdlV2Vh",
+            "cG9uEjAKDnNwYXduSXRlbUV2ZW50GHYgASgLMhguc2VydmVyMk4uRXZlbnRT",
+            "cGF3bkl0ZW0SKwoHYWN0VHlwZRgBIAEoDjIaLnNlcnZlcjJOLkdhbWVFdmVu",
+            "dC5hY3Rpb24SFgoOYWN0aW9uUHJvcGVydHkYBSABKAUSFgoORXZlbnRQb3Np",
+            "dGlvblgYBiABKAISFgoORXZlbnRQb3NpdGlvblkYByABKAISEQoJVmVsb2Np",
+            "dHlYGAggASgCEhEKCVZlbG9jaXR5WRgJIAEoAhIRCglpbnZva2VySWQYCiAD",
+            "KAUSEAoIc2VjdG9yTm8YCyABKAUSFAoMaXNJbnRlcmVzdGVkGAwgASgIIs8B",
+            "CgZhY3Rpb24SCwoHTm90aGluZxAAEg0KCUV2ZW50TW92ZRBkEg0KCUV2ZW50",
+            "U3RvcBBlEg0KCUV2ZW50SnVtcBBmEg4KCkV2ZW50U2hvb3QQZxIMCghFdmVu",
+            "dEhpdBBoEg4KCkV2ZW50U3Bhd24QaRIRCg1FdmVudFVzZXJTeW5jEGoSDgoK",
+            "RXZlbnREZWF0aBBrEg8KC0V2ZW50QnVsbGV0EGwSFQoRRXZlbnRDaGFuZ2VX",
+            "ZWFwb24QbRISCg5FdmVudFNwYXduSXRlbRBuIpACCgpQYWNrZXRCb2R5EjIK",
+            "B21zZ1R5cGUYkE4gASgOMiAuc2VydmVyMk4uUGFja2V0Qm9keS5tZXNzYWdl",
+            "VHlwZRIpCgdjb25uZWN0GAYgASgLMhguc2VydmVyMk4uVXNlckNvbm5lY3Rp",
+            "b24SJwoGbm90aWNlGJFOIAEoCzIWLnNlcnZlcjJOLkdsb2JhbE5vdGljZRIi",
+            "CgVldmVudBgHIAEoCzITLnNlcnZlcjJOLkdhbWVFdmVudBIQCghzZW5kZXJJ",
+            "ZBgIIAEoBSJECgttZXNzYWdlVHlwZRINCglHYW1lRXZlbnQQABITCg5Vc2Vy",
+            "Q29ubmVjdGlvbhCQThIRCgxHbG9iYWxOb3RpY2UQkU5iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -83,7 +90,8 @@ namespace Server2N {
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventSpawn), global::Server2N.EventSpawn.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventUserSync), global::Server2N.EventUserSync.Parser, new[]{ "CurrentHP", "WeaponId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventDeath), global::Server2N.EventDeath.Parser, new[]{ "TriggerId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "MoveEvent", "StopEvent", "JumpEvent", "ShootEvent", "HitEvent", "SpawnEvent", "SyncEvent", "DeathEvent", "ChWeaponEvent", "ActType", "ActionProperty", "EventPositionX", "EventPositionY", "VelocityX", "VelocityY", "InvokerId", "SectorNo", "IsInterested" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.action) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventSpawnItem), global::Server2N.EventSpawnItem.Parser, new[]{ "ItemId", "PosX", "PosY", "Amount", "ItemType", "WeaponId" }, null, new[]{ typeof(global::Server2N.EventSpawnItem.Types.ItemType), typeof(global::Server2N.EventSpawnItem.Types.WeaponId) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "MoveEvent", "StopEvent", "JumpEvent", "ShootEvent", "HitEvent", "SpawnEvent", "SyncEvent", "DeathEvent", "ChWeaponEvent", "SpawnItemEvent", "ActType", "ActionProperty", "EventPositionX", "EventPositionY", "VelocityX", "VelocityY", "InvokerId", "SectorNo", "IsInterested" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.action) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.PacketBody), global::Server2N.PacketBody.Parser, new[]{ "MsgType", "Connect", "Notice", "Event", "SenderId" }, null, new[]{ typeof(global::Server2N.PacketBody.Types.messageType) }, null)
           }));
     }
@@ -1833,6 +1841,281 @@ namespace Server2N {
 
   }
 
+  public sealed partial class EventSpawnItem : pb::IMessage<EventSpawnItem> {
+    private static readonly pb::MessageParser<EventSpawnItem> _parser = new pb::MessageParser<EventSpawnItem>(() => new EventSpawnItem());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<EventSpawnItem> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[11]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventSpawnItem() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventSpawnItem(EventSpawnItem other) : this() {
+      itemId_ = other.itemId_;
+      posX_ = other.posX_;
+      posY_ = other.posY_;
+      amount_ = other.amount_;
+      itemType_ = other.itemType_;
+      weaponId_ = other.weaponId_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventSpawnItem Clone() {
+      return new EventSpawnItem(this);
+    }
+
+    /// <summary>Field number for the "itemId" field.</summary>
+    public const int ItemIdFieldNumber = 1;
+    private int itemId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ItemId {
+      get { return itemId_; }
+      set {
+        itemId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "posX" field.</summary>
+    public const int PosXFieldNumber = 2;
+    private float posX_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float PosX {
+      get { return posX_; }
+      set {
+        posX_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "posY" field.</summary>
+    public const int PosYFieldNumber = 3;
+    private float posY_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float PosY {
+      get { return posY_; }
+      set {
+        posY_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "amount" field.</summary>
+    public const int AmountFieldNumber = 4;
+    private int amount_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Amount {
+      get { return amount_; }
+      set {
+        amount_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "itemType" field.</summary>
+    public const int ItemTypeFieldNumber = 5;
+    private global::Server2N.EventSpawnItem.Types.ItemType itemType_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.EventSpawnItem.Types.ItemType ItemType {
+      get { return itemType_; }
+      set {
+        itemType_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "weaponId" field.</summary>
+    public const int WeaponIdFieldNumber = 6;
+    private global::Server2N.EventSpawnItem.Types.WeaponId weaponId_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.EventSpawnItem.Types.WeaponId WeaponId {
+      get { return weaponId_; }
+      set {
+        weaponId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as EventSpawnItem);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(EventSpawnItem other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ItemId != other.ItemId) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosX, other.PosX)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosY, other.PosY)) return false;
+      if (Amount != other.Amount) return false;
+      if (ItemType != other.ItemType) return false;
+      if (WeaponId != other.WeaponId) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ItemId != 0) hash ^= ItemId.GetHashCode();
+      if (PosX != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosX);
+      if (PosY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosY);
+      if (Amount != 0) hash ^= Amount.GetHashCode();
+      if (ItemType != 0) hash ^= ItemType.GetHashCode();
+      if (WeaponId != 0) hash ^= WeaponId.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ItemId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ItemId);
+      }
+      if (PosX != 0F) {
+        output.WriteRawTag(21);
+        output.WriteFloat(PosX);
+      }
+      if (PosY != 0F) {
+        output.WriteRawTag(29);
+        output.WriteFloat(PosY);
+      }
+      if (Amount != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(Amount);
+      }
+      if (ItemType != 0) {
+        output.WriteRawTag(40);
+        output.WriteEnum((int) ItemType);
+      }
+      if (WeaponId != 0) {
+        output.WriteRawTag(48);
+        output.WriteEnum((int) WeaponId);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (ItemId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemId);
+      }
+      if (PosX != 0F) {
+        size += 1 + 4;
+      }
+      if (PosY != 0F) {
+        size += 1 + 4;
+      }
+      if (Amount != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Amount);
+      }
+      if (ItemType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ItemType);
+      }
+      if (WeaponId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) WeaponId);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(EventSpawnItem other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ItemId != 0) {
+        ItemId = other.ItemId;
+      }
+      if (other.PosX != 0F) {
+        PosX = other.PosX;
+      }
+      if (other.PosY != 0F) {
+        PosY = other.PosY;
+      }
+      if (other.Amount != 0) {
+        Amount = other.Amount;
+      }
+      if (other.ItemType != 0) {
+        ItemType = other.ItemType;
+      }
+      if (other.WeaponId != 0) {
+        WeaponId = other.WeaponId;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            ItemId = input.ReadInt32();
+            break;
+          }
+          case 21: {
+            PosX = input.ReadFloat();
+            break;
+          }
+          case 29: {
+            PosY = input.ReadFloat();
+            break;
+          }
+          case 32: {
+            Amount = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            itemType_ = (global::Server2N.EventSpawnItem.Types.ItemType) input.ReadEnum();
+            break;
+          }
+          case 48: {
+            weaponId_ = (global::Server2N.EventSpawnItem.Types.WeaponId) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+
+    #region Nested types
+    /// <summary>Container for nested types declared in the EventSpawnItem message type.</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static partial class Types {
+      public enum ItemType {
+        [pbr::OriginalName("Recover")] Recover = 0,
+        [pbr::OriginalName("Weapone")] Weapone = 1,
+      }
+
+      public enum WeaponId {
+        [pbr::OriginalName("Nothing")] Nothing = 0,
+        [pbr::OriginalName("Pistol")] Pistol = 1,
+        [pbr::OriginalName("Sniper")] Sniper = 2,
+      }
+
+    }
+    #endregion
+
+  }
+
   public sealed partial class GameEvent : pb::IMessage<GameEvent> {
     private static readonly pb::MessageParser<GameEvent> _parser = new pb::MessageParser<GameEvent>(() => new GameEvent());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1840,7 +2123,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[11]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1866,6 +2149,7 @@ namespace Server2N {
       SyncEvent = other.syncEvent_ != null ? other.SyncEvent.Clone() : null;
       DeathEvent = other.deathEvent_ != null ? other.DeathEvent.Clone() : null;
       ChWeaponEvent = other.chWeaponEvent_ != null ? other.ChWeaponEvent.Clone() : null;
+      SpawnItemEvent = other.spawnItemEvent_ != null ? other.SpawnItemEvent.Clone() : null;
       actType_ = other.actType_;
       actionProperty_ = other.actionProperty_;
       eventPositionX_ = other.eventPositionX_;
@@ -1978,6 +2262,17 @@ namespace Server2N {
       get { return chWeaponEvent_; }
       set {
         chWeaponEvent_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "spawnItemEvent" field.</summary>
+    public const int SpawnItemEventFieldNumber = 118;
+    private global::Server2N.EventSpawnItem spawnItemEvent_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.EventSpawnItem SpawnItemEvent {
+      get { return spawnItemEvent_; }
+      set {
+        spawnItemEvent_ = value;
       }
     }
 
@@ -2101,6 +2396,7 @@ namespace Server2N {
       if (!object.Equals(SyncEvent, other.SyncEvent)) return false;
       if (!object.Equals(DeathEvent, other.DeathEvent)) return false;
       if (!object.Equals(ChWeaponEvent, other.ChWeaponEvent)) return false;
+      if (!object.Equals(SpawnItemEvent, other.SpawnItemEvent)) return false;
       if (ActType != other.ActType) return false;
       if (ActionProperty != other.ActionProperty) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(EventPositionX, other.EventPositionX)) return false;
@@ -2125,6 +2421,7 @@ namespace Server2N {
       if (syncEvent_ != null) hash ^= SyncEvent.GetHashCode();
       if (deathEvent_ != null) hash ^= DeathEvent.GetHashCode();
       if (chWeaponEvent_ != null) hash ^= ChWeaponEvent.GetHashCode();
+      if (spawnItemEvent_ != null) hash ^= SpawnItemEvent.GetHashCode();
       if (ActType != 0) hash ^= ActType.GetHashCode();
       if (ActionProperty != 0) hash ^= ActionProperty.GetHashCode();
       if (EventPositionX != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(EventPositionX);
@@ -2213,6 +2510,10 @@ namespace Server2N {
         output.WriteRawTag(170, 7);
         output.WriteMessage(ChWeaponEvent);
       }
+      if (spawnItemEvent_ != null) {
+        output.WriteRawTag(178, 7);
+        output.WriteMessage(SpawnItemEvent);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2244,6 +2545,9 @@ namespace Server2N {
       }
       if (chWeaponEvent_ != null) {
         size += 2 + pb::CodedOutputStream.ComputeMessageSize(ChWeaponEvent);
+      }
+      if (spawnItemEvent_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(SpawnItemEvent);
       }
       if (ActType != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ActType);
@@ -2331,6 +2635,12 @@ namespace Server2N {
           chWeaponEvent_ = new global::Server2N.EventChangeWeapon();
         }
         ChWeaponEvent.MergeFrom(other.ChWeaponEvent);
+      }
+      if (other.spawnItemEvent_ != null) {
+        if (spawnItemEvent_ == null) {
+          spawnItemEvent_ = new global::Server2N.EventSpawnItem();
+        }
+        SpawnItemEvent.MergeFrom(other.SpawnItemEvent);
       }
       if (other.ActType != 0) {
         ActType = other.ActType;
@@ -2467,6 +2777,13 @@ namespace Server2N {
             input.ReadMessage(chWeaponEvent_);
             break;
           }
+          case 946: {
+            if (spawnItemEvent_ == null) {
+              spawnItemEvent_ = new global::Server2N.EventSpawnItem();
+            }
+            input.ReadMessage(spawnItemEvent_);
+            break;
+          }
         }
       }
     }
@@ -2487,6 +2804,7 @@ namespace Server2N {
         [pbr::OriginalName("EventDeath")] EventDeath = 107,
         [pbr::OriginalName("EventBullet")] EventBullet = 108,
         [pbr::OriginalName("EventChangeWeapon")] EventChangeWeapon = 109,
+        [pbr::OriginalName("EventSpawnItem")] EventSpawnItem = 110,
       }
 
     }
@@ -2501,7 +2819,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[12]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[13]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

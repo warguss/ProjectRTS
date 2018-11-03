@@ -10,6 +10,7 @@ public delegate void CharEventShoot(int invokerId, Vector2 position, Vector2 vel
 public delegate void CharEventChangeWeapon(int invokerId, Vector2 position, Vector2 velocity, WeaponId WeaponId);
 public delegate void CharEventSpawn(int invokerId, Vector2 position);
 public delegate void CharEventDead(int invokerId, Vector2 position, int attackerId);
+public delegate void CharEventGetItem(int invokerId, int itemId);
 public delegate void CharEventSync(int invokerId, Vector2 position, Vector2 velocity);
 
 public abstract class ControllableCharacter : MonoBehaviour
@@ -56,6 +57,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     public event CharEventChangeWeapon ChangeWeaponEvent;
     public event CharEventSpawn SpawnEvent;
     public event CharEventDead DieEvent;
+    public event CharEventGetItem GetItemEvent;
     public event CharEventSync SyncEvent;
 
     protected void InvokeEventMove(Vector2 position, Vector2 velocity, bool isLeft)
@@ -89,6 +91,10 @@ public abstract class ControllableCharacter : MonoBehaviour
     protected void InvokeEventDead(Vector2 position, int attackerId)
     {
         DieEvent?.Invoke(OwnerId, position, attackerId);
+    }
+    protected void InvokeEventGetItem(int itemId)
+    {
+        GetItemEvent?.Invoke(OwnerId, itemId);
     }
     protected void InvokeEventSync(Vector2 position, Vector2 velocity)
     {
@@ -128,7 +134,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     public void RecoverHp(float inHp)
     {
         hp += inHp;
-        if (inHp > MaxHP)
+        if (hp > MaxHP)
             hp = MaxHP;
     }
 

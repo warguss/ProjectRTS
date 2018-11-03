@@ -13,6 +13,8 @@ public enum CharacterStatus
 
 public class MainCharacter : ControllableCharacter
 {
+    const float DEFAULT_HP_RECOVER_AMOUNT = 30;
+
     public float MaxMoveSpeed;
     public float MoveForce;
     public float JumpForce;
@@ -365,7 +367,10 @@ public class MainCharacter : ControllableCharacter
     {
         if(item.ItemType == ItemType.Recover)
         {
-            RecoverHp(item.Amount);
+            if (item.Amount == 0)
+                RecoverHp(DEFAULT_HP_RECOVER_AMOUNT);
+            else
+                RecoverHp(item.Amount);
         }
         else if(item.ItemType == ItemType.Weapon)
         {
@@ -374,6 +379,7 @@ public class MainCharacter : ControllableCharacter
             else
                 Inventory.AddItem(item.WeaponId, item.Amount);
         }
+        InvokeEventGetItem(item.ItemId);
     }
 
     public override GameObject GetGameObject()

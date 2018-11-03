@@ -12,6 +12,8 @@ public class FieldItem : MonoBehaviour {
 
     public SpriteRenderer spriteRenderer;
 
+    public int ItemId;
+
     public ItemType ItemType;
     public WeaponId WeaponId;
     public int Amount;
@@ -26,8 +28,9 @@ public class FieldItem : MonoBehaviour {
 		
 	}
 
-    public void Initialize(ItemType inItemType, WeaponId inWeaponId, int inAmount)
+    public void Initialize(int inItemId, ItemType inItemType, WeaponId inWeaponId, int inAmount)
     {
+        ItemId = inItemId;
         ItemType = inItemType;
         WeaponId = inWeaponId;
         Amount = inAmount;

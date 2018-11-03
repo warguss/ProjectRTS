@@ -398,6 +398,11 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
+    public void WriteEventGetItem(int InvokerId, int itemId)
+    {
+
+    }
+
     public void WriteEventMove(int InvokerId, Vector2 position, Vector2 velocity, bool isLeft)
     {
         EventMove.Types.Direction direction = EventMove.Types.Direction.Left ;

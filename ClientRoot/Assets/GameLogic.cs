@@ -96,6 +96,7 @@ public class GameLogic : MonoBehaviour
             player.Character.GetHitEvent += PlayerEventGetHit;
             player.Character.SpawnEvent += PlayerEventSpawn;
             player.Character.DieEvent += PlayerEventDie;
+            player.Character.GetItemEvent += PlayerEventGetItem;
             player.Character.SyncEvent += PlayerEventSync;
         }
 
@@ -389,6 +390,15 @@ public class GameLogic : MonoBehaviour
 
                         break;
                     }
+                case GameEvent.Types.action.EventSpawnItem:
+                    {
+                        var info = EventPacket.SpawnItemEvent;
+                        int itemId = info.ItemId;
+                        Vector2 pos = new Vector2(info.PosX, info.PosY);
+                        //int itemType = info.ItemType;
+
+                        break;
+                    }
             }
         }
     }
@@ -479,10 +489,18 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventDie(int invokerId, Vector2 position, int AttackerId)
     {
-        StartCoroutine(SpawnAfterSeconds(invokerId, new Vector2(2, 2), 5));
+        StartCoroutine(SpawnAfterSeconds(invokerId, new Vector2(Random.Range(1f, 10f), Random.Range(1f, 10f)), 5));
         if (isOnline)
         {
             NetworkModule.instance.WriteEventDead(invokerId, position, AttackerId);
+        }
+    }
+
+    void PlayerEventGetItem(int invokerId, int itemId)
+    {
+        if (isOnline)
+        {
+            NetworkModule.instance.WriteEventGetItem(invokerId, itemId);
         }
     }
 
@@ -506,13 +524,11 @@ public class GameLogic : MonoBehaviour
         SpawnPlayer(playerId, position);
     }
 
-    void CreateItem(Vector2 position, ItemType type, WeaponId weapon, int amount = 0)
+    public void CreateItem(Vector2 position, int itemId, ItemType type, WeaponId weapon, int amount = 0)
     {
         GameObject created = Instantiate(ItemPrefab, new Vector3(position.x, position.y, 0), new Quaternion());
         FieldItem item = created.GetComponent<FieldItem>();
-        item.ItemType = type;
-        item.WeaponId = weapon;
-        item.Amount = amount;
+        item.Initialize(itemId, type, weapon, amount);
     }
 }
    
