@@ -7,6 +7,7 @@ message GlobalNotice{
 		Nothing = 0;
 		KillInfo = 1;
 		Notice = 2;
+		ItemInfo = 3;
 	}
 
 	NoticeInfo notiType = 1;
@@ -28,8 +29,9 @@ message UserConnection{
 	repeated int32 killInfo = 2;
 	repeated int32 deathInfo = 3;
 	repeated string nickname = 4;
+	repeated int32 itemId = 5;
 
-	ConnectionType conType = 5;
+	ConnectionType conType = 6;
 }
 
 message EventMove{
@@ -87,7 +89,17 @@ message EventDeath{
 	int32 triggerId = 1;
 }
 
-message EventSpawnItem
+message EventItemSpawn
+{
+	InfoItem item = 1;
+	int32 itemId = 2;
+}
+message EventItemGet
+{
+	int32 itemid = 1;
+}
+
+message InfoItem
 {
 	enum ItemType
 	{
@@ -101,10 +113,6 @@ message EventSpawnItem
 		Pistol = 1;
 		Sniper = 2;
 	}
-
-	int32 itemId = 1;
-	float posX = 2;
-	float posY = 3;
 	int32 amount = 4;
 
 	ItemType itemType = 5;
@@ -124,7 +132,9 @@ message GameEvent{
 		EventDeath			= 107;
 		EventBullet			= 108;
 		EventChangeWeapon	= 109;
-		EventSpawnItem		= 110;
+		EventItemSpawn		= 110;
+		EventItemGet		= 111;
+
 	}
 	EventMove moveEvent = 109;
 	EventStop stopEvent = 110;
@@ -135,7 +145,8 @@ message GameEvent{
 	EventUserSync syncEvent = 115;
 	EventDeath deathEvent = 116;
 	EventChangeWeapon chWeaponEvent = 117;
-	EventSpawnItem spawnItemEvent = 118;
+	EventItemSpawn itemSpawnEvent = 118;
+	EventItemGet itemGetEvent = 119;
 
 	action actType = 1;
 	int32 actionProperty = 5;
