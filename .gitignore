@@ -19,3 +19,9 @@ sysinfo.txt
 *.ide-shm
 *.ide
 ClientRoot/output/
+ClientRoot/Assets/TouchDirectionInterface.cs.rej
+ClientRoot/Assembly-CSharp_REMOTE_25988.csproj
+ClientRoot/Assembly-CSharp_LOCAL_25988.csproj
+ClientRoot/Assembly-CSharp_BASE_25988.csproj
+ClientRoot/Assembly-CSharp_BACKUP_25988.csproj
+ClientRoot/.vs/Assembly-CSharp/v15/Server/sqlite3/db.lock

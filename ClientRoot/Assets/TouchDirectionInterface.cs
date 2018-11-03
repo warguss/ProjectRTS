@@ -13,6 +13,7 @@ public class TouchDirectionInterface : MonoBehaviour, IDragHandler, IPointerDown
     TouchButton ButtonDown;
     TouchButton ButtonLeft;
     TouchButton ButtonRight;
+    GameObject JoystickHandle;
 
     float OriginalRadius;
     float CanvasScaleFactor;
@@ -33,6 +34,7 @@ public class TouchDirectionInterface : MonoBehaviour, IDragHandler, IPointerDown
         ButtonDown = transform.Find("Down").gameObject.GetComponent<TouchButton>();
         ButtonLeft = transform.Find("Left").gameObject.GetComponent<TouchButton>();
         ButtonRight = transform.Find("Right").gameObject.GetComponent<TouchButton>();
+        JoystickHandle = transform.Find("JoystickHandle").gameObject;
 
         OriginalRadius = Rect.rect.width / 2;
         CanvasScaleFactor = Canvas.scaleFactor;
@@ -70,16 +72,20 @@ public class TouchDirectionInterface : MonoBehaviour, IDragHandler, IPointerDown
     {
         CurrentPointPosition = PositionNomalize(eventData);
         isPressed = false;
+        JoystickHandle.GetComponent<Transform>().localPosition = Vector2.zero;
+        Debug.Log(JoystickHandle.GetComponent<Transform>().localPosition);
     }
 
     Vector2 PositionNomalize(PointerEventData eventData)
     {
         Vector2 NomalizedPosition = new Vector2(
-            (eventData.position.x - CenterPosition.x) * 100 / ScaledRadius,
-            (eventData.position.y - CenterPosition.y) * 100 / ScaledRadius
+            Mathf.Clamp(((eventData.position.x - CenterPosition.x) * 100 / ScaledRadius), -100, 100),
+            Mathf.Clamp(((eventData.position.y - CenterPosition.y) * 100 / ScaledRadius), -100, 100)
             );
+        Debug.Log(JoystickHandle.GetComponent<Transform>().localPosition);
+        JoystickHandle.GetComponent<Transform>().localPosition = NomalizedPosition /2;
+        Debug.Log(JoystickHandle.GetComponent<Transform>().localPosition);
         Debug.Log(NomalizedPosition);
-
         return NomalizedPosition;
     }
 
