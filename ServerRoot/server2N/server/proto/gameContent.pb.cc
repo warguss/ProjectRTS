@@ -494,6 +494,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventSpawnItem, posx_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventSpawnItem, posy_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventSpawnItem, amount_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventSpawnItem, itemtype_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventSpawnItem, weaponid_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -542,8 +544,8 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 69, -1, sizeof(::server2N::EventUserSync)},
   { 76, -1, sizeof(::server2N::EventDeath)},
   { 82, -1, sizeof(::server2N::EventSpawnItem)},
-  { 91, -1, sizeof(::server2N::GameEvent)},
-  { 115, -1, sizeof(::server2N::PacketBody)},
+  { 93, -1, sizeof(::server2N::GameEvent)},
+  { 117, -1, sizeof(::server2N::PacketBody)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -610,42 +612,45 @@ void AddDescriptorsImpl() {
       "pon\022\020\n\010weaponId\030\001 \001(\005\"\014\n\nEventSpawn\"4\n\rE"
       "ventUserSync\022\021\n\tcurrentHP\030\001 \001(\002\022\020\n\010weapo"
       "nId\030\002 \001(\005\"\037\n\nEventDeath\022\021\n\ttriggerId\030\001 \001"
-      "(\005\"\243\001\n\016EventSpawnItem\022\016\n\006itemId\030\001 \001(\005\022\014\n"
+      "(\005\"\215\002\n\016EventSpawnItem\022\016\n\006itemId\030\001 \001(\005\022\014\n"
       "\004posX\030\002 \001(\002\022\014\n\004posY\030\003 \001(\002\022\016\n\006amount\030\004 \001("
-      "\005\"$\n\010itemType\022\013\n\007Recover\020\000\022\013\n\007Weapone\020\001\""
-      "/\n\010weaponId\022\013\n\007Nothing\020\000\022\n\n\006Pistol\020\001\022\n\n\006"
-      "Sniper\020\002\"\341\006\n\tGameEvent\022&\n\tmoveEvent\030m \001("
-      "\0132\023.server2N.EventMove\022&\n\tstopEvent\030n \001("
-      "\0132\023.server2N.EventStop\022&\n\tjumpEvent\030o \001("
-      "\0132\023.server2N.EventJump\022(\n\nshootEvent\030p \001"
-      "(\0132\024.server2N.EventShoot\022$\n\010hitEvent\030q \001"
-      "(\0132\022.server2N.EventHit\022(\n\nspawnEvent\030r \001"
-      "(\0132\024.server2N.EventSpawn\022*\n\tsyncEvent\030s "
-      "\001(\0132\027.server2N.EventUserSync\022(\n\ndeathEve"
-      "nt\030t \001(\0132\024.server2N.EventDeath\0222\n\rchWeap"
-      "onEvent\030u \001(\0132\033.server2N.EventChangeWeap"
-      "on\0220\n\016spawnItemEvent\030v \001(\0132\030.server2N.Ev"
-      "entSpawnItem\022+\n\007actType\030\001 \001(\0162\032.server2N"
-      ".GameEvent.action\022\026\n\016actionProperty\030\005 \001("
-      "\005\022\026\n\016EventPositionX\030\006 \001(\002\022\026\n\016EventPositi"
-      "onY\030\007 \001(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVelocity"
-      "Y\030\t \001(\002\022\021\n\tinvokerId\030\n \003(\005\022\020\n\010sectorNo\030\013"
-      " \001(\005\022\024\n\014isInterested\030\014 \001(\010\"\317\001\n\006action\022\013\n"
-      "\007Nothing\020\000\022\r\n\tEventMove\020d\022\r\n\tEventStop\020e"
-      "\022\r\n\tEventJump\020f\022\016\n\nEventShoot\020g\022\014\n\010Event"
-      "Hit\020h\022\016\n\nEventSpawn\020i\022\021\n\rEventUserSync\020j"
-      "\022\016\n\nEventDeath\020k\022\017\n\013EventBullet\020l\022\025\n\021Eve"
-      "ntChangeWeapon\020m\022\022\n\016EventSpawnItem\020n\"\220\002\n"
-      "\nPacketBody\0222\n\007msgType\030\220N \001(\0162 .server2N"
-      ".PacketBody.messageType\022)\n\007connect\030\006 \001(\013"
-      "2\030.server2N.UserConnection\022\'\n\006notice\030\221N "
-      "\001(\0132\026.server2N.GlobalNotice\022\"\n\005event\030\007 \001"
-      "(\0132\023.server2N.GameEvent\022\020\n\010senderId\030\010 \001("
-      "\005\"D\n\013messageType\022\r\n\tGameEvent\020\000\022\023\n\016UserC"
-      "onnection\020\220N\022\021\n\014GlobalNotice\020\221Nb\006proto3"
+      "\005\0223\n\010itemType\030\005 \001(\0162!.server2N.EventSpaw"
+      "nItem.ItemType\0223\n\010weaponId\030\006 \001(\0162!.serve"
+      "r2N.EventSpawnItem.WeaponId\"$\n\010ItemType\022"
+      "\013\n\007Recover\020\000\022\013\n\007Weapone\020\001\"/\n\010WeaponId\022\013\n"
+      "\007Nothing\020\000\022\n\n\006Pistol\020\001\022\n\n\006Sniper\020\002\"\341\006\n\tG"
+      "ameEvent\022&\n\tmoveEvent\030m \001(\0132\023.server2N.E"
+      "ventMove\022&\n\tstopEvent\030n \001(\0132\023.server2N.E"
+      "ventStop\022&\n\tjumpEvent\030o \001(\0132\023.server2N.E"
+      "ventJump\022(\n\nshootEvent\030p \001(\0132\024.server2N."
+      "EventShoot\022$\n\010hitEvent\030q \001(\0132\022.server2N."
+      "EventHit\022(\n\nspawnEvent\030r \001(\0132\024.server2N."
+      "EventSpawn\022*\n\tsyncEvent\030s \001(\0132\027.server2N"
+      ".EventUserSync\022(\n\ndeathEvent\030t \001(\0132\024.ser"
+      "ver2N.EventDeath\0222\n\rchWeaponEvent\030u \001(\0132"
+      "\033.server2N.EventChangeWeapon\0220\n\016spawnIte"
+      "mEvent\030v \001(\0132\030.server2N.EventSpawnItem\022+"
+      "\n\007actType\030\001 \001(\0162\032.server2N.GameEvent.act"
+      "ion\022\026\n\016actionProperty\030\005 \001(\005\022\026\n\016EventPosi"
+      "tionX\030\006 \001(\002\022\026\n\016EventPositionY\030\007 \001(\002\022\021\n\tV"
+      "elocityX\030\010 \001(\002\022\021\n\tVelocityY\030\t \001(\002\022\021\n\tinv"
+      "okerId\030\n \003(\005\022\020\n\010sectorNo\030\013 \001(\005\022\024\n\014isInte"
+      "rested\030\014 \001(\010\"\317\001\n\006action\022\013\n\007Nothing\020\000\022\r\n\t"
+      "EventMove\020d\022\r\n\tEventStop\020e\022\r\n\tEventJump\020"
+      "f\022\016\n\nEventShoot\020g\022\014\n\010EventHit\020h\022\016\n\nEvent"
+      "Spawn\020i\022\021\n\rEventUserSync\020j\022\016\n\nEventDeath"
+      "\020k\022\017\n\013EventBullet\020l\022\025\n\021EventChangeWeapon"
+      "\020m\022\022\n\016EventSpawnItem\020n\"\220\002\n\nPacketBody\0222\n"
+      "\007msgType\030\220N \001(\0162 .server2N.PacketBody.me"
+      "ssageType\022)\n\007connect\030\006 \001(\0132\030.server2N.Us"
+      "erConnection\022\'\n\006notice\030\221N \001(\0132\026.server2N"
+      ".GlobalNotice\022\"\n\005event\030\007 \001(\0132\023.server2N."
+      "GameEvent\022\020\n\010senderId\030\010 \001(\005\"D\n\013messageTy"
+      "pe\022\r\n\tGameEvent\020\000\022\023\n\016UserConnection\020\220N\022\021"
+      "\n\014GlobalNotice\020\221Nb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2319);
+      descriptor, 2425);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "gameContent.proto", &protobuf_RegisterTypes);
 }
@@ -739,11 +744,11 @@ const EventMove_Direction EventMove::Direction_MIN;
 const EventMove_Direction EventMove::Direction_MAX;
 const int EventMove::Direction_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-const ::google::protobuf::EnumDescriptor* EventSpawnItem_itemType_descriptor() {
+const ::google::protobuf::EnumDescriptor* EventSpawnItem_ItemType_descriptor() {
   protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_gameContent_2eproto::file_level_enum_descriptors[3];
 }
-bool EventSpawnItem_itemType_IsValid(int value) {
+bool EventSpawnItem_ItemType_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
@@ -754,17 +759,17 @@ bool EventSpawnItem_itemType_IsValid(int value) {
 }
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const EventSpawnItem_itemType EventSpawnItem::Recover;
-const EventSpawnItem_itemType EventSpawnItem::Weapone;
-const EventSpawnItem_itemType EventSpawnItem::itemType_MIN;
-const EventSpawnItem_itemType EventSpawnItem::itemType_MAX;
-const int EventSpawnItem::itemType_ARRAYSIZE;
+const EventSpawnItem_ItemType EventSpawnItem::Recover;
+const EventSpawnItem_ItemType EventSpawnItem::Weapone;
+const EventSpawnItem_ItemType EventSpawnItem::ItemType_MIN;
+const EventSpawnItem_ItemType EventSpawnItem::ItemType_MAX;
+const int EventSpawnItem::ItemType_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-const ::google::protobuf::EnumDescriptor* EventSpawnItem_weaponId_descriptor() {
+const ::google::protobuf::EnumDescriptor* EventSpawnItem_WeaponId_descriptor() {
   protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_gameContent_2eproto::file_level_enum_descriptors[4];
 }
-bool EventSpawnItem_weaponId_IsValid(int value) {
+bool EventSpawnItem_WeaponId_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
@@ -776,12 +781,12 @@ bool EventSpawnItem_weaponId_IsValid(int value) {
 }
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const EventSpawnItem_weaponId EventSpawnItem::Nothing;
-const EventSpawnItem_weaponId EventSpawnItem::Pistol;
-const EventSpawnItem_weaponId EventSpawnItem::Sniper;
-const EventSpawnItem_weaponId EventSpawnItem::weaponId_MIN;
-const EventSpawnItem_weaponId EventSpawnItem::weaponId_MAX;
-const int EventSpawnItem::weaponId_ARRAYSIZE;
+const EventSpawnItem_WeaponId EventSpawnItem::Nothing;
+const EventSpawnItem_WeaponId EventSpawnItem::Pistol;
+const EventSpawnItem_WeaponId EventSpawnItem::Sniper;
+const EventSpawnItem_WeaponId EventSpawnItem::WeaponId_MIN;
+const EventSpawnItem_WeaponId EventSpawnItem::WeaponId_MAX;
+const int EventSpawnItem::WeaponId_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 const ::google::protobuf::EnumDescriptor* GameEvent_action_descriptor() {
   protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
@@ -4113,6 +4118,8 @@ const int EventSpawnItem::kItemIdFieldNumber;
 const int EventSpawnItem::kPosXFieldNumber;
 const int EventSpawnItem::kPosYFieldNumber;
 const int EventSpawnItem::kAmountFieldNumber;
+const int EventSpawnItem::kItemTypeFieldNumber;
+const int EventSpawnItem::kWeaponIdFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 EventSpawnItem::EventSpawnItem()
@@ -4129,15 +4136,15 @@ EventSpawnItem::EventSpawnItem(const EventSpawnItem& from)
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&itemid_, &from.itemid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&amount_) -
-    reinterpret_cast<char*>(&itemid_)) + sizeof(amount_));
+    static_cast<size_t>(reinterpret_cast<char*>(&weaponid_) -
+    reinterpret_cast<char*>(&itemid_)) + sizeof(weaponid_));
   // @@protoc_insertion_point(copy_constructor:server2N.EventSpawnItem)
 }
 
 void EventSpawnItem::SharedCtor() {
   ::memset(&itemid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&amount_) -
-      reinterpret_cast<char*>(&itemid_)) + sizeof(amount_));
+      reinterpret_cast<char*>(&weaponid_) -
+      reinterpret_cast<char*>(&itemid_)) + sizeof(weaponid_));
   _cached_size_ = 0;
 }
 
@@ -4172,8 +4179,8 @@ void EventSpawnItem::Clear() {
   (void) cached_has_bits;
 
   ::memset(&itemid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&amount_) -
-      reinterpret_cast<char*>(&itemid_)) + sizeof(amount_));
+      reinterpret_cast<char*>(&weaponid_) -
+      reinterpret_cast<char*>(&itemid_)) + sizeof(weaponid_));
   _internal_metadata_.Clear();
 }
 
@@ -4243,6 +4250,36 @@ bool EventSpawnItem::MergePartialFromCodedStream(
         break;
       }
 
+      // .server2N.EventSpawnItem.ItemType itemType = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_itemtype(static_cast< ::server2N::EventSpawnItem_ItemType >(value));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .server2N.EventSpawnItem.WeaponId weaponId = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_weaponid(static_cast< ::server2N::EventSpawnItem_WeaponId >(value));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -4289,6 +4326,18 @@ void EventSpawnItem::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->amount(), output);
   }
 
+  // .server2N.EventSpawnItem.ItemType itemType = 5;
+  if (this->itemtype() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      5, this->itemtype(), output);
+  }
+
+  // .server2N.EventSpawnItem.WeaponId weaponId = 6;
+  if (this->weaponid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      6, this->weaponid(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -4321,6 +4370,18 @@ void EventSpawnItem::SerializeWithCachedSizes(
   // int32 amount = 4;
   if (this->amount() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->amount(), target);
+  }
+
+  // .server2N.EventSpawnItem.ItemType itemType = 5;
+  if (this->itemtype() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      5, this->itemtype(), target);
+  }
+
+  // .server2N.EventSpawnItem.WeaponId weaponId = 6;
+  if (this->weaponid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      6, this->weaponid(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -4364,6 +4425,18 @@ size_t EventSpawnItem::ByteSizeLong() const {
         this->amount());
   }
 
+  // .server2N.EventSpawnItem.ItemType itemType = 5;
+  if (this->itemtype() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->itemtype());
+  }
+
+  // .server2N.EventSpawnItem.WeaponId weaponId = 6;
+  if (this->weaponid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->weaponid());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -4405,6 +4478,12 @@ void EventSpawnItem::MergeFrom(const EventSpawnItem& from) {
   if (from.amount() != 0) {
     set_amount(from.amount());
   }
+  if (from.itemtype() != 0) {
+    set_itemtype(from.itemtype());
+  }
+  if (from.weaponid() != 0) {
+    set_weaponid(from.weaponid());
+  }
 }
 
 void EventSpawnItem::CopyFrom(const ::google::protobuf::Message& from) {
@@ -4435,6 +4514,8 @@ void EventSpawnItem::InternalSwap(EventSpawnItem* other) {
   swap(posx_, other->posx_);
   swap(posy_, other->posy_);
   swap(amount_, other->amount_);
+  swap(itemtype_, other->itemtype_);
+  swap(weaponid_, other->weaponid_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
