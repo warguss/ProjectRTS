@@ -22,8 +22,12 @@ public class KillLogUi : MonoBehaviour {
     public void GenerateKillLog(string performerName, string victimName)
     {
         GameObject killLogObject = Instantiate(killLogTextPrefab, transform);
+        string killLogString = string.Format("{0} kill {1}", performerName, victimName);
+
         Text killLogText = killLogObject.GetComponent<Text>();
-        killLogText.text = string.Format("{0} kill {1}", performerName, victimName);
+        killLogText.text = killLogString;
+        Debug.Log(killLogString);
+
         if(this.transform.childCount > 3)
         {
             GameObject removedObject = this.transform.GetChild(0).gameObject;
@@ -33,6 +37,8 @@ public class KillLogUi : MonoBehaviour {
 
     void OnClickTestButton()
     {
-        GenerateKillLog("test0", "test0");
+        string performerName = string.Format("test {0}", Random.Range(0, 100));
+        string victimName = string.Format("test {0}", Random.Range(0, 100));
+        GenerateKillLog(performerName, victimName);
     }
 }
