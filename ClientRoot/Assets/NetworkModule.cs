@@ -400,7 +400,13 @@ public class NetworkModule : MonoBehaviour
 
     public void WriteEventGetItem(int InvokerId, int itemId)
     {
+        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventItemGet, InvokerId, new Vector2(0, 0), new Vector2(0, 0));
+        packet.Event.ItemGetEvent = new EventItemGet
+        {
+            Itemid = itemId
+        };
 
+        EnqueueSendPacket(packet);
     }
 
     public void WriteEventMove(int InvokerId, Vector2 position, Vector2 velocity, bool isLeft)

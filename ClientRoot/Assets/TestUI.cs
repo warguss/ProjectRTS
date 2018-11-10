@@ -30,7 +30,7 @@ public class TestUI : MonoBehaviour {
 
         ConnectButton.onClick.AddListener(OnClickConnect);
         DisconnectButton.onClick.AddListener(OnClickDisconnect);
-        CreateItemButton.onClick.AddListener(OnClickItemCreate);
+        //CreateItemButton.onClick.AddListener(OnClickItemCreate);
         IpInput.text = NetworkModule.SERVER_IP;
         PortInput.text = NetworkModule.SERVER_PORT.ToString();
     }
