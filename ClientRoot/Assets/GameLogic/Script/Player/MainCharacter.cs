@@ -4,13 +4,6 @@ using RTS;
 using System;
 using System.Collections.Generic;
 
-public enum CharacterStatus
-{
-	Neutral,
-    Attacking,
-	Attacked,
-}
-
 public class MainCharacter : ControllableCharacter
 {
     const float DEFAULT_HP_RECOVER_AMOUNT = 30;
@@ -65,12 +58,13 @@ public class MainCharacter : ControllableCharacter
         charRigidbody = GetComponent<Rigidbody2D>();
         charCollider = GetComponent<Collider2D>();
         charSpriteObject = transform.Find("Sprite").gameObject;
+        SpriteOverlay = transform.Find("SpriteOverlay").GetComponent<SpriteOverlayScript>();
 
         Inventory = new PlayerInventory(this);
         //Inventory.AddItem(WeaponId.Pistol);////////////////////
         //Inventory.AddItem(WeaponId.Sniper);////////////////////
 
-        state = new CharacterState();
+        state = new CharacterStateInfo();
 
         var playerInfoDisplayGameObject = Instantiate(PlayerInfoDisplay, transform.Find("Sprite"));
         playerInfoDisplayGameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
@@ -89,7 +83,17 @@ public class MainCharacter : ControllableCharacter
     {
         playerInfoDisplay.SetHP(hp / MaxHP);
         Inventory.UpdateWeaponInterval(Time.deltaTime);
+        state.UpdateStateInfo(Time.deltaTime);
         
+        if(state.Invincible)
+        {
+            SpriteOverlay.SetInvincible(true);
+        }
+        else
+        {
+            SpriteOverlay.SetInvincible(false);
+        }
+
         if (isInterpolating)
         {
             float x = interpolationSrc.x + ((transform.position.x - interpolationSrc.x) * accumulatedInterpolationTime / interpolationTime);
@@ -111,7 +115,7 @@ public class MainCharacter : ControllableCharacter
     {
         CheckLand();
 
-        if (status == CharacterStatus.Neutral && !isMoving)
+        if (state.CurrentState == CharacterState.Neutral && !isMoving)
             Brake();
     }
 
@@ -158,14 +162,14 @@ public class MainCharacter : ControllableCharacter
 
     public override void MoveStop()
     {
-        if(status == CharacterStatus.Neutral)
+        if(state.CurrentState == CharacterState.Neutral)
         {
             if (isMoving)
                 InvokeEventStop(CurrentPosition, CurrentVelocity);
 
             isMoving = false;
 
-            status = CharacterStatus.Neutral;
+            state.CurrentState = CharacterState.Neutral;
         }
     }
 
@@ -295,31 +299,34 @@ public class MainCharacter : ControllableCharacter
 
     public override void GetHit(int attackerId, ShootInfo info, float? remainingHp = null)
     {
-        if (remainingHp == null)
-            hp -= info.Damage;
-        else
-            hp = (float)remainingHp;
-
-        TestUI.Instance.PrintText("player" + OwnerId + "hp : " + hp + " / Attacker : " + attackerId);
-
-        switch(info.HitType)
+        if (!state.Invincible) //무적인지 체크
         {
-            case WeaponId.Pistol:
-            case WeaponId.Sniper:
-                float radian = Mathf.PI * (float)info.shootAngle / 180f;
-                float impactX = Mathf.Cos(radian);
-                float impactY = Mathf.Sin(radian);
-                charRigidbody.AddForce(new Vector2(impactX, impactY) * info.Impact);
-                break;
-        }
+            if (remainingHp == null)
+                hp -= info.Damage;
+            else
+                hp = (float)remainingHp;
 
-        lastAttackedPlayerId = attackerId;
+            TestUI.Instance.PrintText("player" + OwnerId + "hp : " + hp + " / Attacker : " + attackerId);
 
-        InvokeEventGetHit(CurrentPosition, CurrentVelocity, attackerId, info, hp);
+            switch (info.HitType)
+            {
+                case WeaponId.Pistol:
+                case WeaponId.Sniper:
+                    float radian = Mathf.PI * (float)info.shootAngle / 180f;
+                    float impactX = Mathf.Cos(radian);
+                    float impactY = Mathf.Sin(radian);
+                    charRigidbody.AddForce(new Vector2(impactX, impactY) * info.Impact);
+                    break;
+            }
 
-        if (IsLocalPlayer && hp <= 0)
-        {
-            PlayerDie();
+            lastAttackedPlayerId = attackerId;
+
+            InvokeEventGetHit(CurrentPosition, CurrentVelocity, attackerId, info, hp);
+
+            if (IsLocalPlayer && hp <= 0)
+            {
+                PlayerDie();
+            }
         }
     }
 

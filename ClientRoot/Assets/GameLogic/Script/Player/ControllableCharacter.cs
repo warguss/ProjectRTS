@@ -29,13 +29,13 @@ public abstract class ControllableCharacter : MonoBehaviour
     protected GameObject charSpriteObject;
 
     protected PlayerInfoDisplay playerInfoDisplay;
+    protected SpriteOverlayScript SpriteOverlay;
 
-    protected CharacterStatus status = CharacterStatus.Neutral;
     protected int hitRecovery = 0;
 
     protected float hp;
     public float MaxHP;
-    protected CharacterState state;
+    public CharacterStateInfo state;
     protected int jumpCount = 0;
     protected int lastAttackedPlayerId = -1;
 
@@ -99,6 +99,11 @@ public abstract class ControllableCharacter : MonoBehaviour
     protected void InvokeEventSync(Vector2 position, Vector2 velocity)
     {
         SyncEvent?.Invoke(OwnerId, position, velocity);
+    }
+
+    public void Start()
+    {
+        
     }
 
     public void SetOwner(int owner)

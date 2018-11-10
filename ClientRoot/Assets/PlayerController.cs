@@ -171,6 +171,11 @@ public class PlayerController {
         return Character.Inventory;
     }
 
+    public void SetInvincible(float time)
+    {
+        Character.state.SetInvincible(time);
+    }
+
     public WeaponId GetCurrentWeapon()
     {
         return Character.Inventory.CurrentWeaponId;

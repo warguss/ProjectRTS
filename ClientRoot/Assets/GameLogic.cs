@@ -10,6 +10,7 @@ using Server2N;
 public class GameLogic : MonoBehaviour
 {
     public const int WEAPON_SLOT_COUNT = 3;
+    public const float SPAWN_INVINCIBLE_TIME = 3f;
 
     static public GameLogic Instance;
 
@@ -516,6 +517,7 @@ public class GameLogic : MonoBehaviour
     void SpawnPlayer(int playerId, Vector2 position)
     {
         playerControllers[playerId].Spawn(position);
+        playerControllers[playerId].SetInvincible(SPAWN_INVINCIBLE_TIME);
     }
 
     IEnumerator SpawnAfterSeconds(int playerId, Vector2 position, int seconds)
