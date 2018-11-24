@@ -92,11 +92,10 @@ message EventDeath{
 message EventItemSpawn
 {
 	InfoItem item = 1;
-	int32 itemId = 2;
 }
 message EventItemGet
 {
-	int32 itemid = 1;
+	InfoItem item = 1;
 }
 
 message InfoItem
@@ -113,8 +112,9 @@ message InfoItem
 		Pistol = 1;
 		Sniper = 2;
 	}
-	int32 amount = 4;
 
+	int32 amount = 4;
+	string itemId = 2;
 	ItemType itemType = 5;
 	WeaponId weaponId = 6;
 }
@@ -137,7 +137,7 @@ message GameEvent
 	repeated int32 invokerId = 10;
 	bool isInterested = 11;
 	bool isLocal = 12;
-	eventType event = 13;
+	eventType evtType = 13;
 }
 
 message SystemEvent{
