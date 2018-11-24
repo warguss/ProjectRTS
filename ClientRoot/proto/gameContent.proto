@@ -119,7 +119,40 @@ message InfoItem
 	WeaponId weaponId = 6;
 }
 
-message GameEvent{
+message GameEvent
+{
+	enum eventType{
+		Nothing		= 0;
+		UserEvent	= 1;
+		SystemEvent	= 2;
+	}
+
+	UserEvent userEvent = 3;
+	SystemEvent systemEvent = 4;
+
+	int32 actionProperty = 5;
+	float EventPositionX = 6;
+	float EventPositionY = 7;
+	float VelocityX = 8;
+	float VelocityY = 9;
+	repeated int32 invokerId = 10;
+	int32 sectorNo = 11;
+	bool isInterested = 12;
+	bool isLocal = 13;
+}
+
+message SystemEvent{
+	enum action{
+		Nothing				= 0;
+		EventItemSpawn		= 200;
+		EventItemGet		= 201;
+	}
+
+	action actType = 202;
+	EventItemSpawn itemSpawnEvent = 203;
+	EventItemGet itemGetEvent = 204;
+}
+message UserEvent{
 	enum action{
 		Nothing				= 0;
 		EventMove			= 100;
@@ -132,31 +165,21 @@ message GameEvent{
 		EventDeath			= 107;
 		EventBullet			= 108;
 		EventChangeWeapon	= 109;
-		EventItemSpawn		= 110;
-		EventItemGet		= 111;
-
 	}
-	EventMove moveEvent = 109;
-	EventStop stopEvent = 110;
-	EventJump jumpEvent = 111;
-	EventShoot shootEvent = 112;
-	EventHit hitEvent = 113;
-	EventSpawn spawnEvent = 114;
-	EventUserSync syncEvent = 115;
-	EventDeath deathEvent = 116;
-	EventChangeWeapon chWeaponEvent = 117;
-	EventItemSpawn itemSpawnEvent = 118;
-	EventItemGet itemGetEvent = 119;
 
-	action actType = 1;
-	int32 actionProperty = 5;
-	float EventPositionX = 6;
-	float EventPositionY = 7;
-	float VelocityX = 8;
-	float VelocityY = 9;
-	repeated int32 invokerId = 10;
-	int32 sectorNo = 11;
-	bool isInterested = 12;
+	action actType = 110;
+	EventMove moveEvent = 111;
+	EventStop stopEvent = 112;
+	EventJump jumpEvent = 113;
+	EventShoot shootEvent = 114;
+	EventHit hitEvent = 115;
+	EventSpawn spawnEvent = 116;
+	EventUserSync syncEvent = 117;
+	EventDeath deathEvent = 118;
+	EventChangeWeapon chWeaponEvent = 119;
+	EventItemSpawn itemSpawnEvent = 120;
+	EventItemGet itemGetEvent = 121;
+
 }
 
 message PacketBody{
