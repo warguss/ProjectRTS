@@ -180,4 +180,9 @@ public class PlayerController {
     {
         return Character.Inventory.CurrentWeaponId;
     }
+
+    public Vector2 GetCurrentPosition()
+    {
+        return Character.GetCurrentPosition();
+    }
 }

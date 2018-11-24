@@ -277,17 +277,14 @@ public class NetworkModule : MonoBehaviour
         return packetBody;
     }
 
-    PacketBody CreateCommonEventPacket(GameEvent.Types.action type, int id, Vector2 position, Vector2 velocity)
+    PacketBody CreateGameEventPacket(int id, Vector2 position, Vector2 velocity)
     {
-
         GameEvent gameEvent = new GameEvent
         {
-            ActType = type,
             EventPositionX = position.x,
             EventPositionY = position.y,
             VelocityX = velocity.x,
             VelocityY = velocity.y,
-            //ActionProperty = actionProperty,
         };
         gameEvent.InvokerId.Add(id);
 
@@ -296,6 +293,33 @@ public class NetworkModule : MonoBehaviour
             MsgType = PacketBody.Types.messageType.GameEvent,
             Event = gameEvent,
         };
+
+        return packetBody;
+    }
+
+    PacketBody CreateUserEventPacket(UserEvent.Types.action type, int id, Vector2 position, Vector2 velocity)
+    {
+
+        PacketBody packetBody = CreateGameEventPacket(id, position, velocity);
+        UserEvent userEvent = new UserEvent
+        {
+            ActType = type
+        };
+        packetBody.Event.EvtType = GameEvent.Types.eventType.UserEvent;
+        packetBody.Event.UserEvent = userEvent;
+
+        return packetBody;
+    }
+
+    PacketBody CreateSystemEventPacket(SystemEvent.Types.action type, int id, Vector2 position, Vector2 velocity)
+    {
+        PacketBody packetBody = CreateGameEventPacket(id, position, velocity);
+        SystemEvent systemEvent = new SystemEvent
+        {
+            ActType = type
+        };
+        packetBody.Event.EvtType = GameEvent.Types.eventType.SystemEvent;
+        packetBody.Event.SystemEvent = systemEvent;
 
         return packetBody;
     }
@@ -373,37 +397,28 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
+    //////////////////////////////////////////UserEvent
+
     public void WriteEventSync(int InvokerId, Vector2 position, Vector2 velocity)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventUserSync, InvokerId, position, velocity);
+        var packet = CreateUserEventPacket(UserEvent.Types.action.EventUserSync, InvokerId, position, velocity);
 
         EnqueueSendPacket(packet);
     }
 
     public void WriteEventSpawn(int InvokerId, Vector2 position)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventSpawn, InvokerId, position, new Vector2(0, 0));
+        var packet = CreateUserEventPacket(UserEvent.Types.action.EventSpawn, InvokerId, position, new Vector2(0, 0));
 
         EnqueueSendPacket(packet);
     }
 
     public void WriteEventDead(int InvokerId, Vector2 position, int AttackerId)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventDeath, InvokerId, position, new Vector2(0, 0));
-        packet.Event.DeathEvent = new EventDeath
+        var packet = CreateUserEventPacket(UserEvent.Types.action.EventDeath, InvokerId, position, new Vector2(0, 0));
+        packet.Event.UserEvent.DeathEvent = new EventDeath
         {
             TriggerId = AttackerId
-        };
-
-        EnqueueSendPacket(packet);
-    }
-
-    public void WriteEventGetItem(int InvokerId, int itemId)
-    {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventItemGet, InvokerId, new Vector2(0, 0), new Vector2(0, 0));
-        packet.Event.ItemGetEvent = new EventItemGet
-        {
-            Itemid = itemId
         };
 
         EnqueueSendPacket(packet);
@@ -415,8 +430,8 @@ public class NetworkModule : MonoBehaviour
         if (!isLeft)
             direction = EventMove.Types.Direction.Right;
 
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventMove, InvokerId, position, velocity);
-        packet.Event.MoveEvent = new EventMove
+        var packet = CreateUserEventPacket(UserEvent.Types.action.EventMove, InvokerId, position, velocity);
+        packet.Event.UserEvent.MoveEvent = new EventMove
         {
             Type = direction
         };
@@ -426,8 +441,8 @@ public class NetworkModule : MonoBehaviour
 
     public void WriteEventStop(int InvokerId, Vector2 position, Vector2 velocity)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventStop, InvokerId, position, velocity);
-        packet.Event.StopEvent = new EventStop
+        var packet = CreateUserEventPacket(UserEvent.Types.action.EventStop, InvokerId, position, velocity);
+        packet.Event.UserEvent.StopEvent = new EventStop
         {
 
         };
@@ -437,8 +452,8 @@ public class NetworkModule : MonoBehaviour
 
     public void WriteEventGetHit(int InvokerId, Vector2 position, Vector2 velocity, int attackerId, ShootInfo info, float remainingHp)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventHit, InvokerId, position, velocity);
-        packet.Event.HitEvent = new EventHit
+        var packet = CreateUserEventPacket(UserEvent.Types.action.EventHit, InvokerId, position, velocity);
+        packet.Event.UserEvent.HitEvent = new EventHit
         {
             Attacker = attackerId,
             HitType = (int)info.HitType,
@@ -452,8 +467,8 @@ public class NetworkModule : MonoBehaviour
 
     public void WriteEventJump(int InvokerId, Vector2 position, Vector2 velocity)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventJump, InvokerId, position, velocity);
-        packet.Event.JumpEvent = new EventJump
+        var packet = CreateUserEventPacket(UserEvent.Types.action.EventJump, InvokerId, position, velocity);
+        packet.Event.UserEvent.JumpEvent = new EventJump
         {
 
         };
@@ -463,8 +478,8 @@ public class NetworkModule : MonoBehaviour
 
     public void WriteEventShoot(int InvokerId, Vector2 position, Vector2 velocity, ShootInfo info, WeaponId weaponId)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventShoot, InvokerId, position, velocity);
-        packet.Event.ShootEvent = new EventShoot
+        var packet = CreateUserEventPacket(UserEvent.Types.action.EventShoot, InvokerId, position, velocity);
+        packet.Event.UserEvent.ShootEvent = new EventShoot
         {
             BulletSpeed = info.BulletSpeed,
             BulletRange = info.BulletRange,
@@ -479,10 +494,45 @@ public class NetworkModule : MonoBehaviour
 
     public void WriteEventChangeWeapon(int InvokerId, Vector2 position, Vector2 velocity, WeaponId weaponId)
     {
-        var packet = CreateCommonEventPacket(GameEvent.Types.action.EventChangeWeapon, InvokerId, position, velocity);
-        packet.Event.ChWeaponEvent = new EventChangeWeapon
+        var packet = CreateUserEventPacket(UserEvent.Types.action.EventChangeWeapon, InvokerId, position, velocity);
+        packet.Event.UserEvent.ChWeaponEvent = new EventChangeWeapon
         {
             WeaponId = (int)weaponId
+        };
+
+        EnqueueSendPacket(packet);
+    }
+
+    //////////////////////////////////////////SystemEvent
+
+    public void WriteEventSpawnItem(int InvokerId, Vector2 position, string itemId, ItemType type, WeaponId weapon, int amount = 0)
+    {
+        var packet = CreateSystemEventPacket(SystemEvent.Types.action.EventItemSpawn, InvokerId, position, new Vector2(0, 0));
+        InfoItem infoItem = new InfoItem
+        {
+            Amount = amount,
+            ItemId = itemId,
+            ItemType = (InfoItem.Types.ItemType)type,
+            WeaponId = (InfoItem.Types.WeaponId)weapon
+        };
+        packet.Event.SystemEvent.ItemSpawnEvent = new EventItemSpawn
+        {
+            Item = infoItem
+        };
+
+        EnqueueSendPacket(packet);
+    }
+
+    public void WriteEventGetItem(int InvokerId, string itemId)
+    {
+        var packet = CreateSystemEventPacket(SystemEvent.Types.action.EventItemGet, InvokerId, new Vector2(0, 0), new Vector2(0, 0));
+        InfoItem infoItem = new InfoItem //현재는 Get할 때는 itemId만 사용
+        {
+            ItemId = itemId
+        };
+        packet.Event.SystemEvent.ItemGetEvent = new EventItemGet
+        {
+            Item = infoItem
         };
 
         EnqueueSendPacket(packet);
@@ -542,7 +592,7 @@ public class NetworkModule : MonoBehaviour
                 break;
             }
 
-            TestUI.Instance.PrintText("recvBuffer (" + recvBuffer + ")");
+            //TestUI.Instance.PrintText("recvBuffer (" + recvBuffer + ")");
             recvBuffer = recvBuffer.ToLower();
             if (!recvBuffer.Contains("success"))
             {

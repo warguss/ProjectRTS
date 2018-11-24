@@ -12,7 +12,7 @@ public class FieldItem : MonoBehaviour {
 
     public SpriteRenderer spriteRenderer;
 
-    public int ItemId;
+    public string ItemId;
 
     public ItemType ItemType;
     public WeaponId WeaponId;
@@ -28,7 +28,7 @@ public class FieldItem : MonoBehaviour {
 		
 	}
 
-    public void Initialize(int inItemId, ItemType inItemType, WeaponId inWeaponId, int inAmount)
+    public void Initialize(string inItemId, ItemType inItemType, WeaponId inWeaponId, int inAmount)
     {
         ItemId = inItemId;
         ItemType = inItemType;
@@ -72,8 +72,14 @@ public class FieldItem : MonoBehaviour {
         if (other.tag == "Player")
         {
             MainCharacter targetPlayer = other.gameObject.GetComponent<MainCharacter>();
-            targetPlayer.GetItem(this);
-            Destroy(gameObject);
+            if (GameLogic.Instance.myId == targetPlayer.OwnerId) // ItemGet패킷 보낸 후 응답을 받아야 먹은 걸로 처리해야 함
+            {
+                if (!GameLogic.Instance.isOnline)
+                {
+                    targetPlayer.GetItem(this);
+                    Destroy(gameObject);
+                }
+            }
         }
     }
 }

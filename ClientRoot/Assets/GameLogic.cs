@@ -12,6 +12,9 @@ public class GameLogic : MonoBehaviour
     public const int WEAPON_SLOT_COUNT = 3;
     public const float SPAWN_INVINCIBLE_TIME = 3f;
 
+    public const float ITEM_INTERVAL_MAX = 10f;
+    public const float ITEM_INTERVAL_MIN = 5f;
+
     static public GameLogic Instance;
 
     public InputInterface inputInterface;
@@ -28,6 +31,11 @@ public class GameLogic : MonoBehaviour
     Dictionary<int, PlayerController> playerControllers;
     MapData mapData;
 
+    float currentItemInterval;
+    int createItemCount = 0;
+
+    Dictionary<string, FieldItem> FieldItems;
+
     int testId1P = 0;
     int testId2P = 1;
 
@@ -40,6 +48,7 @@ public class GameLogic : MonoBehaviour
     {
         Instance = this;
         playerControllers = new Dictionary<int, PlayerController>();
+        FieldItems = new Dictionary<string, FieldItem>();
         mapData = Instantiate(MapDataPrefab).GetComponent<MapData>();
 
         mapData.LoadMap();
@@ -66,6 +75,7 @@ public class GameLogic : MonoBehaviour
                 isOnline = false;
                 CleanUpGame();
                 TestUI.Instance.PrintText("Disconnected from server.");
+                StopAllCoroutines();
             }
         }
     }
@@ -86,6 +96,8 @@ public class GameLogic : MonoBehaviour
         {
             CameraScript.SetTarget(playerControllers[myId].Character.GetGameObject());
             WeaponUI.Instance.SetInventory(player.GetInventory());
+
+            StartCoroutine(ItemSpawnTimer());
         }
         if(isMe || isLocalPlayer)
         { 
@@ -267,53 +279,51 @@ public class GameLogic : MonoBehaviour
 
     void ProcessEventPacket(GameEvent EventPacket)
     {
-        TestUI.Instance.PrintText("ProcessEventPacket: " + EventPacket.ActType);
+        TestUI.Instance.PrintText("ProcessEventPacket: " + EventPacket.EvtType);
 
         Vector2 position = new Vector2(EventPacket.EventPositionX, EventPacket.EventPositionY);
         Vector2 velocity = new Vector2(EventPacket.VelocityX, EventPacket.VelocityY);
 
-        ///////////////////////////////////////invokerId 없는 이벤트
-
-        switch (EventPacket.ActType)
+        switch(EventPacket.EvtType)
         {
-            case GameEvent.Types.action.EventItemSpawn:
+            case GameEvent.Types.eventType.UserEvent:
                 {
-                    var info = EventPacket.ItemSpawnEvent;
-                    int itemId = info.ItemId;
-                    var item = info.Item;
+                    foreach (int invokerId in EventPacket.InvokerId)
+                    {
+                        bool isInterested = EventPacket.IsInterested;//TO DO
+                        if (invokerId == myId)
+                        {
+                            continue;
+                        }
+                        //playerControllers[invokerId].IsInterested = isInterested;
+                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
 
-                    TestUI.Instance.PrintText("EventItemSpawn - ItemType : " + item.ItemType + "" + item.WeaponId);
-                    CreateItem(position, itemId, (ItemType)item.ItemType, (WeaponId)item.WeaponId);
-
-
+                        var userEventPacket = EventPacket.UserEvent;
+                        ProcessUserEvent(userEventPacket, invokerId, position);
+                    }
+                    break;
+                }
+            case GameEvent.Types.eventType.SystemEvent:
+                {
+                    var systemEventPacket = EventPacket.SystemEvent;
+                    ProcessSystemEvent(systemEventPacket, position);
                     break;
                 }
         }
+    }
 
-        ///////////////////////////////////////invokerId 있는 이벤트
-
-        foreach (int invokerId in EventPacket.InvokerId)
-        {
-            int sectorNo = EventPacket.SectorNo;
-            bool isInterested = EventPacket.IsInterested;
-            if (invokerId == myId)
+    void ProcessUserEvent(UserEvent userEventPacket, int invokerId, Vector2 position)
+    {
+            switch (userEventPacket.ActType)
             {
-                mySector = sectorNo;
-                continue;
-            }
-            //playerControllers[invokerId].IsInterested = isInterested;
-
-            switch (EventPacket.ActType)
-            {
-                case GameEvent.Types.action.Nothing:
+                case UserEvent.Types.action.Nothing:
                     break;
 
-                case GameEvent.Types.action.EventMove:
+                case UserEvent.Types.action.EventMove:
                     {
-                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
 
-                        var info = EventPacket.MoveEvent;
-                        if(info.Type == EventMove.Types.Direction.Left)
+                        var info = userEventPacket.MoveEvent;
+                        if (info.Type == EventMove.Types.Direction.Left)
                         {
                             SendInputToCharacter(invokerId, PlayerAction.Left);
                         }
@@ -323,29 +333,26 @@ public class GameLogic : MonoBehaviour
                         }
                         break;
                     }
-                case GameEvent.Types.action.EventStop:
+                case UserEvent.Types.action.EventStop:
                     {
-                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
 
-                        var info = EventPacket.StopEvent;
+                        var info = userEventPacket.StopEvent;
                         SendInputToCharacter(invokerId, PlayerAction.Stop);
                         break;
                     }
 
-                case GameEvent.Types.action.EventJump:
+                case UserEvent.Types.action.EventJump:
                     {
-                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
 
-                        var info = EventPacket.JumpEvent;
+                        var info = userEventPacket.JumpEvent;
                         SendInputToCharacter(invokerId, PlayerAction.Jump);
                         break;
                     }
 
-                case GameEvent.Types.action.EventShoot:
+                case UserEvent.Types.action.EventShoot:
                     {
-                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
 
-                        var info = EventPacket.ShootEvent;
+                        var info = userEventPacket.ShootEvent;
                         int weaponId = info.WeaponId;
                         ShootInfo shootInfo = new ShootInfo
                         {
@@ -363,21 +370,19 @@ public class GameLogic : MonoBehaviour
                         break;
                     }
 
-                case GameEvent.Types.action.EventChangeWeapon:
+                case UserEvent.Types.action.EventChangeWeapon:
                     {
-                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
 
-                        var info = EventPacket.ChWeaponEvent;
+                        var info = userEventPacket.ChWeaponEvent;
                         int weaponId = info.WeaponId;
                         playerControllers[invokerId].ChangeWeapon((WeaponId)weaponId);
                         break;
                     }
 
-                case GameEvent.Types.action.EventHit:
+                case UserEvent.Types.action.EventHit:
                     {
-                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
 
-                        var info = EventPacket.HitEvent;
+                        var info = userEventPacket.HitEvent;
                         ShootInfo shootInfo = new ShootInfo
                         {
                             HitType = (WeaponId)info.HitType,
@@ -390,30 +395,56 @@ public class GameLogic : MonoBehaviour
                         break;
                     }
 
-                case GameEvent.Types.action.EventSpawn:
+                case UserEvent.Types.action.EventSpawn:
                     {
                         SpawnPlayer(invokerId, position);
                         break;
                     }
-                case GameEvent.Types.action.EventDeath:
+                case UserEvent.Types.action.EventDeath:
                     {
                         playerControllers[invokerId].Dead();
                         break;
                     }
 
-                case GameEvent.Types.action.EventUserSync:
+                case UserEvent.Types.action.EventUserSync:
                     {
-                        var info = EventPacket.SyncEvent;
+                        var info = userEventPacket.SyncEvent;
                         //float currentHp = info.CurrentHP;
                         //int weaponId = info.WeaponId;
 
-                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
                         //playerControllers[invokerId].SetHP(currentHp);
                         //playerControllers[invokerIs].ChangeWeapon(weaponId);
 
                         break;
                     }
             }
+    }
+
+    void ProcessSystemEvent(SystemEvent systemEventPacket, Vector2 position)
+    {
+        switch (systemEventPacket.ActType)
+        {
+            case SystemEvent.Types.action.EventItemSpawn:
+                {
+                    var info = systemEventPacket.ItemSpawnEvent;
+                    var item = info.Item;
+                    string itemId = item.ItemId;
+
+                    TestUI.Instance.PrintText("EventItemSpawn - ItemType : " + item.ItemType + ", weaponId : " + item.WeaponId);
+                    CreateItem(position, itemId, (ItemType)item.ItemType, (WeaponId)item.WeaponId);
+                    break;
+                }
+
+            case SystemEvent.Types.action.EventItemGet:
+                {
+                    var info = systemEventPacket.ItemGetEvent;
+                    var item = info.Item;
+                    string itemId = item.ItemId;
+
+                    TestUI.Instance.PrintText("EventItemGet - ItemId : " + itemId);
+                    ConsumeItem(itemId);
+                    break;
+                }
         }
     }
 
@@ -510,7 +541,7 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void PlayerEventGetItem(int invokerId, int itemId)
+    void PlayerEventGetItem(int invokerId, string itemId)
     {
         if (isOnline)
         {
@@ -540,12 +571,77 @@ public class GameLogic : MonoBehaviour
         SpawnPlayer(playerId, position);
     }
 
-    public void CreateItem(Vector2 position, int itemId, ItemType type, WeaponId weapon, int amount = 0)
+    public void CreateItem(Vector2 position, string itemId, ItemType type, WeaponId weapon, int amount = 0)
     {
         TestUI.Instance.PrintText("CreateItem" + position);
         GameObject created = Instantiate(ItemPrefab, new Vector3(position.x, position.y, 0), new Quaternion());
         FieldItem item = created.GetComponent<FieldItem>();
         item.Initialize(itemId, type, weapon, amount);
+
+        FieldItems.Add(itemId, item);
+
+        if (isOnline)
+        {
+            NetworkModule.instance.WriteEventSpawnItem(myId, position, itemId, type, weapon, amount);
+        }
+    }
+
+    public void ConsumeItem(string itemId)
+    {
+        FieldItems.Remove(itemId);
+    }
+
+    public void CreateItemRandomely(Vector2 centerPosition, float range)
+    {
+        float xMin = centerPosition.x - range;
+        float xMax = centerPosition.x + range;
+        float yMin = centerPosition.y - range;
+        float yMax = centerPosition.y + range;
+
+        if (xMin < 0)
+            xMin = 0;
+        if (yMin < 0)
+            yMin = 0;
+
+        Vector2 itemPosition = new Vector2(Random.Range(xMin, xMax), Random.Range(yMin, yMax));
+        TestUI.Instance.PrintText("CreateItemRandomely" + itemPosition);
+        ItemType itemType = (ItemType)Random.Range(0, 2);
+        switch (itemType)
+        {
+            case ItemType.Recover:
+                {
+                    CreateItem(itemPosition, GenerateItemId(), itemType, WeaponId.None);
+                    break;
+                }
+            case ItemType.Weapon:
+                {
+                    int weaponId = Random.Range(1, 3);
+                    CreateItem(itemPosition, GenerateItemId(), itemType, (WeaponId)weaponId);
+                    break;
+                }
+        }
+    }
+
+    public string GenerateItemId()
+    {
+        string itemId = myId + "_" + createItemCount;
+        createItemCount++;
+
+        return itemId;
+    }
+
+    IEnumerator ItemSpawnTimer()
+    {
+        while (true)
+        {
+            currentItemInterval = Random.Range(ITEM_INTERVAL_MIN, ITEM_INTERVAL_MAX);
+            while (currentItemInterval > 0)
+            {
+                yield return null;
+                currentItemInterval -= Time.deltaTime;
+            }
+            CreateItemRandomely(playerControllers[myId].GetCurrentPosition(), 10);
+        }
     }
 }
    

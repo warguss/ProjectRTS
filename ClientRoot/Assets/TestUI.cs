@@ -93,6 +93,6 @@ public class TestUI : MonoBehaviour {
 
     void OnClickItemCreate()
     {
-        GameLogic.Instance.CreateItem(new Vector2(3, 3), 0, ItemType.Recover, WeaponId.Pistol);
+        GameLogic.Instance.CreateItem(new Vector2(3, 3), "test", ItemType.Recover, WeaponId.Pistol);
     }
 }
