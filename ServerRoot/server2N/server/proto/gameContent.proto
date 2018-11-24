@@ -7,6 +7,7 @@ message GlobalNotice{
 		Nothing = 0;
 		KillInfo = 1;
 		Notice = 2;
+		ItemInfo = 3;
 	}
 
 	NoticeInfo notiType = 1;
@@ -28,8 +29,9 @@ message UserConnection{
 	repeated int32 killInfo = 2;
 	repeated int32 deathInfo = 3;
 	repeated string nickname = 4;
+	repeated int32 itemId = 5;
 
-	ConnectionType conType = 5;
+	ConnectionType conType = 6;
 }
 
 message EventMove{
@@ -87,28 +89,70 @@ message EventDeath{
 	int32 triggerId = 1;
 }
 
-message EventSpawnItem
+message EventItemSpawn
 {
-	enum itemType
+	InfoItem item = 1;
+	int32 itemId = 2;
+}
+message EventItemGet
+{
+	int32 itemid = 1;
+}
+
+message InfoItem
+{
+	enum ItemType
 	{
 		Recover = 0;
 		Weapone = 1;
 	}
 	
-	enum weaponId
+	enum WeaponId
 	{
 		Nothing = 0;
 		Pistol = 1;
 		Sniper = 2;
 	}
-
-	int32 itemId = 1;
-	float posX = 2;
-	float posY = 3;
 	int32 amount = 4;
+
+	ItemType itemType = 5;
+	WeaponId weaponId = 6;
 }
 
-message GameEvent{
+message GameEvent
+{
+	enum eventType{
+		Nothing		= 0;
+		UserEvent	= 1;
+		SystemEvent	= 2;
+	}
+
+	UserEvent userEvent = 3;
+	SystemEvent systemEvent = 4;
+
+	int32 actionProperty = 5;
+	float EventPositionX = 6;
+	float EventPositionY = 7;
+	float VelocityX = 8;
+	float VelocityY = 9;
+	repeated int32 invokerId = 10;
+	int32 sectorNo = 11;
+	bool isInterested = 12;
+	bool isLocal = 13;
+}
+
+message SystemEvent{
+	enum action{
+		Nothing				= 0;
+		EventItemSpawn		= 200;
+		EventItemGet		= 201;
+	}
+
+	action actType = 202;
+	EventItemSpawn itemSpawnEvent = 203;
+	EventItemGet itemGetEvent = 204;
+}
+message UserEvent{
 	enum action{
 		Nothing				= 0;
 		EventMove			= 100;
@@ -121,28 +165,21 @@ message GameEvent{
 		EventDeath			= 107;
 		EventBullet			= 108;
 		EventChangeWeapon	= 109;
-		EventSpawnItem		= 110;
 	}
-	EventMove moveEvent = 109;
-	EventStop stopEvent = 110;
-	EventJump jumpEvent = 111;
-	EventShoot shootEvent = 112;
-	EventHit hitEvent = 113;
-	EventSpawn spawnEvent = 114;
-	EventUserSync syncEvent = 115;
-	EventDeath deathEvent = 116;
-	EventChangeWeapon chWeaponEvent = 117;
-	EventSpawnItem spawnItemEvent = 118;
 
-	action actType = 1;
-	int32 actionProperty = 5;
-	float EventPositionX = 6;
-	float EventPositionY = 7;
-	float VelocityX = 8;
-	float VelocityY = 9;
-	repeated int32 invokerId = 10;
-	int32 sectorNo = 11;
-	bool isInterested = 12;
+	action actType = 110;
+	EventMove moveEvent = 111;
+	EventStop stopEvent = 112;
+	EventJump jumpEvent = 113;
+	EventShoot shootEvent = 114;
+	EventHit hitEvent = 115;
+	EventSpawn spawnEvent = 116;
+	EventUserSync syncEvent = 117;
+	EventDeath deathEvent = 118;
+	EventChangeWeapon chWeaponEvent = 119;
+	EventItemSpawn itemSpawnEvent = 120;
+	EventItemGet itemGetEvent = 121;
+
 }
 
 message PacketBody{
