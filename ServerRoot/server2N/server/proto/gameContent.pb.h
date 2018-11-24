@@ -2328,12 +2328,6 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::server2N::SystemEvent* mutable_systemevent();
   void set_allocated_systemevent(::server2N::SystemEvent* systemevent);
 
-  // int32 actionProperty = 5;
-  void clear_actionproperty();
-  static const int kActionPropertyFieldNumber = 5;
-  ::google::protobuf::int32 actionproperty() const;
-  void set_actionproperty(::google::protobuf::int32 value);
-
   // float EventPositionX = 6;
   void clear_eventpositionx();
   static const int kEventPositionXFieldNumber = 6;
@@ -2358,23 +2352,23 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   float velocityy() const;
   void set_velocityy(float value);
 
-  // int32 sectorNo = 11;
-  void clear_sectorno();
-  static const int kSectorNoFieldNumber = 11;
-  ::google::protobuf::int32 sectorno() const;
-  void set_sectorno(::google::protobuf::int32 value);
-
-  // bool isInterested = 12;
+  // bool isInterested = 11;
   void clear_isinterested();
-  static const int kIsInterestedFieldNumber = 12;
+  static const int kIsInterestedFieldNumber = 11;
   bool isinterested() const;
   void set_isinterested(bool value);
 
-  // bool isLocal = 13;
+  // bool isLocal = 12;
   void clear_islocal();
-  static const int kIsLocalFieldNumber = 13;
+  static const int kIsLocalFieldNumber = 12;
   bool islocal() const;
   void set_islocal(bool value);
+
+  // .server2N.GameEvent.eventType event = 13;
+  void clear_event();
+  static const int kEventFieldNumber = 13;
+  ::server2N::GameEvent_eventType event() const;
+  void set_event(::server2N::GameEvent_eventType value);
 
   // @@protoc_insertion_point(class_scope:server2N.GameEvent)
  private:
@@ -2384,14 +2378,13 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   mutable int _invokerid_cached_byte_size_;
   ::server2N::UserEvent* userevent_;
   ::server2N::SystemEvent* systemevent_;
-  ::google::protobuf::int32 actionproperty_;
   float eventpositionx_;
   float eventpositiony_;
   float velocityx_;
   float velocityy_;
-  ::google::protobuf::int32 sectorno_;
   bool isinterested_;
   bool islocal_;
+  int event_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsGameEventImpl();
@@ -3828,20 +3821,6 @@ inline void GameEvent::set_allocated_systemevent(::server2N::SystemEvent* system
   // @@protoc_insertion_point(field_set_allocated:server2N.GameEvent.systemEvent)
 }
 
-// int32 actionProperty = 5;
-inline void GameEvent::clear_actionproperty() {
-  actionproperty_ = 0;
-}
-inline ::google::protobuf::int32 GameEvent::actionproperty() const {
-  // @@protoc_insertion_point(field_get:server2N.GameEvent.actionProperty)
-  return actionproperty_;
-}
-inline void GameEvent::set_actionproperty(::google::protobuf::int32 value) {
-  
-  actionproperty_ = value;
-  // @@protoc_insertion_point(field_set:server2N.GameEvent.actionProperty)
-}
-
 // float EventPositionX = 6;
 inline void GameEvent::clear_eventpositionx() {
   eventpositionx_ = 0;
@@ -3928,21 +3907,7 @@ GameEvent::mutable_invokerid() {
   return &invokerid_;
 }
 
-// int32 sectorNo = 11;
-inline void GameEvent::clear_sectorno() {
-  sectorno_ = 0;
-}
-inline ::google::protobuf::int32 GameEvent::sectorno() const {
-  // @@protoc_insertion_point(field_get:server2N.GameEvent.sectorNo)
-  return sectorno_;
-}
-inline void GameEvent::set_sectorno(::google::protobuf::int32 value) {
-  
-  sectorno_ = value;
-  // @@protoc_insertion_point(field_set:server2N.GameEvent.sectorNo)
-}
-
-// bool isInterested = 12;
+// bool isInterested = 11;
 inline void GameEvent::clear_isinterested() {
   isinterested_ = false;
 }
@@ -3956,7 +3921,7 @@ inline void GameEvent::set_isinterested(bool value) {
   // @@protoc_insertion_point(field_set:server2N.GameEvent.isInterested)
 }
 
-// bool isLocal = 13;
+// bool isLocal = 12;
 inline void GameEvent::clear_islocal() {
   islocal_ = false;
 }
@@ -3968,6 +3933,20 @@ inline void GameEvent::set_islocal(bool value) {
   
   islocal_ = value;
   // @@protoc_insertion_point(field_set:server2N.GameEvent.isLocal)
+}
+
+// .server2N.GameEvent.eventType event = 13;
+inline void GameEvent::clear_event() {
+  event_ = 0;
+}
+inline ::server2N::GameEvent_eventType GameEvent::event() const {
+  // @@protoc_insertion_point(field_get:server2N.GameEvent.event)
+  return static_cast< ::server2N::GameEvent_eventType >(event_);
+}
+inline void GameEvent::set_event(::server2N::GameEvent_eventType value) {
+  
+  event_ = value;
+  // @@protoc_insertion_point(field_set:server2N.GameEvent.event)
 }
 
 // -------------------------------------------------------------------

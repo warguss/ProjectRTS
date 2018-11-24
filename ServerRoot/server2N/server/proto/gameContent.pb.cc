@@ -624,15 +624,14 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, userevent_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, systemevent_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, actionproperty_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, eventpositionx_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, eventpositiony_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, velocityx_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, velocityy_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, invokerid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, sectorno_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, isinterested_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, islocal_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::GameEvent, event_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::SystemEvent, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -685,9 +684,9 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 90, -1, sizeof(::server2N::EventItemGet)},
   { 96, -1, sizeof(::server2N::InfoItem)},
   { 104, -1, sizeof(::server2N::GameEvent)},
-  { 120, -1, sizeof(::server2N::SystemEvent)},
-  { 128, -1, sizeof(::server2N::UserEvent)},
-  { 145, -1, sizeof(::server2N::PacketBody)},
+  { 119, -1, sizeof(::server2N::SystemEvent)},
+  { 127, -1, sizeof(::server2N::UserEvent)},
+  { 144, -1, sizeof(::server2N::PacketBody)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -766,49 +765,50 @@ void AddDescriptorsImpl() {
       "ItemType\022-\n\010weaponId\030\006 \001(\0162\033.server2N.In"
       "foItem.WeaponId\"$\n\010ItemType\022\013\n\007Recover\020\000"
       "\022\013\n\007Weapone\020\001\"/\n\010WeaponId\022\013\n\007Nothing\020\000\022\n"
-      "\n\006Pistol\020\001\022\n\n\006Sniper\020\002\"\323\002\n\tGameEvent\022&\n\t"
+      "\n\006Pistol\020\001\022\n\n\006Sniper\020\002\"\327\002\n\tGameEvent\022&\n\t"
       "userEvent\030\003 \001(\0132\023.server2N.UserEvent\022*\n\013"
       "systemEvent\030\004 \001(\0132\025.server2N.SystemEvent"
-      "\022\026\n\016actionProperty\030\005 \001(\005\022\026\n\016EventPositio"
-      "nX\030\006 \001(\002\022\026\n\016EventPositionY\030\007 \001(\002\022\021\n\tVelo"
-      "cityX\030\010 \001(\002\022\021\n\tVelocityY\030\t \001(\002\022\021\n\tinvoke"
-      "rId\030\n \003(\005\022\020\n\010sectorNo\030\013 \001(\005\022\024\n\014isInteres"
-      "ted\030\014 \001(\010\022\017\n\007isLocal\030\r \001(\010\"8\n\teventType\022"
-      "\013\n\007Nothing\020\000\022\r\n\tUserEvent\020\001\022\017\n\013SystemEve"
-      "nt\020\002\"\336\001\n\013SystemEvent\022.\n\007actType\030\312\001 \001(\0162\034"
-      ".server2N.SystemEvent.action\0221\n\016itemSpaw"
-      "nEvent\030\313\001 \001(\0132\030.server2N.EventItemSpawn\022"
-      "-\n\014itemGetEvent\030\314\001 \001(\0132\026.server2N.EventI"
-      "temGet\"=\n\006action\022\013\n\007Nothing\020\000\022\023\n\016EventIt"
-      "emSpawn\020\310\001\022\021\n\014EventItemGet\020\311\001\"\322\005\n\tUserEv"
-      "ent\022+\n\007actType\030n \001(\0162\032.server2N.UserEven"
-      "t.action\022&\n\tmoveEvent\030o \001(\0132\023.server2N.E"
-      "ventMove\022&\n\tstopEvent\030p \001(\0132\023.server2N.E"
-      "ventStop\022&\n\tjumpEvent\030q \001(\0132\023.server2N.E"
-      "ventJump\022(\n\nshootEvent\030r \001(\0132\024.server2N."
-      "EventShoot\022$\n\010hitEvent\030s \001(\0132\022.server2N."
-      "EventHit\022(\n\nspawnEvent\030t \001(\0132\024.server2N."
-      "EventSpawn\022*\n\tsyncEvent\030u \001(\0132\027.server2N"
-      ".EventUserSync\022(\n\ndeathEvent\030v \001(\0132\024.ser"
-      "ver2N.EventDeath\0222\n\rchWeaponEvent\030w \001(\0132"
-      "\033.server2N.EventChangeWeapon\0220\n\016itemSpaw"
-      "nEvent\030x \001(\0132\030.server2N.EventItemSpawn\022,"
-      "\n\014itemGetEvent\030y \001(\0132\026.server2N.EventIte"
-      "mGet\"\273\001\n\006action\022\013\n\007Nothing\020\000\022\r\n\tEventMov"
-      "e\020d\022\r\n\tEventStop\020e\022\r\n\tEventJump\020f\022\016\n\nEve"
-      "ntShoot\020g\022\014\n\010EventHit\020h\022\016\n\nEventSpawn\020i\022"
-      "\021\n\rEventUserSync\020j\022\016\n\nEventDeath\020k\022\017\n\013Ev"
-      "entBullet\020l\022\025\n\021EventChangeWeapon\020m\"\220\002\n\nP"
-      "acketBody\0222\n\007msgType\030\220N \001(\0162 .server2N.P"
-      "acketBody.messageType\022)\n\007connect\030\006 \001(\0132\030"
-      ".server2N.UserConnection\022\'\n\006notice\030\221N \001("
-      "\0132\026.server2N.GlobalNotice\022\"\n\005event\030\007 \001(\013"
-      "2\023.server2N.GameEvent\022\020\n\010senderId\030\010 \001(\005\""
-      "D\n\013messageType\022\r\n\tGameEvent\020\000\022\023\n\016UserCon"
-      "nection\020\220N\022\021\n\014GlobalNotice\020\221Nb\006proto3"
+      "\022\026\n\016EventPositionX\030\006 \001(\002\022\026\n\016EventPositio"
+      "nY\030\007 \001(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVelocityY"
+      "\030\t \001(\002\022\021\n\tinvokerId\030\n \003(\005\022\024\n\014isIntereste"
+      "d\030\013 \001(\010\022\017\n\007isLocal\030\014 \001(\010\022,\n\005event\030\r \001(\0162"
+      "\035.server2N.GameEvent.eventType\"8\n\teventT"
+      "ype\022\013\n\007Nothing\020\000\022\r\n\tUserEvent\020\001\022\017\n\013Syste"
+      "mEvent\020\002\"\336\001\n\013SystemEvent\022.\n\007actType\030\312\001 \001"
+      "(\0162\034.server2N.SystemEvent.action\0221\n\016item"
+      "SpawnEvent\030\313\001 \001(\0132\030.server2N.EventItemSp"
+      "awn\022-\n\014itemGetEvent\030\314\001 \001(\0132\026.server2N.Ev"
+      "entItemGet\"=\n\006action\022\013\n\007Nothing\020\000\022\023\n\016Eve"
+      "ntItemSpawn\020\310\001\022\021\n\014EventItemGet\020\311\001\"\322\005\n\tUs"
+      "erEvent\022+\n\007actType\030n \001(\0162\032.server2N.User"
+      "Event.action\022&\n\tmoveEvent\030o \001(\0132\023.server"
+      "2N.EventMove\022&\n\tstopEvent\030p \001(\0132\023.server"
+      "2N.EventStop\022&\n\tjumpEvent\030q \001(\0132\023.server"
+      "2N.EventJump\022(\n\nshootEvent\030r \001(\0132\024.serve"
+      "r2N.EventShoot\022$\n\010hitEvent\030s \001(\0132\022.serve"
+      "r2N.EventHit\022(\n\nspawnEvent\030t \001(\0132\024.serve"
+      "r2N.EventSpawn\022*\n\tsyncEvent\030u \001(\0132\027.serv"
+      "er2N.EventUserSync\022(\n\ndeathEvent\030v \001(\0132\024"
+      ".server2N.EventDeath\0222\n\rchWeaponEvent\030w "
+      "\001(\0132\033.server2N.EventChangeWeapon\0220\n\016item"
+      "SpawnEvent\030x \001(\0132\030.server2N.EventItemSpa"
+      "wn\022,\n\014itemGetEvent\030y \001(\0132\026.server2N.Even"
+      "tItemGet\"\273\001\n\006action\022\013\n\007Nothing\020\000\022\r\n\tEven"
+      "tMove\020d\022\r\n\tEventStop\020e\022\r\n\tEventJump\020f\022\016\n"
+      "\nEventShoot\020g\022\014\n\010EventHit\020h\022\016\n\nEventSpaw"
+      "n\020i\022\021\n\rEventUserSync\020j\022\016\n\nEventDeath\020k\022\017"
+      "\n\013EventBullet\020l\022\025\n\021EventChangeWeapon\020m\"\220"
+      "\002\n\nPacketBody\0222\n\007msgType\030\220N \001(\0162 .server"
+      "2N.PacketBody.messageType\022)\n\007connect\030\006 \001"
+      "(\0132\030.server2N.UserConnection\022\'\n\006notice\030\221"
+      "N \001(\0132\026.server2N.GlobalNotice\022\"\n\005event\030\007"
+      " \001(\0132\023.server2N.GameEvent\022\020\n\010senderId\030\010 "
+      "\001(\005\"D\n\013messageType\022\r\n\tGameEvent\020\000\022\023\n\016Use"
+      "rConnection\020\220N\022\021\n\014GlobalNotice\020\221Nb\006proto"
+      "3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2917);
+      descriptor, 2921);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "gameContent.proto", &protobuf_RegisterTypes);
 }
@@ -5214,15 +5214,14 @@ void GameEvent::InitAsDefaultInstance() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int GameEvent::kUserEventFieldNumber;
 const int GameEvent::kSystemEventFieldNumber;
-const int GameEvent::kActionPropertyFieldNumber;
 const int GameEvent::kEventPositionXFieldNumber;
 const int GameEvent::kEventPositionYFieldNumber;
 const int GameEvent::kVelocityXFieldNumber;
 const int GameEvent::kVelocityYFieldNumber;
 const int GameEvent::kInvokerIdFieldNumber;
-const int GameEvent::kSectorNoFieldNumber;
 const int GameEvent::kIsInterestedFieldNumber;
 const int GameEvent::kIsLocalFieldNumber;
+const int GameEvent::kEventFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 GameEvent::GameEvent()
@@ -5249,16 +5248,16 @@ GameEvent::GameEvent(const GameEvent& from)
   } else {
     systemevent_ = NULL;
   }
-  ::memcpy(&actionproperty_, &from.actionproperty_,
-    static_cast<size_t>(reinterpret_cast<char*>(&islocal_) -
-    reinterpret_cast<char*>(&actionproperty_)) + sizeof(islocal_));
+  ::memcpy(&eventpositionx_, &from.eventpositionx_,
+    static_cast<size_t>(reinterpret_cast<char*>(&event_) -
+    reinterpret_cast<char*>(&eventpositionx_)) + sizeof(event_));
   // @@protoc_insertion_point(copy_constructor:server2N.GameEvent)
 }
 
 void GameEvent::SharedCtor() {
   ::memset(&userevent_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&islocal_) -
-      reinterpret_cast<char*>(&userevent_)) + sizeof(islocal_));
+      reinterpret_cast<char*>(&event_) -
+      reinterpret_cast<char*>(&userevent_)) + sizeof(event_));
   _cached_size_ = 0;
 }
 
@@ -5303,9 +5302,9 @@ void GameEvent::Clear() {
     delete systemevent_;
   }
   systemevent_ = NULL;
-  ::memset(&actionproperty_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&islocal_) -
-      reinterpret_cast<char*>(&actionproperty_)) + sizeof(islocal_));
+  ::memset(&eventpositionx_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&event_) -
+      reinterpret_cast<char*>(&eventpositionx_)) + sizeof(event_));
   _internal_metadata_.Clear();
 }
 
@@ -5337,20 +5336,6 @@ bool GameEvent::MergePartialFromCodedStream(
             static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_systemevent()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // int32 actionProperty = 5;
-      case 5: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &actionproperty_)));
         } else {
           goto handle_unusual;
         }
@@ -5432,24 +5417,10 @@ bool GameEvent::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 sectorNo = 11;
+      // bool isInterested = 11;
       case 11: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &sectorno_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // bool isInterested = 12;
-      case 12: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(96u /* 96 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
@@ -5460,14 +5431,29 @@ bool GameEvent::MergePartialFromCodedStream(
         break;
       }
 
-      // bool isLocal = 13;
-      case 13: {
+      // bool isLocal = 12;
+      case 12: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(104u /* 104 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(96u /* 96 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
                  input, &islocal_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .server2N.GameEvent.eventType event = 13;
+      case 13: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(104u /* 104 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_event(static_cast< ::server2N::GameEvent_eventType >(value));
         } else {
           goto handle_unusual;
         }
@@ -5512,11 +5498,6 @@ void GameEvent::SerializeWithCachedSizes(
       4, *systemevent_, output);
   }
 
-  // int32 actionProperty = 5;
-  if (this->actionproperty() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->actionproperty(), output);
-  }
-
   // float EventPositionX = 6;
   if (this->eventpositionx() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteFloat(6, this->eventpositionx(), output);
@@ -5548,19 +5529,20 @@ void GameEvent::SerializeWithCachedSizes(
       this->invokerid(i), output);
   }
 
-  // int32 sectorNo = 11;
-  if (this->sectorno() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(11, this->sectorno(), output);
-  }
-
-  // bool isInterested = 12;
+  // bool isInterested = 11;
   if (this->isinterested() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(12, this->isinterested(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(11, this->isinterested(), output);
   }
 
-  // bool isLocal = 13;
+  // bool isLocal = 12;
   if (this->islocal() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(13, this->islocal(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(12, this->islocal(), output);
+  }
+
+  // .server2N.GameEvent.eventType event = 13;
+  if (this->event() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      13, this->event(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -5589,11 +5571,6 @@ void GameEvent::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         4, *systemevent_, deterministic, target);
-  }
-
-  // int32 actionProperty = 5;
-  if (this->actionproperty() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->actionproperty(), target);
   }
 
   // float EventPositionX = 6;
@@ -5629,19 +5606,20 @@ void GameEvent::SerializeWithCachedSizes(
       WriteInt32NoTagToArray(this->invokerid_, target);
   }
 
-  // int32 sectorNo = 11;
-  if (this->sectorno() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(11, this->sectorno(), target);
-  }
-
-  // bool isInterested = 12;
+  // bool isInterested = 11;
   if (this->isinterested() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(12, this->isinterested(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(11, this->isinterested(), target);
   }
 
-  // bool isLocal = 13;
+  // bool isLocal = 12;
   if (this->islocal() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(13, this->islocal(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(12, this->islocal(), target);
+  }
+
+  // .server2N.GameEvent.eventType event = 13;
+  if (this->event() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      13, this->event(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -5691,13 +5669,6 @@ size_t GameEvent::ByteSizeLong() const {
         *systemevent_);
   }
 
-  // int32 actionProperty = 5;
-  if (this->actionproperty() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->actionproperty());
-  }
-
   // float EventPositionX = 6;
   if (this->eventpositionx() != 0) {
     total_size += 1 + 4;
@@ -5718,21 +5689,20 @@ size_t GameEvent::ByteSizeLong() const {
     total_size += 1 + 4;
   }
 
-  // int32 sectorNo = 11;
-  if (this->sectorno() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->sectorno());
-  }
-
-  // bool isInterested = 12;
+  // bool isInterested = 11;
   if (this->isinterested() != 0) {
     total_size += 1 + 1;
   }
 
-  // bool isLocal = 13;
+  // bool isLocal = 12;
   if (this->islocal() != 0) {
     total_size += 1 + 1;
+  }
+
+  // .server2N.GameEvent.eventType event = 13;
+  if (this->event() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->event());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -5771,9 +5741,6 @@ void GameEvent::MergeFrom(const GameEvent& from) {
   if (from.has_systemevent()) {
     mutable_systemevent()->::server2N::SystemEvent::MergeFrom(from.systemevent());
   }
-  if (from.actionproperty() != 0) {
-    set_actionproperty(from.actionproperty());
-  }
   if (from.eventpositionx() != 0) {
     set_eventpositionx(from.eventpositionx());
   }
@@ -5786,14 +5753,14 @@ void GameEvent::MergeFrom(const GameEvent& from) {
   if (from.velocityy() != 0) {
     set_velocityy(from.velocityy());
   }
-  if (from.sectorno() != 0) {
-    set_sectorno(from.sectorno());
-  }
   if (from.isinterested() != 0) {
     set_isinterested(from.isinterested());
   }
   if (from.islocal() != 0) {
     set_islocal(from.islocal());
+  }
+  if (from.event() != 0) {
+    set_event(from.event());
   }
 }
 
@@ -5824,14 +5791,13 @@ void GameEvent::InternalSwap(GameEvent* other) {
   invokerid_.InternalSwap(&other->invokerid_);
   swap(userevent_, other->userevent_);
   swap(systemevent_, other->systemevent_);
-  swap(actionproperty_, other->actionproperty_);
   swap(eventpositionx_, other->eventpositionx_);
   swap(eventpositiony_, other->eventpositiony_);
   swap(velocityx_, other->velocityx_);
   swap(velocityy_, other->velocityy_);
-  swap(sectorno_, other->sectorno_);
   swap(isinterested_, other->isinterested_);
   swap(islocal_, other->islocal_);
+  swap(event_, other->event_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
