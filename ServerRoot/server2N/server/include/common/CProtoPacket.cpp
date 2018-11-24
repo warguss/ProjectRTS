@@ -38,6 +38,9 @@ CProtoPacket::~CProtoPacket()
 
 bool CProtoPacket::SyncUser(CUser* user)
 {
+	/*************************************
+	 * Connect일 때, User 정보를 셋팅한다
+	 *************************************/
 	if ( _proto->has_event() )
 	{
 		LOG_DEBUG("Event Check");

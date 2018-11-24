@@ -174,6 +174,29 @@ int32_t CUserPool::addUserInPool(CUser* user)
     return idx;
 }
 
+/*****************************************
+ * User가 들어왔을 때, Map에서 Delete
+ *****************************************/
+/*
+bool CUserPool::delUserInPool(CUser* user)
+{
+	map<int, map<int, CUser*>* >::iterator it_sectorMap;
+	map<int, CUser*>::iterator it_user;
+	map<int, CUser*>* tMap = NULL;
+
+	CThreadLockManager lock(&_pool_mutex[idx], &_pool_cond[idx]);
+	if ( it_user != tMap->end() )
+	{
+		tMap->erase(user->_fd);
+		if ( user )
+		{
+			LOG_DEBUG("Delete User(%d)", user->_fd);
+			delete user;
+		}
+	} 
+}
+*/
+
 bool CUserPool::delUserInPool(int fd, int sector)
 {
 	/****************************
