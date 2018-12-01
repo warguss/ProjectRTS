@@ -133,6 +133,7 @@ bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 	 *************************************/
 	list<CUser*> connectList;
 	g_userPool.getAllUserList(connectList);
+	LOG_DEBUG("connectList(%d)", connectList.size());
 
 	/*************************************
 	 * Event Send 
@@ -145,8 +146,8 @@ bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		CProtoPacket *packet = NULL;
 		if ( !g_packetManager.setActionType(type, user, eventUser, connectList, &packet) || !packet )
 		{
-			LOG_ERROR("Error All Action Type");
-			return false;
+			LOG_ERROR("Error All Action Type (%d)", user->_fd);
+			continue;
 		} 
 
 		/*********************************

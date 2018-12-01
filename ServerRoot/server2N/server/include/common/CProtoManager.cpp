@@ -405,25 +405,41 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 	}
 	else if ( type == (int32_t)server2N::SystemEvent_action_EventItemSpawn )
 	{
-		const char* itemKey = tEvent.systemevent().itemspawnevent().item().itemid().c_str();
-		
-		LOG_DEBUG("Event Item Spawn (%s)", itemKey);
-		Item* item = new Item();
-		item->_excellX = tEvent.velocityx();
-		item->_excellY = tEvent.velocityy();
-		item->_posX = tEvent.eventpositionx();
-		item->_posY = tEvent.eventpositiony();
-		item->_weaponId = tEvent.systemevent().itemspawnevent().item().weaponid() ;
-		item->_itemType = tEvent.systemevent().itemspawnevent().item().itemtype()  ;
-		item->_amount = tEvent.systemevent().itemspawnevent().item().amount();
+		if ( !isSelfEvent )
+		{
+			const char* itemKey = tEvent.systemevent().itemspawnevent().item().itemid().c_str();
+			Item* item = new Item();
+			item->_excellX = tEvent.velocityx();
+			item->_excellY = tEvent.velocityy();
+			item->_posX = tEvent.eventpositionx();
+			item->_posY = tEvent.eventpositiony();
+			item->_weaponId = tEvent.systemevent().itemspawnevent().item().weaponid() ;
+			item->_itemType = tEvent.systemevent().itemspawnevent().item().itemtype()  ;
+			item->_amount = tEvent.systemevent().itemspawnevent().item().amount();
 
-		g_itemManager.spawnItem(itemKey, item);
+			if ( !g_itemManager.spawnItem(itemKey, item) )
+			{
+				LOG_ERROR("Spawn add Item Error");
+			} 
+			LOG_DEBUG("Event Item Spawn (%s)", itemKey);
+		}
 	} 
 	else if ( type == (int32_t)server2N::SystemEvent_action_EventItemGet )
 	{
-		const char* itemKey = tEvent.systemevent().itemspawnevent().item().itemid().c_str();
-		LOG_DEBUG("Event Item Spawn (%s)", itemKey);
-		g_itemManager.userGetItem(itemKey);
+		/**************************************
+		 * 먼저 먹은 사람이 있을 경우, 
+		 * 해당 로직에서 걸러준다.
+		 **************************************/
+		if ( isSelfEvent )
+		{
+			const char* itemKey = tEvent.systemevent().itemgetevent().item().itemid().c_str();
+			LOG_DEBUG("Event Item Get (%s)", itemKey);
+			if ( !itemKey || !g_itemManager.userGetItem(itemKey) )
+			{
+				LOG_DEBUG("Already Event Item Get (%s)", itemKey);
+				return false;
+			}
+		}	
 	}
 	else
 	{
@@ -432,7 +448,7 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 
 
 	//tEvent.set_sectorno(eventUser->_sector);
-	if ( !isSelfEvent )
+	if ( !isSelfEvent || type == (int32_t)server2N::SystemEvent_action_EventItemGet )
 	{
 		(*packet)->_protoEvent->CopyFrom(tEvent);
 		(*packet)->_fd = recvUser->_fd;
@@ -440,9 +456,11 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 		(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_GameEvent);
 		(*packet)->_type = (int32_t)type;
 		(*packet)->_proto->set_allocated_event((*packet)->_protoEvent);
+		LOG_DEBUG("Send Proto(%d) Sending debugString(%s)", (*packet)->_fd, tEvent.DebugString().c_str());
 	}
 	else
 	{
+		LOG_DEBUG("is Self Check? recvFd(%d), EventFd(%d)", recvUser->_fd, eventUser->_fd);
 		delete (*packet);
 		(*packet) = NULL;
 	} 

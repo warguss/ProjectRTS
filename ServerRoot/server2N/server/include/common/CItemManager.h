@@ -3,6 +3,7 @@
 #include <map>
 #include <queue>
 #include "MsgString.h"
+#include "CThreadLockManager.h"
 using namespace std;
 
 class Item
@@ -44,24 +45,24 @@ class CItemManager
 		~CItemManager();
 
 	private:
-		int32_t _spawnItemId;
-		int32_t _curSpawnItemId;
+		//int32_t _spawnItemId;
+		//int32_t _curSpawnItemId;
 
-		queue<Item*> _itemQueue;
+		//queue<Item*> _itemQueue;
 
+		pthread_mutex_t _mutex;
+		pthread_cond_t _cond;
 	public:
-		bool spawnItem(const char* itemId, Item* item);
-		bool userGetItem(const char* itemId);
-		Item* itemReturn(const char* itemId);
+		bool spawnItem(string itemId, Item* item);
+		bool userGetItem(string itemId);
+		Item* itemReturn(string itemId);
 		Item* lastSpawnItemReturn();
 
 	private:
-		bool _addItem(const char* key, Item* item);
-		bool _delItem(const char* itemId);
+		bool _addItem(string key, Item* item);
+		bool _delItem(string itemId);
 
-		map<const char* , Item*> _itemInfo;
+		map<std::string , Item*> _itemInfo;
 };
-
-
 static CItemManager g_itemManager;
 #endif

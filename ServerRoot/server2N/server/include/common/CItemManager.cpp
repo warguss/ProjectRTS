@@ -3,67 +3,78 @@
 
 CItemManager::CItemManager()
 {
-	_spawnItemId = 0;
-	_curSpawnItemId = 0;
+	_mutex = PTHREAD_MUTEX_INITIALIZER;
+	_cond = PTHREAD_COND_INITIALIZER;
 }
 
 CItemManager::~CItemManager()
 {
 }
 
-bool CItemManager::spawnItem(const char* itemId, Item* item)
+bool CItemManager::spawnItem(std::string itemId, Item* item)
 {	
 	/****************************
 	 * Validation Check Item Id
 	 ****************************/
-	if ( !itemId || !item )
+	if ( itemId.size() <= 0 || !item )
 	{
+		LOG_DEBUG("item not exist(%s)", itemId.c_str());
 		return false;
 	}
 
-	LOG_DEBUG("item(%d)", _spawnItemId);
 	/****************************
 	 * Item Spawn
 	 * And Map Add
 	 ****************************/
+	//const char* idKey = strdup(itemId);
 	if ( !_addItem(itemId, item) )
 	{
+		LOG_ERROR("addItem Error(%s)", itemId.c_str());
 		return false;
 	}
 
 	return true;
 }
 
-bool CItemManager::userGetItem(const char* itemId)
+bool CItemManager::userGetItem(std::string itemId)
 {
 	/*****************************
 	 * Lock GetItem
 	 *****************************/
-	map<const char*, Item*>::iterator it = _itemInfo.find(itemId);
+	CThreadLockManager manager(&_mutex, &_cond, true);
+	LOG_DEBUG("Check Get Item(%s)", itemId.c_str());
+	map<string, Item*>::iterator it = _itemInfo.find(itemId);
 	if ( it == _itemInfo.end() )
 	{
+		LOG_ERROR("Not Exist Iterator in Item(%s), mapSize(%d)", itemId.c_str(), _itemInfo.size());
 		return false;
 	} 
 
+	//const char* key = it->first;
 	Item* item = it->second;
 	if ( !item )
 	{
+		LOG_ERROR("Item Not Exist(%s)", itemId.c_str());
 		return false;
 	}
-
-	if ( _delItem(itemId) )
+	else
 	{
-		return false;
-	} 
+		delete item;
+		item = NULL;
+		_itemInfo.erase(itemId);
 
-	LOG_INFO("Item Id Get(%d)", itemId);
+		//free(key);
+		//key = NULL;
+	}
+
+	LOG_INFO("Item Id Get(%s)", itemId.c_str());
 	return true;
 }
 
-Item* CItemManager::itemReturn(const char* itemId)
+Item* CItemManager::itemReturn(string itemId)
 {
 
-	map<const char*, Item*>::iterator it = _itemInfo.find(itemId);
+	map<string, Item*>::iterator it = _itemInfo.find(itemId);
 	if ( it == _itemInfo.end() )
 	{
 		return false;
@@ -91,31 +102,32 @@ Item* CItemManager::lastSpawnItemReturn()
 }
 #endif
 
-bool CItemManager::_addItem(const char* key, Item* item)
+bool CItemManager::_addItem(string key, Item* item)
 {
 	/********************************
 	 * Lock
 	 ********************************/
+	CThreadLockManager manager(&_mutex, &_cond, true);
 	if ( !item )
 	{
-		LOG_ERROR("Not Exist Item");
+		LOG_ERROR("Not Exist Item (%s)", key.c_str());
 		return false;
 	}
 
-	_itemInfo.insert(std::pair<const char*, Item*>(key, item));
-	_itemQueue.push(item);
+	_itemInfo.insert(std::pair<string, Item*>(key, item));
+	//_itemQueue.push(item);
 
+	LOG_ERROR("insert Item(%s)", key.c_str());
 	return true;
 }
 
-bool CItemManager::_delItem(const char* itemId)
+bool CItemManager::_delItem(string itemId)
 {
 	/********************************
 	 * Lock
 	 ********************************/
 	bool isItem = false;
-
-	map<const char*, Item*>::iterator it = _itemInfo.find(itemId);
+	map<string, Item*>::iterator it = _itemInfo.find(itemId);
 	if ( it == _itemInfo.end() )
 	{
 		return false;
@@ -131,7 +143,7 @@ bool CItemManager::_delItem(const char* itemId)
 	}
 	else
 	{
-		LOG_ERROR("Not Exist Id(%d)", itemId);
+		LOG_ERROR("Not Exist Id(%s)", itemId.c_str());
 	}
 		
 	return isItem;
