@@ -1,5 +1,6 @@
 #include "CProtoManager.h"
 #include "CUserPool.h"
+#include "CItemManager.h"
 
 extern CUserPool g_userPool;
 
@@ -44,19 +45,23 @@ void CProtoManager::initialize()
 	/************************************
 	 * Loging Setup
 	 * Action의 int To String Map 저장
-	 * GameEvent Int To String
+	 * UserEvent Int To String
 	 ************************************/
-	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_Nothing, (const char*)strdup("GameEvent_Nothing")) );
-	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventMove, (const char*)strdup("GameEvent_EventMove")) );
-	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventStop, (const char*)strdup("GameEvent_EventStop")) );
-	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventJump, (const char*)strdup("GameEvent_EventJump")) );
-	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventShoot, (const char*)strdup("GameEvent_EventShoot")) );
-	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventHit, (const char*)strdup("GameEvent_EventHit")) );
-	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventSpawn, (const char*)strdup("GameEvent_EventSpawn")) );
-	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventUserSync, (const char*)strdup("GameEvent_EventUserSync")) );
-	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventDeath, (const char*)strdup("GameEvent_EventDeath")) );
-	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventBullet, (const char*)strdup("GameEvent_EventBullet")) );
-	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GameEvent_action_EventChangeWeapon, (const char*)strdup("GameEvent_EventChangeWeapon")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserEvent_action_Nothing, (const char*)strdup("UserEvent_Nothing")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserEvent_action_EventMove, (const char*)strdup("UserEvent_EventMove")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserEvent_action_EventStop, (const char*)strdup("UserEvent_EventStop")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserEvent_action_EventJump, (const char*)strdup("UserEvent_EventJump")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserEvent_action_EventShoot, (const char*)strdup("UserEvent_EventShoot")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserEvent_action_EventHit, (const char*)strdup("UserEvent_EventHit")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserEvent_action_EventSpawn, (const char*)strdup("UserEvent_EventSpawn")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserEvent_action_EventUserSync, (const char*)strdup("UserEvent_EventUserSync")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserEvent_action_EventDeath, (const char*)strdup("UserEvent_EventDeath")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserEvent_action_EventBullet, (const char*)strdup("UserEvent_EventBullet")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserEvent_action_EventChangeWeapon, (const char*)strdup("UserEvent_EventChangeWeapon")) );
+
+
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::SystemEvent_action_EventItemSpawn, (const char*)strdup("SystemEvent_EventSpawn")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::SystemEvent_action_EventItemGet, (const char*)strdup("SystemEvent_EventGet")) );
 
 	/************************************
 	 * Loging Setup
@@ -195,7 +200,16 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
     {
         server2N::GameEvent tEvent = (*protoPacket)->_proto->event();
         LOG_DEBUG("Has Event (%s)", tEvent.DebugString().c_str());
-		(*protoPacket)->_type = tEvent.acttype();
+		int32_t type;
+		if ( tEvent.evttype() == server2N::GameEvent_eventType_UserEvent )
+		{
+			type = tEvent.userevent().acttype();
+		}
+		else if ( tEvent.evttype() == server2N::GameEvent_eventType_SystemEvent )
+		{
+			type = tEvent.systemevent().acttype();
+		}
+		(*protoPacket)->_type = type;
     }
     else if ( (*protoPacket)->_proto->has_connect() )
     {
@@ -345,15 +359,15 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 	(*packet) = new CProtoPacket();
 	(*packet)->_protoEvent = new server2N::GameEvent();
 	server2N::GameEvent tEvent = eventUser->_proto->event(); 
-	if ( type == (int32_t)server2N::GameEvent_action_EventShoot )
+	if ( type == (int32_t)server2N::UserEvent_action_EventShoot )
 	{
 		LOG_DEBUG("Type EventShoot");
 	}
-	else if ( type == (int32_t)server2N::GameEvent_action_EventHit )
+	else if ( type == (int32_t)server2N::UserEvent_action_EventHit )
 	{
 		LOG_DEBUG("Type EventHit");
 	}
-	else if ( type == (int32_t)server2N::GameEvent_action_EventDeath )
+	else if ( type == (int32_t)server2N::UserEvent_action_EventDeath )
 	{
 		/******************************
 		 * Trigger Id 확인
@@ -361,7 +375,7 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 		 ******************************/
 		LOG_DEBUG("Type EventDeath");
 	}
-	else if ( type == (int32_t)server2N::GameEvent_action_EventUserSync || type == (int32_t)server2N::GameEvent_action_EventMove || type == (int32_t)server2N::GameEvent_action_EventStop || type == (int32_t)server2N::GameEvent_action_EventJump || type == (int32_t)server2N::GameEvent_action_EventSpawn )
+	else if ( type == (int32_t)server2N::UserEvent_action_EventUserSync || type == (int32_t)server2N::UserEvent_action_EventMove || type == (int32_t)server2N::UserEvent_action_EventStop || type == (int32_t)server2N::UserEvent_action_EventJump || type == (int32_t)server2N::UserEvent_action_EventSpawn )
 	{
 		LOG_DEBUG("Check Move(%d), event(%d)", recvUser->_fd, eventUser->_fd);
 		if ( isSelfEvent )
@@ -389,8 +403,35 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 			while(false);
 		}
 	}
+	else if ( type == (int32_t)server2N::SystemEvent_action_EventItemSpawn )
+	{
+		const char* itemKey = tEvent.systemevent().itemspawnevent().item().itemid().c_str();
+		
+		LOG_DEBUG("Event Item Spawn (%s)", itemKey);
+		Item* item = new Item();
+		item->_excellX = tEvent.velocityx();
+		item->_excellY = tEvent.velocityy();
+		item->_posX = tEvent.eventpositionx();
+		item->_posY = tEvent.eventpositiony();
+		item->_weaponId = tEvent.systemevent().itemspawnevent().item().weaponid() ;
+		item->_itemType = tEvent.systemevent().itemspawnevent().item().itemtype()  ;
+		item->_amount = tEvent.systemevent().itemspawnevent().item().amount();
 
-	tEvent.set_sectorno(eventUser->_sector);
+		g_itemManager.spawnItem(itemKey, item);
+	} 
+	else if ( type == (int32_t)server2N::SystemEvent_action_EventItemGet )
+	{
+		const char* itemKey = tEvent.systemevent().itemspawnevent().item().itemid().c_str();
+		LOG_DEBUG("Event Item Spawn (%s)", itemKey);
+		g_itemManager.userGetItem(itemKey);
+	}
+	else
+	{
+		return false;
+	}
+
+
+	//tEvent.set_sectorno(eventUser->_sector);
 	if ( !isSelfEvent )
 	{
 		(*packet)->_protoEvent->CopyFrom(tEvent);
@@ -419,7 +460,7 @@ bool CProtoManager::setNotiType(int type, CUser* recvUser, CProtoPacket* eventUs
 
 	(*packet) = new CProtoPacket();
 	(*packet)->_protoNoti = new server2N::GlobalNotice();
-	if ( type == (int32_t)server2N::GameEvent_action_EventDeath )
+	if ( type == (int32_t)server2N::UserEvent_action_EventDeath )
 	{
 		type = (int32_t)server2N::GlobalNotice_NoticeInfo_KillInfo;
 		server2N::GameEvent tEvent = eventUser->_proto->event(); 
@@ -442,7 +483,7 @@ bool CProtoManager::setNotiType(int type, CUser* recvUser, CProtoPacket* eventUs
 		}
 		(*packet)->_protoNoti->add_victim((int32_t)eventFd);
 		victimUser->_deathInfo++;
-		int triggerFd = tEvent.deathevent().triggerid();
+		int triggerFd = tEvent.userevent().deathevent().triggerid();
 		CUser* triggerUser = g_userPool.findUserInPool(triggerFd);
 		if ( !triggerUser )
 		{

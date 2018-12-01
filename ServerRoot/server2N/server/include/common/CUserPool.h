@@ -32,6 +32,7 @@ class CUserPool
 
         int32_t addUserInPool(CUser* user);
         bool delUserInPool(int fd, int sector = -1);
+		//bool delUserInPool(CUser* user)
         bool changeUserInPool(CUser* user, int preSector, int curSector);
         CUser* findUserInPool(int fd, int sector = -1);
 

@@ -4,6 +4,7 @@
 #include "google/protobuf/io/coded_stream.h"
 #include "google/protobuf/io/zero_copy_stream_impl.h"
 #include "CUser.h"
+#include "CItemManager.h"
 
 class CProtoPacket
 {
@@ -25,6 +26,7 @@ class CProtoPacket
 		server2N::UserConnection* _protoConnect;
 		server2N::GameEvent* _protoEvent;
 		server2N::GlobalNotice* _protoNoti;
+
 
 		bool SyncUser(CUser* user);
 		bool setBuffer(char* buffer);
