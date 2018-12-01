@@ -4,8 +4,9 @@ using UnityEngine;
 
 public enum ItemType : int
 {
-    Weapon = 0,
-    Recover = 1,
+    Recover = 0,
+    Weapon = 1,
+    
 }
 
 public class FieldItem : MonoBehaviour {

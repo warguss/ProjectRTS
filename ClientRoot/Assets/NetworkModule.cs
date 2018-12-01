@@ -36,19 +36,6 @@ public class NetworkModule : MonoBehaviour
     object ReadQueueLock;
     object WriteQueueLock;
 
-    private int MyId
-    {
-        set
-        {
-            GameLogic.Instance.myId = value;
-        }
-        get
-        {
-            return GameLogic.Instance.myId;
-        }
-
-    }
-
     //int testCount = 0;
 
     // Use this for initialization
@@ -505,7 +492,7 @@ public class NetworkModule : MonoBehaviour
 
     //////////////////////////////////////////SystemEvent
 
-    public void WriteEventSpawnItem(int InvokerId, Vector2 position, string itemId, ItemType type, WeaponId weapon, int amount = 0)
+    public void WriteEventSpawnItem(int InvokerId, Vector2 position, string itemId, ItemType type, WeaponId weapon, int amount)
     {
         var packet = CreateSystemEventPacket(SystemEvent.Types.action.EventItemSpawn, InvokerId, position, new Vector2(0, 0));
         InfoItem infoItem = new InfoItem

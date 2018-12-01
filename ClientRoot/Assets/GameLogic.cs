@@ -219,7 +219,7 @@ public class GameLogic : MonoBehaviour
                 break;
             case PacketBody.Types.messageType.GameEvent:
                 message = "GameEvent Data Received. id=" + packetBody.Event.InvokerId + ", position = " + packetBody.Event.EventPositionX + " , " + packetBody.Event.EventPositionY;
-                TestUI.Instance.PrintText(message);
+                //TestUI.Instance.PrintText(message);
                 if (packetBody.Event.InvokerId.Count == 0 || myId != packetBody.Event.InvokerId[0])
                     ProcessEventPacket(packetBody.Event);
                 break;
@@ -279,7 +279,7 @@ public class GameLogic : MonoBehaviour
 
     void ProcessEventPacket(GameEvent EventPacket)
     {
-        TestUI.Instance.PrintText("ProcessEventPacket: " + EventPacket.EvtType);
+        //TestUI.Instance.PrintText("ProcessEventPacket: " + EventPacket.EvtType);
 
         Vector2 position = new Vector2(EventPacket.EventPositionX, EventPacket.EventPositionY);
         Vector2 velocity = new Vector2(EventPacket.VelocityX, EventPacket.VelocityY);
@@ -430,7 +430,7 @@ public class GameLogic : MonoBehaviour
                     var item = info.Item;
                     string itemId = item.ItemId;
 
-                    TestUI.Instance.PrintText("EventItemSpawn - ItemType : " + item.ItemType + ", weaponId : " + item.WeaponId);
+                    TestUI.Instance.PrintText("EventItemSpawn - (" + itemId + "), " + item.ItemType + ", " + item.WeaponId);
                     CreateItem(position, itemId, (ItemType)item.ItemType, (WeaponId)item.WeaponId);
                     break;
                 }
@@ -573,17 +573,12 @@ public class GameLogic : MonoBehaviour
 
     public void CreateItem(Vector2 position, string itemId, ItemType type, WeaponId weapon, int amount = 0)
     {
-        TestUI.Instance.PrintText("CreateItem" + position);
+        TestUI.Instance.PrintText("CreateItem" + "(" + itemId + "), " + type + ", " + weapon);
         GameObject created = Instantiate(ItemPrefab, new Vector3(position.x, position.y, 0), new Quaternion());
         FieldItem item = created.GetComponent<FieldItem>();
         item.Initialize(itemId, type, weapon, amount);
 
         FieldItems.Add(itemId, item);
-
-        if (isOnline)
-        {
-            NetworkModule.instance.WriteEventSpawnItem(myId, position, itemId, type, weapon, amount);
-        }
     }
 
     public void ConsumeItem(string itemId)
@@ -604,21 +599,29 @@ public class GameLogic : MonoBehaviour
             yMin = 0;
 
         Vector2 itemPosition = new Vector2(Random.Range(xMin, xMax), Random.Range(yMin, yMax));
-        TestUI.Instance.PrintText("CreateItemRandomely" + itemPosition);
+        string itemId = GenerateItemId();
+        TestUI.Instance.PrintText("CreateItemRandomely (" + itemId + "), " + itemPosition);
         ItemType itemType = (ItemType)Random.Range(0, 2);
+        WeaponId weaponId = WeaponId.None;
+        int itemAmount = 0;
         switch (itemType)
         {
             case ItemType.Recover:
                 {
-                    CreateItem(itemPosition, GenerateItemId(), itemType, WeaponId.None);
                     break;
                 }
             case ItemType.Weapon:
                 {
-                    int weaponId = Random.Range(1, 3);
-                    CreateItem(itemPosition, GenerateItemId(), itemType, (WeaponId)weaponId);
+                    int weaponIdInt = Random.Range(1, 3);
+                    weaponId = (WeaponId)weaponIdInt;
                     break;
                 }
+        }
+
+        CreateItem(itemPosition, itemId, itemType, weaponId, itemAmount);
+        if (isOnline)
+        {
+            NetworkModule.instance.WriteEventSpawnItem(myId, itemPosition, itemId, itemType, weaponId, itemAmount);
         }
     }
 
