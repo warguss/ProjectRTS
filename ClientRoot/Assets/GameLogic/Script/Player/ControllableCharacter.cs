@@ -10,7 +10,7 @@ public delegate void CharEventShoot(int invokerId, Vector2 position, Vector2 vel
 public delegate void CharEventChangeWeapon(int invokerId, Vector2 position, Vector2 velocity, WeaponId WeaponId);
 public delegate void CharEventSpawn(int invokerId, Vector2 position);
 public delegate void CharEventDead(int invokerId, Vector2 position, int attackerId);
-public delegate void CharEventGetItem(int invokerId, string itemId);
+//public delegate void CharEventGetItem(int invokerId, string itemId);
 public delegate void CharEventSync(int invokerId, Vector2 position, Vector2 velocity);
 
 public abstract class ControllableCharacter : MonoBehaviour
@@ -57,7 +57,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     public event CharEventChangeWeapon ChangeWeaponEvent;
     public event CharEventSpawn SpawnEvent;
     public event CharEventDead DieEvent;
-    public event CharEventGetItem GetItemEvent;
+    //public event CharEventGetItem GetItemEvent;
     public event CharEventSync SyncEvent;
 
     protected void InvokeEventMove(Vector2 position, Vector2 velocity, bool isLeft)
@@ -92,10 +92,10 @@ public abstract class ControllableCharacter : MonoBehaviour
     {
         DieEvent?.Invoke(OwnerId, position, attackerId);
     }
-    protected void InvokeEventGetItem(string itemId)
-    {
-        GetItemEvent?.Invoke(OwnerId, itemId);
-    }
+    //protected void InvokeEventGetItem(string itemId)
+    //{
+    //    GetItemEvent?.Invoke(OwnerId, itemId);
+    //}
     protected void InvokeEventSync(Vector2 position, Vector2 velocity)
     {
         SyncEvent?.Invoke(OwnerId, position, velocity);
@@ -159,6 +159,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     public abstract void ChangeToNextWeapon();
     public abstract void Spawn(Vector2 position);
     public abstract void PlayerDie();
+    public abstract void GetItem(FieldItem item);
 
     public abstract void InitialSync();
 

@@ -370,7 +370,7 @@ public class MainCharacter : ControllableCharacter
         }
     }
 
-    public void GetItem(FieldItem item)
+    public override void GetItem(FieldItem item)
     {
         if(item.ItemType == ItemType.Recover)
         {
@@ -386,7 +386,7 @@ public class MainCharacter : ControllableCharacter
             else
                 Inventory.AddItem(item.WeaponId, item.Amount);
         }
-        InvokeEventGetItem(item.ItemId);
+        //InvokeEventGetItem(item.ItemId);
     }
 
     public override GameObject GetGameObject()

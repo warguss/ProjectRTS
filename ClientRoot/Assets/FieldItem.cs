@@ -19,6 +19,8 @@ public class FieldItem : MonoBehaviour {
     public WeaponId WeaponId;
     public int Amount;
 
+    bool LocalPlayerGet = false;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -79,6 +81,14 @@ public class FieldItem : MonoBehaviour {
                 {
                     targetPlayer.GetItem(this);
                     Destroy(gameObject);
+                }
+                else
+                {
+                    if (!LocalPlayerGet)
+                    {
+                        LocalPlayerGet = true;
+                        NetworkModule.instance.WriteEventGetItem(targetPlayer.OwnerId, ItemId); // 여기서 NetworkModule 불려도 될까?
+                    }
                 }
             }
         }

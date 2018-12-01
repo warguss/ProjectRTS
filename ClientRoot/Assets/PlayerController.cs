@@ -156,6 +156,11 @@ public class PlayerController {
         Character.PlayerDie();
     }
 
+    public void GetItem(FieldItem item)
+    {
+        Character.GetItem(item);
+    }
+
     public void SetHP(float hp)
     {
         Character.SetHP(hp);

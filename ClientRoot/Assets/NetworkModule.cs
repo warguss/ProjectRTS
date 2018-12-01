@@ -522,6 +522,7 @@ public class NetworkModule : MonoBehaviour
             Item = infoItem
         };
 
+        TestUI.Instance.PrintText("WriteEventGetItem(" + itemId + "), " + InvokerId);
         EnqueueSendPacket(packet);
     }
 

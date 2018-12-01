@@ -109,7 +109,7 @@ public class GameLogic : MonoBehaviour
             player.Character.GetHitEvent += PlayerEventGetHit;
             player.Character.SpawnEvent += PlayerEventSpawn;
             player.Character.DieEvent += PlayerEventDie;
-            player.Character.GetItemEvent += PlayerEventGetItem;
+            //player.Character.GetItemEvent += PlayerEventGetItem;
             player.Character.SyncEvent += PlayerEventSync;
         }
 
@@ -218,10 +218,9 @@ public class GameLogic : MonoBehaviour
                 ProcessConnectionPacket(packetBody.Connect);
                 break;
             case PacketBody.Types.messageType.GameEvent:
-                message = "GameEvent Data Received. id=" + packetBody.Event.InvokerId + ", position = " + packetBody.Event.EventPositionX + " , " + packetBody.Event.EventPositionY;
-                //TestUI.Instance.PrintText(message);
-                if (packetBody.Event.InvokerId.Count == 0 || myId != packetBody.Event.InvokerId[0])
-                    ProcessEventPacket(packetBody.Event);
+                message = "GameEvent Data Received. id=" + packetBody.Event.InvokerId + ",(" + packetBody.Event.EventPositionX + ", " + packetBody.Event.EventPositionY + ")";
+                TestUI.Instance.PrintText(message);
+                ProcessEventPacket(packetBody.Event);
                 break;
             case PacketBody.Types.messageType.GlobalNotice:
                 message = "GlobalNotice data Received.";
@@ -279,7 +278,7 @@ public class GameLogic : MonoBehaviour
 
     void ProcessEventPacket(GameEvent EventPacket)
     {
-        //TestUI.Instance.PrintText("ProcessEventPacket: " + EventPacket.EvtType);
+        TestUI.Instance.PrintText("ProcessEventPacket: " + EventPacket.EvtType);
 
         Vector2 position = new Vector2(EventPacket.EventPositionX, EventPacket.EventPositionY);
         Vector2 velocity = new Vector2(EventPacket.VelocityX, EventPacket.VelocityY);
@@ -305,8 +304,11 @@ public class GameLogic : MonoBehaviour
                 }
             case GameEvent.Types.eventType.SystemEvent:
                 {
-                    var systemEventPacket = EventPacket.SystemEvent;
-                    ProcessSystemEvent(systemEventPacket, position);
+                    foreach (int invokerId in EventPacket.InvokerId)
+                    {
+                        var systemEventPacket = EventPacket.SystemEvent;
+                        ProcessSystemEvent(systemEventPacket, invokerId, position);
+                    }
                     break;
                 }
         }
@@ -420,7 +422,7 @@ public class GameLogic : MonoBehaviour
             }
     }
 
-    void ProcessSystemEvent(SystemEvent systemEventPacket, Vector2 position)
+    void ProcessSystemEvent(SystemEvent systemEventPacket, int invokerId, Vector2 position)
     {
         switch (systemEventPacket.ActType)
         {
@@ -441,8 +443,8 @@ public class GameLogic : MonoBehaviour
                     var item = info.Item;
                     string itemId = item.ItemId;
 
-                    TestUI.Instance.PrintText("EventItemGet - ItemId : " + itemId);
-                    ConsumeItem(itemId);
+                    TestUI.Instance.PrintText("EventItemGet - (" + itemId + "), " + invokerId);
+                    ConsumeItem(invokerId, itemId);
                     break;
                 }
         }
@@ -581,8 +583,20 @@ public class GameLogic : MonoBehaviour
         FieldItems.Add(itemId, item);
     }
 
-    public void ConsumeItem(string itemId)
+    public void ConsumeItem(int targetPlayer, string itemId)
     {
+        var targetItem = FieldItems[itemId];
+
+        if(targetPlayer == myId)
+        {
+            playerControllers[myId].GetItem(targetItem);
+        }
+        else
+        {
+            //효과만 표시?
+        }
+
+        Destroy(targetItem.gameObject);
         FieldItems.Remove(itemId);
     }
 
