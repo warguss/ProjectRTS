@@ -141,6 +141,7 @@ void InitDefaultsUserConnectionImpl() {
 #else
   ::google::protobuf::internal::InitProtobufDefaults();
 #endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  protobuf_gameContent_2eproto::InitDefaultsInfoItem();
   {
     void* ptr = &::server2N::_UserConnection_default_instance_;
     new (ptr) ::server2N::UserConnection();
@@ -738,78 +739,79 @@ void AddDescriptorsImpl() {
       "alNotice.NoticeInfo\022\016\n\006notice\030\002 \001(\t\022\021\n\tp"
       "erformer\030\003 \001(\005\022\016\n\006victim\030\004 \003(\005\"A\n\nNotice"
       "Info\022\013\n\007Nothing\020\000\022\014\n\010KillInfo\020\001\022\n\n\006Notic"
-      "e\020\002\022\014\n\010ItemInfo\020\003\"\205\002\n\016UserConnection\022\023\n\013"
+      "e\020\002\022\014\n\010ItemInfo\020\003\"\231\002\n\016UserConnection\022\023\n\013"
       "connectorId\030\001 \003(\005\022\020\n\010killInfo\030\002 \003(\005\022\021\n\td"
-      "eathInfo\030\003 \003(\005\022\020\n\010nickname\030\004 \003(\t\022\016\n\006item"
-      "Id\030\005 \003(\005\0228\n\007conType\030\006 \001(\0162\'.server2N.Use"
-      "rConnection.ConnectionType\"]\n\016Connection"
-      "Type\022\013\n\007Nothing\020\000\022\013\n\007Connect\020\001\022\016\n\nTryCon"
-      "nect\020\002\022\021\n\rAcceptConnect\020\003\022\016\n\nDisConnect\020"
-      "\004\"y\n\tEventMove\022+\n\004type\030\005 \001(\0162\035.server2N."
-      "EventMove.Direction\"\?\n\tDirection\022\013\n\007Noth"
-      "ing\020\000\022\010\n\004Left\020\001\022\t\n\005Right\020\002\022\010\n\004Down\020\003\022\006\n\002"
-      "Up\020\004\"\013\n\tEventStop\"\013\n\tEventJump\"\214\001\n\nEvent"
-      "Shoot\022\r\n\005angle\030\001 \001(\002\022\016\n\006damage\030\002 \001(\002\022\016\n\006"
-      "impact\030\003 \001(\005\022\023\n\013impactAngle\030\004 \001(\005\022\020\n\010wea"
-      "ponId\030\005 \001(\005\022\023\n\013bulletSpeed\030\006 \001(\002\022\023\n\013bull"
-      "etRange\030\007 \001(\002\"u\n\010EventHit\022\020\n\010attacker\030\001 "
-      "\001(\005\022\016\n\006damage\030\002 \001(\002\022\016\n\006impact\030\003 \001(\005\022\023\n\013i"
-      "mpactAngle\030\004 \001(\005\022\021\n\tcurrentHP\030\005 \001(\002\022\017\n\007h"
-      "itType\030\006 \001(\005\"%\n\021EventChangeWeapon\022\020\n\010wea"
-      "ponId\030\001 \001(\005\"\014\n\nEventSpawn\"4\n\rEventUserSy"
-      "nc\022\021\n\tcurrentHP\030\001 \001(\002\022\020\n\010weaponId\030\002 \001(\005\""
-      "\037\n\nEventDeath\022\021\n\ttriggerId\030\001 \001(\005\"2\n\016Even"
-      "tItemSpawn\022 \n\004item\030\001 \001(\0132\022.server2N.Info"
-      "Item\"0\n\014EventItemGet\022 \n\004item\030\001 \001(\0132\022.ser"
-      "ver2N.InfoItem\"\337\001\n\010InfoItem\022\016\n\006amount\030\004 "
-      "\001(\005\022\016\n\006itemId\030\002 \001(\t\022-\n\010itemType\030\005 \001(\0162\033."
-      "server2N.InfoItem.ItemType\022-\n\010weaponId\030\006"
-      " \001(\0162\033.server2N.InfoItem.WeaponId\"$\n\010Ite"
-      "mType\022\013\n\007Recover\020\000\022\013\n\007Weapone\020\001\"/\n\010Weapo"
-      "nId\022\013\n\007Nothing\020\000\022\n\n\006Pistol\020\001\022\n\n\006Sniper\020\002"
-      "\"\331\002\n\tGameEvent\022&\n\tuserEvent\030\003 \001(\0132\023.serv"
-      "er2N.UserEvent\022*\n\013systemEvent\030\004 \001(\0132\025.se"
-      "rver2N.SystemEvent\022\026\n\016EventPositionX\030\006 \001"
-      "(\002\022\026\n\016EventPositionY\030\007 \001(\002\022\021\n\tVelocityX\030"
-      "\010 \001(\002\022\021\n\tVelocityY\030\t \001(\002\022\021\n\tinvokerId\030\n "
-      "\003(\005\022\024\n\014isInterested\030\013 \001(\010\022\017\n\007isLocal\030\014 \001"
-      "(\010\022.\n\007evtType\030\r \001(\0162\035.server2N.GameEvent"
-      ".eventType\"8\n\teventType\022\013\n\007Nothing\020\000\022\r\n\t"
-      "UserEvent\020\001\022\017\n\013SystemEvent\020\002\"\336\001\n\013SystemE"
-      "vent\022.\n\007actType\030\312\001 \001(\0162\034.server2N.System"
-      "Event.action\0221\n\016itemSpawnEvent\030\313\001 \001(\0132\030."
-      "server2N.EventItemSpawn\022-\n\014itemGetEvent\030"
-      "\314\001 \001(\0132\026.server2N.EventItemGet\"=\n\006action"
-      "\022\013\n\007Nothing\020\000\022\023\n\016EventItemSpawn\020\310\001\022\021\n\014Ev"
-      "entItemGet\020\311\001\"\322\005\n\tUserEvent\022+\n\007actType\030n"
-      " \001(\0162\032.server2N.UserEvent.action\022&\n\tmove"
-      "Event\030o \001(\0132\023.server2N.EventMove\022&\n\tstop"
-      "Event\030p \001(\0132\023.server2N.EventStop\022&\n\tjump"
-      "Event\030q \001(\0132\023.server2N.EventJump\022(\n\nshoo"
-      "tEvent\030r \001(\0132\024.server2N.EventShoot\022$\n\010hi"
-      "tEvent\030s \001(\0132\022.server2N.EventHit\022(\n\nspaw"
-      "nEvent\030t \001(\0132\024.server2N.EventSpawn\022*\n\tsy"
-      "ncEvent\030u \001(\0132\027.server2N.EventUserSync\022("
-      "\n\ndeathEvent\030v \001(\0132\024.server2N.EventDeath"
-      "\0222\n\rchWeaponEvent\030w \001(\0132\033.server2N.Event"
-      "ChangeWeapon\0220\n\016itemSpawnEvent\030x \001(\0132\030.s"
-      "erver2N.EventItemSpawn\022,\n\014itemGetEvent\030y"
-      " \001(\0132\026.server2N.EventItemGet\"\273\001\n\006action\022"
-      "\013\n\007Nothing\020\000\022\r\n\tEventMove\020d\022\r\n\tEventStop"
-      "\020e\022\r\n\tEventJump\020f\022\016\n\nEventShoot\020g\022\014\n\010Eve"
-      "ntHit\020h\022\016\n\nEventSpawn\020i\022\021\n\rEventUserSync"
-      "\020j\022\016\n\nEventDeath\020k\022\017\n\013EventBullet\020l\022\025\n\021E"
-      "ventChangeWeapon\020m\"\220\002\n\nPacketBody\0222\n\007msg"
-      "Type\030\220N \001(\0162 .server2N.PacketBody.messag"
-      "eType\022)\n\007connect\030\006 \001(\0132\030.server2N.UserCo"
-      "nnection\022\'\n\006notice\030\221N \001(\0132\026.server2N.Glo"
-      "balNotice\022\"\n\005event\030\007 \001(\0132\023.server2N.Game"
-      "Event\022\020\n\010senderId\030\010 \001(\005\"D\n\013messageType\022\r"
-      "\n\tGameEvent\020\000\022\023\n\016UserConnection\020\220N\022\021\n\014Gl"
-      "obalNotice\020\221Nb\006proto3"
+      "eathInfo\030\003 \003(\005\022\020\n\010nickname\030\004 \003(\t\022\"\n\006item"
+      "Id\030\005 \003(\0132\022.server2N.InfoItem\0228\n\007conType\030"
+      "\006 \001(\0162\'.server2N.UserConnection.Connecti"
+      "onType\"]\n\016ConnectionType\022\013\n\007Nothing\020\000\022\013\n"
+      "\007Connect\020\001\022\016\n\nTryConnect\020\002\022\021\n\rAcceptConn"
+      "ect\020\003\022\016\n\nDisConnect\020\004\"y\n\tEventMove\022+\n\004ty"
+      "pe\030\005 \001(\0162\035.server2N.EventMove.Direction\""
+      "\?\n\tDirection\022\013\n\007Nothing\020\000\022\010\n\004Left\020\001\022\t\n\005R"
+      "ight\020\002\022\010\n\004Down\020\003\022\006\n\002Up\020\004\"\013\n\tEventStop\"\013\n"
+      "\tEventJump\"\214\001\n\nEventShoot\022\r\n\005angle\030\001 \001(\002"
+      "\022\016\n\006damage\030\002 \001(\002\022\016\n\006impact\030\003 \001(\005\022\023\n\013impa"
+      "ctAngle\030\004 \001(\005\022\020\n\010weaponId\030\005 \001(\005\022\023\n\013bulle"
+      "tSpeed\030\006 \001(\002\022\023\n\013bulletRange\030\007 \001(\002\"u\n\010Eve"
+      "ntHit\022\020\n\010attacker\030\001 \001(\005\022\016\n\006damage\030\002 \001(\002\022"
+      "\016\n\006impact\030\003 \001(\005\022\023\n\013impactAngle\030\004 \001(\005\022\021\n\t"
+      "currentHP\030\005 \001(\002\022\017\n\007hitType\030\006 \001(\005\"%\n\021Even"
+      "tChangeWeapon\022\020\n\010weaponId\030\001 \001(\005\"\014\n\nEvent"
+      "Spawn\"4\n\rEventUserSync\022\021\n\tcurrentHP\030\001 \001("
+      "\002\022\020\n\010weaponId\030\002 \001(\005\"\037\n\nEventDeath\022\021\n\ttri"
+      "ggerId\030\001 \001(\005\"2\n\016EventItemSpawn\022 \n\004item\030\001"
+      " \001(\0132\022.server2N.InfoItem\"0\n\014EventItemGet"
+      "\022 \n\004item\030\001 \001(\0132\022.server2N.InfoItem\"\337\001\n\010I"
+      "nfoItem\022\016\n\006amount\030\004 \001(\005\022\016\n\006itemId\030\002 \001(\t\022"
+      "-\n\010itemType\030\005 \001(\0162\033.server2N.InfoItem.It"
+      "emType\022-\n\010weaponId\030\006 \001(\0162\033.server2N.Info"
+      "Item.WeaponId\"$\n\010ItemType\022\013\n\007Recover\020\000\022\013"
+      "\n\007Weapone\020\001\"/\n\010WeaponId\022\013\n\007Nothing\020\000\022\n\n\006"
+      "Pistol\020\001\022\n\n\006Sniper\020\002\"\331\002\n\tGameEvent\022&\n\tus"
+      "erEvent\030\003 \001(\0132\023.server2N.UserEvent\022*\n\013sy"
+      "stemEvent\030\004 \001(\0132\025.server2N.SystemEvent\022\026"
+      "\n\016EventPositionX\030\006 \001(\002\022\026\n\016EventPositionY"
+      "\030\007 \001(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVelocityY\030\t"
+      " \001(\002\022\021\n\tinvokerId\030\n \003(\005\022\024\n\014isInterested\030"
+      "\013 \001(\010\022\017\n\007isLocal\030\014 \001(\010\022.\n\007evtType\030\r \001(\0162"
+      "\035.server2N.GameEvent.eventType\"8\n\teventT"
+      "ype\022\013\n\007Nothing\020\000\022\r\n\tUserEvent\020\001\022\017\n\013Syste"
+      "mEvent\020\002\"\336\001\n\013SystemEvent\022.\n\007actType\030\312\001 \001"
+      "(\0162\034.server2N.SystemEvent.action\0221\n\016item"
+      "SpawnEvent\030\313\001 \001(\0132\030.server2N.EventItemSp"
+      "awn\022-\n\014itemGetEvent\030\314\001 \001(\0132\026.server2N.Ev"
+      "entItemGet\"=\n\006action\022\013\n\007Nothing\020\000\022\023\n\016Eve"
+      "ntItemSpawn\020\310\001\022\021\n\014EventItemGet\020\311\001\"\322\005\n\tUs"
+      "erEvent\022+\n\007actType\030n \001(\0162\032.server2N.User"
+      "Event.action\022&\n\tmoveEvent\030o \001(\0132\023.server"
+      "2N.EventMove\022&\n\tstopEvent\030p \001(\0132\023.server"
+      "2N.EventStop\022&\n\tjumpEvent\030q \001(\0132\023.server"
+      "2N.EventJump\022(\n\nshootEvent\030r \001(\0132\024.serve"
+      "r2N.EventShoot\022$\n\010hitEvent\030s \001(\0132\022.serve"
+      "r2N.EventHit\022(\n\nspawnEvent\030t \001(\0132\024.serve"
+      "r2N.EventSpawn\022*\n\tsyncEvent\030u \001(\0132\027.serv"
+      "er2N.EventUserSync\022(\n\ndeathEvent\030v \001(\0132\024"
+      ".server2N.EventDeath\0222\n\rchWeaponEvent\030w "
+      "\001(\0132\033.server2N.EventChangeWeapon\0220\n\016item"
+      "SpawnEvent\030x \001(\0132\030.server2N.EventItemSpa"
+      "wn\022,\n\014itemGetEvent\030y \001(\0132\026.server2N.Even"
+      "tItemGet\"\273\001\n\006action\022\013\n\007Nothing\020\000\022\r\n\tEven"
+      "tMove\020d\022\r\n\tEventStop\020e\022\r\n\tEventJump\020f\022\016\n"
+      "\nEventShoot\020g\022\014\n\010EventHit\020h\022\016\n\nEventSpaw"
+      "n\020i\022\021\n\rEventUserSync\020j\022\016\n\nEventDeath\020k\022\017"
+      "\n\013EventBullet\020l\022\025\n\021EventChangeWeapon\020m\"\220"
+      "\002\n\nPacketBody\0222\n\007msgType\030\220N \001(\0162 .server"
+      "2N.PacketBody.messageType\022)\n\007connect\030\006 \001"
+      "(\0132\030.server2N.UserConnection\022\'\n\006notice\030\221"
+      "N \001(\0132\026.server2N.GlobalNotice\022\"\n\005event\030\007"
+      " \001(\0132\023.server2N.GameEvent\022\020\n\010senderId\030\010 "
+      "\001(\005\"D\n\013messageType\022\r\n\tGameEvent\020\000\022\023\n\016Use"
+      "rConnection\020\220N\022\021\n\014GlobalNotice\020\221Nb\006proto"
+      "3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2941);
+      descriptor, 2961);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "gameContent.proto", &protobuf_RegisterTypes);
 }
@@ -1617,19 +1619,12 @@ bool UserConnection::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 itemId = 5;
+      // repeated .server2N.InfoItem itemId = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, this->mutable_itemid())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 1, 42u, input, this->mutable_itemid())));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+                input, add_itemid()));
         } else {
           goto handle_unusual;
         }
@@ -1720,15 +1715,13 @@ void UserConnection::SerializeWithCachedSizes(
       4, this->nickname(i), output);
   }
 
-  // repeated int32 itemId = 5;
-  if (this->itemid_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(5, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _itemid_cached_byte_size_));
-  }
-  for (int i = 0, n = this->itemid_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
-      this->itemid(i), output);
+  // repeated .server2N.InfoItem itemId = 5;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->itemid_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      5,
+      this->itemid(static_cast<int>(i)),
+      output);
   }
 
   // .server2N.UserConnection.ConnectionType conType = 6;
@@ -1800,17 +1793,12 @@ void UserConnection::SerializeWithCachedSizes(
       WriteStringToArray(4, this->nickname(i), target);
   }
 
-  // repeated int32 itemId = 5;
-  if (this->itemid_size() > 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      5,
-      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
-      target);
-    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
-        static_cast< ::google::protobuf::int32>(
-            _itemid_cached_byte_size_), target);
+  // repeated .server2N.InfoItem itemId = 5;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->itemid_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32NoTagToArray(this->itemid_, target);
+      InternalWriteMessageToArray(
+        5, this->itemid(static_cast<int>(i)), deterministic, target);
   }
 
   // .server2N.UserConnection.ConnectionType conType = 6;
@@ -1892,20 +1880,15 @@ size_t UserConnection::ByteSizeLong() const {
       this->nickname(i));
   }
 
-  // repeated int32 itemId = 5;
+  // repeated .server2N.InfoItem itemId = 5;
   {
-    size_t data_size = ::google::protobuf::internal::WireFormatLite::
-      Int32Size(this->itemid_);
-    if (data_size > 0) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
+    unsigned int count = static_cast<unsigned int>(this->itemid_size());
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          this->itemid(static_cast<int>(i)));
     }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _itemid_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
-    total_size += data_size;
   }
 
   // .server2N.UserConnection.ConnectionType conType = 6;
@@ -1981,7 +1964,7 @@ void UserConnection::InternalSwap(UserConnection* other) {
   killinfo_.InternalSwap(&other->killinfo_);
   deathinfo_.InternalSwap(&other->deathinfo_);
   nickname_.InternalSwap(CastToBase(&other->nickname_));
-  itemid_.InternalSwap(&other->itemid_);
+  CastToBase(&itemid_)->InternalSwap(CastToBase(&other->itemid_));
   swap(contype_, other->contype_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
