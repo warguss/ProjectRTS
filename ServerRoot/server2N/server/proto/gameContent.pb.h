@@ -737,17 +737,17 @@ class UserConnection : public ::google::protobuf::Message /* @@protoc_insertion_
   const ::google::protobuf::RepeatedPtrField< ::std::string>& nickname() const;
   ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_nickname();
 
-  // repeated .server2N.InfoItem itemId = 5;
-  int itemid_size() const;
-  void clear_itemid();
-  static const int kItemIdFieldNumber = 5;
-  ::server2N::InfoItem* mutable_itemid(int index);
+  // repeated .server2N.InfoItem item = 5;
+  int item_size() const;
+  void clear_item();
+  static const int kItemFieldNumber = 5;
+  ::server2N::InfoItem* mutable_item(int index);
   ::google::protobuf::RepeatedPtrField< ::server2N::InfoItem >*
-      mutable_itemid();
-  const ::server2N::InfoItem& itemid(int index) const;
-  ::server2N::InfoItem* add_itemid();
+      mutable_item();
+  const ::server2N::InfoItem& item(int index) const;
+  ::server2N::InfoItem* add_item();
   const ::google::protobuf::RepeatedPtrField< ::server2N::InfoItem >&
-      itemid() const;
+      item() const;
 
   // .server2N.UserConnection.ConnectionType conType = 6;
   void clear_contype();
@@ -766,7 +766,7 @@ class UserConnection : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > deathinfo_;
   mutable int _deathinfo_cached_byte_size_;
   ::google::protobuf::RepeatedPtrField< ::std::string> nickname_;
-  ::google::protobuf::RepeatedPtrField< ::server2N::InfoItem > itemid_;
+  ::google::protobuf::RepeatedPtrField< ::server2N::InfoItem > item_;
   int contype_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
@@ -2180,6 +2180,18 @@ class InfoItem : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::server2N::InfoItem_WeaponId weaponid() const;
   void set_weaponid(::server2N::InfoItem_WeaponId value);
 
+  // float ItemPositionX = 7;
+  void clear_itempositionx();
+  static const int kItemPositionXFieldNumber = 7;
+  float itempositionx() const;
+  void set_itempositionx(float value);
+
+  // float ItemPositionY = 8;
+  void clear_itempositiony();
+  static const int kItemPositionYFieldNumber = 8;
+  float itempositiony() const;
+  void set_itempositiony(float value);
+
   // @@protoc_insertion_point(class_scope:server2N.InfoItem)
  private:
 
@@ -2188,6 +2200,8 @@ class InfoItem : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::int32 amount_;
   int itemtype_;
   int weaponid_;
+  float itempositionx_;
+  float itempositiony_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsInfoItemImpl();
@@ -3260,34 +3274,34 @@ UserConnection::mutable_nickname() {
   return &nickname_;
 }
 
-// repeated .server2N.InfoItem itemId = 5;
-inline int UserConnection::itemid_size() const {
-  return itemid_.size();
+// repeated .server2N.InfoItem item = 5;
+inline int UserConnection::item_size() const {
+  return item_.size();
 }
-inline void UserConnection::clear_itemid() {
-  itemid_.Clear();
+inline void UserConnection::clear_item() {
+  item_.Clear();
 }
-inline ::server2N::InfoItem* UserConnection::mutable_itemid(int index) {
-  // @@protoc_insertion_point(field_mutable:server2N.UserConnection.itemId)
-  return itemid_.Mutable(index);
+inline ::server2N::InfoItem* UserConnection::mutable_item(int index) {
+  // @@protoc_insertion_point(field_mutable:server2N.UserConnection.item)
+  return item_.Mutable(index);
 }
 inline ::google::protobuf::RepeatedPtrField< ::server2N::InfoItem >*
-UserConnection::mutable_itemid() {
-  // @@protoc_insertion_point(field_mutable_list:server2N.UserConnection.itemId)
-  return &itemid_;
+UserConnection::mutable_item() {
+  // @@protoc_insertion_point(field_mutable_list:server2N.UserConnection.item)
+  return &item_;
 }
-inline const ::server2N::InfoItem& UserConnection::itemid(int index) const {
-  // @@protoc_insertion_point(field_get:server2N.UserConnection.itemId)
-  return itemid_.Get(index);
+inline const ::server2N::InfoItem& UserConnection::item(int index) const {
+  // @@protoc_insertion_point(field_get:server2N.UserConnection.item)
+  return item_.Get(index);
 }
-inline ::server2N::InfoItem* UserConnection::add_itemid() {
-  // @@protoc_insertion_point(field_add:server2N.UserConnection.itemId)
-  return itemid_.Add();
+inline ::server2N::InfoItem* UserConnection::add_item() {
+  // @@protoc_insertion_point(field_add:server2N.UserConnection.item)
+  return item_.Add();
 }
 inline const ::google::protobuf::RepeatedPtrField< ::server2N::InfoItem >&
-UserConnection::itemid() const {
-  // @@protoc_insertion_point(field_list:server2N.UserConnection.itemId)
-  return itemid_;
+UserConnection::item() const {
+  // @@protoc_insertion_point(field_list:server2N.UserConnection.item)
+  return item_;
 }
 
 // .server2N.UserConnection.ConnectionType conType = 6;
@@ -3799,6 +3813,34 @@ inline void InfoItem::set_weaponid(::server2N::InfoItem_WeaponId value) {
   
   weaponid_ = value;
   // @@protoc_insertion_point(field_set:server2N.InfoItem.weaponId)
+}
+
+// float ItemPositionX = 7;
+inline void InfoItem::clear_itempositionx() {
+  itempositionx_ = 0;
+}
+inline float InfoItem::itempositionx() const {
+  // @@protoc_insertion_point(field_get:server2N.InfoItem.ItemPositionX)
+  return itempositionx_;
+}
+inline void InfoItem::set_itempositionx(float value) {
+  
+  itempositionx_ = value;
+  // @@protoc_insertion_point(field_set:server2N.InfoItem.ItemPositionX)
+}
+
+// float ItemPositionY = 8;
+inline void InfoItem::clear_itempositiony() {
+  itempositiony_ = 0;
+}
+inline float InfoItem::itempositiony() const {
+  // @@protoc_insertion_point(field_get:server2N.InfoItem.ItemPositionY)
+  return itempositiony_;
+}
+inline void InfoItem::set_itempositiony(float value) {
+  
+  itempositiony_ = value;
+  // @@protoc_insertion_point(field_set:server2N.InfoItem.ItemPositionY)
 }
 
 // -------------------------------------------------------------------

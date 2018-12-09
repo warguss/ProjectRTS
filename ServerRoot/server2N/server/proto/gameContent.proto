@@ -33,7 +33,7 @@ message UserConnection
 	repeated int32 killInfo = 2;
 	repeated int32 deathInfo = 3;
 	repeated string nickname = 4;
-	repeated InfoItem itemId = 5;
+	repeated InfoItem item = 5;
 
 	ConnectionType conType = 6;
 }
@@ -131,6 +131,8 @@ message InfoItem
 	string itemId = 2;
 	ItemType itemType = 5;
 	WeaponId weaponId = 6;
+	float ItemPositionX = 7;
+	float ItemPositionY = 8;
 }
 
 message GameEvent
