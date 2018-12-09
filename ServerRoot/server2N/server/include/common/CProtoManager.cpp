@@ -245,6 +245,11 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 	(*packet) = new CProtoPacket();
 	(*packet)->_protoConnect = new server2N::UserConnection; 
 	(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_UserConnection);
+
+	/**************************************
+	 * 
+	 * 	 
+	 **************************************/
 	if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect )
 	{
 		LOG_INFO("USERID(%d) TRYCONNECT Change To AccepConnect", eventUser->_fd);
@@ -291,6 +296,37 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 				(*packet)->_protoConnect->add_killinfo((int64_t)user->_killInfo);
 				(*packet)->_protoConnect->add_deathinfo((int64_t)user->_deathInfo);
 				(*packet)->_protoConnect->add_nickname(user->_nickName.c_str());
+			}
+			/* Add Item Id */
+		
+			map<std::string, Item*>::iterator iter = g_itemManager._itemInfo.begin();	
+			if ( iter != g_itemManager._itemInfo.end() )
+			{
+				for ( ; iter != g_itemManager._itemInfo.end(); iter++ )
+				{
+					Item* item = iter->second;
+					if ( !item )
+					{
+						continue ;
+					}	
+
+					server2N::InfoItem *protoItem = (*packet)->_protoConnect->add_item();
+					if ( protoItem )
+					{
+						LOG_ERROR("Not Exist protoITem");
+						std::string itemID = iter->first;
+						protoItem->set_itemid(itemID.c_str());
+						protoItem->set_amount(item->_amount);
+						protoItem->set_itemtype(item->_itemType);
+						protoItem->set_weaponid(item->_weaponId);
+						protoItem->set_itempositionx(item->_posX);
+						protoItem->set_itempositiony(item->_posY);
+					}
+					else
+					{
+						LOG_ERROR("Not Exist protoITem");
+					}
+				} 
 			}
 			(*packet)->_proto->set_allocated_connect((*packet)->_protoConnect);
 		}
@@ -405,24 +441,21 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 	}
 	else if ( type == (int32_t)server2N::SystemEvent_action_EventItemSpawn )
 	{
-		if ( !isSelfEvent )
-		{
-			const char* itemKey = tEvent.systemevent().itemspawnevent().item().itemid().c_str();
-			Item* item = new Item();
-			item->_excellX = tEvent.velocityx();
-			item->_excellY = tEvent.velocityy();
-			item->_posX = tEvent.eventpositionx();
-			item->_posY = tEvent.eventpositiony();
-			item->_weaponId = tEvent.systemevent().itemspawnevent().item().weaponid() ;
-			item->_itemType = tEvent.systemevent().itemspawnevent().item().itemtype()  ;
-			item->_amount = tEvent.systemevent().itemspawnevent().item().amount();
+		const char* itemKey = tEvent.systemevent().itemspawnevent().item().itemid().c_str();
+		Item* item = new Item();
+		item->_excellX = tEvent.velocityx();
+		item->_excellY = tEvent.velocityy();
+		item->_posX = tEvent.eventpositionx();
+		item->_posY = tEvent.eventpositiony();
+		item->_weaponId = tEvent.systemevent().itemspawnevent().item().weaponid();
+		item->_itemType = tEvent.systemevent().itemspawnevent().item().itemtype()  ;
+		item->_amount = tEvent.systemevent().itemspawnevent().item().amount();
 
-			if ( !g_itemManager.spawnItem(itemKey, item) )
-			{
-				LOG_ERROR("Spawn add Item Error");
-			} 
-			LOG_DEBUG("Event Item Spawn (%s)", itemKey);
-		}
+		if ( !g_itemManager.spawnItem(itemKey, item) )
+		{
+			LOG_ERROR("Spawn add Item Error");
+		} 
+		LOG_DEBUG("Event Item Spawn (%s)", itemKey);
 	} 
 	else if ( type == (int32_t)server2N::SystemEvent_action_EventItemGet )
 	{
@@ -448,7 +481,7 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 
 
 	//tEvent.set_sectorno(eventUser->_sector);
-	if ( !isSelfEvent || type == (int32_t)server2N::SystemEvent_action_EventItemGet )
+	if ( !isSelfEvent || type == (int32_t)server2N::SystemEvent_action_EventItemGet || type == (int32_t)server2N::SystemEvent_action_EventItemSpawn)
 	{
 		(*packet)->_protoEvent->CopyFrom(tEvent);
 		(*packet)->_fd = recvUser->_fd;
