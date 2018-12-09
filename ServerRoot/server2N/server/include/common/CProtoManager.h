@@ -9,7 +9,6 @@
 
 using namespace std;
 using namespace google::protobuf::io;
-
 class CProtoManager
 {
 	private:
@@ -53,5 +52,54 @@ class CProtoManager
 
 		const char* getLogValue(int32_t type, const char* psDefault = "");
 };
+
+#if 0 
+template <typename T>
+class CCommonPtr
+{
+    private:
+        T* _ptr;
+
+    public:
+        CCommonPtr(T *ptr)
+        {
+            _ptr = ptr;
+        }
+
+        bool isValid()
+        {
+            if ( !_ptr )
+            {
+                return false;
+            }
+            return true;
+        }
+
+        T* ptr()
+        {
+            return _ptr;
+        }
+
+        T* operator ->()
+        {
+            return _ptr;
+        }
+
+        T& operator * ()
+        {
+            return *_ptr;
+        }
+
+        ~CCommonPtr()
+        {
+            if ( _ptr )
+            {
+                delete _ptr;
+                _ptr = NULL;
+            }
+        }
+};
+#endif
+
 extern CProtoManager g_packetManager;
 #endif

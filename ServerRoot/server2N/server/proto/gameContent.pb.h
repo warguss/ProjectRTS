@@ -737,17 +737,17 @@ class UserConnection : public ::google::protobuf::Message /* @@protoc_insertion_
   const ::google::protobuf::RepeatedPtrField< ::std::string>& nickname() const;
   ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_nickname();
 
-  // repeated int32 itemId = 5;
+  // repeated .server2N.InfoItem itemId = 5;
   int itemid_size() const;
   void clear_itemid();
   static const int kItemIdFieldNumber = 5;
-  ::google::protobuf::int32 itemid(int index) const;
-  void set_itemid(int index, ::google::protobuf::int32 value);
-  void add_itemid(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      itemid() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  ::server2N::InfoItem* mutable_itemid(int index);
+  ::google::protobuf::RepeatedPtrField< ::server2N::InfoItem >*
       mutable_itemid();
+  const ::server2N::InfoItem& itemid(int index) const;
+  ::server2N::InfoItem* add_itemid();
+  const ::google::protobuf::RepeatedPtrField< ::server2N::InfoItem >&
+      itemid() const;
 
   // .server2N.UserConnection.ConnectionType conType = 6;
   void clear_contype();
@@ -766,8 +766,7 @@ class UserConnection : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > deathinfo_;
   mutable int _deathinfo_cached_byte_size_;
   ::google::protobuf::RepeatedPtrField< ::std::string> nickname_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > itemid_;
-  mutable int _itemid_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::server2N::InfoItem > itemid_;
   int contype_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
@@ -3261,34 +3260,34 @@ UserConnection::mutable_nickname() {
   return &nickname_;
 }
 
-// repeated int32 itemId = 5;
+// repeated .server2N.InfoItem itemId = 5;
 inline int UserConnection::itemid_size() const {
   return itemid_.size();
 }
 inline void UserConnection::clear_itemid() {
   itemid_.Clear();
 }
-inline ::google::protobuf::int32 UserConnection::itemid(int index) const {
-  // @@protoc_insertion_point(field_get:server2N.UserConnection.itemId)
-  return itemid_.Get(index);
+inline ::server2N::InfoItem* UserConnection::mutable_itemid(int index) {
+  // @@protoc_insertion_point(field_mutable:server2N.UserConnection.itemId)
+  return itemid_.Mutable(index);
 }
-inline void UserConnection::set_itemid(int index, ::google::protobuf::int32 value) {
-  itemid_.Set(index, value);
-  // @@protoc_insertion_point(field_set:server2N.UserConnection.itemId)
-}
-inline void UserConnection::add_itemid(::google::protobuf::int32 value) {
-  itemid_.Add(value);
-  // @@protoc_insertion_point(field_add:server2N.UserConnection.itemId)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-UserConnection::itemid() const {
-  // @@protoc_insertion_point(field_list:server2N.UserConnection.itemId)
-  return itemid_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedPtrField< ::server2N::InfoItem >*
 UserConnection::mutable_itemid() {
   // @@protoc_insertion_point(field_mutable_list:server2N.UserConnection.itemId)
   return &itemid_;
+}
+inline const ::server2N::InfoItem& UserConnection::itemid(int index) const {
+  // @@protoc_insertion_point(field_get:server2N.UserConnection.itemId)
+  return itemid_.Get(index);
+}
+inline ::server2N::InfoItem* UserConnection::add_itemid() {
+  // @@protoc_insertion_point(field_add:server2N.UserConnection.itemId)
+  return itemid_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::server2N::InfoItem >&
+UserConnection::itemid() const {
+  // @@protoc_insertion_point(field_list:server2N.UserConnection.itemId)
+  return itemid_;
 }
 
 // .server2N.UserConnection.ConnectionType conType = 6;

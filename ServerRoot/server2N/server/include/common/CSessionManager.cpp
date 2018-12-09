@@ -195,8 +195,6 @@ static void* CSessionManager::waitEvent(void* val)
 					} 
 					LOG_DEBUG("Sector Check(%d)", sector);
 					inputUser->_sector = sector;
-
-
 					m_readQ_Manager.unLock();
 					m_readQ_Manager.enqueue(authPacket);
 					continue ;
@@ -215,22 +213,6 @@ static void* CSessionManager::waitEvent(void* val)
 					_deleteUserAndEvent(&inputUser, isFirst);
 					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
 					close(fd);
-
-					/*
-					CUser* user = inputUser;
-					if ( user )
-					{
-						CProtoPacket* disConnPacket = new CProtoPacket;
-						disConnPacket->_type = (int32_t)server2N::UserConnection_ConnectionType_DisConnect;
-						disConnPacket->_fd = fd;
-						disConnPacket->_nickName = user->_nickName.c_str();
-						disConnPacket->_sector = user->_sector;
-						m_readQ_Manager.enqueue(disConnPacket);
-					}
-
-					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
-					close(fd);
-					*/
 					continue;
 				}
 
@@ -262,29 +244,6 @@ static void* CSessionManager::waitEvent(void* val)
 					_deleteUserAndEvent(&inputUser, isFirst);
 					epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, _events);
 					close(fd);
-					/*
-					CUser* user = NULL;
-					if ( isFirst )
-					{
-						user = inputUser;
-					} 
-					else
-					{
-						user = g_userPool.findUserInPool(fd);
-					}
-					
-					if ( user )
-					{
-						CProtoPacket* disConnPacket = new CProtoPacket;
-						disConnPacket->_type = (int32_t)server2N::UserConnection_ConnectionType_DisConnect;
-						disConnPacket->_fd = fd;
-						disConnPacket->_nickName = user->_nickName.c_str();
-						disConnPacket->_sector = user->_sector;
-						m_readQ_Manager.enqueue(disConnPacket);
-						g_userPool.delUserInPool(fd);
-					}
-					*/
-
 					continue;
 				}
 				
@@ -327,6 +286,45 @@ static void* CSessionManager::waitEvent(void* val)
 				m_readQ_Manager.unLock();
 				m_readQ_Manager.enqueue(packet);
 				LOG_INFO("@SUCC UID:%d NName:%s ATP:%s SECTOR:%d", packet->_fd, packet->_nickName.c_str(), packet->_act.c_str(), packet->_sector);
+
+				/******************************************
+				 * 유저 Pool Size, 특정 Time에 따라
+				 * Item Sapwn
+				 ******************************************/
+#if 0 
+				if ( )
+				{
+
+				}
+
+				CProtoPacket* itemPacket = new CProtoPacket();
+
+				itemPacket->_proto = new server2N::PacketBody();
+				itemPacket->_proto->set_senderid(fd);
+				itemPacket->_fd = fd;
+				itemPacket->_sector = 0;
+				itemPacket->_nickName = "item";
+				itemPacket->_protoEvent = new server2N::GameEvent();
+				itemPacket->_type = server2N::GameEvent_action_EventItemSpawn;
+				//packet->_item = g_itemManager.lastSpawnItemReturn();
+				itemPacket->_protoEvent->set_acttype(server2N::GameEvent_action_EventItemSpawn);
+				server2N::EventItemSpawn* protoItem = new server2N::EventItemSpawn();
+				server2N::InfoItem* protoInfoItem = new server2N::InfoItem();
+				protoInfoItem->set_weaponid(2);
+				protoInfoItem->set_amount(5);
+				protoInfoItem->set_itemtype(1);
+				protoItem->set_itemid(1);
+				protoItem->set_allocated_item(protoInfoItem);
+				itemPacket->_protoEvent->set_allocated_itemspawnevent(protoItem);
+				itemPacket->_protoEvent->set_eventpositionx((float)15);
+				itemPacket->_protoEvent->set_eventpositiony((float)15);
+
+				itemPacket->_proto->set_msgtype(server2N::PacketBody_messageType_GameEvent);
+				itemPacket->_proto->set_allocated_event(itemPacket->_protoEvent);
+				m_readQ_Manager.unLock();
+				m_readQ_Manager.enqueue(itemPacket);
+				LOG_DEBUG("Item ProtoPacket Send");
+#endif
             }
         }
     }

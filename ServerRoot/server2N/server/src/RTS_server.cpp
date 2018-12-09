@@ -22,6 +22,7 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventUser);
 bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser);
 bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser);
 bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser);
+bool preActionFunc(CSessionManager& session, CProtoPacket* eventUser);
 typedef bool (*CallBackFunc)(CSessionManager&, CProtoPacket*);
 
 extern int32_t g_sectorIdx;
@@ -54,8 +55,6 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 			LOG_ERROR("Error Connector Type");
 			return false;
 		}
-
-		//cout <<  connectPacket->_proto->DebugString() << endl;
 		session.m_writeQ_Manager.enqueue(connectPacket);
 		type = server2N::UserConnection_ConnectionType_Connect;
 	}
@@ -119,7 +118,7 @@ bool ActionPartSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		LOG_DEBUG("User(%d) Part Send Action Event", packet->_fd);
 	}
 
-	if ( type == (int32_t)server2N::GameEvent_action_EventDeath )
+	if ( type == (int32_t)server2N::UserEvent_action_EventDeath )
 	{
 		NotiAllSendFunc(session, eventUser);
 	}
@@ -134,6 +133,7 @@ bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 	 *************************************/
 	list<CUser*> connectList;
 	g_userPool.getAllUserList(connectList);
+	LOG_DEBUG("connectList(%d)", connectList.size());
 
 	/*************************************
 	 * Event Send 
@@ -146,8 +146,8 @@ bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 		CProtoPacket *packet = NULL;
 		if ( !g_packetManager.setActionType(type, user, eventUser, connectList, &packet) || !packet )
 		{
-			LOG_ERROR("Error All Action Type");
-			return false;
+			LOG_ERROR("Error All Action Type (%d)", user->_fd);
+			continue;
 		} 
 
 		/*********************************
@@ -196,6 +196,7 @@ bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 	return true;
 }
 
+// Factory 형식으로 수정 필요함, receive, onMessage, response (현재 너무 복잡함)
 bool childProcessLogic()
 {
 	int port = 10001;
@@ -212,16 +213,25 @@ bool childProcessLogic()
 
 	
 	/*******************************************************
-	 * Action 관련 함수 Add
+	 * User Event Action 관련 함수 Add
 	 *******************************************************/
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventMove, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventStop, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventJump, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventShoot, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventHit, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventSpawn, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventUserSync, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GameEvent_action_EventDeath, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_Nothing, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventStop, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventJump, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventShoot, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventHit, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventSpawn, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventUserSync, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventDeath, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventMove, ActionPartSendFunc) );
+
+	/*******************************************************
+	 * System Event Action 관련 함수 Add
+	 *******************************************************/
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::SystemEvent_action_EventItemSpawn, ActionAllSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::SystemEvent_action_EventItemGet, ActionAllSendFunc) );
+
+
 
 	/*******************************************************
 	 * Noti 관련 함수 Add

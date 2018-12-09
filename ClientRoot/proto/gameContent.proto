@@ -2,8 +2,10 @@ syntax = "proto3";
 
 package server2N;
 
-message GlobalNotice{
-	enum NoticeInfo{
+message GlobalNotice
+{
+	enum NoticeInfo
+	{
 		Nothing = 0;
 		KillInfo = 1;
 		Notice = 2;
@@ -16,8 +18,10 @@ message GlobalNotice{
 	repeated int32 victim = 4;
 }
 
-message UserConnection{
-	enum ConnectionType{
+message UserConnection
+{
+	enum ConnectionType
+	{
 		Nothing = 0;
 		Connect = 1;
 		TryConnect = 2;
@@ -29,13 +33,15 @@ message UserConnection{
 	repeated int32 killInfo = 2;
 	repeated int32 deathInfo = 3;
 	repeated string nickname = 4;
-	repeated int32 itemId = 5;
+	repeated InfoItem itemId = 5;
 
 	ConnectionType conType = 6;
 }
 
-message EventMove{
-	enum Direction{
+message EventMove
+{
+	enum Direction
+	{
 		Nothing = 0;
 		Left = 1;
 		Right = 2;
@@ -45,15 +51,18 @@ message EventMove{
 	Direction type = 5;
 }
 
-message EventStop{
+message EventStop
+{
 
 }
 
-message EventJump{
+message EventJump
+{
 
 }
 
-message EventShoot{
+message EventShoot
+{
 	float angle = 1;
 	float damage = 2;
 	int32 impact = 3;
@@ -63,7 +72,8 @@ message EventShoot{
 	float bulletRange = 7;
 }
 
-message EventHit{
+message EventHit
+{
 	int32 attacker = 1;
 	float damage = 2;
 	int32 impact = 3;
@@ -72,20 +82,24 @@ message EventHit{
 	int32 hitType = 6;
 }
 
-message EventChangeWeapon{
+message EventChangeWeapon
+{
 	int32 weaponId = 1;
 }
 
-message EventSpawn{
+message EventSpawn
+{
 	
 }
 
-message EventUserSync{
+message EventUserSync
+{
 	float currentHP = 1;
 	int32 weaponId = 2;
 }
 
-message EventDeath{
+message EventDeath
+{
 	int32 triggerId = 1;
 }
 
@@ -121,7 +135,8 @@ message InfoItem
 
 message GameEvent
 {
-	enum eventType{
+	enum eventType
+	{
 		Nothing		= 0;
 		UserEvent	= 1;
 		SystemEvent	= 2;
@@ -141,7 +156,8 @@ message GameEvent
 }
 
 message SystemEvent{
-	enum action{
+	enum action
+	{
 		Nothing				= 0;
 		EventItemSpawn		= 200;
 		EventItemGet		= 201;
@@ -152,7 +168,8 @@ message SystemEvent{
 	EventItemGet itemGetEvent = 204;
 }
 message UserEvent{
-	enum action{
+	enum action
+	{
 		Nothing				= 0;
 		EventMove			= 100;
 		EventStop			= 101;
@@ -182,7 +199,8 @@ message UserEvent{
 }
 
 message PacketBody{
-	enum messageType{
+	enum messageType
+	{
 		GameEvent		= 0;
 		UserConnection	= 10000;
 		GlobalNotice	= 10001;
