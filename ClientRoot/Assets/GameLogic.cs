@@ -12,8 +12,8 @@ public class GameLogic : MonoBehaviour
     public const int WEAPON_SLOT_COUNT = 3;
     public const float SPAWN_INVINCIBLE_TIME = 3f;
 
-    public const float ITEM_INTERVAL_MAX = 10f;
-    public const float ITEM_INTERVAL_MIN = 5f;
+    public const float ITEM_INTERVAL_MAX = 30f;
+    public const float ITEM_INTERVAL_MIN = 10f;
 
     static public GameLogic Instance;
 
@@ -632,10 +632,13 @@ public class GameLogic : MonoBehaviour
                 }
         }
 
-        CreateItem(itemPosition, itemId, itemType, weaponId, itemAmount);
         if (isOnline)
         {
             NetworkModule.instance.WriteEventSpawnItem(myId, itemPosition, itemId, itemType, weaponId, itemAmount);
+        }
+        else
+        {
+            CreateItem(itemPosition, itemId, itemType, weaponId, itemAmount);
         }
     }
 
