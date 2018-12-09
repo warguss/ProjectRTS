@@ -61,7 +61,8 @@ class CItemManager
 	private:
 		bool _addItem(string key, Item* item);
 		bool _delItem(string itemId);
-
+	
+	public:
 		map<std::string , Item*> _itemInfo;
 };
 static CItemManager g_itemManager;
