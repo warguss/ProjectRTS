@@ -238,6 +238,22 @@ public class GameLogic : MonoBehaviour
     void ProcessConnectionPacket(UserConnection ConnectionPacket)
     {
         TestUI.Instance.PrintText("Connection Type : " + ConnectionPacket.ConType);
+        if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.Connect) // Connect타입 패킷에서 아이템을 받는다? 처음에만 받고 이후 유저가 접속할 때는 없음. 개선예정?
+        {
+            TestUI.Instance.PrintText("Created Item Count : " + ConnectionPacket.Item.Count);
+            for (int j = 0; j < ConnectionPacket.Item.Count; j++)
+            {
+                string itemId = ConnectionPacket.Item[j].ItemId;
+                float itemPositionX = ConnectionPacket.Item[j].ItemPositionX;
+                float itemPositionY = ConnectionPacket.Item[j].ItemPositionY;
+                int itemType = (int)ConnectionPacket.Item[j].ItemType;
+                int weaponId = (int)ConnectionPacket.Item[j].WeaponId;
+                int amount = ConnectionPacket.Item[j].Amount;
+
+                CreateItem(new Vector2(itemPositionX, itemPositionY), itemId, (ItemType)itemType, (WeaponId)weaponId, amount);
+            }
+        }
+
         for (int i = 0; i< ConnectionPacket.ConnectorId.Count; i++)
         {
             int connectorId = ConnectionPacket.ConnectorId[i];
@@ -245,14 +261,14 @@ public class GameLogic : MonoBehaviour
             if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.AcceptConnect)
             {
                 string connectorName = ConnectionPacket.Nickname[i];
-                int connectorKillCount = ConnectionPacket.KillInfo[i];
-                int ConnectorDeathCount = ConnectionPacket.DeathInfo[i];
+                //int connectorKillCount = ConnectionPacket.KillInfo[i];
+                //int ConnectorDeathCount = ConnectionPacket.DeathInfo[i];
 
-                TestUI.Instance.PrintText("Connector Id : " + connectorId
-                                         + " / Name = " + connectorName
-                                         + " / Kill = " + connectorKillCount
-                                         + " / Death = " + ConnectorDeathCount);
-
+                //TestUI.Instance.PrintText("Connector Id : " + connectorId
+                //                         + " / Name = " + connectorName
+                //                         + " / Kill = " + connectorKillCount
+                //                         + " / Death = " + ConnectorDeathCount);
+                
                 isOnline = true;
                 myId = connectorId;
                 userJoin(connectorId, connectorName, true);
@@ -261,6 +277,14 @@ public class GameLogic : MonoBehaviour
             {
                 string connectorName = ConnectionPacket.Nickname[i];
 
+                int connectorKillCount = ConnectionPacket.KillInfo[i];
+                int ConnectorDeathCount = ConnectionPacket.DeathInfo[i];
+
+                TestUI.Instance.PrintText("Connector Id : " + connectorId
+                                         + " / Name = " + connectorName
+                                         + " / Kill = " + connectorKillCount
+                                         + " / Death = " + ConnectorDeathCount);
+               
                 userJoin(connectorId, connectorName, false, false, false);
                 if (playerControllers.ContainsKey(myId))
                     playerControllers[myId].Character.InitialSync();

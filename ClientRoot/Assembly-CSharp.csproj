@@ -61,6 +61,7 @@
     <Compile Include="Assets\CameraMove.cs" />
     <Compile Include="Assets\FieldItem.cs" />
     <Compile Include="Assets\GameLogic.cs" />
+    <Compile Include="Assets\GameLogic\Script\Player\BazookaBullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\Bullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\BulletFactory.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\CharacterState.cs" />

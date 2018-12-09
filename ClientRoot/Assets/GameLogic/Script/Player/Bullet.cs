@@ -36,6 +36,7 @@ abstract public class Bullet : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        //TestUI.Instance.PrintText("BulletOnTriggerEnter2D");
         if (other.tag == "Player")
         {
             MainCharacter targetPlayer = other.gameObject.GetComponent<MainCharacter>();
@@ -44,7 +45,6 @@ abstract public class Bullet : MonoBehaviour {
                 if (targetPlayer.IsLocalPlayer)
                 {
                     targetPlayer.GetHit(OwnerId, BulletStat);
-                    //TestUI.Instance.PrintText("BulletOnTriggerEnter2D");
                 }
 
                 Destroy(gameObject);
