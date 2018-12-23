@@ -3,11 +3,18 @@ using UnityEditor;
 
 public class ShootInfo
 {
-    public WeaponId HitType;
+    public WeaponId ShootType;
     public float BulletSpeed;
     public float BulletRange;
-    public float shootAngle;//unuse when hit()
-    public int Damage;
-    public int HitRecovery;// currently unuse
-    public int Impact;
+    public float ShootAngle;
+    public float Damage;
+    public float ImpactScale;
+}
+
+public class HitInfo
+{
+    public WeaponId HitType;
+    public float Damage;
+    public float ImpactX;
+    public float ImpactY;
 }

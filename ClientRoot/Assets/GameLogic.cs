@@ -382,11 +382,10 @@ public class GameLogic : MonoBehaviour
                         int weaponId = info.WeaponId;
                         ShootInfo shootInfo = new ShootInfo
                         {
-                            HitType = (WeaponId)weaponId,
-                            Damage = (int)info.Damage,
-                            shootAngle = info.Angle,
-                            HitRecovery = 10,/////////unused
-                            Impact = info.Impact,/////////////
+                            ShootType = (WeaponId)weaponId,
+                            Damage = info.Damage,
+                            ShootAngle = info.Angle,
+                            ImpactScale = info.ImpactScale,/////////////
                             BulletRange = info.BulletRange,
                             BulletSpeed = info.BulletSpeed,
                         };
@@ -409,12 +408,12 @@ public class GameLogic : MonoBehaviour
                     {
 
                         var info = userEventPacket.HitEvent;
-                        ShootInfo shootInfo = new ShootInfo
-                        {
-                            HitType = (WeaponId)info.HitType,
-                            Damage = (int)info.Damage,
-                            HitRecovery = 10,/////////unused
-                            Impact = info.Impact,/////////////
+                    HitInfo shootInfo = new HitInfo
+                    {
+                        HitType = (WeaponId)info.HitType,
+                        Damage = info.Damage,
+                        ImpactX = info.ImpactX,/////////////
+                        ImpactY = info.ImpactY
                         };
                         float currentHp = info.CurrentHP;
                         playerControllers[invokerId].GetHit(info.Attacker, shootInfo, currentHp);
@@ -516,7 +515,7 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void PlayerEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, ShootInfo info, float remainingHp)
+    void PlayerEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, HitInfo info, float remainingHp)
     {
         if (isOnline)
         {

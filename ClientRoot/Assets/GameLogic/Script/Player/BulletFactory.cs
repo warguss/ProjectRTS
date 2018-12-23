@@ -8,6 +8,7 @@ public class BulletFactory : MonoBehaviour {
 
     public GameObject PistolBulletPrefab;
     public GameObject SniperBulletPrefab;
+    public GameObject BazookaBulletPrefab;
 
     private void Start()
     {
@@ -26,6 +27,10 @@ public class BulletFactory : MonoBehaviour {
 
             case WeaponId.Sniper:
                 returnObject = Instantiate(SniperBulletPrefab);
+                break;
+
+            case WeaponId.Bazooka:
+                returnObject = Instantiate(BazookaBulletPrefab);
                 break;
 
             default:

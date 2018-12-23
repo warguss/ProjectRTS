@@ -31,6 +31,7 @@ public class MainCharacter : ControllableCharacter
         Inventory.ClearItem();
         Inventory.AddItem(WeaponId.Pistol);////////////////////
         Inventory.AddItem(WeaponId.Sniper);////////////////////
+        Inventory.AddItem(WeaponId.Bazooka);////////////////////
 
         InvokeEventSpawn(position);
     }
@@ -178,6 +179,11 @@ public class MainCharacter : ControllableCharacter
         charRigidbody.velocity = new Vector2(charRigidbody.velocity.x * (float)0.8, charRigidbody.velocity.y);
     }
 
+    public void AddForce(Vector2 vector)
+    {
+        charRigidbody.AddForce(vector);
+    }
+
     public override void InitialSync()
     {
         if (!isDead)
@@ -297,7 +303,7 @@ public class MainCharacter : ControllableCharacter
         jumpCount = 0;
     }
 
-    public override void GetHit(int attackerId, ShootInfo info, float? remainingHp = null)
+    public override void GetHit(int attackerId, HitInfo info, float? remainingHp = null)
     {
         if (!state.Invincible) //무적인지 체크
         {
@@ -308,16 +314,7 @@ public class MainCharacter : ControllableCharacter
 
             TestUI.Instance.PrintText("player" + OwnerId + "hp : " + hp + " / Attacker : " + attackerId);
 
-            switch (info.HitType)
-            {
-                case WeaponId.Pistol:
-                case WeaponId.Sniper:
-                    float radian = Mathf.PI * (float)info.shootAngle / 180f;
-                    float impactX = Mathf.Cos(radian);
-                    float impactY = Mathf.Sin(radian);
-                    charRigidbody.AddForce(new Vector2(impactX, impactY) * info.Impact);
-                    break;
-            }
+            charRigidbody.AddForce(new Vector2(info.ImpactX, info.ImpactY));
 
             lastAttackedPlayerId = attackerId;
 

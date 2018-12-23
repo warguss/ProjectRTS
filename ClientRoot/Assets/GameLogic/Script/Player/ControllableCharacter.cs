@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public delegate void CharEventMove(int invokerId, Vector2 position, Vector2 velocity, bool isLeft);
 public delegate void CharEventStop(int invokerId, Vector2 position, Vector2 velocity);
 public delegate void CharEventJump(int invokerId, Vector2 position, Vector2 velocity);
-public delegate void CharEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, ShootInfo info, float remainingHp);
+public delegate void CharEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, HitInfo info, float remainingHp);
 public delegate void CharEventShoot(int invokerId, Vector2 position, Vector2 velocity, ShootInfo info, WeaponId weaponId);
 public delegate void CharEventChangeWeapon(int invokerId, Vector2 position, Vector2 velocity, WeaponId WeaponId);
 public delegate void CharEventSpawn(int invokerId, Vector2 position);
@@ -72,7 +72,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     {
         JumpEvent?.Invoke(OwnerId, position, velocity);
     }
-    protected void InvokeEventGetHit(Vector2 position, Vector2 velocity, int attackerId, ShootInfo info, float remainingHp)
+    protected void InvokeEventGetHit(Vector2 position, Vector2 velocity, int attackerId, HitInfo info, float remainingHp)
     {
         GetHitEvent?.Invoke(OwnerId, position, velocity, attackerId, info, remainingHp);
     }
@@ -166,7 +166,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     public abstract void SetLocation(Vector2 position);
     public abstract void MoveWithInterpolation(Vector2 position, Vector2 velocity);
 
-    public abstract void GetHit(int attackerId, ShootInfo info, float? remainingHp = null);
+    public abstract void GetHit(int attackerId, HitInfo info, float? remainingHp = null);
 
     public abstract GameObject GetGameObject();
 }
