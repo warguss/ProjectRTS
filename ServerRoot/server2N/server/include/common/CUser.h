@@ -25,8 +25,9 @@ class CUser
 		int32_t _killInfo;
 		int32_t _deathInfo;
 		int _health_point;
-
 		int _fd;
+		bool _isInterested;
+	public:
         CUser();
         CUser(int fd, int32_t x, int32_t y);
         ~CUser();

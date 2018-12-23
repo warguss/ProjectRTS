@@ -51,7 +51,7 @@ class CUserPool
 		int _getUpSector(int sector);
 		int _getLeftSector(int sector);
 		int _getXSectorPosition(int sector);
-		bool _addConnectionListBySector(list<CUser*>& userConnection, int sector);
+		bool _addConnectionListBySector(list<CUser*>& userConnection, int sector, bool isInterested = false);
 
 };
 
