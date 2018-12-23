@@ -179,11 +179,6 @@ public class MainCharacter : ControllableCharacter
         charRigidbody.velocity = new Vector2(charRigidbody.velocity.x * (float)0.8, charRigidbody.velocity.y);
     }
 
-    public void AddForce(Vector2 vector)
-    {
-        charRigidbody.AddForce(vector);
-    }
-
     public override void InitialSync()
     {
         if (!isDead)

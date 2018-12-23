@@ -444,7 +444,8 @@ public class NetworkModule : MonoBehaviour
         {
             Attacker = attackerId,
             HitType = (int)info.HitType,
-            Impact = info.Impact,
+            ImpactX = info.ImpactX,
+            ImpactY = info.ImpactY,
             Damage = info.Damage,
             CurrentHP = remainingHp
         };
@@ -470,10 +471,10 @@ public class NetworkModule : MonoBehaviour
         {
             BulletSpeed = info.BulletSpeed,
             BulletRange = info.BulletRange,
-            Impact = info.Impact,
-            Angle = info.ShootAngle,
+            ImpactScale = info.ImpactScale,
+            ShootAngle = info.ShootAngle,
             Damage = info.Damage,
-            WeaponId = (int)weaponId 
+            ShootType = (int)weaponId 
         };
 
         EnqueueSendPacket(packet);

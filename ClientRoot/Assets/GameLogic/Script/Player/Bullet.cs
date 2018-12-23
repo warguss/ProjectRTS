@@ -81,7 +81,7 @@ abstract public class Bullet : MonoBehaviour {
         BulletStat.BulletSpeed = info.BulletSpeed;
         BulletStat.ShootType = weaponId;
         BulletStat.Damage = info.Damage;
-        BulletStat.ImpactScale = info.ImpactScale;
+        BulletStat.ImpactScale = 1;///////////////////
         OwnerId = inOwnerId;
 
         startTime = Time.time;

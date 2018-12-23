@@ -379,12 +379,12 @@ public class GameLogic : MonoBehaviour
                     {
 
                         var info = userEventPacket.ShootEvent;
-                        int weaponId = info.WeaponId;
+                        int weaponId = info.ShootType;
                         ShootInfo shootInfo = new ShootInfo
                         {
                             ShootType = (WeaponId)weaponId,
                             Damage = info.Damage,
-                            ShootAngle = info.Angle,
+                            ShootAngle = info.ShootAngle,
                             ImpactScale = info.ImpactScale,/////////////
                             BulletRange = info.BulletRange,
                             BulletSpeed = info.BulletSpeed,
