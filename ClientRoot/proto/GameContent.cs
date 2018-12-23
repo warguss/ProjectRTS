@@ -40,8 +40,8 @@ namespace Server2N {
             "ZRgBIAEoBRITCgtidWxsZXRTcGVlZBgCIAEoAhITCgtidWxsZXRSYW5nZRgD",
             "IAEoAhISCgpzaG9vdEFuZ2xlGAQgASgCEg4KBmRhbWFnZRgFIAEoAhITCgtp",
             "bXBhY3RTY2FsZRgGIAEoAiJyCghFdmVudEhpdBIPCgdoaXRUeXBlGAEgASgF",
-            "Eg4KBmRhbWFnZRgCIAEoAhIPCgdpbXBhY3RYGAMgASgFEg8KB2ltcGFjdFkY",
-            "BCABKAUSEQoJY3VycmVudEhQGAUgASgCEhAKCGF0dGFja2VyGAYgASgFIiUK",
+            "Eg4KBmRhbWFnZRgCIAEoAhIPCgdpbXBhY3RYGAMgASgCEg8KB2ltcGFjdFkY",
+            "BCABKAISEQoJY3VycmVudEhQGAUgASgCEhAKCGF0dGFja2VyGAYgASgFIiUK",
             "EUV2ZW50Q2hhbmdlV2VhcG9uEhAKCHdlYXBvbklkGAEgASgFIgwKCkV2ZW50",
             "U3Bhd24iNAoNRXZlbnRVc2VyU3luYxIRCgljdXJyZW50SFAYASABKAISEAoI",
             "d2VhcG9uSWQYAiABKAUiHwoKRXZlbnREZWF0aBIRCgl0cmlnZ2VySWQYASAB",
@@ -1187,9 +1187,9 @@ namespace Server2N {
 
     /// <summary>Field number for the "impactX" field.</summary>
     public const int ImpactXFieldNumber = 3;
-    private int impactX_;
+    private float impactX_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int ImpactX {
+    public float ImpactX {
       get { return impactX_; }
       set {
         impactX_ = value;
@@ -1198,9 +1198,9 @@ namespace Server2N {
 
     /// <summary>Field number for the "impactY" field.</summary>
     public const int ImpactYFieldNumber = 4;
-    private int impactY_;
+    private float impactY_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int ImpactY {
+    public float ImpactY {
       get { return impactY_; }
       set {
         impactY_ = value;
@@ -1244,8 +1244,8 @@ namespace Server2N {
       }
       if (HitType != other.HitType) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Damage, other.Damage)) return false;
-      if (ImpactX != other.ImpactX) return false;
-      if (ImpactY != other.ImpactY) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(ImpactX, other.ImpactX)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(ImpactY, other.ImpactY)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(CurrentHP, other.CurrentHP)) return false;
       if (Attacker != other.Attacker) return false;
       return true;
@@ -1256,8 +1256,8 @@ namespace Server2N {
       int hash = 1;
       if (HitType != 0) hash ^= HitType.GetHashCode();
       if (Damage != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Damage);
-      if (ImpactX != 0) hash ^= ImpactX.GetHashCode();
-      if (ImpactY != 0) hash ^= ImpactY.GetHashCode();
+      if (ImpactX != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(ImpactX);
+      if (ImpactY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(ImpactY);
       if (CurrentHP != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(CurrentHP);
       if (Attacker != 0) hash ^= Attacker.GetHashCode();
       return hash;
@@ -1278,13 +1278,13 @@ namespace Server2N {
         output.WriteRawTag(21);
         output.WriteFloat(Damage);
       }
-      if (ImpactX != 0) {
-        output.WriteRawTag(24);
-        output.WriteInt32(ImpactX);
+      if (ImpactX != 0F) {
+        output.WriteRawTag(29);
+        output.WriteFloat(ImpactX);
       }
-      if (ImpactY != 0) {
-        output.WriteRawTag(32);
-        output.WriteInt32(ImpactY);
+      if (ImpactY != 0F) {
+        output.WriteRawTag(37);
+        output.WriteFloat(ImpactY);
       }
       if (CurrentHP != 0F) {
         output.WriteRawTag(45);
@@ -1305,11 +1305,11 @@ namespace Server2N {
       if (Damage != 0F) {
         size += 1 + 4;
       }
-      if (ImpactX != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ImpactX);
+      if (ImpactX != 0F) {
+        size += 1 + 4;
       }
-      if (ImpactY != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ImpactY);
+      if (ImpactY != 0F) {
+        size += 1 + 4;
       }
       if (CurrentHP != 0F) {
         size += 1 + 4;
@@ -1331,10 +1331,10 @@ namespace Server2N {
       if (other.Damage != 0F) {
         Damage = other.Damage;
       }
-      if (other.ImpactX != 0) {
+      if (other.ImpactX != 0F) {
         ImpactX = other.ImpactX;
       }
-      if (other.ImpactY != 0) {
+      if (other.ImpactY != 0F) {
         ImpactY = other.ImpactY;
       }
       if (other.CurrentHP != 0F) {
@@ -1361,12 +1361,12 @@ namespace Server2N {
             Damage = input.ReadFloat();
             break;
           }
-          case 24: {
-            ImpactX = input.ReadInt32();
+          case 29: {
+            ImpactX = input.ReadFloat();
             break;
           }
-          case 32: {
-            ImpactY = input.ReadInt32();
+          case 37: {
+            ImpactY = input.ReadFloat();
             break;
           }
           case 45: {

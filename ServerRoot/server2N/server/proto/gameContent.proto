@@ -75,8 +75,8 @@ message EventHit
 {
    int32 hitType = 1;
    float damage = 2;
-   int32 impactX = 3;
-   int32 impactY = 4;
+   float impactX = 3;
+   float impactY = 4;
    float currentHP = 5;
    int32 attacker = 6;   
 }
