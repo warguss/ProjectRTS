@@ -63,23 +63,22 @@ message EventJump
 
 message EventShoot
 {
-	float angle = 1;
-	float damage = 2;
-	int32 impact = 3;
-	int32 impactAngle = 4;
-	int32 weaponId = 5;
-	float bulletSpeed = 6;
-	float bulletRange = 7;
+	int32 shootType = 1;
+	float bulletSpeed = 2;
+	float bulletRange = 3;
+	float shootAngle = 4;
+	float damage = 5;
+	float impactScale = 6;
 }
 
 message EventHit
 {
-	int32 attacker = 1;
+	int32 hitType = 1;
 	float damage = 2;
-	int32 impact = 3;
-	int32 impactAngle = 4;
+	int32 impactX = 3;
+	int32 impactY = 4;
 	float currentHP = 5;
-	int32 hitType = 6;
+	int32 attacker = 6;	
 }
 
 message EventChangeWeapon
