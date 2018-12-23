@@ -55,7 +55,7 @@ abstract public class Bullet : MonoBehaviour {
                     hitInfo.Damage = BulletStat.Damage;
                     hitInfo.HitType = weaponId;
                     hitInfo.ImpactX = Mathf.Cos(radian) * BulletStat.ImpactScale;
-                    hitInfo.ImpactY = Mathf.Sin(radian) * BulletStat.ImpactScale; 
+                    hitInfo.ImpactY = Mathf.Sin(radian) * BulletStat.ImpactScale;
 
                     targetPlayer.GetHit(OwnerId, hitInfo);
                 }
@@ -81,7 +81,7 @@ abstract public class Bullet : MonoBehaviour {
         BulletStat.BulletSpeed = info.BulletSpeed;
         BulletStat.ShootType = weaponId;
         BulletStat.Damage = info.Damage;
-        BulletStat.ImpactScale = 1;///////////////////
+        BulletStat.ImpactScale = info.Impact;///////////////////
         OwnerId = inOwnerId;
 
         startTime = Time.time;

@@ -66,6 +66,7 @@
     <Compile Include="Assets\GameLogic\Script\Player\BulletFactory.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\CharacterState.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\ControllableCharacter.cs" />
+    <Compile Include="Assets\GameLogic\Script\Player\ExplosionDamage.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\HPBar.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\MainCharacter.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\PistolBullet.cs" />

@@ -3,6 +3,8 @@ using System.Collections;
 
 public class BazookaBullet : Bullet
 {
+    public GameObject ExplosionPrefab;
+
     private const int parabolaGravity = 1;
 
     // Use this for initialization
@@ -43,7 +45,6 @@ public class BazookaBullet : Bullet
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        TestUI.Instance.PrintText("BulletOnTriggerEnter2D");
         if (other.tag == "Player")
         {
             MainCharacter targetPlayer = other.gameObject.GetComponent<MainCharacter>();
@@ -51,8 +52,7 @@ public class BazookaBullet : Bullet
             {
                 if (targetPlayer.IsLocalPlayer)
                 {
-                    //폭발 생성하기
-                    TestUI.Instance.PrintText("BazookaBulletOnTriggerEnter2D");
+                    CreateExplotion();
                 }
 
                 Destroy(gameObject);
@@ -63,8 +63,16 @@ public class BazookaBullet : Bullet
         }
         else if (other.tag == "Wall")
         {
-            //폭발 생성하기
+            CreateExplotion();
             Destroy(gameObject);
         }
+    }
+
+    void CreateExplotion()
+    {
+        var Explosion = Instantiate(ExplosionPrefab, new Vector2(rb2d.position.x, rb2d.position.y), new Quaternion());
+        ExplosionDamage explosionScript = Explosion.GetComponent<ExplosionDamage>();
+        explosionScript.Initialize(WeaponId.Bazooka, BulletStat.Damage, 0.8f, 1.5f, BulletStat.ImpactScale, OwnerId);
+        explosionScript.DoExplotion();
     }
 }
