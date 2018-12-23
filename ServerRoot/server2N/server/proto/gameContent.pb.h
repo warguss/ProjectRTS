@@ -1337,17 +1337,17 @@ class EventHit : public ::google::protobuf::Message /* @@protoc_insertion_point(
   float damage() const;
   void set_damage(float value);
 
-  // int32 impactX = 3;
+  // float impactX = 3;
   void clear_impactx();
   static const int kImpactXFieldNumber = 3;
-  ::google::protobuf::int32 impactx() const;
-  void set_impactx(::google::protobuf::int32 value);
+  float impactx() const;
+  void set_impactx(float value);
 
-  // int32 impactY = 4;
+  // float impactY = 4;
   void clear_impacty();
   static const int kImpactYFieldNumber = 4;
-  ::google::protobuf::int32 impacty() const;
-  void set_impacty(::google::protobuf::int32 value);
+  float impacty() const;
+  void set_impacty(float value);
 
   // float currentHP = 5;
   void clear_currenthp();
@@ -1367,8 +1367,8 @@ class EventHit : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::int32 hittype_;
   float damage_;
-  ::google::protobuf::int32 impactx_;
-  ::google::protobuf::int32 impacty_;
+  float impactx_;
+  float impacty_;
   float currenthp_;
   ::google::protobuf::int32 attacker_;
   mutable int _cached_size_;
@@ -3457,29 +3457,29 @@ inline void EventHit::set_damage(float value) {
   // @@protoc_insertion_point(field_set:server2N.EventHit.damage)
 }
 
-// int32 impactX = 3;
+// float impactX = 3;
 inline void EventHit::clear_impactx() {
   impactx_ = 0;
 }
-inline ::google::protobuf::int32 EventHit::impactx() const {
+inline float EventHit::impactx() const {
   // @@protoc_insertion_point(field_get:server2N.EventHit.impactX)
   return impactx_;
 }
-inline void EventHit::set_impactx(::google::protobuf::int32 value) {
+inline void EventHit::set_impactx(float value) {
   
   impactx_ = value;
   // @@protoc_insertion_point(field_set:server2N.EventHit.impactX)
 }
 
-// int32 impactY = 4;
+// float impactY = 4;
 inline void EventHit::clear_impacty() {
   impacty_ = 0;
 }
-inline ::google::protobuf::int32 EventHit::impacty() const {
+inline float EventHit::impacty() const {
   // @@protoc_insertion_point(field_get:server2N.EventHit.impactY)
   return impacty_;
 }
-inline void EventHit::set_impacty(::google::protobuf::int32 value) {
+inline void EventHit::set_impacty(float value) {
   
   impacty_ = value;
   // @@protoc_insertion_point(field_set:server2N.EventHit.impactY)
