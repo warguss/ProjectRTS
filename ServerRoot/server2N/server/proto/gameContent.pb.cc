@@ -756,7 +756,7 @@ void AddDescriptorsImpl() {
       " \001(\002\022\022\n\nshootAngle\030\004 \001(\002\022\016\n\006damage\030\005 \001(\002"
       "\022\023\n\013impactScale\030\006 \001(\002\"r\n\010EventHit\022\017\n\007hit"
       "Type\030\001 \001(\005\022\016\n\006damage\030\002 \001(\002\022\017\n\007impactX\030\003 "
-      "\001(\005\022\017\n\007impactY\030\004 \001(\005\022\021\n\tcurrentHP\030\005 \001(\002\022"
+      "\001(\002\022\017\n\007impactY\030\004 \001(\002\022\021\n\tcurrentHP\030\005 \001(\002\022"
       "\020\n\010attacker\030\006 \001(\005\"%\n\021EventChangeWeapon\022\020"
       "\n\010weaponId\030\001 \001(\005\"\014\n\nEventSpawn\"4\n\rEventU"
       "serSync\022\021\n\tcurrentHP\030\001 \001(\002\022\020\n\010weaponId\030\002"
@@ -3104,13 +3104,13 @@ bool EventHit::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 impactX = 3;
+      // float impactX = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(29u /* 29 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &impactx_)));
         } else {
           goto handle_unusual;
@@ -3118,13 +3118,13 @@ bool EventHit::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 impactY = 4;
+      // float impactY = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(37u /* 37 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &impacty_)));
         } else {
           goto handle_unusual;
@@ -3196,14 +3196,14 @@ void EventHit::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteFloat(2, this->damage(), output);
   }
 
-  // int32 impactX = 3;
+  // float impactX = 3;
   if (this->impactx() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->impactx(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->impactx(), output);
   }
 
-  // int32 impactY = 4;
+  // float impactY = 4;
   if (this->impacty() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->impacty(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->impacty(), output);
   }
 
   // float currentHP = 5;
@@ -3240,14 +3240,14 @@ void EventHit::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(2, this->damage(), target);
   }
 
-  // int32 impactX = 3;
+  // float impactX = 3;
   if (this->impactx() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->impactx(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->impactx(), target);
   }
 
-  // int32 impactY = 4;
+  // float impactY = 4;
   if (this->impacty() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->impacty(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(4, this->impacty(), target);
   }
 
   // float currentHP = 5;
@@ -3289,18 +3289,14 @@ size_t EventHit::ByteSizeLong() const {
     total_size += 1 + 4;
   }
 
-  // int32 impactX = 3;
+  // float impactX = 3;
   if (this->impactx() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->impactx());
+    total_size += 1 + 4;
   }
 
-  // int32 impactY = 4;
+  // float impactY = 4;
   if (this->impacty() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->impacty());
+    total_size += 1 + 4;
   }
 
   // float currentHP = 5;
