@@ -1187,59 +1187,52 @@ class EventShoot : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   // accessors -------------------------------------------------------
 
-  // float angle = 1;
-  void clear_angle();
-  static const int kAngleFieldNumber = 1;
-  float angle() const;
-  void set_angle(float value);
+  // int32 shootType = 1;
+  void clear_shoottype();
+  static const int kShootTypeFieldNumber = 1;
+  ::google::protobuf::int32 shoottype() const;
+  void set_shoottype(::google::protobuf::int32 value);
 
-  // float damage = 2;
-  void clear_damage();
-  static const int kDamageFieldNumber = 2;
-  float damage() const;
-  void set_damage(float value);
-
-  // int32 impact = 3;
-  void clear_impact();
-  static const int kImpactFieldNumber = 3;
-  ::google::protobuf::int32 impact() const;
-  void set_impact(::google::protobuf::int32 value);
-
-  // int32 impactAngle = 4;
-  void clear_impactangle();
-  static const int kImpactAngleFieldNumber = 4;
-  ::google::protobuf::int32 impactangle() const;
-  void set_impactangle(::google::protobuf::int32 value);
-
-  // int32 weaponId = 5;
-  void clear_weaponid();
-  static const int kWeaponIdFieldNumber = 5;
-  ::google::protobuf::int32 weaponid() const;
-  void set_weaponid(::google::protobuf::int32 value);
-
-  // float bulletSpeed = 6;
+  // float bulletSpeed = 2;
   void clear_bulletspeed();
-  static const int kBulletSpeedFieldNumber = 6;
+  static const int kBulletSpeedFieldNumber = 2;
   float bulletspeed() const;
   void set_bulletspeed(float value);
 
-  // float bulletRange = 7;
+  // float bulletRange = 3;
   void clear_bulletrange();
-  static const int kBulletRangeFieldNumber = 7;
+  static const int kBulletRangeFieldNumber = 3;
   float bulletrange() const;
   void set_bulletrange(float value);
+
+  // float shootAngle = 4;
+  void clear_shootangle();
+  static const int kShootAngleFieldNumber = 4;
+  float shootangle() const;
+  void set_shootangle(float value);
+
+  // float damage = 5;
+  void clear_damage();
+  static const int kDamageFieldNumber = 5;
+  float damage() const;
+  void set_damage(float value);
+
+  // float impactScale = 6;
+  void clear_impactscale();
+  static const int kImpactScaleFieldNumber = 6;
+  float impactscale() const;
+  void set_impactscale(float value);
 
   // @@protoc_insertion_point(class_scope:server2N.EventShoot)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  float angle_;
-  float damage_;
-  ::google::protobuf::int32 impact_;
-  ::google::protobuf::int32 impactangle_;
-  ::google::protobuf::int32 weaponid_;
+  ::google::protobuf::int32 shoottype_;
   float bulletspeed_;
   float bulletrange_;
+  float shootangle_;
+  float damage_;
+  float impactscale_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventShootImpl();
@@ -1332,11 +1325,11 @@ class EventHit : public ::google::protobuf::Message /* @@protoc_insertion_point(
 
   // accessors -------------------------------------------------------
 
-  // int32 attacker = 1;
-  void clear_attacker();
-  static const int kAttackerFieldNumber = 1;
-  ::google::protobuf::int32 attacker() const;
-  void set_attacker(::google::protobuf::int32 value);
+  // int32 hitType = 1;
+  void clear_hittype();
+  static const int kHitTypeFieldNumber = 1;
+  ::google::protobuf::int32 hittype() const;
+  void set_hittype(::google::protobuf::int32 value);
 
   // float damage = 2;
   void clear_damage();
@@ -1344,17 +1337,17 @@ class EventHit : public ::google::protobuf::Message /* @@protoc_insertion_point(
   float damage() const;
   void set_damage(float value);
 
-  // int32 impact = 3;
-  void clear_impact();
-  static const int kImpactFieldNumber = 3;
-  ::google::protobuf::int32 impact() const;
-  void set_impact(::google::protobuf::int32 value);
+  // int32 impactX = 3;
+  void clear_impactx();
+  static const int kImpactXFieldNumber = 3;
+  ::google::protobuf::int32 impactx() const;
+  void set_impactx(::google::protobuf::int32 value);
 
-  // int32 impactAngle = 4;
-  void clear_impactangle();
-  static const int kImpactAngleFieldNumber = 4;
-  ::google::protobuf::int32 impactangle() const;
-  void set_impactangle(::google::protobuf::int32 value);
+  // int32 impactY = 4;
+  void clear_impacty();
+  static const int kImpactYFieldNumber = 4;
+  ::google::protobuf::int32 impacty() const;
+  void set_impacty(::google::protobuf::int32 value);
 
   // float currentHP = 5;
   void clear_currenthp();
@@ -1362,22 +1355,22 @@ class EventHit : public ::google::protobuf::Message /* @@protoc_insertion_point(
   float currenthp() const;
   void set_currenthp(float value);
 
-  // int32 hitType = 6;
-  void clear_hittype();
-  static const int kHitTypeFieldNumber = 6;
-  ::google::protobuf::int32 hittype() const;
-  void set_hittype(::google::protobuf::int32 value);
+  // int32 attacker = 6;
+  void clear_attacker();
+  static const int kAttackerFieldNumber = 6;
+  ::google::protobuf::int32 attacker() const;
+  void set_attacker(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:server2N.EventHit)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::int32 attacker_;
-  float damage_;
-  ::google::protobuf::int32 impact_;
-  ::google::protobuf::int32 impactangle_;
-  float currenthp_;
   ::google::protobuf::int32 hittype_;
+  float damage_;
+  ::google::protobuf::int32 impactx_;
+  ::google::protobuf::int32 impacty_;
+  float currenthp_;
+  ::google::protobuf::int32 attacker_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsEventHitImpl();
@@ -3348,77 +3341,21 @@ inline void EventMove::set_type(::server2N::EventMove_Direction value) {
 
 // EventShoot
 
-// float angle = 1;
-inline void EventShoot::clear_angle() {
-  angle_ = 0;
+// int32 shootType = 1;
+inline void EventShoot::clear_shoottype() {
+  shoottype_ = 0;
 }
-inline float EventShoot::angle() const {
-  // @@protoc_insertion_point(field_get:server2N.EventShoot.angle)
-  return angle_;
+inline ::google::protobuf::int32 EventShoot::shoottype() const {
+  // @@protoc_insertion_point(field_get:server2N.EventShoot.shootType)
+  return shoottype_;
 }
-inline void EventShoot::set_angle(float value) {
+inline void EventShoot::set_shoottype(::google::protobuf::int32 value) {
   
-  angle_ = value;
-  // @@protoc_insertion_point(field_set:server2N.EventShoot.angle)
+  shoottype_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventShoot.shootType)
 }
 
-// float damage = 2;
-inline void EventShoot::clear_damage() {
-  damage_ = 0;
-}
-inline float EventShoot::damage() const {
-  // @@protoc_insertion_point(field_get:server2N.EventShoot.damage)
-  return damage_;
-}
-inline void EventShoot::set_damage(float value) {
-  
-  damage_ = value;
-  // @@protoc_insertion_point(field_set:server2N.EventShoot.damage)
-}
-
-// int32 impact = 3;
-inline void EventShoot::clear_impact() {
-  impact_ = 0;
-}
-inline ::google::protobuf::int32 EventShoot::impact() const {
-  // @@protoc_insertion_point(field_get:server2N.EventShoot.impact)
-  return impact_;
-}
-inline void EventShoot::set_impact(::google::protobuf::int32 value) {
-  
-  impact_ = value;
-  // @@protoc_insertion_point(field_set:server2N.EventShoot.impact)
-}
-
-// int32 impactAngle = 4;
-inline void EventShoot::clear_impactangle() {
-  impactangle_ = 0;
-}
-inline ::google::protobuf::int32 EventShoot::impactangle() const {
-  // @@protoc_insertion_point(field_get:server2N.EventShoot.impactAngle)
-  return impactangle_;
-}
-inline void EventShoot::set_impactangle(::google::protobuf::int32 value) {
-  
-  impactangle_ = value;
-  // @@protoc_insertion_point(field_set:server2N.EventShoot.impactAngle)
-}
-
-// int32 weaponId = 5;
-inline void EventShoot::clear_weaponid() {
-  weaponid_ = 0;
-}
-inline ::google::protobuf::int32 EventShoot::weaponid() const {
-  // @@protoc_insertion_point(field_get:server2N.EventShoot.weaponId)
-  return weaponid_;
-}
-inline void EventShoot::set_weaponid(::google::protobuf::int32 value) {
-  
-  weaponid_ = value;
-  // @@protoc_insertion_point(field_set:server2N.EventShoot.weaponId)
-}
-
-// float bulletSpeed = 6;
+// float bulletSpeed = 2;
 inline void EventShoot::clear_bulletspeed() {
   bulletspeed_ = 0;
 }
@@ -3432,7 +3369,7 @@ inline void EventShoot::set_bulletspeed(float value) {
   // @@protoc_insertion_point(field_set:server2N.EventShoot.bulletSpeed)
 }
 
-// float bulletRange = 7;
+// float bulletRange = 3;
 inline void EventShoot::clear_bulletrange() {
   bulletrange_ = 0;
 }
@@ -3446,22 +3383,64 @@ inline void EventShoot::set_bulletrange(float value) {
   // @@protoc_insertion_point(field_set:server2N.EventShoot.bulletRange)
 }
 
+// float shootAngle = 4;
+inline void EventShoot::clear_shootangle() {
+  shootangle_ = 0;
+}
+inline float EventShoot::shootangle() const {
+  // @@protoc_insertion_point(field_get:server2N.EventShoot.shootAngle)
+  return shootangle_;
+}
+inline void EventShoot::set_shootangle(float value) {
+  
+  shootangle_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventShoot.shootAngle)
+}
+
+// float damage = 5;
+inline void EventShoot::clear_damage() {
+  damage_ = 0;
+}
+inline float EventShoot::damage() const {
+  // @@protoc_insertion_point(field_get:server2N.EventShoot.damage)
+  return damage_;
+}
+inline void EventShoot::set_damage(float value) {
+  
+  damage_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventShoot.damage)
+}
+
+// float impactScale = 6;
+inline void EventShoot::clear_impactscale() {
+  impactscale_ = 0;
+}
+inline float EventShoot::impactscale() const {
+  // @@protoc_insertion_point(field_get:server2N.EventShoot.impactScale)
+  return impactscale_;
+}
+inline void EventShoot::set_impactscale(float value) {
+  
+  impactscale_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventShoot.impactScale)
+}
+
 // -------------------------------------------------------------------
 
 // EventHit
 
-// int32 attacker = 1;
-inline void EventHit::clear_attacker() {
-  attacker_ = 0;
+// int32 hitType = 1;
+inline void EventHit::clear_hittype() {
+  hittype_ = 0;
 }
-inline ::google::protobuf::int32 EventHit::attacker() const {
-  // @@protoc_insertion_point(field_get:server2N.EventHit.attacker)
-  return attacker_;
+inline ::google::protobuf::int32 EventHit::hittype() const {
+  // @@protoc_insertion_point(field_get:server2N.EventHit.hitType)
+  return hittype_;
 }
-inline void EventHit::set_attacker(::google::protobuf::int32 value) {
+inline void EventHit::set_hittype(::google::protobuf::int32 value) {
   
-  attacker_ = value;
-  // @@protoc_insertion_point(field_set:server2N.EventHit.attacker)
+  hittype_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventHit.hitType)
 }
 
 // float damage = 2;
@@ -3478,32 +3457,32 @@ inline void EventHit::set_damage(float value) {
   // @@protoc_insertion_point(field_set:server2N.EventHit.damage)
 }
 
-// int32 impact = 3;
-inline void EventHit::clear_impact() {
-  impact_ = 0;
+// int32 impactX = 3;
+inline void EventHit::clear_impactx() {
+  impactx_ = 0;
 }
-inline ::google::protobuf::int32 EventHit::impact() const {
-  // @@protoc_insertion_point(field_get:server2N.EventHit.impact)
-  return impact_;
+inline ::google::protobuf::int32 EventHit::impactx() const {
+  // @@protoc_insertion_point(field_get:server2N.EventHit.impactX)
+  return impactx_;
 }
-inline void EventHit::set_impact(::google::protobuf::int32 value) {
+inline void EventHit::set_impactx(::google::protobuf::int32 value) {
   
-  impact_ = value;
-  // @@protoc_insertion_point(field_set:server2N.EventHit.impact)
+  impactx_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventHit.impactX)
 }
 
-// int32 impactAngle = 4;
-inline void EventHit::clear_impactangle() {
-  impactangle_ = 0;
+// int32 impactY = 4;
+inline void EventHit::clear_impacty() {
+  impacty_ = 0;
 }
-inline ::google::protobuf::int32 EventHit::impactangle() const {
-  // @@protoc_insertion_point(field_get:server2N.EventHit.impactAngle)
-  return impactangle_;
+inline ::google::protobuf::int32 EventHit::impacty() const {
+  // @@protoc_insertion_point(field_get:server2N.EventHit.impactY)
+  return impacty_;
 }
-inline void EventHit::set_impactangle(::google::protobuf::int32 value) {
+inline void EventHit::set_impacty(::google::protobuf::int32 value) {
   
-  impactangle_ = value;
-  // @@protoc_insertion_point(field_set:server2N.EventHit.impactAngle)
+  impacty_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventHit.impactY)
 }
 
 // float currentHP = 5;
@@ -3520,18 +3499,18 @@ inline void EventHit::set_currenthp(float value) {
   // @@protoc_insertion_point(field_set:server2N.EventHit.currentHP)
 }
 
-// int32 hitType = 6;
-inline void EventHit::clear_hittype() {
-  hittype_ = 0;
+// int32 attacker = 6;
+inline void EventHit::clear_attacker() {
+  attacker_ = 0;
 }
-inline ::google::protobuf::int32 EventHit::hittype() const {
-  // @@protoc_insertion_point(field_get:server2N.EventHit.hitType)
-  return hittype_;
+inline ::google::protobuf::int32 EventHit::attacker() const {
+  // @@protoc_insertion_point(field_get:server2N.EventHit.attacker)
+  return attacker_;
 }
-inline void EventHit::set_hittype(::google::protobuf::int32 value) {
+inline void EventHit::set_attacker(::google::protobuf::int32 value) {
   
-  hittype_ = value;
-  // @@protoc_insertion_point(field_set:server2N.EventHit.hitType)
+  attacker_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventHit.attacker)
 }
 
 // -------------------------------------------------------------------

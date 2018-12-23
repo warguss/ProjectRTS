@@ -246,10 +246,6 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 	(*packet)->_protoConnect = new server2N::UserConnection; 
 	(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_UserConnection);
 
-	/**************************************
-	 * 
-	 * 	 
-	 **************************************/
 	if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect )
 	{
 		LOG_INFO("USERID(%d) TRYCONNECT Change To AccepConnect", eventUser->_fd);
@@ -438,6 +434,8 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 			}
 			while(false);
 		}
+
+		tEvent.set_isinterested(recvUser->_isInterested);
 	}
 	else if ( type == (int32_t)server2N::SystemEvent_action_EventItemSpawn )
 	{

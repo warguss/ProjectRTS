@@ -424,19 +424,76 @@ void CUserPool::getPartUserList(list<CUser*>& userConnection, int sector)
 		}
 	} 
 
+	/***************************************************
+	 * isInterested 계산
+	 ***************************************************/
+	int interestedSector = sector;
+	int attention_rule = (ATTENTION_SECTOR_RANGE / 2);
+	for ( int yattention_loop_cnt = 0; yattention_loop_cnt < attention_rule; yattention_loop_cnt++ )
+	{
+		int checkSector;
+		checkSector = _getUpSector(interestedSector);
+		if ( checkSector < 0 )
+		{
+			interestedSector = interestedSector;
+		} 
+		else
+		{
+			interestedSector = checkSector;
+		}
+	} 
+
+	list<int> attention_sector;
+	for ( int yattention_loop_cnt = 0; yattention_loop_cnt < ATTENTION_SECTOR_RANGE - 1; yattention_loop_cnt++ )
+	{
+		int first_attention_value = attention_rule;
+		for ( int xattention_loop_cnt = 0; xattention_loop_cnt < ATTENTION_SECTOR_RANGE; xattention_loop_cnt++, first_attention_value--)
+		{
+			int attentionSectorValue = first_attention_value + interestedSector;
+			if ( attentionSectorValue >= 0 )
+			{
+				LOG_DEBUG("ATTENTION SECTOR(%d)", attentionSectorValue);
+				attention_sector.push_back(attentionSectorValue);
+			}
+		}
+
+		interestedSector = _getDownSector(interestedSector);
+		if ( interestedSector < 0 )
+		{
+			break;
+		}
+	}
+
+
 	int firstSector = diagnolSector;
 	for ( int yIdx = 0; yIdx < yBaseSector; yIdx++ )
 	{
 		int connectionSector = firstSector;
 		for ( int xIdx = 0; xIdx < xBaseSector; xIdx++ )
 		{
-			_addConnectionListBySector(userConnection, connectionSector);
+			bool isInterested = true;
+			list<int>::iterator it = attention_sector.begin();
+			for ( ; it != attention_sector.end(); it++ )
+			{
+				/*********************************
+				 * 관심 영역 = isInterested
+				 * 유저 영역 = attentionSector
+				 *********************************/
+				if ( (int)*it == connectionSector )
+				{
+					isInterested = false;
+					LOG_DEBUG("sector(%d), attentionSector(%d)", sector, connectionSector);
+				}
+			} 
+
+			_addConnectionListBySector(userConnection, connectionSector, isInterested);
 			connectionSector = _getRightSector(connectionSector);
 			if ( connectionSector < 0 )
 			{
 				break;
 			} 
 		}
+
 		firstSector = _getDownSector(firstSector);
 		if ( firstSector < 0 )
 		{
@@ -445,7 +502,7 @@ void CUserPool::getPartUserList(list<CUser*>& userConnection, int sector)
 	}	
 }
 
-bool CUserPool::_addConnectionListBySector(list<CUser*>& userConnection, int sector)
+bool CUserPool::_addConnectionListBySector(list<CUser*>& userConnection, int sector, bool isInterested)
 {
     map<int, CUser*>* tMap = NULL;
     map<int, map<int, CUser*>* >::iterator it_sectorMap;
@@ -466,6 +523,8 @@ bool CUserPool::_addConnectionListBySector(list<CUser*>& userConnection, int sec
         {
             continue ;
         }
+
+		user->_isInterested = isInterested;
         userConnection.push_back(user);
     }
     return true;
