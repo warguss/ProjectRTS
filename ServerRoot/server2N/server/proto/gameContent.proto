@@ -4,51 +4,51 @@ package server2N;
 
 message GlobalNotice
 {
-	enum NoticeInfo
-	{
-		Nothing = 0;
-		KillInfo = 1;
-		Notice = 2;
-		ItemInfo = 3;
-	}
+   enum NoticeInfo
+   {
+      Nothing = 0;
+      KillInfo = 1;
+      Notice = 2;
+      ItemInfo = 3;
+   }
 
-	NoticeInfo notiType = 1;
-	string notice = 2;
-	int32 performer = 3;
-	repeated int32 victim = 4;
+   NoticeInfo notiType = 1;
+   string notice = 2;
+   int32 performer = 3;
+   repeated int32 victim = 4;
 }
 
 message UserConnection
 {
-	enum ConnectionType
-	{
-		Nothing = 0;
-		Connect = 1;
-		TryConnect = 2;
-		AcceptConnect = 3;
-		DisConnect = 4;
-	}
+   enum ConnectionType
+   {
+      Nothing = 0;
+      Connect = 1;
+      TryConnect = 2;
+      AcceptConnect = 3;
+      DisConnect = 4;
+   }
 
-	repeated int32 connectorId = 1;
-	repeated int32 killInfo = 2;
-	repeated int32 deathInfo = 3;
-	repeated string nickname = 4;
-	repeated InfoItem item = 5;
+   repeated int32 connectorId = 1;
+   repeated int32 killInfo = 2;
+   repeated int32 deathInfo = 3;
+   repeated string nickname = 4;
+   repeated InfoItem item = 5;
 
-	ConnectionType conType = 6;
+   ConnectionType conType = 6;
 }
 
 message EventMove
 {
-	enum Direction
-	{
-		Nothing = 0;
-		Left = 1;
-		Right = 2;
-		Down = 3;
-		Up = 4;
-	}
-	Direction type = 5;
+   enum Direction
+   {
+      Nothing = 0;
+      Left = 1;
+      Right = 2;
+      Down = 3;
+      Up = 4;
+   }
+   Direction type = 5;
 }
 
 message EventStop
@@ -63,153 +63,152 @@ message EventJump
 
 message EventShoot
 {
-	float angle = 1;
-	float damage = 2;
-	int32 impact = 3;
-	int32 impactAngle = 4;
-	int32 weaponId = 5;
-	float bulletSpeed = 6;
-	float bulletRange = 7;
+   int32 shootType = 1;
+   float bulletSpeed = 2;
+   float bulletRange = 3;
+   float shootAngle = 4;
+   float damage = 5;
+   float impactScale = 6;
 }
 
 message EventHit
 {
-	int32 attacker = 1;
-	float damage = 2;
-	int32 impact = 3;
-	int32 impactAngle = 4;
-	float currentHP = 5;
-	int32 hitType = 6;
+   int32 hitType = 1;
+   float damage = 2;
+   int32 impactX = 3;
+   int32 impactY = 4;
+   float currentHP = 5;
+   int32 attacker = 6;   
 }
 
 message EventChangeWeapon
 {
-	int32 weaponId = 1;
+   int32 weaponId = 1;
 }
 
 message EventSpawn
 {
-	
+   
 }
 
 message EventUserSync
 {
-	float currentHP = 1;
-	int32 weaponId = 2;
+   float currentHP = 1;
+   int32 weaponId = 2;
 }
 
 message EventDeath
 {
-	int32 triggerId = 1;
+   int32 triggerId = 1;
 }
 
 message EventItemSpawn
 {
-	InfoItem item = 1;
+   InfoItem item = 1;
 }
 message EventItemGet
 {
-	InfoItem item = 1;
+   InfoItem item = 1;
 }
 
 message InfoItem
 {
-	enum ItemType
-	{
-		Recover = 0;
-		Weapone = 1;
-	}
-	
-	enum WeaponId
-	{
-		Nothing = 0;
-		Pistol = 1;
-		Sniper = 2;
-	}
+   enum ItemType
+   {
+      Recover = 0;
+      Weapone = 1;
+   }
+   
+   enum WeaponId
+   {
+      Nothing = 0;
+      Pistol = 1;
+      Sniper = 2;
+   }
 
-	int32 amount = 4;
-	string itemId = 2;
-	ItemType itemType = 5;
-	WeaponId weaponId = 6;
-	float ItemPositionX = 7;
-	float ItemPositionY = 8;
+   int32 amount = 4;
+   string itemId = 2;
+   ItemType itemType = 5;
+   WeaponId weaponId = 6;
+   float ItemPositionX = 7;
+   float ItemPositionY = 8;
 }
 
 message GameEvent
 {
-	enum eventType
-	{
-		Nothing		= 0;
-		UserEvent	= 1;
-		SystemEvent	= 2;
-	}
+   enum eventType
+   {
+      Nothing      = 0;
+      UserEvent   = 1;
+      SystemEvent   = 2;
+   }
 
-	UserEvent userEvent = 3;
-	SystemEvent systemEvent = 4;
+   UserEvent userEvent = 3;
+   SystemEvent systemEvent = 4;
 
-	float EventPositionX = 6;
-	float EventPositionY = 7;
-	float VelocityX = 8;
-	float VelocityY = 9;
-	repeated int32 invokerId = 10;
-	bool isInterested = 11;
-	bool isLocal = 12;
-	eventType evtType = 13;
+   float EventPositionX = 6;
+   float EventPositionY = 7;
+   float VelocityX = 8;
+   float VelocityY = 9;
+   repeated int32 invokerId = 10;
+   bool isInterested = 11;
+   bool isLocal = 12;
+   eventType evtType = 13;
 }
 
 message SystemEvent{
-	enum action
-	{
-		Nothing				= 0;
-		EventItemSpawn		= 200;
-		EventItemGet		= 201;
-	}
+   enum action
+   {
+      Nothing            = 0;
+      EventItemSpawn      = 200;
+      EventItemGet      = 201;
+   }
 
-	action actType = 202;
-	EventItemSpawn itemSpawnEvent = 203;
-	EventItemGet itemGetEvent = 204;
+   action actType = 202;
+   EventItemSpawn itemSpawnEvent = 203;
+   EventItemGet itemGetEvent = 204;
 }
 message UserEvent{
-	enum action
-	{
-		Nothing				= 0;
-		EventMove			= 100;
-		EventStop			= 101;
-		EventJump			= 102;
-		EventShoot			= 103;
-		EventHit			= 104;
-		EventSpawn			= 105;
-		EventUserSync		= 106;
-		EventDeath			= 107;
-		EventBullet			= 108;
-		EventChangeWeapon	= 109;
-	}
+   enum action
+   {
+      Nothing            = 0;
+      EventMove         = 100;
+      EventStop         = 101;
+      EventJump         = 102;
+      EventShoot         = 103;
+      EventHit         = 104;
+      EventSpawn         = 105;
+      EventUserSync      = 106;
+      EventDeath         = 107;
+      EventBullet         = 108;
+      EventChangeWeapon   = 109;
+   }
 
-	action actType = 110;
-	EventMove moveEvent = 111;
-	EventStop stopEvent = 112;
-	EventJump jumpEvent = 113;
-	EventShoot shootEvent = 114;
-	EventHit hitEvent = 115;
-	EventSpawn spawnEvent = 116;
-	EventUserSync syncEvent = 117;
-	EventDeath deathEvent = 118;
-	EventChangeWeapon chWeaponEvent = 119;
-	EventItemSpawn itemSpawnEvent = 120;
-	EventItemGet itemGetEvent = 121;
+   action actType = 110;
+   EventMove moveEvent = 111;
+   EventStop stopEvent = 112;
+   EventJump jumpEvent = 113;
+   EventShoot shootEvent = 114;
+   EventHit hitEvent = 115;
+   EventSpawn spawnEvent = 116;
+   EventUserSync syncEvent = 117;
+   EventDeath deathEvent = 118;
+   EventChangeWeapon chWeaponEvent = 119;
+   EventItemSpawn itemSpawnEvent = 120;
+   EventItemGet itemGetEvent = 121;
 
 }
 
 message PacketBody{
-	enum messageType
-	{
-		GameEvent		= 0;
-		UserConnection	= 10000;
-		GlobalNotice	= 10001;
-	}
-	messageType msgType = 10000; 
-	UserConnection connect = 6;
-	GlobalNotice notice	= 10001;
-	GameEvent event = 7;
-	int32 senderId = 8;
+   enum messageType
+   {
+      GameEvent      = 0;
+      UserConnection   = 10000;
+      GlobalNotice   = 10001;
+   }
+   messageType msgType = 10000; 
+   UserConnection connect = 6;
+   GlobalNotice notice   = 10001;
+   GameEvent event = 7;
+   int32 senderId = 8;
 }
