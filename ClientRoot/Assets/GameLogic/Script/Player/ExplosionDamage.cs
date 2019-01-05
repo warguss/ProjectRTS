@@ -52,6 +52,9 @@ public class ExplosionDamage : MonoBehaviour
         if (ExplosionStarted)
         {
             ExplosionElasped += Time.deltaTime;
+            float alpha = 1 - (ExplosionElasped / ExplosionDuration);
+            Color currentColor = spriteRenderer.color;
+            spriteRenderer.color = new Color(currentColor.r, currentColor.g, currentColor.b, alpha);
         }
         if (ExplosionElasped > ExplosionDuration)
             Destroy(gameObject);
@@ -69,7 +72,7 @@ public class ExplosionDamage : MonoBehaviour
                     if (targetPlayer.IsLocalPlayer)
                     {
                         Vector2 ExplotionPosition = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
-                        Vector2 hitVector = ExplotionPosition - targetPlayer.GetCurrentPosition();
+                        Vector2 hitVector = targetPlayer.GetCurrentPosition() - ExplotionPosition;
                         Vector2 hitVectorNormalized = hitVector.normalized;
 
                         HitInfo hitInfo = new HitInfo();

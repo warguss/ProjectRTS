@@ -5,7 +5,7 @@ public class BazookaBullet : Bullet
 {
     public GameObject ExplosionPrefab;
 
-    private const int parabolaGravity = 1;
+    private const float parabolaGravity = 0.75f;
 
     // Use this for initialization
     void Start()

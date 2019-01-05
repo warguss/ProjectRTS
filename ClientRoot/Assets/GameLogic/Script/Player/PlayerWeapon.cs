@@ -59,14 +59,14 @@ public class PlayerWeapon
             if (owner.IsLeft)
             {
                 if (WeaponId == WeaponId.Bazooka)
-                    shootAngle = 180 - 45;
+                    shootAngle = 180 - 35;
                 else
                     shootAngle = 180;
             }
             else
             {
                 if (WeaponId == WeaponId.Bazooka)
-                    shootAngle = 0 + 45;
+                    shootAngle = 0 + 35;
                 else
                     shootAngle = 0;
             }

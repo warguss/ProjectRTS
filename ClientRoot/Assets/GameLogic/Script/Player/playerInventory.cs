@@ -16,7 +16,6 @@ public class PlayerInventory
     public event ClearItemsDelegate ClearItemsEvent;
     public event ChangeItemDelegate ChangeItemEvent;
 
-
     private ControllableCharacter owner; //필요없는 구조로 개선 예정
     private List<PlayerWeapon> items = new List<PlayerWeapon>();
     private WeaponId m_CurrentWeaponId = WeaponId.None;

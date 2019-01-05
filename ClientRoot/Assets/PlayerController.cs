@@ -178,7 +178,7 @@ public class PlayerController {
 
     public void SetInvincible(float time)
     {
-        Character.state.SetInvincible(time);
+        Character.SetCharacterSpecialState(CharacterSpecialState.Invincible, time);
     }
 
     public WeaponId GetCurrentWeapon()

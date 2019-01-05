@@ -386,9 +386,14 @@ public class NetworkModule : MonoBehaviour
 
     //////////////////////////////////////////UserEvent
 
-    public void WriteEventSync(int InvokerId, Vector2 position, Vector2 velocity)
+    public void WriteEventSync(int InvokerId, Vector2 position, Vector2 velocity, CharacterStateInfo info)
     {
         var packet = CreateUserEventPacket(UserEvent.Types.action.EventUserSync, InvokerId, position, velocity);
+        packet.Event.UserEvent.SyncEvent = new EventUserSync
+        {
+            CurrentHP = info.hp,
+            WeaponId = (int)info.CurrentWeapon
+        };
 
         EnqueueSendPacket(packet);
     }

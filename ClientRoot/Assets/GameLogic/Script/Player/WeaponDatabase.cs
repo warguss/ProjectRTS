@@ -22,9 +22,9 @@ public class WeaponDatabase {
     {
         weapons = new Dictionary<WeaponId, WeaponStat>
         {
-            { WeaponId.Pistol, new WeaponStat(WeaponId.Pistol, 10, 15, 10, 0, 50, 0, 0.2f, 50) },
-            { WeaponId.Sniper, new WeaponStat(WeaponId.Sniper, 20, 25, 20, 0, 60, 0, 0.5f, 20) },
-            { WeaponId.Bazooka, new WeaponStat(WeaponId.Bazooka, 15, 20, 15, 0, 55, 0, 0.4f, 20) },
+            { WeaponId.Pistol, new WeaponStat(WeaponId.Pistol, 10, 15, 10, 0, 150, 0, 0.2f, 50) },
+            { WeaponId.Sniper, new WeaponStat(WeaponId.Sniper, 20, 25, 20, 0, 250, 0, 0.5f, 20) },
+            { WeaponId.Bazooka, new WeaponStat(WeaponId.Bazooka, 15, 25, 15, 0, 500, 0, 0.4f, 20) },
         };
     }
 

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class MainCharacter : ControllableCharacter
 {
     const float DEFAULT_HP_RECOVER_AMOUNT = 30;
+    const float DEFAULT_HP = 100;
 
     public float MaxMoveSpeed;
     public float MoveForce;
@@ -25,7 +26,7 @@ public class MainCharacter : ControllableCharacter
     {
         gameObject.SetActive(true);
         isDead = false;
-        hp = MaxHP;
+        state.hp = state.MaxHP;
         SetLocation(position);
 
         Inventory.ClearItem();
@@ -71,6 +72,8 @@ public class MainCharacter : ControllableCharacter
         playerInfoDisplayGameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
         playerInfoDisplay = playerInfoDisplayGameObject.GetComponent<PlayerInfoDisplay>();
 
+        state.MaxHP = DEFAULT_HP;
+
         gameObject.SetActive(false);
     }
 
@@ -82,7 +85,7 @@ public class MainCharacter : ControllableCharacter
 	// Update is called once per frame
 	void Update()
     {
-        playerInfoDisplay.SetHP(hp / MaxHP);
+        playerInfoDisplay.SetHP(state.hp / state.MaxHP);
         Inventory.UpdateWeaponInterval(Time.deltaTime);
         state.UpdateStateInfo(Time.deltaTime);
         
@@ -254,13 +257,14 @@ public class MainCharacter : ControllableCharacter
     public override void ChangeWeapon(WeaponId inWeaponId)
     {
         Inventory.ChangeWeapon(inWeaponId);
+        state.CurrentWeapon = inWeaponId;
         InvokeEventChangeWeapon(CurrentPosition, CurrentVelocity, inWeaponId);
     }
 
-    public override void ChangeToNextWeapon()
+    public override void ChangeToNextWeapon() // 확인 필요. GameLogic에서 Inventory의 Change Weapon을 직접 호출중?
     {
         WeaponId nextWeapon = Inventory.ChangeToNextWeapon();
-        InvokeEventChangeWeapon(CurrentPosition, CurrentVelocity, nextWeapon);
+        ChangeWeapon(nextWeapon);
     }
 
     void CheckLand()
@@ -303,19 +307,19 @@ public class MainCharacter : ControllableCharacter
         if (!state.Invincible) //무적인지 체크
         {
             if (remainingHp == null)
-                hp -= info.Damage;
+                state.hp -= info.Damage;
             else
-                hp = (float)remainingHp;
+                state.hp = (float)remainingHp;
 
-            TestUI.Instance.PrintText("player" + OwnerId + "hp : " + hp + " / Attacker : " + attackerId);
+            TestUI.Instance.PrintText("player" + OwnerId + "hp : " + state.hp + " / Attacker : " + attackerId);
 
             charRigidbody.AddForce(new Vector2(info.ImpactX, info.ImpactY));
 
             lastAttackedPlayerId = attackerId;
 
-            InvokeEventGetHit(CurrentPosition, CurrentVelocity, attackerId, info, hp);
+            InvokeEventGetHit(CurrentPosition, CurrentVelocity, attackerId, info, state.hp);
 
-            if (IsLocalPlayer && hp <= 0)
+            if (IsLocalPlayer && state.hp <= 0)
             {
                 PlayerDie();
             }
@@ -394,7 +398,7 @@ public class MainCharacter : ControllableCharacter
             {
                 if ((Math.Abs(charRigidbody.velocity.x) > 0.1 || Math.Abs(charRigidbody.velocity.y) > 0.1))
                 {
-                    InvokeEventSync(charRigidbody.position, charRigidbody.velocity);
+                    InvokeEventSync(charRigidbody.position, charRigidbody.velocity, state);
                     if (Math.Abs(charRigidbody.velocity.x) > 0.1)
                         isSyncedXStop = false;
                     if (Math.Abs(charRigidbody.velocity.y) > 0.1)
@@ -404,12 +408,12 @@ public class MainCharacter : ControllableCharacter
                 {
                     if (!isSyncedXStop)
                     {
-                        InvokeEventSync(charRigidbody.position, charRigidbody.velocity);
+                        InvokeEventSync(charRigidbody.position, charRigidbody.velocity, state);
                         isSyncedXStop = true;
                     }
                     if (!isSyncedYStop)
                     {
-                        InvokeEventSync(charRigidbody.position, charRigidbody.velocity);
+                        InvokeEventSync(charRigidbody.position, charRigidbody.velocity, state);
                         isSyncedYStop = true;
                     }
                 }

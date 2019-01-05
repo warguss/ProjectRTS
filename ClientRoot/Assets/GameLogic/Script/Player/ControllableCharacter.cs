@@ -11,7 +11,7 @@ public delegate void CharEventChangeWeapon(int invokerId, Vector2 position, Vect
 public delegate void CharEventSpawn(int invokerId, Vector2 position);
 public delegate void CharEventDead(int invokerId, Vector2 position, int attackerId);
 //public delegate void CharEventGetItem(int invokerId, string itemId);
-public delegate void CharEventSync(int invokerId, Vector2 position, Vector2 velocity);
+public delegate void CharEventSync(int invokerId, Vector2 position, Vector2 velocity, CharacterStateInfo info);
 
 public abstract class ControllableCharacter : MonoBehaviour
 {
@@ -33,9 +33,8 @@ public abstract class ControllableCharacter : MonoBehaviour
 
     protected int hitRecovery = 0;
 
-    protected float hp;
-    public float MaxHP;
-    public CharacterStateInfo state;
+    
+    protected CharacterStateInfo state;
     protected int jumpCount = 0;
     protected int lastAttackedPlayerId = -1;
 
@@ -96,9 +95,9 @@ public abstract class ControllableCharacter : MonoBehaviour
     //{
     //    GetItemEvent?.Invoke(OwnerId, itemId);
     //}
-    protected void InvokeEventSync(Vector2 position, Vector2 velocity)
+    protected void InvokeEventSync(Vector2 position, Vector2 velocity, CharacterStateInfo info)
     {
-        SyncEvent?.Invoke(OwnerId, position, velocity);
+        SyncEvent?.Invoke(OwnerId, position, velocity, info);
     }
 
     public void Start()
@@ -133,19 +132,29 @@ public abstract class ControllableCharacter : MonoBehaviour
 
     public void SetHP(float inHp)
     {
-        hp = inHp;   
+        state.hp = inHp;   
     }
 
     public void RecoverHp(float inHp)
     {
-        hp += inHp;
-        if (hp > MaxHP)
-            hp = MaxHP;
+        state.hp += inHp;
+        if (state.hp > state.MaxHP)
+            state.hp = state.MaxHP;
     }
 
     public Vector2 GetCurrentPosition()
     {
         return charRigidbody.position;
+    }
+
+    public CharacterStateInfo GetCharacterState()
+    {
+        return state;
+    }
+
+    public void SetCharacterSpecialState(CharacterSpecialState specialState, float time)
+    {
+        state.SetSpecialState(specialState, time);
     }
 
     public abstract void MoveLeft();

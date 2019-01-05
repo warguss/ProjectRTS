@@ -318,7 +318,7 @@ public class GameLogic : MonoBehaviour
                         {
                             continue;
                         }
-                        //playerControllers[invokerId].IsInterested = isInterested;
+                        playerControllers[invokerId].IsInterested = isInterested;
                         playerControllers[invokerId].MoveWithInterpolation(position, velocity);
 
                         var userEventPacket = EventPacket.UserEvent;
@@ -434,11 +434,11 @@ public class GameLogic : MonoBehaviour
                 case UserEvent.Types.action.EventUserSync:
                     {
                         var info = userEventPacket.SyncEvent;
-                        //float currentHp = info.CurrentHP;
-                        //int weaponId = info.WeaponId;
+                        float currentHp = info.CurrentHP;
+                        int weaponId = info.WeaponId;
 
-                        //playerControllers[invokerId].SetHP(currentHp);
-                        //playerControllers[invokerIs].ChangeWeapon(weaponId);
+                        playerControllers[invokerId].SetHP(currentHp);
+                        playerControllers[invokerId].ChangeWeapon((WeaponId)weaponId);
 
                         break;
                     }
@@ -574,12 +574,11 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    void PlayerEventSync(int invokerId, Vector2 position, Vector2 velocity)
+    void PlayerEventSync(int invokerId, Vector2 position, Vector2 velocity, CharacterStateInfo info)
     {
         if (isOnline)
         {
-            NetworkModule.instance.WriteEventSync(invokerId, position, velocity);
-            
+            NetworkModule.instance.WriteEventSync(invokerId, position, velocity, info);
         }
     }
 
