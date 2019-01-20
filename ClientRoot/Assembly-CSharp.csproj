@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\3rdp\Triangulator.cs" />
     <Compile Include="Assets\CameraMove.cs" />
     <Compile Include="Assets\FieldItem.cs" />
     <Compile Include="Assets\GameLogic.cs" />
@@ -156,6 +157,8 @@
     <Compile Include="Assets\NetworkModule.cs" />
     <Compile Include="Assets\Packet.cs" />
     <Compile Include="Assets\PlayerController.cs" />
+    <Compile Include="Assets\PolygonTerrain.cs" />
+    <Compile Include="Assets\PolygonTest.cs" />
     <Compile Include="Assets\Server\proto\GameContent.cs" />
     <Compile Include="Assets\ServiceAuth.cs" />
     <Compile Include="Assets\SpriteOverlayScript.cs" />
