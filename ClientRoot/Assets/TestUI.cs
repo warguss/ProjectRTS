@@ -10,10 +10,6 @@ public class TestUI : MonoBehaviour {
 
     public Text Console;
     public ScrollRect scrollView;
-    public InputField IpInput;
-    public InputField PortInput;
-    public InputField NameInput;
-    public Button ConnectButton;
     public Button DisconnectButton;
     public Button CreateItemButton;
 
@@ -28,11 +24,8 @@ public class TestUI : MonoBehaviour {
         concatString = new StringBuilder();
         consoleMessage = new List<string>();
 
-        ConnectButton.onClick.AddListener(OnClickConnect);
         DisconnectButton.onClick.AddListener(OnClickDisconnect);
         //CreateItemButton.onClick.AddListener(OnClickItemCreate);
-        IpInput.text = NetworkModule.SERVER_IP;
-        PortInput.text = NetworkModule.SERVER_PORT.ToString();
     }
 	
 	// Update is called once per frame
@@ -59,27 +52,6 @@ public class TestUI : MonoBehaviour {
         }
         newMessage = true;
         Debug.Log(message);
-    }
-
-    void OnClickConnect()
-    {
-        string ip = IpInput.text;
-        int port = int.Parse(PortInput.text);
-        if ( !NetworkModule.instance.Initializer(ip, port) )
-        {
-            return;
-        }
-
-        if ( !NetworkModule.instance.RequestAuthorization() )
-        {
-            return;
-        }
-
-        if (!NetworkModule.instance.isConnected)
-        {
-            string name = NameInput.text;
-            NetworkModule.instance.Connect(name);
-        }
     }
 
     void OnClickDisconnect()

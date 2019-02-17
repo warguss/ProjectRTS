@@ -38,11 +38,18 @@ public class NetworkModule : MonoBehaviour
 
     //int testCount = 0;
 
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        instance = this;
+    }
+
     // Use this for initialization
     void Start()
     {
-        instance = this;
-
         readPacket = new Packet();
         writePacket = new Packet();
         RecevedPacketBodyQueue = new Queue<PacketBody>();

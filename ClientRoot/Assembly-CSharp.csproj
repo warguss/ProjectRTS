@@ -77,6 +77,7 @@
     <Compile Include="Assets\GameLogic\Script\Player\ShootInfo.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\SniperBullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\WeaponDatabase.cs" />
+    <Compile Include="Assets\GameSceneManager.cs" />
     <Compile Include="Assets\Google.Protobuf\ByteArray.cs" />
     <Compile Include="Assets\Google.Protobuf\ByteString.cs" />
     <Compile Include="Assets\Google.Protobuf\CodedInputStream.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Assets\Google.Protobuf\WellKnownTypes\Wrappers.cs" />
     <Compile Include="Assets\Google.Protobuf\WellKnownTypes\WrappersPartial.cs" />
     <Compile Include="Assets\Google.Protobuf\WireFormat.cs" />
+    <Compile Include="Assets\InGameMenu.cs" />
     <Compile Include="Assets\InputInterface.cs" />
     <Compile Include="Assets\Manager.cs" />
     <Compile Include="Assets\MapData.cs" />
@@ -163,6 +165,7 @@
     <Compile Include="Assets\ServiceAuth.cs" />
     <Compile Include="Assets\SpriteOverlayScript.cs" />
     <Compile Include="Assets\TestUI.cs" />
+    <Compile Include="Assets\TitleUI.cs" />
     <Compile Include="Assets\TouchButton.cs" />
     <Compile Include="Assets\TouchButtonsInterface.cs" />
     <Compile Include="Assets\TouchDirectionInterface.cs" />

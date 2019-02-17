@@ -28,6 +28,9 @@ public class GameLogic : MonoBehaviour
     public int myId = -1;
     public int mySector = -1;
 
+    public string entryName = "";
+    public bool isTestMode = false;
+
     Dictionary<int, PlayerController> playerControllers;
     MapData mapData;
 
@@ -41,25 +44,46 @@ public class GameLogic : MonoBehaviour
 
     byte[] msgBuffer = new byte[256];
 
-    public bool TestMode;
+    private void Awake()
+    {
+        if(Instance != null)
+        {
+            Destroy(gameObject);
+        }
+        Instance = this;
+    }
 
     // Use this for initialization
     void Start()
     {
-        Instance = this;
         playerControllers = new Dictionary<int, PlayerController>();
         FieldItems = new Dictionary<string, FieldItem>();
         mapData = Instantiate(MapDataPrefab).GetComponent<MapData>();
+    }
 
+    public void StartGame()
+    {
         mapData.LoadMap();
         mapData.DrawMap();
 
-        if (TestMode)
+        if (isTestMode)
         {
             myId = testId1P;
             userJoin(testId1P, "test1p", true);
             userJoin(testId2P, "test2p", false, true);
             SpawnPlayer(testId2P, new Vector2(2, 2));
+        }
+        else
+        {
+            if (!NetworkModule.instance.RequestAuthorization())
+            {
+                return;
+            }
+
+            if (!NetworkModule.instance.isConnected)
+            {
+                NetworkModule.instance.Connect(entryName);
+            }
         }
     }
 	
@@ -176,7 +200,7 @@ public class GameLogic : MonoBehaviour
             }
         }
 
-        if(TestMode)
+        if(isTestMode)
         {
             SendInputToCharacter(testId2P, PlayerAction.Left, Input.GetKey(KeyCode.A));
             SendInputToCharacter(testId2P, PlayerAction.Right, Input.GetKey(KeyCode.D));
@@ -198,11 +222,19 @@ public class GameLogic : MonoBehaviour
 
     public void CleanUpGame()
     {
-        foreach(var entry in playerControllers)
+        isOnline = false;
+
+        foreach (var entry in playerControllers)
         {
             entry.Value.LeaveGame();
         }
+        foreach (var entry in FieldItems)
+        {
+            Destroy(entry.Value.gameObject);
+        }
+
         playerControllers.Clear();
+        FieldItems.Clear();
     }
 
 
