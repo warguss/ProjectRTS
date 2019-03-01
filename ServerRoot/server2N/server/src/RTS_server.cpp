@@ -16,6 +16,7 @@
 #include "common/CProtoManager.h"
 #include "common/CProtoPacket.h"
 #include "common/CUserPool.h"
+#include "common/CProtoLogicFactory.h"
 
 using namespace std;
 bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventUser);
@@ -24,6 +25,8 @@ bool ActionAllSendFunc(CSessionManager& session, CProtoPacket* eventUser);
 bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser);
 bool preActionFunc(CSessionManager& session, CProtoPacket* eventUser);
 typedef bool (*CallBackFunc)(CSessionManager&, CProtoPacket*);
+extern CLS_CALLBACK afxCreateClass(int32_t type);
+
 
 extern int32_t g_sectorIdx;
 extern CUserPool g_userPool;
@@ -37,12 +40,14 @@ bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 	list<CUser*> userConnector;
 	g_userPool.getAllUserList(userConnector);
 
-	/*************************************
-	 * TryConnect 
-	 *************************************/
+	/*****************************************
+	 * TryConnect : 접속 시도 
+	 * Connect : Connect로 바꿔서 전체로 던짐
+	 *
+	 *****************************************/
 	int32_t type = eventPacket->_type;
 	CUser* eventUser = g_userPool.findUserInPool(eventPacket->_fd);
-	if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect || type == (int32_t)server2N::UserConnection_ConnectionType_Connect )
+	if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect )
 	{
 		if ( !eventUser )
 		{
@@ -251,12 +256,12 @@ bool childProcessLogic()
 	LOG_DEBUG("g_sector initialize(%d)", g_sectorIdx);
 	if ( pthread_create(&thread, NULL, session.waitEvent, (void*)&port) < 0 )
 	{
-		return ;
+		return false;
 	}
 	
 	if ( pthread_create(&thread, NULL, session.writeEvent, (void*)&port) < 0 )
 	{
-		return ;
+		return false;
 	}
 
 	while(true)
@@ -292,6 +297,19 @@ bool childProcessLogic()
 				continue ;
 			}
 
+			if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect )
+			{
+				CLS_CALLBACK fnc = afxCreateClass(type);
+
+				CProtoLogicBase* logic = (fnc)();
+				if ( logic && logic->onPreProcess(data->_sector) && logic->onProcess(session, data) )
+				{
+					logic->onPostProcess(session);	
+				} 
+
+				delete logic;
+				continue;
+			} 
 			void (*func)(CSessionManager&, CProtoPacket*) = NULL;
 			func = funcMap.find(type)->second;
 			if ( func )
