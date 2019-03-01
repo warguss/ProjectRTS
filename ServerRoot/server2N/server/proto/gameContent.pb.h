@@ -37,7 +37,7 @@ namespace protobuf_gameContent_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[18];
+  static const ::google::protobuf::internal::ParseTable schema[19];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -69,6 +69,8 @@ void InitDefaultsEventItemSpawnImpl();
 void InitDefaultsEventItemSpawn();
 void InitDefaultsEventItemGetImpl();
 void InitDefaultsEventItemGet();
+void InitDefaultsEventCamImpl();
+void InitDefaultsEventCam();
 void InitDefaultsInfoItemImpl();
 void InitDefaultsInfoItem();
 void InitDefaultsGameEventImpl();
@@ -93,6 +95,7 @@ inline void InitDefaults() {
   InitDefaultsEventDeath();
   InitDefaultsEventItemSpawn();
   InitDefaultsEventItemGet();
+  InitDefaultsEventCam();
   InitDefaultsInfoItem();
   InitDefaultsGameEvent();
   InitDefaultsSystemEvent();
@@ -101,6 +104,9 @@ inline void InitDefaults() {
 }
 }  // namespace protobuf_gameContent_2eproto
 namespace server2N {
+class EventCam;
+class EventCamDefaultTypeInternal;
+extern EventCamDefaultTypeInternal _EventCam_default_instance_;
 class EventChangeWeapon;
 class EventChangeWeaponDefaultTypeInternal;
 extern EventChangeWeaponDefaultTypeInternal _EventChangeWeapon_default_instance_;
@@ -158,6 +164,7 @@ extern UserEventDefaultTypeInternal _UserEvent_default_instance_;
 }  // namespace server2N
 namespace google {
 namespace protobuf {
+template<> ::server2N::EventCam* Arena::Create< ::server2N::EventCam>(Arena*);
 template<> ::server2N::EventChangeWeapon* Arena::Create< ::server2N::EventChangeWeapon>(Arena*);
 template<> ::server2N::EventDeath* Arena::Create< ::server2N::EventDeath>(Arena*);
 template<> ::server2N::EventHit* Arena::Create< ::server2N::EventHit>(Arena*);
@@ -350,12 +357,13 @@ enum UserEvent_action {
   UserEvent_action_EventDeath = 107,
   UserEvent_action_EventBullet = 108,
   UserEvent_action_EventChangeWeapon = 109,
+  UserEvent_action_EventCam = 122,
   UserEvent_action_UserEvent_action_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   UserEvent_action_UserEvent_action_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool UserEvent_action_IsValid(int value);
 const UserEvent_action UserEvent_action_action_MIN = UserEvent_action_Nothing;
-const UserEvent_action UserEvent_action_action_MAX = UserEvent_action_EventChangeWeapon;
+const UserEvent_action UserEvent_action_action_MAX = UserEvent_action_EventCam;
 const int UserEvent_action_action_ARRAYSIZE = UserEvent_action_action_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* UserEvent_action_descriptor();
@@ -2001,6 +2009,116 @@ class EventItemGet : public ::google::protobuf::Message /* @@protoc_insertion_po
 };
 // -------------------------------------------------------------------
 
+class EventCam : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.EventCam) */ {
+ public:
+  EventCam();
+  virtual ~EventCam();
+
+  EventCam(const EventCam& from);
+
+  inline EventCam& operator=(const EventCam& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EventCam(EventCam&& from) noexcept
+    : EventCam() {
+    *this = ::std::move(from);
+  }
+
+  inline EventCam& operator=(EventCam&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EventCam& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EventCam* internal_default_instance() {
+    return reinterpret_cast<const EventCam*>(
+               &_EventCam_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    13;
+
+  void Swap(EventCam* other);
+  friend void swap(EventCam& a, EventCam& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EventCam* New() const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventCam>(NULL);
+  }
+
+  EventCam* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventCam>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const EventCam& from);
+  void MergeFrom(const EventCam& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(EventCam* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // bool isCamOff = 1;
+  void clear_iscamoff();
+  static const int kIsCamOffFieldNumber = 1;
+  bool iscamoff() const;
+  void set_iscamoff(bool value);
+
+  // int32 targetID = 2;
+  void clear_targetid();
+  static const int kTargetIDFieldNumber = 2;
+  ::google::protobuf::int32 targetid() const;
+  void set_targetid(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:server2N.EventCam)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool iscamoff_;
+  ::google::protobuf::int32 targetid_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_gameContent_2eproto::TableStruct;
+  friend void ::protobuf_gameContent_2eproto::InitDefaultsEventCamImpl();
+};
+// -------------------------------------------------------------------
+
 class InfoItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.InfoItem) */ {
  public:
   InfoItem();
@@ -2036,7 +2154,7 @@ class InfoItem : public ::google::protobuf::Message /* @@protoc_insertion_point(
                &_InfoItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    13;
+    14;
 
   void Swap(InfoItem* other);
   friend void swap(InfoItem& a, InfoItem& b) {
@@ -2236,7 +2354,7 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_GameEvent_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    14;
+    15;
 
   void Swap(GameEvent* other);
   friend void swap(GameEvent& a, GameEvent& b) {
@@ -2443,7 +2561,7 @@ class SystemEvent : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SystemEvent_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    15;
+    16;
 
   void Swap(SystemEvent* other);
   friend void swap(SystemEvent& a, SystemEvent& b) {
@@ -2594,7 +2712,7 @@ class UserEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_UserEvent_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    16;
+    17;
 
   void Swap(UserEvent* other);
   friend void swap(UserEvent& a, UserEvent& b) {
@@ -2666,6 +2784,8 @@ class UserEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
     UserEvent_action_EventBullet;
   static const action EventChangeWeapon =
     UserEvent_action_EventChangeWeapon;
+  static const action EventCam =
+    UserEvent_action_EventCam;
   static inline bool action_IsValid(int value) {
     return UserEvent_action_IsValid(value);
   }
@@ -2788,6 +2908,15 @@ class UserEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::server2N::EventItemGet* mutable_itemgetevent();
   void set_allocated_itemgetevent(::server2N::EventItemGet* itemgetevent);
 
+  // .server2N.EventCam camEvent = 123;
+  bool has_camevent() const;
+  void clear_camevent();
+  static const int kCamEventFieldNumber = 123;
+  const ::server2N::EventCam& camevent() const;
+  ::server2N::EventCam* release_camevent();
+  ::server2N::EventCam* mutable_camevent();
+  void set_allocated_camevent(::server2N::EventCam* camevent);
+
   // .server2N.UserEvent.action actType = 110;
   void clear_acttype();
   static const int kActTypeFieldNumber = 110;
@@ -2809,6 +2938,7 @@ class UserEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::server2N::EventChangeWeapon* chweaponevent_;
   ::server2N::EventItemSpawn* itemspawnevent_;
   ::server2N::EventItemGet* itemgetevent_;
+  ::server2N::EventCam* camevent_;
   int acttype_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
@@ -2851,7 +2981,7 @@ class PacketBody : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_PacketBody_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    17;
+    18;
 
   void Swap(PacketBody* other);
   friend void swap(PacketBody& a, PacketBody& b) {
@@ -3693,6 +3823,38 @@ inline void EventItemGet::set_allocated_item(::server2N::InfoItem* item) {
   }
   item_ = item;
   // @@protoc_insertion_point(field_set_allocated:server2N.EventItemGet.item)
+}
+
+// -------------------------------------------------------------------
+
+// EventCam
+
+// bool isCamOff = 1;
+inline void EventCam::clear_iscamoff() {
+  iscamoff_ = false;
+}
+inline bool EventCam::iscamoff() const {
+  // @@protoc_insertion_point(field_get:server2N.EventCam.isCamOff)
+  return iscamoff_;
+}
+inline void EventCam::set_iscamoff(bool value) {
+  
+  iscamoff_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventCam.isCamOff)
+}
+
+// int32 targetID = 2;
+inline void EventCam::clear_targetid() {
+  targetid_ = 0;
+}
+inline ::google::protobuf::int32 EventCam::targetid() const {
+  // @@protoc_insertion_point(field_get:server2N.EventCam.targetID)
+  return targetid_;
+}
+inline void EventCam::set_targetid(::google::protobuf::int32 value) {
+  
+  targetid_ = value;
+  // @@protoc_insertion_point(field_set:server2N.EventCam.targetID)
 }
 
 // -------------------------------------------------------------------
@@ -4755,6 +4917,57 @@ inline void UserEvent::set_allocated_itemgetevent(::server2N::EventItemGet* item
   // @@protoc_insertion_point(field_set_allocated:server2N.UserEvent.itemGetEvent)
 }
 
+// .server2N.EventCam camEvent = 123;
+inline bool UserEvent::has_camevent() const {
+  return this != internal_default_instance() && camevent_ != NULL;
+}
+inline void UserEvent::clear_camevent() {
+  if (GetArenaNoVirtual() == NULL && camevent_ != NULL) {
+    delete camevent_;
+  }
+  camevent_ = NULL;
+}
+inline const ::server2N::EventCam& UserEvent::camevent() const {
+  const ::server2N::EventCam* p = camevent_;
+  // @@protoc_insertion_point(field_get:server2N.UserEvent.camEvent)
+  return p != NULL ? *p : *reinterpret_cast<const ::server2N::EventCam*>(
+      &::server2N::_EventCam_default_instance_);
+}
+inline ::server2N::EventCam* UserEvent::release_camevent() {
+  // @@protoc_insertion_point(field_release:server2N.UserEvent.camEvent)
+  
+  ::server2N::EventCam* temp = camevent_;
+  camevent_ = NULL;
+  return temp;
+}
+inline ::server2N::EventCam* UserEvent::mutable_camevent() {
+  
+  if (camevent_ == NULL) {
+    camevent_ = ::google::protobuf::Arena::Create< ::server2N::EventCam >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:server2N.UserEvent.camEvent)
+  return camevent_;
+}
+inline void UserEvent::set_allocated_camevent(::server2N::EventCam* camevent) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete camevent_;
+  }
+  if (camevent) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      camevent = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, camevent, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  camevent_ = camevent;
+  // @@protoc_insertion_point(field_set_allocated:server2N.UserEvent.camEvent)
+}
+
 // -------------------------------------------------------------------
 
 // PacketBody
@@ -4943,6 +5156,8 @@ inline void PacketBody::set_senderid(::google::protobuf::int32 value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
