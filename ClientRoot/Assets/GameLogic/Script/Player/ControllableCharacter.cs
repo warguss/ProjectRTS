@@ -128,6 +128,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     {
         if (!isDead)
             gameObject.SetActive(isVisible);
+        Debug.Log("Player" + OwnerName + " SetVisible : " + isVisible);
     }
 
     public void SetHP(float inHp)

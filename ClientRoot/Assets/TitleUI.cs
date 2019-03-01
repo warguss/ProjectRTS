@@ -15,11 +15,13 @@ public class TitleUI : MonoBehaviour {
 
     public GameLogic GameLogic;
     public NetworkModule NetworkModule;
+    public TestUI TestUI;
 
     // Use this for initialization
     void Start () {
         DontDestroyOnLoad(GameLogic.gameObject);
         DontDestroyOnLoad(NetworkModule.gameObject);
+        DontDestroyOnLoad(TestUI.gameObject);
 
         StartButton.onClick.AddListener(onClickStart);
 
@@ -34,8 +36,7 @@ public class TitleUI : MonoBehaviour {
 
     void onClickStart()
     {
-        bool isOfflineMode = OfflineModeToggle.enabled;
-
+        bool isOfflineMode = OfflineModeToggle.isOn;
         GameLogic.Instance.entryName = NameInput.text;
         GameLogic.Instance.isTestMode = isOfflineMode;
 
@@ -47,8 +48,14 @@ public class TitleUI : MonoBehaviour {
             {
                 return;
             }
+            else
+            {
+                SceneManager.LoadScene(1);
+            }
         }
-
-        SceneManager.LoadScene(1);
+        else
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 }

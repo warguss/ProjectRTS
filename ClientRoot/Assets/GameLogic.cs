@@ -29,7 +29,7 @@ public class GameLogic : MonoBehaviour
     public int mySector = -1;
 
     public string entryName = "";
-    public bool isTestMode = false;
+    public bool isTestMode = true;
 
     Dictionary<int, PlayerController> playerControllers;
     MapData mapData;
@@ -66,6 +66,7 @@ public class GameLogic : MonoBehaviour
         mapData.LoadMap();
         mapData.DrawMap();
 
+        Debug.Log("isTestMode : "+isTestMode);
         if (isTestMode)
         {
             myId = testId1P;
@@ -583,6 +584,7 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventSpawn(int invokerId, Vector2 position)
     {
+        CameraScript.SetTarget(playerControllers[myId].Character.GetGameObject()); 
         if (isOnline)
         {
             NetworkModule.instance.WriteEventSpawn(invokerId, position);
@@ -592,6 +594,7 @@ public class GameLogic : MonoBehaviour
     void PlayerEventDie(int invokerId, Vector2 position, int AttackerId)
     {
         StartCoroutine(SpawnAfterSeconds(invokerId, new Vector2(Random.Range(1f, 10f), Random.Range(1f, 10f)), 5));
+        CameraScript.SetTarget(playerControllers[AttackerId].Character.GetGameObject()); //TODO : 일정 딜레이 후 시점 바뀌는 걸로 바꾸기
         if (isOnline)
         {
             NetworkModule.instance.WriteEventDead(invokerId, position, AttackerId);

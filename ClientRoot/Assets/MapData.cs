@@ -70,8 +70,8 @@ public class MapData : MonoBehaviour {
                 {
                     //데이터 포맷 에러
                 }
-                Debug.Log(coordinate[0]);
-                Debug.Log(coordinate[1]);
+                //Debug.Log(coordinate[0]);
+                //Debug.Log(coordinate[1]);
 
                 float posX = float.Parse(coordinate[0]);
                 float posY = float.Parse(coordinate[1]);
