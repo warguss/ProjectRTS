@@ -47,48 +47,50 @@ namespace Server2N {
             "d2VhcG9uSWQYAiABKAUiHwoKRXZlbnREZWF0aBIRCgl0cmlnZ2VySWQYASAB",
             "KAUiMgoORXZlbnRJdGVtU3Bhd24SIAoEaXRlbRgBIAEoCzISLnNlcnZlcjJO",
             "LkluZm9JdGVtIjAKDEV2ZW50SXRlbUdldBIgCgRpdGVtGAEgASgLMhIuc2Vy",
-            "dmVyMk4uSW5mb0l0ZW0ijQIKCEluZm9JdGVtEg4KBmFtb3VudBgEIAEoBRIO",
-            "CgZpdGVtSWQYAiABKAkSLQoIaXRlbVR5cGUYBSABKA4yGy5zZXJ2ZXIyTi5J",
-            "bmZvSXRlbS5JdGVtVHlwZRItCgh3ZWFwb25JZBgGIAEoDjIbLnNlcnZlcjJO",
-            "LkluZm9JdGVtLldlYXBvbklkEhUKDUl0ZW1Qb3NpdGlvblgYByABKAISFQoN",
-            "SXRlbVBvc2l0aW9uWRgIIAEoAiIkCghJdGVtVHlwZRILCgdSZWNvdmVyEAAS",
-            "CwoHV2VhcG9uZRABIi8KCFdlYXBvbklkEgsKB05vdGhpbmcQABIKCgZQaXN0",
-            "b2wQARIKCgZTbmlwZXIQAiLZAgoJR2FtZUV2ZW50EiYKCXVzZXJFdmVudBgD",
-            "IAEoCzITLnNlcnZlcjJOLlVzZXJFdmVudBIqCgtzeXN0ZW1FdmVudBgEIAEo",
-            "CzIVLnNlcnZlcjJOLlN5c3RlbUV2ZW50EhYKDkV2ZW50UG9zaXRpb25YGAYg",
-            "ASgCEhYKDkV2ZW50UG9zaXRpb25ZGAcgASgCEhEKCVZlbG9jaXR5WBgIIAEo",
-            "AhIRCglWZWxvY2l0eVkYCSABKAISEQoJaW52b2tlcklkGAogAygFEhQKDGlz",
-            "SW50ZXJlc3RlZBgLIAEoCBIPCgdpc0xvY2FsGAwgASgIEi4KB2V2dFR5cGUY",
-            "DSABKA4yHS5zZXJ2ZXIyTi5HYW1lRXZlbnQuZXZlbnRUeXBlIjgKCWV2ZW50",
-            "VHlwZRILCgdOb3RoaW5nEAASDQoJVXNlckV2ZW50EAESDwoLU3lzdGVtRXZl",
-            "bnQQAiLeAQoLU3lzdGVtRXZlbnQSLgoHYWN0VHlwZRjKASABKA4yHC5zZXJ2",
-            "ZXIyTi5TeXN0ZW1FdmVudC5hY3Rpb24SMQoOaXRlbVNwYXduRXZlbnQYywEg",
-            "ASgLMhguc2VydmVyMk4uRXZlbnRJdGVtU3Bhd24SLQoMaXRlbUdldEV2ZW50",
-            "GMwBIAEoCzIWLnNlcnZlcjJOLkV2ZW50SXRlbUdldCI9CgZhY3Rpb24SCwoH",
-            "Tm90aGluZxAAEhMKDkV2ZW50SXRlbVNwYXduEMgBEhEKDEV2ZW50SXRlbUdl",
-            "dBDJASLSBQoJVXNlckV2ZW50EisKB2FjdFR5cGUYbiABKA4yGi5zZXJ2ZXIy",
-            "Ti5Vc2VyRXZlbnQuYWN0aW9uEiYKCW1vdmVFdmVudBhvIAEoCzITLnNlcnZl",
-            "cjJOLkV2ZW50TW92ZRImCglzdG9wRXZlbnQYcCABKAsyEy5zZXJ2ZXIyTi5F",
-            "dmVudFN0b3ASJgoJanVtcEV2ZW50GHEgASgLMhMuc2VydmVyMk4uRXZlbnRK",
-            "dW1wEigKCnNob290RXZlbnQYciABKAsyFC5zZXJ2ZXIyTi5FdmVudFNob290",
-            "EiQKCGhpdEV2ZW50GHMgASgLMhIuc2VydmVyMk4uRXZlbnRIaXQSKAoKc3Bh",
-            "d25FdmVudBh0IAEoCzIULnNlcnZlcjJOLkV2ZW50U3Bhd24SKgoJc3luY0V2",
-            "ZW50GHUgASgLMhcuc2VydmVyMk4uRXZlbnRVc2VyU3luYxIoCgpkZWF0aEV2",
-            "ZW50GHYgASgLMhQuc2VydmVyMk4uRXZlbnREZWF0aBIyCg1jaFdlYXBvbkV2",
-            "ZW50GHcgASgLMhsuc2VydmVyMk4uRXZlbnRDaGFuZ2VXZWFwb24SMAoOaXRl",
-            "bVNwYXduRXZlbnQYeCABKAsyGC5zZXJ2ZXIyTi5FdmVudEl0ZW1TcGF3bhIs",
-            "CgxpdGVtR2V0RXZlbnQYeSABKAsyFi5zZXJ2ZXIyTi5FdmVudEl0ZW1HZXQi",
-            "uwEKBmFjdGlvbhILCgdOb3RoaW5nEAASDQoJRXZlbnRNb3ZlEGQSDQoJRXZl",
-            "bnRTdG9wEGUSDQoJRXZlbnRKdW1wEGYSDgoKRXZlbnRTaG9vdBBnEgwKCEV2",
-            "ZW50SGl0EGgSDgoKRXZlbnRTcGF3bhBpEhEKDUV2ZW50VXNlclN5bmMQahIO",
-            "CgpFdmVudERlYXRoEGsSDwoLRXZlbnRCdWxsZXQQbBIVChFFdmVudENoYW5n",
-            "ZVdlYXBvbhBtIpACCgpQYWNrZXRCb2R5EjIKB21zZ1R5cGUYkE4gASgOMiAu",
-            "c2VydmVyMk4uUGFja2V0Qm9keS5tZXNzYWdlVHlwZRIpCgdjb25uZWN0GAYg",
-            "ASgLMhguc2VydmVyMk4uVXNlckNvbm5lY3Rpb24SJwoGbm90aWNlGJFOIAEo",
-            "CzIWLnNlcnZlcjJOLkdsb2JhbE5vdGljZRIiCgVldmVudBgHIAEoCzITLnNl",
-            "cnZlcjJOLkdhbWVFdmVudBIQCghzZW5kZXJJZBgIIAEoBSJECgttZXNzYWdl",
-            "VHlwZRINCglHYW1lRXZlbnQQABITCg5Vc2VyQ29ubmVjdGlvbhCQThIRCgxH",
-            "bG9iYWxOb3RpY2UQkU5iBnByb3RvMw=="));
+            "dmVyMk4uSW5mb0l0ZW0iLgoIRXZlbnRDYW0SEAoIaXNDYW1PZmYYASABKAgS",
+            "EAoIdGFyZ2V0SUQYAiABKAUijQIKCEluZm9JdGVtEg4KBmFtb3VudBgEIAEo",
+            "BRIOCgZpdGVtSWQYAiABKAkSLQoIaXRlbVR5cGUYBSABKA4yGy5zZXJ2ZXIy",
+            "Ti5JbmZvSXRlbS5JdGVtVHlwZRItCgh3ZWFwb25JZBgGIAEoDjIbLnNlcnZl",
+            "cjJOLkluZm9JdGVtLldlYXBvbklkEhUKDUl0ZW1Qb3NpdGlvblgYByABKAIS",
+            "FQoNSXRlbVBvc2l0aW9uWRgIIAEoAiIkCghJdGVtVHlwZRILCgdSZWNvdmVy",
+            "EAASCwoHV2VhcG9uZRABIi8KCFdlYXBvbklkEgsKB05vdGhpbmcQABIKCgZQ",
+            "aXN0b2wQARIKCgZTbmlwZXIQAiLZAgoJR2FtZUV2ZW50EiYKCXVzZXJFdmVu",
+            "dBgDIAEoCzITLnNlcnZlcjJOLlVzZXJFdmVudBIqCgtzeXN0ZW1FdmVudBgE",
+            "IAEoCzIVLnNlcnZlcjJOLlN5c3RlbUV2ZW50EhYKDkV2ZW50UG9zaXRpb25Y",
+            "GAYgASgCEhYKDkV2ZW50UG9zaXRpb25ZGAcgASgCEhEKCVZlbG9jaXR5WBgI",
+            "IAEoAhIRCglWZWxvY2l0eVkYCSABKAISEQoJaW52b2tlcklkGAogAygFEhQK",
+            "DGlzSW50ZXJlc3RlZBgLIAEoCBIPCgdpc0xvY2FsGAwgASgIEi4KB2V2dFR5",
+            "cGUYDSABKA4yHS5zZXJ2ZXIyTi5HYW1lRXZlbnQuZXZlbnRUeXBlIjgKCWV2",
+            "ZW50VHlwZRILCgdOb3RoaW5nEAASDQoJVXNlckV2ZW50EAESDwoLU3lzdGVt",
+            "RXZlbnQQAiLeAQoLU3lzdGVtRXZlbnQSLgoHYWN0VHlwZRjKASABKA4yHC5z",
+            "ZXJ2ZXIyTi5TeXN0ZW1FdmVudC5hY3Rpb24SMQoOaXRlbVNwYXduRXZlbnQY",
+            "ywEgASgLMhguc2VydmVyMk4uRXZlbnRJdGVtU3Bhd24SLQoMaXRlbUdldEV2",
+            "ZW50GMwBIAEoCzIWLnNlcnZlcjJOLkV2ZW50SXRlbUdldCI9CgZhY3Rpb24S",
+            "CwoHTm90aGluZxAAEhMKDkV2ZW50SXRlbVNwYXduEMgBEhEKDEV2ZW50SXRl",
+            "bUdldBDJASKGBgoJVXNlckV2ZW50EisKB2FjdFR5cGUYbiABKA4yGi5zZXJ2",
+            "ZXIyTi5Vc2VyRXZlbnQuYWN0aW9uEiYKCW1vdmVFdmVudBhvIAEoCzITLnNl",
+            "cnZlcjJOLkV2ZW50TW92ZRImCglzdG9wRXZlbnQYcCABKAsyEy5zZXJ2ZXIy",
+            "Ti5FdmVudFN0b3ASJgoJanVtcEV2ZW50GHEgASgLMhMuc2VydmVyMk4uRXZl",
+            "bnRKdW1wEigKCnNob290RXZlbnQYciABKAsyFC5zZXJ2ZXIyTi5FdmVudFNo",
+            "b290EiQKCGhpdEV2ZW50GHMgASgLMhIuc2VydmVyMk4uRXZlbnRIaXQSKAoK",
+            "c3Bhd25FdmVudBh0IAEoCzIULnNlcnZlcjJOLkV2ZW50U3Bhd24SKgoJc3lu",
+            "Y0V2ZW50GHUgASgLMhcuc2VydmVyMk4uRXZlbnRVc2VyU3luYxIoCgpkZWF0",
+            "aEV2ZW50GHYgASgLMhQuc2VydmVyMk4uRXZlbnREZWF0aBIyCg1jaFdlYXBv",
+            "bkV2ZW50GHcgASgLMhsuc2VydmVyMk4uRXZlbnRDaGFuZ2VXZWFwb24SMAoO",
+            "aXRlbVNwYXduRXZlbnQYeCABKAsyGC5zZXJ2ZXIyTi5FdmVudEl0ZW1TcGF3",
+            "bhIsCgxpdGVtR2V0RXZlbnQYeSABKAsyFi5zZXJ2ZXIyTi5FdmVudEl0ZW1H",
+            "ZXQSJAoIY2FtRXZlbnQYeyABKAsyEi5zZXJ2ZXIyTi5FdmVudENhbSLJAQoG",
+            "YWN0aW9uEgsKB05vdGhpbmcQABINCglFdmVudE1vdmUQZBINCglFdmVudFN0",
+            "b3AQZRINCglFdmVudEp1bXAQZhIOCgpFdmVudFNob290EGcSDAoIRXZlbnRI",
+            "aXQQaBIOCgpFdmVudFNwYXduEGkSEQoNRXZlbnRVc2VyU3luYxBqEg4KCkV2",
+            "ZW50RGVhdGgQaxIPCgtFdmVudEJ1bGxldBBsEhUKEUV2ZW50Q2hhbmdlV2Vh",
+            "cG9uEG0SDAoIRXZlbnRDYW0QeiKQAgoKUGFja2V0Qm9keRIyCgdtc2dUeXBl",
+            "GJBOIAEoDjIgLnNlcnZlcjJOLlBhY2tldEJvZHkubWVzc2FnZVR5cGUSKQoH",
+            "Y29ubmVjdBgGIAEoCzIYLnNlcnZlcjJOLlVzZXJDb25uZWN0aW9uEicKBm5v",
+            "dGljZRiRTiABKAsyFi5zZXJ2ZXIyTi5HbG9iYWxOb3RpY2USIgoFZXZlbnQY",
+            "ByABKAsyEy5zZXJ2ZXIyTi5HYW1lRXZlbnQSEAoIc2VuZGVySWQYCCABKAUi",
+            "RAoLbWVzc2FnZVR5cGUSDQoJR2FtZUV2ZW50EAASEwoOVXNlckNvbm5lY3Rp",
+            "b24QkE4SEQoMR2xvYmFsTm90aWNlEJFOYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -105,10 +107,11 @@ namespace Server2N {
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventDeath), global::Server2N.EventDeath.Parser, new[]{ "TriggerId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventItemSpawn), global::Server2N.EventItemSpawn.Parser, new[]{ "Item" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventItemGet), global::Server2N.EventItemGet.Parser, new[]{ "Item" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventCam), global::Server2N.EventCam.Parser, new[]{ "IsCamOff", "TargetID" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.InfoItem), global::Server2N.InfoItem.Parser, new[]{ "Amount", "ItemId", "ItemType", "WeaponId", "ItemPositionX", "ItemPositionY" }, null, new[]{ typeof(global::Server2N.InfoItem.Types.ItemType), typeof(global::Server2N.InfoItem.Types.WeaponId) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "UserEvent", "SystemEvent", "EventPositionX", "EventPositionY", "VelocityX", "VelocityY", "InvokerId", "IsInterested", "IsLocal", "EvtType" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.eventType) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.SystemEvent), global::Server2N.SystemEvent.Parser, new[]{ "ActType", "ItemSpawnEvent", "ItemGetEvent" }, null, new[]{ typeof(global::Server2N.SystemEvent.Types.action) }, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.UserEvent), global::Server2N.UserEvent.Parser, new[]{ "ActType", "MoveEvent", "StopEvent", "JumpEvent", "ShootEvent", "HitEvent", "SpawnEvent", "SyncEvent", "DeathEvent", "ChWeaponEvent", "ItemSpawnEvent", "ItemGetEvent" }, null, new[]{ typeof(global::Server2N.UserEvent.Types.action) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.UserEvent), global::Server2N.UserEvent.Parser, new[]{ "ActType", "MoveEvent", "StopEvent", "JumpEvent", "ShootEvent", "HitEvent", "SpawnEvent", "SyncEvent", "DeathEvent", "ChWeaponEvent", "ItemSpawnEvent", "ItemGetEvent", "CamEvent" }, null, new[]{ typeof(global::Server2N.UserEvent.Types.action) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.PacketBody), global::Server2N.PacketBody.Parser, new[]{ "MsgType", "Connect", "Notice", "Event", "SenderId" }, null, new[]{ typeof(global::Server2N.PacketBody.Types.messageType) }, null)
           }));
     }
@@ -2097,6 +2100,151 @@ namespace Server2N {
 
   }
 
+  public sealed partial class EventCam : pb::IMessage<EventCam> {
+    private static readonly pb::MessageParser<EventCam> _parser = new pb::MessageParser<EventCam>(() => new EventCam());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<EventCam> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[13]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventCam() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventCam(EventCam other) : this() {
+      isCamOff_ = other.isCamOff_;
+      targetID_ = other.targetID_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventCam Clone() {
+      return new EventCam(this);
+    }
+
+    /// <summary>Field number for the "isCamOff" field.</summary>
+    public const int IsCamOffFieldNumber = 1;
+    private bool isCamOff_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool IsCamOff {
+      get { return isCamOff_; }
+      set {
+        isCamOff_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "targetID" field.</summary>
+    public const int TargetIDFieldNumber = 2;
+    private int targetID_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int TargetID {
+      get { return targetID_; }
+      set {
+        targetID_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as EventCam);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(EventCam other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (IsCamOff != other.IsCamOff) return false;
+      if (TargetID != other.TargetID) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (IsCamOff != false) hash ^= IsCamOff.GetHashCode();
+      if (TargetID != 0) hash ^= TargetID.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (IsCamOff != false) {
+        output.WriteRawTag(8);
+        output.WriteBool(IsCamOff);
+      }
+      if (TargetID != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(TargetID);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (IsCamOff != false) {
+        size += 1 + 1;
+      }
+      if (TargetID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TargetID);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(EventCam other) {
+      if (other == null) {
+        return;
+      }
+      if (other.IsCamOff != false) {
+        IsCamOff = other.IsCamOff;
+      }
+      if (other.TargetID != 0) {
+        TargetID = other.TargetID;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            IsCamOff = input.ReadBool();
+            break;
+          }
+          case 16: {
+            TargetID = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class InfoItem : pb::IMessage<InfoItem> {
     private static readonly pb::MessageParser<InfoItem> _parser = new pb::MessageParser<InfoItem>(() => new InfoItem());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2104,7 +2252,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[13]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[14]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2379,7 +2527,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[14]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[15]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2766,7 +2914,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[15]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[16]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2964,7 +3112,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[16]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[17]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2993,6 +3141,7 @@ namespace Server2N {
       ChWeaponEvent = other.chWeaponEvent_ != null ? other.ChWeaponEvent.Clone() : null;
       ItemSpawnEvent = other.itemSpawnEvent_ != null ? other.ItemSpawnEvent.Clone() : null;
       ItemGetEvent = other.itemGetEvent_ != null ? other.ItemGetEvent.Clone() : null;
+      CamEvent = other.camEvent_ != null ? other.CamEvent.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3132,6 +3281,17 @@ namespace Server2N {
       }
     }
 
+    /// <summary>Field number for the "camEvent" field.</summary>
+    public const int CamEventFieldNumber = 123;
+    private global::Server2N.EventCam camEvent_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.EventCam CamEvent {
+      get { return camEvent_; }
+      set {
+        camEvent_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as UserEvent);
@@ -3157,6 +3317,7 @@ namespace Server2N {
       if (!object.Equals(ChWeaponEvent, other.ChWeaponEvent)) return false;
       if (!object.Equals(ItemSpawnEvent, other.ItemSpawnEvent)) return false;
       if (!object.Equals(ItemGetEvent, other.ItemGetEvent)) return false;
+      if (!object.Equals(CamEvent, other.CamEvent)) return false;
       return true;
     }
 
@@ -3175,6 +3336,7 @@ namespace Server2N {
       if (chWeaponEvent_ != null) hash ^= ChWeaponEvent.GetHashCode();
       if (itemSpawnEvent_ != null) hash ^= ItemSpawnEvent.GetHashCode();
       if (itemGetEvent_ != null) hash ^= ItemGetEvent.GetHashCode();
+      if (camEvent_ != null) hash ^= CamEvent.GetHashCode();
       return hash;
     }
 
@@ -3233,6 +3395,10 @@ namespace Server2N {
         output.WriteRawTag(202, 7);
         output.WriteMessage(ItemGetEvent);
       }
+      if (camEvent_ != null) {
+        output.WriteRawTag(218, 7);
+        output.WriteMessage(CamEvent);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3273,6 +3439,9 @@ namespace Server2N {
       }
       if (itemGetEvent_ != null) {
         size += 2 + pb::CodedOutputStream.ComputeMessageSize(ItemGetEvent);
+      }
+      if (camEvent_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(CamEvent);
       }
       return size;
     }
@@ -3350,6 +3519,12 @@ namespace Server2N {
           itemGetEvent_ = new global::Server2N.EventItemGet();
         }
         ItemGetEvent.MergeFrom(other.ItemGetEvent);
+      }
+      if (other.camEvent_ != null) {
+        if (camEvent_ == null) {
+          camEvent_ = new global::Server2N.EventCam();
+        }
+        CamEvent.MergeFrom(other.CamEvent);
       }
     }
 
@@ -3442,6 +3617,13 @@ namespace Server2N {
             input.ReadMessage(itemGetEvent_);
             break;
           }
+          case 986: {
+            if (camEvent_ == null) {
+              camEvent_ = new global::Server2N.EventCam();
+            }
+            input.ReadMessage(camEvent_);
+            break;
+          }
         }
       }
     }
@@ -3462,6 +3644,7 @@ namespace Server2N {
         [pbr::OriginalName("EventDeath")] EventDeath = 107,
         [pbr::OriginalName("EventBullet")] EventBullet = 108,
         [pbr::OriginalName("EventChangeWeapon")] EventChangeWeapon = 109,
+        [pbr::OriginalName("EventCam")] EventCam = 122,
       }
 
     }
@@ -3476,7 +3659,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[17]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[18]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

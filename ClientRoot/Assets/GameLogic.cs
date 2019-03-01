@@ -351,7 +351,7 @@ public class GameLogic : MonoBehaviour
                         {
                             continue;
                         }
-                        playerControllers[invokerId].IsInterested = isInterested;
+                        //playerControllers[invokerId].IsInterested = isInterested;
                         playerControllers[invokerId].MoveWithInterpolation(position, velocity);
 
                         var userEventPacket = EventPacket.UserEvent;
