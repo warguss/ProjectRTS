@@ -5,7 +5,7 @@
 
 using namespace std;
 extern CUserPool g_userPool;
-//typedef CProtoLogicBase* (*CallBackFunc)(bool);
+std::map<int32_t, CLS_CALLBACK> *g_commandMap;
 template <class T> CProtoLogicBase* createProtoLogic(bool isPartSend)
 {
 	CProtoLogicBase* logic = new T();
@@ -15,8 +15,8 @@ template <class T> CProtoLogicBase* createProtoLogic(bool isPartSend)
 
 CLS_CALLBACK afxCreateClass(int32_t type)
 {
-	std::map<int32_t, CLS_CALLBACK>::iterator iter = g_proto_module_map.find(type);
-	if ( iter == g_proto_module_map.end() )
+	std::map<int32_t, CLS_CALLBACK>::iterator iter = g_commandMap->find(type);
+	if ( iter == g_commandMap->end() )
 	{
 		return NULL;
 	}
@@ -26,15 +26,15 @@ CLS_CALLBACK afxCreateClass(int32_t type)
 
 CProtoLogicBase::CProtoLogicBase(bool isPartSend)
 {
-	LOG_DEBUG("CProgoLogicBase");
-	_isPartSend = isPartSend;
+	LOG_DEBUG("CProgoLogicBase1");
+	//_isPartSend = isPartSend;
 	_userList.clear();
 	_packetOutList.clear();
 }
 
 CProtoLogicBase::CProtoLogicBase()
 {
-	LOG_DEBUG("CProgoLogicBase");
+	LOG_DEBUG("CProgoLogicBase2");
 	_isPartSend = false;
 	_userList.clear();
 	_packetOutList.clear();
@@ -42,7 +42,7 @@ CProtoLogicBase::CProtoLogicBase()
 
 CProtoLogicBase::~CProtoLogicBase()
 {
-	LOG_DEBUG("~CProgoLogicBase");
+	LOG_DEBUG("~CProgoLogicBase3");
 	_userList.clear();
 	_packetOutList.clear();
 }
@@ -52,8 +52,8 @@ CProtoLogicBase::~CProtoLogicBase()
  ***********************************/ 
 bool CProtoLogicBase::onPreProcess(int eventSector)
 {
-	LOG_DEBUG("onPreProcess")
-	if ( _isPartSend && eventSector >= 0 ) 
+	LOG_DEBUG("Common onPreProcess (%s)", _isPartSend ? "Part Send True" : "All Send True");
+	if ( _isPartSend  ) 
 	{
 		g_userPool.getPartUserList(_userList, eventSector);
 	}
@@ -76,7 +76,7 @@ bool CProtoLogicBase::onProcess(CSessionManager& session, CProtoPacket* eventPac
  ***********************************/ 
 bool CProtoLogicBase::onPostProcess(CSessionManager& session)
 {
-	LOG_DEBUG("onPostProces");
+	LOG_DEBUG("Common onPostProces");
 	list<CProtoPacket*>::iterator it = _packetOutList.begin();
 	for ( ; it != _packetOutList.end() ; ++it )
 	{
@@ -284,6 +284,7 @@ bool CProtoNotiSystem::onProcess(CSessionManager& session, CProtoPacket* eventPa
 	LOG_DEBUG("onProcess")
 }
 
+#if 0 
 void PROTO_MAP_REGISTER(int32_t type, CLS_CALLBACK fnc)
 {
 	if ( !fnc )
@@ -293,6 +294,7 @@ void PROTO_MAP_REGISTER(int32_t type, CLS_CALLBACK fnc)
 	}
 	g_proto_module_map.insert(std::pair<int32_t, CLS_CALLBACK>(type, fnc));
 }
+#endif
 
 
 

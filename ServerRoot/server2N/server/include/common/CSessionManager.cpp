@@ -285,7 +285,7 @@ static void* CSessionManager::waitEvent(void* val)
 				 ******************************************/
 				m_readQ_Manager.unLock();
 				m_readQ_Manager.enqueue(packet);
-				LOG_INFO("@SUCC UID:%d NName:%s ATP:%s SECTOR:%d", packet->_fd, packet->_nickName.c_str(), packet->_act.c_str(), packet->_sector);
+				//LOG_INFO("@SUCC UID:%d NName:%s ATP:%s SECTOR:%d", packet->_fd, packet->_nickName.c_str(), packet->_act.c_str(), packet->_sector);
 
 				/******************************************
 				 * 유저 Pool Size, 특정 Time에 따라
@@ -338,6 +338,7 @@ static void* CSessionManager::writeEvent(void* val)
 		CProtoPacket* packet = NULL;
 		if ( m_writeQ_Manager.isQueueDataExist() && (packet = m_writeQ_Manager.dequeue()) && packet )
 		{
+			
 			uint32_t writeSize = 0;
 			if ( packet->_authAgent )
 			{
@@ -382,6 +383,7 @@ static void* CSessionManager::writeEvent(void* val)
 				LOG_ERROR("Write Error Socket[%d] writeSize[%d](%d)(%s)", packet->_fd, writeSize, errno, strerror(errno));
 				continue ;
 			}
+
 			/****************************************
 			 * Packet Write 하고
 			 * delete가 필요함
