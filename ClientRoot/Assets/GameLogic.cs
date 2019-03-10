@@ -511,10 +511,14 @@ public class GameLogic : MonoBehaviour
         switch(noticePacket.NotiType)
         {
             case GlobalNotice.Types.NoticeInfo.KillInfo:
-                int perfomerId = noticePacket.Performer;
+                int performerId = noticePacket.Performer;
                 var victimId = noticePacket.Victim;
-                TestUI.Instance.PrintText("perfomer : " + noticePacket.Performer + "(" + playerControllers[perfomerId].PlayerName + ")" + 
-                    " / victim : " + noticePacket.Victim + "(" + playerControllers[victimId[0]].PlayerName + ")");
+
+                string performerName = playerControllers[performerId].PlayerName;
+                string victimName = playerControllers[victimId[0]].PlayerName;
+                KillLogUi.Instance.GenerateKillLog(performerName, victimName);
+                TestUI.Instance.PrintText("perfomer : " + noticePacket.Performer + "(" + performerName + ")" + 
+                    " / victim : " + noticePacket.Victim + "(" + victimName + ")");
                 break;
 
             case GlobalNotice.Types.NoticeInfo.Notice:
