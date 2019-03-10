@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KillLogObject : MonoBehaviour {
+public class KillLogEntry : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

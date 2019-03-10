@@ -154,6 +154,8 @@
     <Compile Include="Assets\Google.Protobuf\WireFormat.cs" />
     <Compile Include="Assets\InGameMenu.cs" />
     <Compile Include="Assets\InputInterface.cs" />
+    <Compile Include="Assets\KillLogEntry.cs" />
+    <Compile Include="Assets\KillLogUi.cs" />
     <Compile Include="Assets\Manager.cs" />
     <Compile Include="Assets\MapData.cs" />
     <Compile Include="Assets\NetworkModule.cs" />
