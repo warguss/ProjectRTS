@@ -423,6 +423,18 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
+    public void WriteEventCam(int InvokerId, Vector2 position, bool isCamOff, int TargetID)
+    {
+        var packet = CreateUserEventPacket(UserEvent.Types.action.EventCam, InvokerId, position, new Vector2(0, 0));
+        packet.Event.UserEvent.CamEvent = new EventCam
+        {
+            IsCamOff = isCamOff,
+            TargetID = TargetID
+        };
+
+        EnqueueSendPacket(packet);
+    }
+
     public void WriteEventMove(int InvokerId, Vector2 position, Vector2 velocity, bool isLeft)
     {
         EventMove.Types.Direction direction = EventMove.Types.Direction.Left ;
