@@ -69,8 +69,8 @@ void InitDefaultsEventItemSpawnImpl();
 void InitDefaultsEventItemSpawn();
 void InitDefaultsEventItemGetImpl();
 void InitDefaultsEventItemGet();
-void InitDefaultsRequestUserPositionImpl();
-void InitDefaultsRequestUserPosition();
+void InitDefaultsRequestUserInfoImpl();
+void InitDefaultsRequestUserInfo();
 void InitDefaultsInfoItemImpl();
 void InitDefaultsInfoItem();
 void InitDefaultsGameEventImpl();
@@ -95,7 +95,7 @@ inline void InitDefaults() {
   InitDefaultsEventDeath();
   InitDefaultsEventItemSpawn();
   InitDefaultsEventItemGet();
-  InitDefaultsRequestUserPosition();
+  InitDefaultsRequestUserInfo();
   InitDefaultsInfoItem();
   InitDefaultsGameEvent();
   InitDefaultsSystemEvent();
@@ -149,9 +149,9 @@ extern InfoItemDefaultTypeInternal _InfoItem_default_instance_;
 class PacketBody;
 class PacketBodyDefaultTypeInternal;
 extern PacketBodyDefaultTypeInternal _PacketBody_default_instance_;
-class RequestUserPosition;
-class RequestUserPositionDefaultTypeInternal;
-extern RequestUserPositionDefaultTypeInternal _RequestUserPosition_default_instance_;
+class RequestUserInfo;
+class RequestUserInfoDefaultTypeInternal;
+extern RequestUserInfoDefaultTypeInternal _RequestUserInfo_default_instance_;
 class SystemEvent;
 class SystemEventDefaultTypeInternal;
 extern SystemEventDefaultTypeInternal _SystemEvent_default_instance_;
@@ -179,7 +179,7 @@ template<> ::server2N::GameEvent* Arena::Create< ::server2N::GameEvent>(Arena*);
 template<> ::server2N::GlobalNotice* Arena::Create< ::server2N::GlobalNotice>(Arena*);
 template<> ::server2N::InfoItem* Arena::Create< ::server2N::InfoItem>(Arena*);
 template<> ::server2N::PacketBody* Arena::Create< ::server2N::PacketBody>(Arena*);
-template<> ::server2N::RequestUserPosition* Arena::Create< ::server2N::RequestUserPosition>(Arena*);
+template<> ::server2N::RequestUserInfo* Arena::Create< ::server2N::RequestUserInfo>(Arena*);
 template<> ::server2N::SystemEvent* Arena::Create< ::server2N::SystemEvent>(Arena*);
 template<> ::server2N::UserConnection* Arena::Create< ::server2N::UserConnection>(Arena*);
 template<> ::server2N::UserEvent* Arena::Create< ::server2N::UserEvent>(Arena*);
@@ -327,12 +327,13 @@ enum SystemEvent_action {
   SystemEvent_action_Nothing = 0,
   SystemEvent_action_EventItemSpawn = 200,
   SystemEvent_action_EventItemGet = 201,
+  SystemEvent_action_RequestUserInfo = 206,
   SystemEvent_action_SystemEvent_action_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   SystemEvent_action_SystemEvent_action_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool SystemEvent_action_IsValid(int value);
 const SystemEvent_action SystemEvent_action_action_MIN = SystemEvent_action_Nothing;
-const SystemEvent_action SystemEvent_action_action_MAX = SystemEvent_action_EventItemGet;
+const SystemEvent_action SystemEvent_action_action_MAX = SystemEvent_action_RequestUserInfo;
 const int SystemEvent_action_action_ARRAYSIZE = SystemEvent_action_action_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* SystemEvent_action_descriptor();
@@ -2008,24 +2009,24 @@ class EventItemGet : public ::google::protobuf::Message /* @@protoc_insertion_po
 };
 // -------------------------------------------------------------------
 
-class RequestUserPosition : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.RequestUserPosition) */ {
+class RequestUserInfo : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.RequestUserInfo) */ {
  public:
-  RequestUserPosition();
-  virtual ~RequestUserPosition();
+  RequestUserInfo();
+  virtual ~RequestUserInfo();
 
-  RequestUserPosition(const RequestUserPosition& from);
+  RequestUserInfo(const RequestUserInfo& from);
 
-  inline RequestUserPosition& operator=(const RequestUserPosition& from) {
+  inline RequestUserInfo& operator=(const RequestUserInfo& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  RequestUserPosition(RequestUserPosition&& from) noexcept
-    : RequestUserPosition() {
+  RequestUserInfo(RequestUserInfo&& from) noexcept
+    : RequestUserInfo() {
     *this = ::std::move(from);
   }
 
-  inline RequestUserPosition& operator=(RequestUserPosition&& from) noexcept {
+  inline RequestUserInfo& operator=(RequestUserInfo&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -2035,34 +2036,34 @@ class RequestUserPosition : public ::google::protobuf::Message /* @@protoc_inser
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const RequestUserPosition& default_instance();
+  static const RequestUserInfo& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const RequestUserPosition* internal_default_instance() {
-    return reinterpret_cast<const RequestUserPosition*>(
-               &_RequestUserPosition_default_instance_);
+  static inline const RequestUserInfo* internal_default_instance() {
+    return reinterpret_cast<const RequestUserInfo*>(
+               &_RequestUserInfo_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     13;
 
-  void Swap(RequestUserPosition* other);
-  friend void swap(RequestUserPosition& a, RequestUserPosition& b) {
+  void Swap(RequestUserInfo* other);
+  friend void swap(RequestUserInfo& a, RequestUserInfo& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline RequestUserPosition* New() const PROTOBUF_FINAL {
-    return ::google::protobuf::Arena::Create<RequestUserPosition>(NULL);
+  inline RequestUserInfo* New() const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<RequestUserInfo>(NULL);
   }
 
-  RequestUserPosition* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
-    return ::google::protobuf::Arena::Create<RequestUserPosition>(arena);
+  RequestUserInfo* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<RequestUserInfo>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const RequestUserPosition& from);
-  void MergeFrom(const RequestUserPosition& from);
+  void CopyFrom(const RequestUserInfo& from);
+  void MergeFrom(const RequestUserInfo& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -2078,7 +2079,7 @@ class RequestUserPosition : public ::google::protobuf::Message /* @@protoc_inser
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(RequestUserPosition* other);
+  void InternalSwap(RequestUserInfo* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -2112,7 +2113,7 @@ class RequestUserPosition : public ::google::protobuf::Message /* @@protoc_inser
   float eventpositiony() const;
   void set_eventpositiony(float value);
 
-  // @@protoc_insertion_point(class_scope:server2N.RequestUserPosition)
+  // @@protoc_insertion_point(class_scope:server2N.RequestUserInfo)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -2121,7 +2122,7 @@ class RequestUserPosition : public ::google::protobuf::Message /* @@protoc_inser
   float eventpositiony_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
-  friend void ::protobuf_gameContent_2eproto::InitDefaultsRequestUserPositionImpl();
+  friend void ::protobuf_gameContent_2eproto::InitDefaultsRequestUserInfoImpl();
 };
 // -------------------------------------------------------------------
 
@@ -2623,6 +2624,8 @@ class SystemEvent : public ::google::protobuf::Message /* @@protoc_insertion_poi
     SystemEvent_action_EventItemSpawn;
   static const action EventItemGet =
     SystemEvent_action_EventItemGet;
+  static const action RequestUserInfo =
+    SystemEvent_action_RequestUserInfo;
   static inline bool action_IsValid(int value) {
     return SystemEvent_action_IsValid(value);
   }
@@ -2664,14 +2667,14 @@ class SystemEvent : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::server2N::EventItemGet* mutable_itemgetevent();
   void set_allocated_itemgetevent(::server2N::EventItemGet* itemgetevent);
 
-  // .server2N.RequestUserPosition requestUserPosition = 205;
-  bool has_requestuserposition() const;
-  void clear_requestuserposition();
-  static const int kRequestUserPositionFieldNumber = 205;
-  const ::server2N::RequestUserPosition& requestuserposition() const;
-  ::server2N::RequestUserPosition* release_requestuserposition();
-  ::server2N::RequestUserPosition* mutable_requestuserposition();
-  void set_allocated_requestuserposition(::server2N::RequestUserPosition* requestuserposition);
+  // .server2N.RequestUserInfo requestUserInfo = 205;
+  bool has_requestuserinfo() const;
+  void clear_requestuserinfo();
+  static const int kRequestUserInfoFieldNumber = 205;
+  const ::server2N::RequestUserInfo& requestuserinfo() const;
+  ::server2N::RequestUserInfo* release_requestuserinfo();
+  ::server2N::RequestUserInfo* mutable_requestuserinfo();
+  void set_allocated_requestuserinfo(::server2N::RequestUserInfo* requestuserinfo);
 
   // .server2N.SystemEvent.action actType = 202;
   void clear_acttype();
@@ -2685,7 +2688,7 @@ class SystemEvent : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::server2N::EventItemSpawn* itemspawnevent_;
   ::server2N::EventItemGet* itemgetevent_;
-  ::server2N::RequestUserPosition* requestuserposition_;
+  ::server2N::RequestUserInfo* requestuserinfo_;
   int acttype_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
@@ -3831,48 +3834,48 @@ inline void EventItemGet::set_allocated_item(::server2N::InfoItem* item) {
 
 // -------------------------------------------------------------------
 
-// RequestUserPosition
+// RequestUserInfo
 
 // int32 targetID = 1;
-inline void RequestUserPosition::clear_targetid() {
+inline void RequestUserInfo::clear_targetid() {
   targetid_ = 0;
 }
-inline ::google::protobuf::int32 RequestUserPosition::targetid() const {
-  // @@protoc_insertion_point(field_get:server2N.RequestUserPosition.targetID)
+inline ::google::protobuf::int32 RequestUserInfo::targetid() const {
+  // @@protoc_insertion_point(field_get:server2N.RequestUserInfo.targetID)
   return targetid_;
 }
-inline void RequestUserPosition::set_targetid(::google::protobuf::int32 value) {
+inline void RequestUserInfo::set_targetid(::google::protobuf::int32 value) {
   
   targetid_ = value;
-  // @@protoc_insertion_point(field_set:server2N.RequestUserPosition.targetID)
+  // @@protoc_insertion_point(field_set:server2N.RequestUserInfo.targetID)
 }
 
 // float EventPositionX = 2;
-inline void RequestUserPosition::clear_eventpositionx() {
+inline void RequestUserInfo::clear_eventpositionx() {
   eventpositionx_ = 0;
 }
-inline float RequestUserPosition::eventpositionx() const {
-  // @@protoc_insertion_point(field_get:server2N.RequestUserPosition.EventPositionX)
+inline float RequestUserInfo::eventpositionx() const {
+  // @@protoc_insertion_point(field_get:server2N.RequestUserInfo.EventPositionX)
   return eventpositionx_;
 }
-inline void RequestUserPosition::set_eventpositionx(float value) {
+inline void RequestUserInfo::set_eventpositionx(float value) {
   
   eventpositionx_ = value;
-  // @@protoc_insertion_point(field_set:server2N.RequestUserPosition.EventPositionX)
+  // @@protoc_insertion_point(field_set:server2N.RequestUserInfo.EventPositionX)
 }
 
 // float EventPositionY = 3;
-inline void RequestUserPosition::clear_eventpositiony() {
+inline void RequestUserInfo::clear_eventpositiony() {
   eventpositiony_ = 0;
 }
-inline float RequestUserPosition::eventpositiony() const {
-  // @@protoc_insertion_point(field_get:server2N.RequestUserPosition.EventPositionY)
+inline float RequestUserInfo::eventpositiony() const {
+  // @@protoc_insertion_point(field_get:server2N.RequestUserInfo.EventPositionY)
   return eventpositiony_;
 }
-inline void RequestUserPosition::set_eventpositiony(float value) {
+inline void RequestUserInfo::set_eventpositiony(float value) {
   
   eventpositiony_ = value;
-  // @@protoc_insertion_point(field_set:server2N.RequestUserPosition.EventPositionY)
+  // @@protoc_insertion_point(field_set:server2N.RequestUserInfo.EventPositionY)
 }
 
 // -------------------------------------------------------------------
@@ -4356,55 +4359,55 @@ inline void SystemEvent::set_allocated_itemgetevent(::server2N::EventItemGet* it
   // @@protoc_insertion_point(field_set_allocated:server2N.SystemEvent.itemGetEvent)
 }
 
-// .server2N.RequestUserPosition requestUserPosition = 205;
-inline bool SystemEvent::has_requestuserposition() const {
-  return this != internal_default_instance() && requestuserposition_ != NULL;
+// .server2N.RequestUserInfo requestUserInfo = 205;
+inline bool SystemEvent::has_requestuserinfo() const {
+  return this != internal_default_instance() && requestuserinfo_ != NULL;
 }
-inline void SystemEvent::clear_requestuserposition() {
-  if (GetArenaNoVirtual() == NULL && requestuserposition_ != NULL) {
-    delete requestuserposition_;
+inline void SystemEvent::clear_requestuserinfo() {
+  if (GetArenaNoVirtual() == NULL && requestuserinfo_ != NULL) {
+    delete requestuserinfo_;
   }
-  requestuserposition_ = NULL;
+  requestuserinfo_ = NULL;
 }
-inline const ::server2N::RequestUserPosition& SystemEvent::requestuserposition() const {
-  const ::server2N::RequestUserPosition* p = requestuserposition_;
-  // @@protoc_insertion_point(field_get:server2N.SystemEvent.requestUserPosition)
-  return p != NULL ? *p : *reinterpret_cast<const ::server2N::RequestUserPosition*>(
-      &::server2N::_RequestUserPosition_default_instance_);
+inline const ::server2N::RequestUserInfo& SystemEvent::requestuserinfo() const {
+  const ::server2N::RequestUserInfo* p = requestuserinfo_;
+  // @@protoc_insertion_point(field_get:server2N.SystemEvent.requestUserInfo)
+  return p != NULL ? *p : *reinterpret_cast<const ::server2N::RequestUserInfo*>(
+      &::server2N::_RequestUserInfo_default_instance_);
 }
-inline ::server2N::RequestUserPosition* SystemEvent::release_requestuserposition() {
-  // @@protoc_insertion_point(field_release:server2N.SystemEvent.requestUserPosition)
+inline ::server2N::RequestUserInfo* SystemEvent::release_requestuserinfo() {
+  // @@protoc_insertion_point(field_release:server2N.SystemEvent.requestUserInfo)
   
-  ::server2N::RequestUserPosition* temp = requestuserposition_;
-  requestuserposition_ = NULL;
+  ::server2N::RequestUserInfo* temp = requestuserinfo_;
+  requestuserinfo_ = NULL;
   return temp;
 }
-inline ::server2N::RequestUserPosition* SystemEvent::mutable_requestuserposition() {
+inline ::server2N::RequestUserInfo* SystemEvent::mutable_requestuserinfo() {
   
-  if (requestuserposition_ == NULL) {
-    requestuserposition_ = ::google::protobuf::Arena::Create< ::server2N::RequestUserPosition >(
+  if (requestuserinfo_ == NULL) {
+    requestuserinfo_ = ::google::protobuf::Arena::Create< ::server2N::RequestUserInfo >(
         GetArenaNoVirtual());
   }
-  // @@protoc_insertion_point(field_mutable:server2N.SystemEvent.requestUserPosition)
-  return requestuserposition_;
+  // @@protoc_insertion_point(field_mutable:server2N.SystemEvent.requestUserInfo)
+  return requestuserinfo_;
 }
-inline void SystemEvent::set_allocated_requestuserposition(::server2N::RequestUserPosition* requestuserposition) {
+inline void SystemEvent::set_allocated_requestuserinfo(::server2N::RequestUserInfo* requestuserinfo) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
-    delete requestuserposition_;
+    delete requestuserinfo_;
   }
-  if (requestuserposition) {
+  if (requestuserinfo) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      requestuserposition = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, requestuserposition, submessage_arena);
+      requestuserinfo = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, requestuserinfo, submessage_arena);
     }
     
   } else {
     
   }
-  requestuserposition_ = requestuserposition;
-  // @@protoc_insertion_point(field_set_allocated:server2N.SystemEvent.requestUserPosition)
+  requestuserinfo_ = requestuserinfo;
+  // @@protoc_insertion_point(field_set_allocated:server2N.SystemEvent.requestUserInfo)
 }
 
 // -------------------------------------------------------------------
