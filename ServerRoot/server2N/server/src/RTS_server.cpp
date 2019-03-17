@@ -300,8 +300,7 @@ bool childProcessLogic()
 			if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect )
 			{
 				CLS_CALLBACK fnc = afxCreateClass(type);
-
-				CProtoLogicBase* logic = (fnc)();
+				CProtoLogicBase* logic = fnc(false);
 				if ( logic && logic->onPreProcess(data->_sector) && logic->onProcess(session, data) )
 				{
 					logic->onPostProcess(session);	

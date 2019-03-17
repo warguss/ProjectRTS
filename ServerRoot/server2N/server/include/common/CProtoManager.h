@@ -51,6 +51,7 @@ class CProtoManager
 		void resetProtoPacket(CProtoPacket* protoPacket);
 
 		const char* getLogValue(int32_t type, const char* psDefault = "");
+		//bool createProto(int type, CUser* senderUser, CProtoPacekt** packet);
 };
 
 #if 0 

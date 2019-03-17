@@ -16,9 +16,9 @@ class CProtoLogicBase
 		CProtoLogicBase(bool isPartSend);
 		virtual ~CProtoLogicBase();
 
-		bool onPreProcess(int32_t eventSector);
+		virtual bool onPreProcess(int32_t eventSector);
 		virtual bool onProcess(CSessionManager& session, CProtoPacket* eventPacket) = 0;
-		bool onPostProcess(CSessionManager& session);
+		virtual bool onPostProcess(CSessionManager& session);
 };
 
 class CProtoConnection : public CProtoLogicBase
@@ -93,10 +93,9 @@ class CProtoNotiSystem : public CProtoLogicBase
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
 };
 
-typedef CProtoLogicBase* (*CLS_CALLBACK)();
+typedef CProtoLogicBase* (*CLS_CALLBACK)(bool isPartSend);
 CLS_CALLBACK afxCreateClass(int32_t type);
 template <class T> CProtoLogicBase* createProtoLogic(bool isPartSend);
-extern map<int32_t, CLS_CALLBACK> g_proto_module_map;
 
 void PROTO_MAP_REGISTER(int32_t type, CLS_CALLBACK fnc);
 #if 0 
@@ -110,8 +109,24 @@ void PROTO_MAP_REGISTER(int32_t type, CLS_CALLBACK fnc);
 }
 #endif
 
+extern std::map<int32_t, CLS_CALLBACK> *g_commandMap;
+class CProtoRegister
+{
+	public:
+		CProtoRegister(int32_t type, CLS_CALLBACK fnc)
+		{
+			if ( !g_commandMap )
+			{
+				g_commandMap = new std::map<int32_t, CLS_CALLBACK>;
+			}
+
+			g_commandMap->insert(std::pair<int32_t, CLS_CALLBACK>(type, fnc));
+		}
+};
+
+
 #define PROTO_REGISTER(type, isPartSend, fnc) \
-	PROTO_MAP_##(type, createProtoLogic<fnc>(isPartSend)){ return type; }
+	CProtoRegister g_##fnc(type, createProtoLogic<fnc>);
 //#define PROTO_REGISTER(type, isPartSend, fnc) PROTO_MAP_REGISTER(type, createProtoLogic<fnc>(isPartSend));
 
 

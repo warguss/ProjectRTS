@@ -385,6 +385,11 @@ void CUserPool::getAllUserList(list<CUser*>& userConnection)
 
 void CUserPool::getPartUserList(list<CUser*>& userConnection, int sector)
 {
+	/*****************************************
+	 * Sector가 -이면, user속한 sector 확인
+	 ****************************************/ 
+
+
 	/***********************************
 	 * 구역 순회
 	 ***********************************/ 
