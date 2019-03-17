@@ -539,6 +539,19 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
+    public void WriteRequestUserPosition(int InvokerId, int targetId)
+    {
+        var packet = CreateSystemEventPacket(SystemEvent.Types.action.RequestUserInfo, InvokerId, new Vector2(0, 0), new Vector2(0, 0));
+        RequestUserInfo requestUserInfo = new RequestUserInfo //현재는 Get할 때는 itemId만 사용
+        {
+            TargetID = targetId
+        };
+        packet.Event.SystemEvent.RequestUserInfo = requestUserInfo;
+
+        TestUI.Instance.PrintText("WriteRequestUserPosition(" + targetId + "), " + InvokerId);
+        EnqueueSendPacket(packet);
+    }
+
     /*********************************************
      * Connect 관련
      * Stream SET하는 부분 공통으로 처리

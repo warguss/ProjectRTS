@@ -503,6 +503,18 @@ public class GameLogic : MonoBehaviour
                     ConsumeItem(invokerId, itemId);
                     break;
                 }
+
+            case SystemEvent.Types.action.RequestUserInfo:
+                {
+                    var info = systemEventPacket.RequestUserInfo;
+                    int targetId = info.TargetID;
+                    float xPos = info.EventPositionX;
+                    float yPos = info.EventPositionY;
+
+                    TestUI.Instance.PrintText("Receive RequestUserInfo - (" + targetId + "), " + xPos + ", " + yPos);
+
+                    break;
+                }
         }
     }
 
@@ -602,6 +614,7 @@ public class GameLogic : MonoBehaviour
         if (isOnline)
         {
             NetworkModule.instance.WriteEventDead(invokerId, position, AttackerId);
+            NetworkModule.instance.WriteRequestUserPosition(invokerId, AttackerId);
         }
     }
 
