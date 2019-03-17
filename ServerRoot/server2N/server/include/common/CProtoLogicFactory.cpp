@@ -67,7 +67,7 @@ bool CProtoLogicBase::onPreProcess(int eventSector)
 
 bool CProtoLogicBase::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
-	LOG_DEBUG("BaseLogic, Virtual Function")
+	LOG_DEBUG("BaseLogic, Virtual Function");
 	return true;
 }
 
@@ -104,13 +104,13 @@ bool CProtoLogicBase::onPostProcess(CSessionManager& session)
 PROTO_REGISTER((int32_t)server2N::UserConnection_ConnectionType_TryConnect, false, CProtoConnection);
 CProtoConnection::CProtoConnection()
 {
-	LOG_DEBUG("CProgoLogicBase")
+	LOG_DEBUG("CProgoLogicBase");
 }
 
 
 CProtoConnection::~CProtoConnection()
 {
-	LOG_DEBUG("~CProgoLogicBase")
+	LOG_DEBUG("~CProgoLogicBase");
 }
 
 bool CProtoConnection::onProcess(CSessionManager& manager, CProtoPacket* eventPacket)
@@ -144,7 +144,7 @@ bool CProtoConnection::onProcess(CSessionManager& manager, CProtoPacket* eventPa
 		if ( !g_packetManager.setConnectType(type, eventUser, user->_fd, _userList, &packet) ||  !packet )
 		{
 			LOG_ERROR("Error Connector Type");
-			return false;
+			continue;
 		} 
 
 		/*********************************
@@ -157,131 +157,180 @@ bool CProtoConnection::onProcess(CSessionManager& manager, CProtoPacket* eventPa
 	return true;
 }
 
-#if 0 
-CProtoTryConnection::CProtoTryConnection()
-{
-	LOG_DEBUG("CProgoLogicBase")
-}
-
-CProtoTryConnection::~CProtoTryConnection()
-{
-	LOG_DEBUG("~CProgoLogicBase")
-}
-
-
-bool CProtoTryConnection::onPreProcess()
-{
-	LOG_DEBUG("onPreProcess")
-}
-
-bool CProtoTryConnection::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
-{
-
-
-
-
-
-}
-
-bool CProtoTryConnection::onPostProcess()
-{
-	LOG_DEBUG("onProcess")
-}
-#endif
-
+PROTO_REGISTER((int32_t)server2N::UserConnection_ConnectionType_DisConnect, false, CProtoDisConnection);
 CProtoDisConnection::CProtoDisConnection()
 {
-	LOG_DEBUG("CProgoLogicBase")
+	LOG_DEBUG("CProgoLogicBase");
 }
 
 CProtoDisConnection::~CProtoDisConnection()
 {
-	LOG_DEBUG("~CProgoLogicBase")
+	LOG_DEBUG("~CProgoLogicBase");
 }
 
 bool CProtoDisConnection::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
-	LOG_DEBUG("onProcess")
+	LOG_DEBUG("onProcess");
+	int32_t type = eventPacket->_type;
+	CUser* eventUser = g_userPool.findUserInPool(eventPacket->_fd);
+	if ( !eventUser ) 
+	{
+		LOG_ERROR("Try Conenct Not Exist EventUser");
+		return false;
+	}
+	
+	CProtoPacket *connectPacket = NULL;
+	if ( !g_packetManager.setConnectType(type, eventUser, eventPacket->_fd, _userList, &connectPacket) || !connectPacket )
+	{
+		LOG_ERROR("Error Connect Packet Type");
+		return false;
+	}
+
+	/******************************************************
+	 * Send Disconnect Packet
+	 ******************************************************/
+	int userConnectSize = _userList.size(); 
+	list<CUser*>::iterator it = _userList.begin();
+	for ( ; it != _userList.end(); ++it )
+	{
+		CUser* user = *it;
+		CProtoPacket *packet = NULL;
+		if ( !g_packetManager.setConnectType(type, eventUser, user->_fd, _userList, &packet) ||  !packet )
+		{
+			LOG_ERROR("Error Connector Type");
+			continue;
+		} 
+
+		/*********************************
+		 * Enqueue
+		 *********************************/
+		_packetOutList.push_back(packet);
+		LOG_INFO("User(%d) All Send Connection Event", packet->_fd);
+	}
+	return true;
 }
 
 CProtoItemEvent::CProtoItemEvent()
 {
-	LOG_DEBUG("CProgoLogicBase")
+	LOG_DEBUG("CProgoLogicBase");
 }
 
 
 CProtoItemEvent::~CProtoItemEvent()
 {
-	LOG_DEBUG("~CProgoLogicBase")
+	LOG_DEBUG("~CProgoLogicBase");
 }
 
 bool CProtoItemEvent::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
-	LOG_DEBUG("onProcess")
+	LOG_DEBUG("onProcess");
 }
 
 CProtoGameEventMoveAll::CProtoGameEventMoveAll()
 {
-	LOG_DEBUG("CProgoLogicBase")
+	LOG_DEBUG("CProgoLogicBase");
 }
 
 
 CProtoGameEventMoveAll::~CProtoGameEventMoveAll()
 {
-	LOG_DEBUG("~CProgoLogicBase")
+	LOG_DEBUG("~CProgoLogicBase");
 }
 
 bool CProtoGameEventMoveAll::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
-	LOG_DEBUG("onProcess")
+	LOG_DEBUG("onProcess");
 }
 
 CProtoGameEventSpawn::CProtoGameEventSpawn()
 {
-	LOG_DEBUG("CProgoLogicBase")
+	LOG_DEBUG("CProgoLogicBase");
 }
 
 
 CProtoGameEventSpawn::~CProtoGameEventSpawn()
 {
-	LOG_DEBUG("~CProgoLogicBase")
+	LOG_DEBUG("~CProgoLogicBase");
 }
 
 bool CProtoGameEventSpawn::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
-	LOG_DEBUG("onProcess")
+	LOG_DEBUG("onProcess");
 }
 
 CProtoNotiKillInfo::CProtoNotiKillInfo()
 {
-	LOG_DEBUG("CProgoLogicBase")
+	LOG_DEBUG("CProgoLogicBase");
 }
 
 
 CProtoNotiKillInfo::~CProtoNotiKillInfo()
 {
-	LOG_DEBUG("~CProgoLogicBase")
+	LOG_DEBUG("~CProgoLogicBase");
 }
 
 bool CProtoNotiKillInfo::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
-	LOG_DEBUG("onProcess")
+	LOG_DEBUG("onProcess");
 }
 
 CProtoNotiSystem::CProtoNotiSystem()
 {
-	LOG_DEBUG("CProgoLogicBase")
+	LOG_DEBUG("CProgoLogicBase");
 }
 
 
 CProtoNotiSystem::~CProtoNotiSystem()
 {
-	LOG_DEBUG("~CProgoLogicBase")
+	LOG_DEBUG("~CProgoLogicBase");
 }
 
 bool CProtoNotiSystem::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
-	LOG_DEBUG("onProcess")
+	LOG_DEBUG("onProcess");
+}
+
+/***************************************
+ * For Cam Request
+ * (Response Position)
+ * 1:1 Request - Response
+ ***************************************/
+PROTO_REGISTER((int32_t)server2N::SystemEvent_action_RequestUserInfo, false, CProtoRequestUserInfo);
+CProtoRequestUserInfo::CProtoRequestUserInfo()
+{
+	LOG_DEBUG("CProtoRequestUserInfo");
+}
+
+CProtoRequestUserInfo::~CProtoRequestUserInfo()
+{
+	LOG_DEBUG("~CProtoRequestUserInfo");
+}
+
+bool CProtoRequestUserInfo::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
+{
+	LOG_DEBUG("CProtoRequestUserInfo::onProcess()");
+	if ( !eventPacket || !eventPacket->_proto )
+	{
+		LOG_ERROR("Invalid Data Foramt");
+		return false;
+	}
+
+	int getCamUserFd = eventPacket->_proto->event().systemevent().requestuserinfo().targetid();
+	CUser* userInfo = g_userPool.findUserInPool(getCamUserFd);
+	if ( !userInfo )
+	{
+		LOG_ERROR("Not Exist In Map");
+		return false;
+	}
+	
+	LOG_DEBUG("float Set X (%lld) Set y (%lld)", userInfo->_x, userInfo->_y);
+
+	eventPacket->_proto->event().systemevent().requestuserinfo().set_eventpositionx(userInfo->_x);
+	eventPacket->_proto->event().systemevent().requestuserinfo().set_eventpositiony(userInfo->_y);
+
+	_packetOutList.push_back(eventPacket);
+	LOG_DEBUG("Send Proto(%d) Sending debugString(%s)", eventPacket->_fd, eventPacket->_proto->event().DebugString().c_str());
+	return true;
 }
 
 #if 0 
@@ -295,7 +344,3 @@ void PROTO_MAP_REGISTER(int32_t type, CLS_CALLBACK fnc)
 	g_proto_module_map.insert(std::pair<int32_t, CLS_CALLBACK>(type, fnc));
 }
 #endif
-
-
-
-

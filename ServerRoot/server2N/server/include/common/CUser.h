@@ -18,8 +18,8 @@ class CUser
 	public:
 		int _type;
         int _sector;
-        int64_t _x,_y;
-        int64_t _accelX,_accelY;
+        float _x,_y;
+        float _accelX,_accelY;
 		string _nickName;
 
 		int32_t _killInfo;

@@ -240,7 +240,6 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
 		isSuccess = false;
     }
 
-	//(*protoPacket)->_act = getLogValue((*protoPacket)->_type, "Invalid Action");
     return isSuccess;
 }
 
@@ -305,7 +304,6 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 				(*packet)->_protoConnect->add_nickname(user->_nickName.c_str());
 			}
 			/* Add Item Id */
-		
 			map<std::string, Item*>::iterator iter = g_itemManager._itemInfo.begin();	
 			if ( iter != g_itemManager._itemInfo.end() )
 			{
@@ -427,8 +425,8 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 		LOG_DEBUG("Check Move(%d), event(%d)", recvUser->_fd, eventUser->_fd);
 		if ( isSelfEvent )
 		{
-			recvUser->_x = tEvent.eventpositionx();
-			recvUser->_y = tEvent.eventpositiony();
+			recvUser->_x = (float)tEvent.eventpositionx();
+			recvUser->_y = (float)tEvent.eventpositiony();
 			recvUser->_accelX = tEvent.velocityx();
 			recvUser->_accelY = tEvent.velocityy();
 			bool isSuccess = true;
