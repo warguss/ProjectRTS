@@ -47,51 +47,52 @@ namespace Server2N {
             "d2VhcG9uSWQYAiABKAUiHwoKRXZlbnREZWF0aBIRCgl0cmlnZ2VySWQYASAB",
             "KAUiMgoORXZlbnRJdGVtU3Bhd24SIAoEaXRlbRgBIAEoCzISLnNlcnZlcjJO",
             "LkluZm9JdGVtIjAKDEV2ZW50SXRlbUdldBIgCgRpdGVtGAEgASgLMhIuc2Vy",
-            "dmVyMk4uSW5mb0l0ZW0iVwoTUmVxdWVzdFVzZXJQb3NpdGlvbhIQCgh0YXJn",
-            "ZXRJRBgBIAEoBRIWCg5FdmVudFBvc2l0aW9uWBgCIAEoAhIWCg5FdmVudFBv",
-            "c2l0aW9uWRgDIAEoAiKNAgoISW5mb0l0ZW0SDgoGYW1vdW50GAQgASgFEg4K",
-            "Bml0ZW1JZBgCIAEoCRItCghpdGVtVHlwZRgFIAEoDjIbLnNlcnZlcjJOLklu",
-            "Zm9JdGVtLkl0ZW1UeXBlEi0KCHdlYXBvbklkGAYgASgOMhsuc2VydmVyMk4u",
-            "SW5mb0l0ZW0uV2VhcG9uSWQSFQoNSXRlbVBvc2l0aW9uWBgHIAEoAhIVCg1J",
-            "dGVtUG9zaXRpb25ZGAggASgCIiQKCEl0ZW1UeXBlEgsKB1JlY292ZXIQABIL",
-            "CgdXZWFwb25lEAEiLwoIV2VhcG9uSWQSCwoHTm90aGluZxAAEgoKBlBpc3Rv",
-            "bBABEgoKBlNuaXBlchACItkCCglHYW1lRXZlbnQSJgoJdXNlckV2ZW50GAMg",
-            "ASgLMhMuc2VydmVyMk4uVXNlckV2ZW50EioKC3N5c3RlbUV2ZW50GAQgASgL",
-            "MhUuc2VydmVyMk4uU3lzdGVtRXZlbnQSFgoORXZlbnRQb3NpdGlvblgYBiAB",
-            "KAISFgoORXZlbnRQb3NpdGlvblkYByABKAISEQoJVmVsb2NpdHlYGAggASgC",
-            "EhEKCVZlbG9jaXR5WRgJIAEoAhIRCglpbnZva2VySWQYCiADKAUSFAoMaXNJ",
-            "bnRlcmVzdGVkGAsgASgIEg8KB2lzTG9jYWwYDCABKAgSLgoHZXZ0VHlwZRgN",
-            "IAEoDjIdLnNlcnZlcjJOLkdhbWVFdmVudC5ldmVudFR5cGUiOAoJZXZlbnRU",
-            "eXBlEgsKB05vdGhpbmcQABINCglVc2VyRXZlbnQQARIPCgtTeXN0ZW1FdmVu",
-            "dBACIpsCCgtTeXN0ZW1FdmVudBIuCgdhY3RUeXBlGMoBIAEoDjIcLnNlcnZl",
-            "cjJOLlN5c3RlbUV2ZW50LmFjdGlvbhIxCg5pdGVtU3Bhd25FdmVudBjLASAB",
-            "KAsyGC5zZXJ2ZXIyTi5FdmVudEl0ZW1TcGF3bhItCgxpdGVtR2V0RXZlbnQY",
-            "zAEgASgLMhYuc2VydmVyMk4uRXZlbnRJdGVtR2V0EjsKE3JlcXVlc3RVc2Vy",
-            "UG9zaXRpb24YzQEgASgLMh0uc2VydmVyMk4uUmVxdWVzdFVzZXJQb3NpdGlv",
-            "biI9CgZhY3Rpb24SCwoHTm90aGluZxAAEhMKDkV2ZW50SXRlbVNwYXduEMgB",
-            "EhEKDEV2ZW50SXRlbUdldBDJASLSBQoJVXNlckV2ZW50EisKB2FjdFR5cGUY",
-            "biABKA4yGi5zZXJ2ZXIyTi5Vc2VyRXZlbnQuYWN0aW9uEiYKCW1vdmVFdmVu",
-            "dBhvIAEoCzITLnNlcnZlcjJOLkV2ZW50TW92ZRImCglzdG9wRXZlbnQYcCAB",
-            "KAsyEy5zZXJ2ZXIyTi5FdmVudFN0b3ASJgoJanVtcEV2ZW50GHEgASgLMhMu",
-            "c2VydmVyMk4uRXZlbnRKdW1wEigKCnNob290RXZlbnQYciABKAsyFC5zZXJ2",
-            "ZXIyTi5FdmVudFNob290EiQKCGhpdEV2ZW50GHMgASgLMhIuc2VydmVyMk4u",
-            "RXZlbnRIaXQSKAoKc3Bhd25FdmVudBh0IAEoCzIULnNlcnZlcjJOLkV2ZW50",
-            "U3Bhd24SKgoJc3luY0V2ZW50GHUgASgLMhcuc2VydmVyMk4uRXZlbnRVc2Vy",
-            "U3luYxIoCgpkZWF0aEV2ZW50GHYgASgLMhQuc2VydmVyMk4uRXZlbnREZWF0",
-            "aBIyCg1jaFdlYXBvbkV2ZW50GHcgASgLMhsuc2VydmVyMk4uRXZlbnRDaGFu",
-            "Z2VXZWFwb24SMAoOaXRlbVNwYXduRXZlbnQYeCABKAsyGC5zZXJ2ZXIyTi5F",
-            "dmVudEl0ZW1TcGF3bhIsCgxpdGVtR2V0RXZlbnQYeSABKAsyFi5zZXJ2ZXIy",
-            "Ti5FdmVudEl0ZW1HZXQiuwEKBmFjdGlvbhILCgdOb3RoaW5nEAASDQoJRXZl",
-            "bnRNb3ZlEGQSDQoJRXZlbnRTdG9wEGUSDQoJRXZlbnRKdW1wEGYSDgoKRXZl",
-            "bnRTaG9vdBBnEgwKCEV2ZW50SGl0EGgSDgoKRXZlbnRTcGF3bhBpEhEKDUV2",
-            "ZW50VXNlclN5bmMQahIOCgpFdmVudERlYXRoEGsSDwoLRXZlbnRCdWxsZXQQ",
-            "bBIVChFFdmVudENoYW5nZVdlYXBvbhBtIpACCgpQYWNrZXRCb2R5EjIKB21z",
-            "Z1R5cGUYkE4gASgOMiAuc2VydmVyMk4uUGFja2V0Qm9keS5tZXNzYWdlVHlw",
-            "ZRIpCgdjb25uZWN0GAYgASgLMhguc2VydmVyMk4uVXNlckNvbm5lY3Rpb24S",
-            "JwoGbm90aWNlGJFOIAEoCzIWLnNlcnZlcjJOLkdsb2JhbE5vdGljZRIiCgVl",
-            "dmVudBgHIAEoCzITLnNlcnZlcjJOLkdhbWVFdmVudBIQCghzZW5kZXJJZBgI",
-            "IAEoBSJECgttZXNzYWdlVHlwZRINCglHYW1lRXZlbnQQABITCg5Vc2VyQ29u",
-            "bmVjdGlvbhCQThIRCgxHbG9iYWxOb3RpY2UQkU5iBnByb3RvMw=="));
+            "dmVyMk4uSW5mb0l0ZW0iUwoPUmVxdWVzdFVzZXJJbmZvEhAKCHRhcmdldElE",
+            "GAEgASgFEhYKDkV2ZW50UG9zaXRpb25YGAIgASgCEhYKDkV2ZW50UG9zaXRp",
+            "b25ZGAMgASgCIo0CCghJbmZvSXRlbRIOCgZhbW91bnQYBCABKAUSDgoGaXRl",
+            "bUlkGAIgASgJEi0KCGl0ZW1UeXBlGAUgASgOMhsuc2VydmVyMk4uSW5mb0l0",
+            "ZW0uSXRlbVR5cGUSLQoId2VhcG9uSWQYBiABKA4yGy5zZXJ2ZXIyTi5JbmZv",
+            "SXRlbS5XZWFwb25JZBIVCg1JdGVtUG9zaXRpb25YGAcgASgCEhUKDUl0ZW1Q",
+            "b3NpdGlvblkYCCABKAIiJAoISXRlbVR5cGUSCwoHUmVjb3ZlchAAEgsKB1dl",
+            "YXBvbmUQASIvCghXZWFwb25JZBILCgdOb3RoaW5nEAASCgoGUGlzdG9sEAES",
+            "CgoGU25pcGVyEAIi2QIKCUdhbWVFdmVudBImCgl1c2VyRXZlbnQYAyABKAsy",
+            "Ey5zZXJ2ZXIyTi5Vc2VyRXZlbnQSKgoLc3lzdGVtRXZlbnQYBCABKAsyFS5z",
+            "ZXJ2ZXIyTi5TeXN0ZW1FdmVudBIWCg5FdmVudFBvc2l0aW9uWBgGIAEoAhIW",
+            "Cg5FdmVudFBvc2l0aW9uWRgHIAEoAhIRCglWZWxvY2l0eVgYCCABKAISEQoJ",
+            "VmVsb2NpdHlZGAkgASgCEhEKCWludm9rZXJJZBgKIAMoBRIUCgxpc0ludGVy",
+            "ZXN0ZWQYCyABKAgSDwoHaXNMb2NhbBgMIAEoCBIuCgdldnRUeXBlGA0gASgO",
+            "Mh0uc2VydmVyMk4uR2FtZUV2ZW50LmV2ZW50VHlwZSI4CglldmVudFR5cGUS",
+            "CwoHTm90aGluZxAAEg0KCVVzZXJFdmVudBABEg8KC1N5c3RlbUV2ZW50EAIi",
+            "qQIKC1N5c3RlbUV2ZW50Ei4KB2FjdFR5cGUYygEgASgOMhwuc2VydmVyMk4u",
+            "U3lzdGVtRXZlbnQuYWN0aW9uEjEKDml0ZW1TcGF3bkV2ZW50GMsBIAEoCzIY",
+            "LnNlcnZlcjJOLkV2ZW50SXRlbVNwYXduEi0KDGl0ZW1HZXRFdmVudBjMASAB",
+            "KAsyFi5zZXJ2ZXIyTi5FdmVudEl0ZW1HZXQSMwoPcmVxdWVzdFVzZXJJbmZv",
+            "GM0BIAEoCzIZLnNlcnZlcjJOLlJlcXVlc3RVc2VySW5mbyJTCgZhY3Rpb24S",
+            "CwoHTm90aGluZxAAEhMKDkV2ZW50SXRlbVNwYXduEMgBEhEKDEV2ZW50SXRl",
+            "bUdldBDJARIUCg9SZXF1ZXN0VXNlckluZm8QzgEi0gUKCVVzZXJFdmVudBIr",
+            "CgdhY3RUeXBlGG4gASgOMhouc2VydmVyMk4uVXNlckV2ZW50LmFjdGlvbhIm",
+            "Cgltb3ZlRXZlbnQYbyABKAsyEy5zZXJ2ZXIyTi5FdmVudE1vdmUSJgoJc3Rv",
+            "cEV2ZW50GHAgASgLMhMuc2VydmVyMk4uRXZlbnRTdG9wEiYKCWp1bXBFdmVu",
+            "dBhxIAEoCzITLnNlcnZlcjJOLkV2ZW50SnVtcBIoCgpzaG9vdEV2ZW50GHIg",
+            "ASgLMhQuc2VydmVyMk4uRXZlbnRTaG9vdBIkCghoaXRFdmVudBhzIAEoCzIS",
+            "LnNlcnZlcjJOLkV2ZW50SGl0EigKCnNwYXduRXZlbnQYdCABKAsyFC5zZXJ2",
+            "ZXIyTi5FdmVudFNwYXduEioKCXN5bmNFdmVudBh1IAEoCzIXLnNlcnZlcjJO",
+            "LkV2ZW50VXNlclN5bmMSKAoKZGVhdGhFdmVudBh2IAEoCzIULnNlcnZlcjJO",
+            "LkV2ZW50RGVhdGgSMgoNY2hXZWFwb25FdmVudBh3IAEoCzIbLnNlcnZlcjJO",
+            "LkV2ZW50Q2hhbmdlV2VhcG9uEjAKDml0ZW1TcGF3bkV2ZW50GHggASgLMhgu",
+            "c2VydmVyMk4uRXZlbnRJdGVtU3Bhd24SLAoMaXRlbUdldEV2ZW50GHkgASgL",
+            "MhYuc2VydmVyMk4uRXZlbnRJdGVtR2V0IrsBCgZhY3Rpb24SCwoHTm90aGlu",
+            "ZxAAEg0KCUV2ZW50TW92ZRBkEg0KCUV2ZW50U3RvcBBlEg0KCUV2ZW50SnVt",
+            "cBBmEg4KCkV2ZW50U2hvb3QQZxIMCghFdmVudEhpdBBoEg4KCkV2ZW50U3Bh",
+            "d24QaRIRCg1FdmVudFVzZXJTeW5jEGoSDgoKRXZlbnREZWF0aBBrEg8KC0V2",
+            "ZW50QnVsbGV0EGwSFQoRRXZlbnRDaGFuZ2VXZWFwb24QbSKQAgoKUGFja2V0",
+            "Qm9keRIyCgdtc2dUeXBlGJBOIAEoDjIgLnNlcnZlcjJOLlBhY2tldEJvZHku",
+            "bWVzc2FnZVR5cGUSKQoHY29ubmVjdBgGIAEoCzIYLnNlcnZlcjJOLlVzZXJD",
+            "b25uZWN0aW9uEicKBm5vdGljZRiRTiABKAsyFi5zZXJ2ZXIyTi5HbG9iYWxO",
+            "b3RpY2USIgoFZXZlbnQYByABKAsyEy5zZXJ2ZXIyTi5HYW1lRXZlbnQSEAoI",
+            "c2VuZGVySWQYCCABKAUiRAoLbWVzc2FnZVR5cGUSDQoJR2FtZUV2ZW50EAAS",
+            "EwoOVXNlckNvbm5lY3Rpb24QkE4SEQoMR2xvYmFsTm90aWNlEJFOYgZwcm90",
+            "bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -108,10 +109,10 @@ namespace Server2N {
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventDeath), global::Server2N.EventDeath.Parser, new[]{ "TriggerId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventItemSpawn), global::Server2N.EventItemSpawn.Parser, new[]{ "Item" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventItemGet), global::Server2N.EventItemGet.Parser, new[]{ "Item" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.RequestUserPosition), global::Server2N.RequestUserPosition.Parser, new[]{ "TargetID", "EventPositionX", "EventPositionY" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.RequestUserInfo), global::Server2N.RequestUserInfo.Parser, new[]{ "TargetID", "EventPositionX", "EventPositionY" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.InfoItem), global::Server2N.InfoItem.Parser, new[]{ "Amount", "ItemId", "ItemType", "WeaponId", "ItemPositionX", "ItemPositionY" }, null, new[]{ typeof(global::Server2N.InfoItem.Types.ItemType), typeof(global::Server2N.InfoItem.Types.WeaponId) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "UserEvent", "SystemEvent", "EventPositionX", "EventPositionY", "VelocityX", "VelocityY", "InvokerId", "IsInterested", "IsLocal", "EvtType" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.eventType) }, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.SystemEvent), global::Server2N.SystemEvent.Parser, new[]{ "ActType", "ItemSpawnEvent", "ItemGetEvent", "RequestUserPosition" }, null, new[]{ typeof(global::Server2N.SystemEvent.Types.action) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.SystemEvent), global::Server2N.SystemEvent.Parser, new[]{ "ActType", "ItemSpawnEvent", "ItemGetEvent", "RequestUserInfo" }, null, new[]{ typeof(global::Server2N.SystemEvent.Types.action) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.UserEvent), global::Server2N.UserEvent.Parser, new[]{ "ActType", "MoveEvent", "StopEvent", "JumpEvent", "ShootEvent", "HitEvent", "SpawnEvent", "SyncEvent", "DeathEvent", "ChWeaponEvent", "ItemSpawnEvent", "ItemGetEvent" }, null, new[]{ typeof(global::Server2N.UserEvent.Types.action) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.PacketBody), global::Server2N.PacketBody.Parser, new[]{ "MsgType", "Connect", "Notice", "Event", "SenderId" }, null, new[]{ typeof(global::Server2N.PacketBody.Types.messageType) }, null)
           }));
@@ -2101,10 +2102,10 @@ namespace Server2N {
 
   }
 
-  public sealed partial class RequestUserPosition : pb::IMessage<RequestUserPosition> {
-    private static readonly pb::MessageParser<RequestUserPosition> _parser = new pb::MessageParser<RequestUserPosition>(() => new RequestUserPosition());
+  public sealed partial class RequestUserInfo : pb::IMessage<RequestUserInfo> {
+    private static readonly pb::MessageParser<RequestUserInfo> _parser = new pb::MessageParser<RequestUserInfo>(() => new RequestUserInfo());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<RequestUserPosition> Parser { get { return _parser; } }
+    public static pb::MessageParser<RequestUserInfo> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -2117,22 +2118,22 @@ namespace Server2N {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RequestUserPosition() {
+    public RequestUserInfo() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RequestUserPosition(RequestUserPosition other) : this() {
+    public RequestUserInfo(RequestUserInfo other) : this() {
       targetID_ = other.targetID_;
       eventPositionX_ = other.eventPositionX_;
       eventPositionY_ = other.eventPositionY_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RequestUserPosition Clone() {
-      return new RequestUserPosition(this);
+    public RequestUserInfo Clone() {
+      return new RequestUserInfo(this);
     }
 
     /// <summary>Field number for the "targetID" field.</summary>
@@ -2170,11 +2171,11 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as RequestUserPosition);
+      return Equals(other as RequestUserInfo);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(RequestUserPosition other) {
+    public bool Equals(RequestUserInfo other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -2233,7 +2234,7 @@ namespace Server2N {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(RequestUserPosition other) {
+    public void MergeFrom(RequestUserInfo other) {
       if (other == null) {
         return;
       }
@@ -2963,7 +2964,7 @@ namespace Server2N {
       actType_ = other.actType_;
       ItemSpawnEvent = other.itemSpawnEvent_ != null ? other.ItemSpawnEvent.Clone() : null;
       ItemGetEvent = other.itemGetEvent_ != null ? other.ItemGetEvent.Clone() : null;
-      RequestUserPosition = other.requestUserPosition_ != null ? other.RequestUserPosition.Clone() : null;
+      RequestUserInfo = other.requestUserInfo_ != null ? other.RequestUserInfo.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3004,14 +3005,14 @@ namespace Server2N {
       }
     }
 
-    /// <summary>Field number for the "requestUserPosition" field.</summary>
-    public const int RequestUserPositionFieldNumber = 205;
-    private global::Server2N.RequestUserPosition requestUserPosition_;
+    /// <summary>Field number for the "requestUserInfo" field.</summary>
+    public const int RequestUserInfoFieldNumber = 205;
+    private global::Server2N.RequestUserInfo requestUserInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Server2N.RequestUserPosition RequestUserPosition {
-      get { return requestUserPosition_; }
+    public global::Server2N.RequestUserInfo RequestUserInfo {
+      get { return requestUserInfo_; }
       set {
-        requestUserPosition_ = value;
+        requestUserInfo_ = value;
       }
     }
 
@@ -3031,7 +3032,7 @@ namespace Server2N {
       if (ActType != other.ActType) return false;
       if (!object.Equals(ItemSpawnEvent, other.ItemSpawnEvent)) return false;
       if (!object.Equals(ItemGetEvent, other.ItemGetEvent)) return false;
-      if (!object.Equals(RequestUserPosition, other.RequestUserPosition)) return false;
+      if (!object.Equals(RequestUserInfo, other.RequestUserInfo)) return false;
       return true;
     }
 
@@ -3041,7 +3042,7 @@ namespace Server2N {
       if (ActType != 0) hash ^= ActType.GetHashCode();
       if (itemSpawnEvent_ != null) hash ^= ItemSpawnEvent.GetHashCode();
       if (itemGetEvent_ != null) hash ^= ItemGetEvent.GetHashCode();
-      if (requestUserPosition_ != null) hash ^= RequestUserPosition.GetHashCode();
+      if (requestUserInfo_ != null) hash ^= RequestUserInfo.GetHashCode();
       return hash;
     }
 
@@ -3064,9 +3065,9 @@ namespace Server2N {
         output.WriteRawTag(226, 12);
         output.WriteMessage(ItemGetEvent);
       }
-      if (requestUserPosition_ != null) {
+      if (requestUserInfo_ != null) {
         output.WriteRawTag(234, 12);
-        output.WriteMessage(RequestUserPosition);
+        output.WriteMessage(RequestUserInfo);
       }
     }
 
@@ -3082,8 +3083,8 @@ namespace Server2N {
       if (itemGetEvent_ != null) {
         size += 2 + pb::CodedOutputStream.ComputeMessageSize(ItemGetEvent);
       }
-      if (requestUserPosition_ != null) {
-        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RequestUserPosition);
+      if (requestUserInfo_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RequestUserInfo);
       }
       return size;
     }
@@ -3108,11 +3109,11 @@ namespace Server2N {
         }
         ItemGetEvent.MergeFrom(other.ItemGetEvent);
       }
-      if (other.requestUserPosition_ != null) {
-        if (requestUserPosition_ == null) {
-          requestUserPosition_ = new global::Server2N.RequestUserPosition();
+      if (other.requestUserInfo_ != null) {
+        if (requestUserInfo_ == null) {
+          requestUserInfo_ = new global::Server2N.RequestUserInfo();
         }
-        RequestUserPosition.MergeFrom(other.RequestUserPosition);
+        RequestUserInfo.MergeFrom(other.RequestUserInfo);
       }
     }
 
@@ -3143,10 +3144,10 @@ namespace Server2N {
             break;
           }
           case 1642: {
-            if (requestUserPosition_ == null) {
-              requestUserPosition_ = new global::Server2N.RequestUserPosition();
+            if (requestUserInfo_ == null) {
+              requestUserInfo_ = new global::Server2N.RequestUserInfo();
             }
-            input.ReadMessage(requestUserPosition_);
+            input.ReadMessage(requestUserInfo_);
             break;
           }
         }
@@ -3161,6 +3162,7 @@ namespace Server2N {
         [pbr::OriginalName("Nothing")] Nothing = 0,
         [pbr::OriginalName("EventItemSpawn")] EventItemSpawn = 200,
         [pbr::OriginalName("EventItemGet")] EventItemGet = 201,
+        [pbr::OriginalName("RequestUserInfo")] RequestUserInfo = 206,
       }
 
     }
