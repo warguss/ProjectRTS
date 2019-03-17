@@ -602,7 +602,6 @@ public class GameLogic : MonoBehaviour
         if (isOnline)
         {
             NetworkModule.instance.WriteEventDead(invokerId, position, AttackerId);
-            NetworkModule.instance.WriteEventCam(invokerId, position, false, AttackerId);
         }
     }
 
