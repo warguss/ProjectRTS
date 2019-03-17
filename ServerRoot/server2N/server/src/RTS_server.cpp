@@ -297,7 +297,7 @@ bool childProcessLogic()
 				continue ;
 			}
 
-			if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect )
+			if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect || type == (int32_t)server2N::SystemEvent_action_RequestUserInfo )
 			{
 				CLS_CALLBACK fnc = afxCreateClass(type);
 				CProtoLogicBase* logic = fnc(false);

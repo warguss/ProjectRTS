@@ -93,6 +93,26 @@ class CProtoNotiSystem : public CProtoLogicBase
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
 };
 
+#if 0 
+class CProtoCamEvent : public CProtoLogicBase 
+{
+	public:
+		CProtoCamEvent();
+		~CProtoCamEvent();
+
+		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
+};
+#endif
+
+class CProtoRequestUserInfo : public CProtoLogicBase 
+{
+	public:
+		CProtoRequestUserInfo();
+		~CProtoRequestUserInfo();
+
+		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
+};
+
 typedef CProtoLogicBase* (*CLS_CALLBACK)(bool isPartSend);
 CLS_CALLBACK afxCreateClass(int32_t type);
 template <class T> CProtoLogicBase* createProtoLogic(bool isPartSend);
