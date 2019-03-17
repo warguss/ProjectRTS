@@ -85,11 +85,11 @@ class EventItemGetDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<EventItemGet>
       _instance;
 } _EventItemGet_default_instance_;
-class RequestUserPositionDefaultTypeInternal {
+class RequestUserInfoDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<RequestUserPosition>
+  ::google::protobuf::internal::ExplicitlyConstructed<RequestUserInfo>
       _instance;
-} _RequestUserPosition_default_instance_;
+} _RequestUserInfo_default_instance_;
 class InfoItemDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<InfoItem>
@@ -393,7 +393,7 @@ void InitDefaultsEventItemGet() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsEventItemGetImpl);
 }
 
-void InitDefaultsRequestUserPositionImpl() {
+void InitDefaultsRequestUserInfoImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
 #ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
@@ -402,16 +402,16 @@ void InitDefaultsRequestUserPositionImpl() {
   ::google::protobuf::internal::InitProtobufDefaults();
 #endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
   {
-    void* ptr = &::server2N::_RequestUserPosition_default_instance_;
-    new (ptr) ::server2N::RequestUserPosition();
+    void* ptr = &::server2N::_RequestUserInfo_default_instance_;
+    new (ptr) ::server2N::RequestUserInfo();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::server2N::RequestUserPosition::InitAsDefaultInstance();
+  ::server2N::RequestUserInfo::InitAsDefaultInstance();
 }
 
-void InitDefaultsRequestUserPosition() {
+void InitDefaultsRequestUserInfo() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsRequestUserPositionImpl);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsRequestUserInfoImpl);
 }
 
 void InitDefaultsInfoItemImpl() {
@@ -468,7 +468,7 @@ void InitDefaultsSystemEventImpl() {
 #endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
   protobuf_gameContent_2eproto::InitDefaultsEventItemSpawn();
   protobuf_gameContent_2eproto::InitDefaultsEventItemGet();
-  protobuf_gameContent_2eproto::InitDefaultsRequestUserPosition();
+  protobuf_gameContent_2eproto::InitDefaultsRequestUserInfo();
   {
     void* ptr = &::server2N::_SystemEvent_default_instance_;
     new (ptr) ::server2N::SystemEvent();
@@ -637,13 +637,13 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventItemGet, item_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::RequestUserPosition, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::RequestUserInfo, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::RequestUserPosition, targetid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::RequestUserPosition, eventpositionx_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::RequestUserPosition, eventpositiony_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::RequestUserInfo, targetid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::RequestUserInfo, eventpositionx_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::RequestUserInfo, eventpositiony_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::InfoItem, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -678,7 +678,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::SystemEvent, acttype_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::SystemEvent, itemspawnevent_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::SystemEvent, itemgetevent_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::SystemEvent, requestuserposition_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::SystemEvent, requestuserinfo_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::UserEvent, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -721,7 +721,7 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 76, -1, sizeof(::server2N::EventDeath)},
   { 82, -1, sizeof(::server2N::EventItemSpawn)},
   { 88, -1, sizeof(::server2N::EventItemGet)},
-  { 94, -1, sizeof(::server2N::RequestUserPosition)},
+  { 94, -1, sizeof(::server2N::RequestUserInfo)},
   { 102, -1, sizeof(::server2N::InfoItem)},
   { 113, -1, sizeof(::server2N::GameEvent)},
   { 128, -1, sizeof(::server2N::SystemEvent)},
@@ -743,7 +743,7 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_EventDeath_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_EventItemSpawn_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_EventItemGet_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_RequestUserPosition_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_RequestUserInfo_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_InfoItem_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_GameEvent_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_SystemEvent_default_instance_),
@@ -801,60 +801,60 @@ void AddDescriptorsImpl() {
       " \001(\005\"\037\n\nEventDeath\022\021\n\ttriggerId\030\001 \001(\005\"2\n"
       "\016EventItemSpawn\022 \n\004item\030\001 \001(\0132\022.server2N"
       ".InfoItem\"0\n\014EventItemGet\022 \n\004item\030\001 \001(\0132"
-      "\022.server2N.InfoItem\"W\n\023RequestUserPositi"
-      "on\022\020\n\010targetID\030\001 \001(\005\022\026\n\016EventPositionX\030\002"
-      " \001(\002\022\026\n\016EventPositionY\030\003 \001(\002\"\215\002\n\010InfoIte"
-      "m\022\016\n\006amount\030\004 \001(\005\022\016\n\006itemId\030\002 \001(\t\022-\n\010ite"
-      "mType\030\005 \001(\0162\033.server2N.InfoItem.ItemType"
-      "\022-\n\010weaponId\030\006 \001(\0162\033.server2N.InfoItem.W"
-      "eaponId\022\025\n\rItemPositionX\030\007 \001(\002\022\025\n\rItemPo"
-      "sitionY\030\010 \001(\002\"$\n\010ItemType\022\013\n\007Recover\020\000\022\013"
-      "\n\007Weapone\020\001\"/\n\010WeaponId\022\013\n\007Nothing\020\000\022\n\n\006"
-      "Pistol\020\001\022\n\n\006Sniper\020\002\"\331\002\n\tGameEvent\022&\n\tus"
-      "erEvent\030\003 \001(\0132\023.server2N.UserEvent\022*\n\013sy"
-      "stemEvent\030\004 \001(\0132\025.server2N.SystemEvent\022\026"
-      "\n\016EventPositionX\030\006 \001(\002\022\026\n\016EventPositionY"
-      "\030\007 \001(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVelocityY\030\t"
-      " \001(\002\022\021\n\tinvokerId\030\n \003(\005\022\024\n\014isInterested\030"
-      "\013 \001(\010\022\017\n\007isLocal\030\014 \001(\010\022.\n\007evtType\030\r \001(\0162"
-      "\035.server2N.GameEvent.eventType\"8\n\teventT"
-      "ype\022\013\n\007Nothing\020\000\022\r\n\tUserEvent\020\001\022\017\n\013Syste"
-      "mEvent\020\002\"\233\002\n\013SystemEvent\022.\n\007actType\030\312\001 \001"
-      "(\0162\034.server2N.SystemEvent.action\0221\n\016item"
-      "SpawnEvent\030\313\001 \001(\0132\030.server2N.EventItemSp"
-      "awn\022-\n\014itemGetEvent\030\314\001 \001(\0132\026.server2N.Ev"
-      "entItemGet\022;\n\023requestUserPosition\030\315\001 \001(\013"
-      "2\035.server2N.RequestUserPosition\"=\n\006actio"
-      "n\022\013\n\007Nothing\020\000\022\023\n\016EventItemSpawn\020\310\001\022\021\n\014E"
-      "ventItemGet\020\311\001\"\322\005\n\tUserEvent\022+\n\007actType\030"
-      "n \001(\0162\032.server2N.UserEvent.action\022&\n\tmov"
-      "eEvent\030o \001(\0132\023.server2N.EventMove\022&\n\tsto"
-      "pEvent\030p \001(\0132\023.server2N.EventStop\022&\n\tjum"
-      "pEvent\030q \001(\0132\023.server2N.EventJump\022(\n\nsho"
-      "otEvent\030r \001(\0132\024.server2N.EventShoot\022$\n\010h"
-      "itEvent\030s \001(\0132\022.server2N.EventHit\022(\n\nspa"
-      "wnEvent\030t \001(\0132\024.server2N.EventSpawn\022*\n\ts"
-      "yncEvent\030u \001(\0132\027.server2N.EventUserSync\022"
-      "(\n\ndeathEvent\030v \001(\0132\024.server2N.EventDeat"
-      "h\0222\n\rchWeaponEvent\030w \001(\0132\033.server2N.Even"
-      "tChangeWeapon\0220\n\016itemSpawnEvent\030x \001(\0132\030."
-      "server2N.EventItemSpawn\022,\n\014itemGetEvent\030"
-      "y \001(\0132\026.server2N.EventItemGet\"\273\001\n\006action"
-      "\022\013\n\007Nothing\020\000\022\r\n\tEventMove\020d\022\r\n\tEventSto"
-      "p\020e\022\r\n\tEventJump\020f\022\016\n\nEventShoot\020g\022\014\n\010Ev"
-      "entHit\020h\022\016\n\nEventSpawn\020i\022\021\n\rEventUserSyn"
-      "c\020j\022\016\n\nEventDeath\020k\022\017\n\013EventBullet\020l\022\025\n\021"
-      "EventChangeWeapon\020m\"\220\002\n\nPacketBody\0222\n\007ms"
-      "gType\030\220N \001(\0162 .server2N.PacketBody.messa"
-      "geType\022)\n\007connect\030\006 \001(\0132\030.server2N.UserC"
-      "onnection\022\'\n\006notice\030\221N \001(\0132\026.server2N.Gl"
-      "obalNotice\022\"\n\005event\030\007 \001(\0132\023.server2N.Gam"
-      "eEvent\022\020\n\010senderId\030\010 \001(\005\"D\n\013messageType\022"
-      "\r\n\tGameEvent\020\000\022\023\n\016UserConnection\020\220N\022\021\n\014G"
-      "lobalNotice\020\221Nb\006proto3"
+      "\022.server2N.InfoItem\"S\n\017RequestUserInfo\022\020"
+      "\n\010targetID\030\001 \001(\005\022\026\n\016EventPositionX\030\002 \001(\002"
+      "\022\026\n\016EventPositionY\030\003 \001(\002\"\215\002\n\010InfoItem\022\016\n"
+      "\006amount\030\004 \001(\005\022\016\n\006itemId\030\002 \001(\t\022-\n\010itemTyp"
+      "e\030\005 \001(\0162\033.server2N.InfoItem.ItemType\022-\n\010"
+      "weaponId\030\006 \001(\0162\033.server2N.InfoItem.Weapo"
+      "nId\022\025\n\rItemPositionX\030\007 \001(\002\022\025\n\rItemPositi"
+      "onY\030\010 \001(\002\"$\n\010ItemType\022\013\n\007Recover\020\000\022\013\n\007We"
+      "apone\020\001\"/\n\010WeaponId\022\013\n\007Nothing\020\000\022\n\n\006Pist"
+      "ol\020\001\022\n\n\006Sniper\020\002\"\331\002\n\tGameEvent\022&\n\tuserEv"
+      "ent\030\003 \001(\0132\023.server2N.UserEvent\022*\n\013system"
+      "Event\030\004 \001(\0132\025.server2N.SystemEvent\022\026\n\016Ev"
+      "entPositionX\030\006 \001(\002\022\026\n\016EventPositionY\030\007 \001"
+      "(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVelocityY\030\t \001(\002"
+      "\022\021\n\tinvokerId\030\n \003(\005\022\024\n\014isInterested\030\013 \001("
+      "\010\022\017\n\007isLocal\030\014 \001(\010\022.\n\007evtType\030\r \001(\0162\035.se"
+      "rver2N.GameEvent.eventType\"8\n\teventType\022"
+      "\013\n\007Nothing\020\000\022\r\n\tUserEvent\020\001\022\017\n\013SystemEve"
+      "nt\020\002\"\251\002\n\013SystemEvent\022.\n\007actType\030\312\001 \001(\0162\034"
+      ".server2N.SystemEvent.action\0221\n\016itemSpaw"
+      "nEvent\030\313\001 \001(\0132\030.server2N.EventItemSpawn\022"
+      "-\n\014itemGetEvent\030\314\001 \001(\0132\026.server2N.EventI"
+      "temGet\0223\n\017requestUserInfo\030\315\001 \001(\0132\031.serve"
+      "r2N.RequestUserInfo\"S\n\006action\022\013\n\007Nothing"
+      "\020\000\022\023\n\016EventItemSpawn\020\310\001\022\021\n\014EventItemGet\020"
+      "\311\001\022\024\n\017RequestUserInfo\020\316\001\"\322\005\n\tUserEvent\022+"
+      "\n\007actType\030n \001(\0162\032.server2N.UserEvent.act"
+      "ion\022&\n\tmoveEvent\030o \001(\0132\023.server2N.EventM"
+      "ove\022&\n\tstopEvent\030p \001(\0132\023.server2N.EventS"
+      "top\022&\n\tjumpEvent\030q \001(\0132\023.server2N.EventJ"
+      "ump\022(\n\nshootEvent\030r \001(\0132\024.server2N.Event"
+      "Shoot\022$\n\010hitEvent\030s \001(\0132\022.server2N.Event"
+      "Hit\022(\n\nspawnEvent\030t \001(\0132\024.server2N.Event"
+      "Spawn\022*\n\tsyncEvent\030u \001(\0132\027.server2N.Even"
+      "tUserSync\022(\n\ndeathEvent\030v \001(\0132\024.server2N"
+      ".EventDeath\0222\n\rchWeaponEvent\030w \001(\0132\033.ser"
+      "ver2N.EventChangeWeapon\0220\n\016itemSpawnEven"
+      "t\030x \001(\0132\030.server2N.EventItemSpawn\022,\n\014ite"
+      "mGetEvent\030y \001(\0132\026.server2N.EventItemGet\""
+      "\273\001\n\006action\022\013\n\007Nothing\020\000\022\r\n\tEventMove\020d\022\r"
+      "\n\tEventStop\020e\022\r\n\tEventJump\020f\022\016\n\nEventSho"
+      "ot\020g\022\014\n\010EventHit\020h\022\016\n\nEventSpawn\020i\022\021\n\rEv"
+      "entUserSync\020j\022\016\n\nEventDeath\020k\022\017\n\013EventBu"
+      "llet\020l\022\025\n\021EventChangeWeapon\020m\"\220\002\n\nPacket"
+      "Body\0222\n\007msgType\030\220N \001(\0162 .server2N.Packet"
+      "Body.messageType\022)\n\007connect\030\006 \001(\0132\030.serv"
+      "er2N.UserConnection\022\'\n\006notice\030\221N \001(\0132\026.s"
+      "erver2N.GlobalNotice\022\"\n\005event\030\007 \001(\0132\023.se"
+      "rver2N.GameEvent\022\020\n\010senderId\030\010 \001(\005\"D\n\013me"
+      "ssageType\022\r\n\tGameEvent\020\000\022\023\n\016UserConnecti"
+      "on\020\220N\022\021\n\014GlobalNotice\020\221Nb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 3142);
+      descriptor, 3152);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "gameContent.proto", &protobuf_RegisterTypes);
 }
@@ -1026,6 +1026,7 @@ bool SystemEvent_action_IsValid(int value) {
     case 0:
     case 200:
     case 201:
+    case 206:
       return true;
     default:
       return false;
@@ -1036,6 +1037,7 @@ bool SystemEvent_action_IsValid(int value) {
 const SystemEvent_action SystemEvent::Nothing;
 const SystemEvent_action SystemEvent::EventItemSpawn;
 const SystemEvent_action SystemEvent::EventItemGet;
+const SystemEvent_action SystemEvent::RequestUserInfo;
 const SystemEvent_action SystemEvent::action_MIN;
 const SystemEvent_action SystemEvent::action_MAX;
 const int SystemEvent::action_ARRAYSIZE;
@@ -4848,23 +4850,23 @@ void EventItemGet::InternalSwap(EventItemGet* other) {
 
 // ===================================================================
 
-void RequestUserPosition::InitAsDefaultInstance() {
+void RequestUserInfo::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int RequestUserPosition::kTargetIDFieldNumber;
-const int RequestUserPosition::kEventPositionXFieldNumber;
-const int RequestUserPosition::kEventPositionYFieldNumber;
+const int RequestUserInfo::kTargetIDFieldNumber;
+const int RequestUserInfo::kEventPositionXFieldNumber;
+const int RequestUserInfo::kEventPositionYFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-RequestUserPosition::RequestUserPosition()
+RequestUserInfo::RequestUserInfo()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    ::protobuf_gameContent_2eproto::InitDefaultsRequestUserPosition();
+    ::protobuf_gameContent_2eproto::InitDefaultsRequestUserInfo();
   }
   SharedCtor();
-  // @@protoc_insertion_point(constructor:server2N.RequestUserPosition)
+  // @@protoc_insertion_point(constructor:server2N.RequestUserInfo)
 }
-RequestUserPosition::RequestUserPosition(const RequestUserPosition& from)
+RequestUserInfo::RequestUserInfo(const RequestUserInfo& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       _cached_size_(0) {
@@ -4872,42 +4874,42 @@ RequestUserPosition::RequestUserPosition(const RequestUserPosition& from)
   ::memcpy(&targetid_, &from.targetid_,
     static_cast<size_t>(reinterpret_cast<char*>(&eventpositiony_) -
     reinterpret_cast<char*>(&targetid_)) + sizeof(eventpositiony_));
-  // @@protoc_insertion_point(copy_constructor:server2N.RequestUserPosition)
+  // @@protoc_insertion_point(copy_constructor:server2N.RequestUserInfo)
 }
 
-void RequestUserPosition::SharedCtor() {
+void RequestUserInfo::SharedCtor() {
   ::memset(&targetid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&eventpositiony_) -
       reinterpret_cast<char*>(&targetid_)) + sizeof(eventpositiony_));
   _cached_size_ = 0;
 }
 
-RequestUserPosition::~RequestUserPosition() {
-  // @@protoc_insertion_point(destructor:server2N.RequestUserPosition)
+RequestUserInfo::~RequestUserInfo() {
+  // @@protoc_insertion_point(destructor:server2N.RequestUserInfo)
   SharedDtor();
 }
 
-void RequestUserPosition::SharedDtor() {
+void RequestUserInfo::SharedDtor() {
 }
 
-void RequestUserPosition::SetCachedSize(int size) const {
+void RequestUserInfo::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* RequestUserPosition::descriptor() {
+const ::google::protobuf::Descriptor* RequestUserInfo::descriptor() {
   ::protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_gameContent_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const RequestUserPosition& RequestUserPosition::default_instance() {
-  ::protobuf_gameContent_2eproto::InitDefaultsRequestUserPosition();
+const RequestUserInfo& RequestUserInfo::default_instance() {
+  ::protobuf_gameContent_2eproto::InitDefaultsRequestUserInfo();
   return *internal_default_instance();
 }
 
 
-void RequestUserPosition::Clear() {
-// @@protoc_insertion_point(message_clear_start:server2N.RequestUserPosition)
+void RequestUserInfo::Clear() {
+// @@protoc_insertion_point(message_clear_start:server2N.RequestUserInfo)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -4918,11 +4920,11 @@ void RequestUserPosition::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool RequestUserPosition::MergePartialFromCodedStream(
+bool RequestUserInfo::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:server2N.RequestUserPosition)
+  // @@protoc_insertion_point(parse_start:server2N.RequestUserInfo)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -4982,17 +4984,17 @@ bool RequestUserPosition::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:server2N.RequestUserPosition)
+  // @@protoc_insertion_point(parse_success:server2N.RequestUserInfo)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:server2N.RequestUserPosition)
+  // @@protoc_insertion_point(parse_failure:server2N.RequestUserInfo)
   return false;
 #undef DO_
 }
 
-void RequestUserPosition::SerializeWithCachedSizes(
+void RequestUserInfo::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:server2N.RequestUserPosition)
+  // @@protoc_insertion_point(serialize_start:server2N.RequestUserInfo)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -5015,13 +5017,13 @@ void RequestUserPosition::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:server2N.RequestUserPosition)
+  // @@protoc_insertion_point(serialize_end:server2N.RequestUserInfo)
 }
 
-::google::protobuf::uint8* RequestUserPosition::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* RequestUserInfo::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:server2N.RequestUserPosition)
+  // @@protoc_insertion_point(serialize_to_array_start:server2N.RequestUserInfo)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -5044,12 +5046,12 @@ void RequestUserPosition::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:server2N.RequestUserPosition)
+  // @@protoc_insertion_point(serialize_to_array_end:server2N.RequestUserInfo)
   return target;
 }
 
-size_t RequestUserPosition::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:server2N.RequestUserPosition)
+size_t RequestUserInfo::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:server2N.RequestUserInfo)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -5081,23 +5083,23 @@ size_t RequestUserPosition::ByteSizeLong() const {
   return total_size;
 }
 
-void RequestUserPosition::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:server2N.RequestUserPosition)
+void RequestUserInfo::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:server2N.RequestUserInfo)
   GOOGLE_DCHECK_NE(&from, this);
-  const RequestUserPosition* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const RequestUserPosition>(
+  const RequestUserInfo* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const RequestUserInfo>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:server2N.RequestUserPosition)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:server2N.RequestUserInfo)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:server2N.RequestUserPosition)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:server2N.RequestUserInfo)
     MergeFrom(*source);
   }
 }
 
-void RequestUserPosition::MergeFrom(const RequestUserPosition& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:server2N.RequestUserPosition)
+void RequestUserInfo::MergeFrom(const RequestUserInfo& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:server2N.RequestUserInfo)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -5114,29 +5116,29 @@ void RequestUserPosition::MergeFrom(const RequestUserPosition& from) {
   }
 }
 
-void RequestUserPosition::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:server2N.RequestUserPosition)
+void RequestUserInfo::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:server2N.RequestUserInfo)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void RequestUserPosition::CopyFrom(const RequestUserPosition& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:server2N.RequestUserPosition)
+void RequestUserInfo::CopyFrom(const RequestUserInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:server2N.RequestUserInfo)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool RequestUserPosition::IsInitialized() const {
+bool RequestUserInfo::IsInitialized() const {
   return true;
 }
 
-void RequestUserPosition::Swap(RequestUserPosition* other) {
+void RequestUserInfo::Swap(RequestUserInfo* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void RequestUserPosition::InternalSwap(RequestUserPosition* other) {
+void RequestUserInfo::InternalSwap(RequestUserInfo* other) {
   using std::swap;
   swap(targetid_, other->targetid_);
   swap(eventpositionx_, other->eventpositionx_);
@@ -5145,7 +5147,7 @@ void RequestUserPosition::InternalSwap(RequestUserPosition* other) {
   swap(_cached_size_, other->_cached_size_);
 }
 
-::google::protobuf::Metadata RequestUserPosition::GetMetadata() const {
+::google::protobuf::Metadata RequestUserInfo::GetMetadata() const {
   protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_gameContent_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -6201,14 +6203,14 @@ void SystemEvent::InitAsDefaultInstance() {
       ::server2N::EventItemSpawn::internal_default_instance());
   ::server2N::_SystemEvent_default_instance_._instance.get_mutable()->itemgetevent_ = const_cast< ::server2N::EventItemGet*>(
       ::server2N::EventItemGet::internal_default_instance());
-  ::server2N::_SystemEvent_default_instance_._instance.get_mutable()->requestuserposition_ = const_cast< ::server2N::RequestUserPosition*>(
-      ::server2N::RequestUserPosition::internal_default_instance());
+  ::server2N::_SystemEvent_default_instance_._instance.get_mutable()->requestuserinfo_ = const_cast< ::server2N::RequestUserInfo*>(
+      ::server2N::RequestUserInfo::internal_default_instance());
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int SystemEvent::kActTypeFieldNumber;
 const int SystemEvent::kItemSpawnEventFieldNumber;
 const int SystemEvent::kItemGetEventFieldNumber;
-const int SystemEvent::kRequestUserPositionFieldNumber;
+const int SystemEvent::kRequestUserInfoFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 SystemEvent::SystemEvent()
@@ -6234,10 +6236,10 @@ SystemEvent::SystemEvent(const SystemEvent& from)
   } else {
     itemgetevent_ = NULL;
   }
-  if (from.has_requestuserposition()) {
-    requestuserposition_ = new ::server2N::RequestUserPosition(*from.requestuserposition_);
+  if (from.has_requestuserinfo()) {
+    requestuserinfo_ = new ::server2N::RequestUserInfo(*from.requestuserinfo_);
   } else {
-    requestuserposition_ = NULL;
+    requestuserinfo_ = NULL;
   }
   acttype_ = from.acttype_;
   // @@protoc_insertion_point(copy_constructor:server2N.SystemEvent)
@@ -6258,7 +6260,7 @@ SystemEvent::~SystemEvent() {
 void SystemEvent::SharedDtor() {
   if (this != internal_default_instance()) delete itemspawnevent_;
   if (this != internal_default_instance()) delete itemgetevent_;
-  if (this != internal_default_instance()) delete requestuserposition_;
+  if (this != internal_default_instance()) delete requestuserinfo_;
 }
 
 void SystemEvent::SetCachedSize(int size) const {
@@ -6291,10 +6293,10 @@ void SystemEvent::Clear() {
     delete itemgetevent_;
   }
   itemgetevent_ = NULL;
-  if (GetArenaNoVirtual() == NULL && requestuserposition_ != NULL) {
-    delete requestuserposition_;
+  if (GetArenaNoVirtual() == NULL && requestuserinfo_ != NULL) {
+    delete requestuserinfo_;
   }
-  requestuserposition_ = NULL;
+  requestuserinfo_ = NULL;
   acttype_ = 0;
   _internal_metadata_.Clear();
 }
@@ -6348,12 +6350,12 @@ bool SystemEvent::MergePartialFromCodedStream(
         break;
       }
 
-      // .server2N.RequestUserPosition requestUserPosition = 205;
+      // .server2N.RequestUserInfo requestUserInfo = 205;
       case 205: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(106u /* 1642 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_requestuserposition()));
+               input, mutable_requestuserinfo()));
         } else {
           goto handle_unusual;
         }
@@ -6404,10 +6406,10 @@ void SystemEvent::SerializeWithCachedSizes(
       204, *itemgetevent_, output);
   }
 
-  // .server2N.RequestUserPosition requestUserPosition = 205;
-  if (this->has_requestuserposition()) {
+  // .server2N.RequestUserInfo requestUserInfo = 205;
+  if (this->has_requestuserinfo()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      205, *requestuserposition_, output);
+      205, *requestuserinfo_, output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -6444,11 +6446,11 @@ void SystemEvent::SerializeWithCachedSizes(
         204, *itemgetevent_, deterministic, target);
   }
 
-  // .server2N.RequestUserPosition requestUserPosition = 205;
-  if (this->has_requestuserposition()) {
+  // .server2N.RequestUserInfo requestUserInfo = 205;
+  if (this->has_requestuserinfo()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        205, *requestuserposition_, deterministic, target);
+        205, *requestuserinfo_, deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -6482,11 +6484,11 @@ size_t SystemEvent::ByteSizeLong() const {
         *itemgetevent_);
   }
 
-  // .server2N.RequestUserPosition requestUserPosition = 205;
-  if (this->has_requestuserposition()) {
+  // .server2N.RequestUserInfo requestUserInfo = 205;
+  if (this->has_requestuserinfo()) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *requestuserposition_);
+        *requestuserinfo_);
   }
 
   // .server2N.SystemEvent.action actType = 202;
@@ -6530,8 +6532,8 @@ void SystemEvent::MergeFrom(const SystemEvent& from) {
   if (from.has_itemgetevent()) {
     mutable_itemgetevent()->::server2N::EventItemGet::MergeFrom(from.itemgetevent());
   }
-  if (from.has_requestuserposition()) {
-    mutable_requestuserposition()->::server2N::RequestUserPosition::MergeFrom(from.requestuserposition());
+  if (from.has_requestuserinfo()) {
+    mutable_requestuserinfo()->::server2N::RequestUserInfo::MergeFrom(from.requestuserinfo());
   }
   if (from.acttype() != 0) {
     set_acttype(from.acttype());
@@ -6564,7 +6566,7 @@ void SystemEvent::InternalSwap(SystemEvent* other) {
   using std::swap;
   swap(itemspawnevent_, other->itemspawnevent_);
   swap(itemgetevent_, other->itemgetevent_);
-  swap(requestuserposition_, other->requestuserposition_);
+  swap(requestuserinfo_, other->requestuserinfo_);
   swap(acttype_, other->acttype_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -7815,8 +7817,8 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::server2N::EventItemSpawn* Arena:
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::server2N::EventItemGet* Arena::Create< ::server2N::EventItemGet >(Arena* arena) {
   return Arena::CreateInternal< ::server2N::EventItemGet >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::server2N::RequestUserPosition* Arena::Create< ::server2N::RequestUserPosition >(Arena* arena) {
-  return Arena::CreateInternal< ::server2N::RequestUserPosition >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::server2N::RequestUserInfo* Arena::Create< ::server2N::RequestUserInfo >(Arena* arena) {
+  return Arena::CreateInternal< ::server2N::RequestUserInfo >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::server2N::InfoItem* Arena::Create< ::server2N::InfoItem >(Arena* arena) {
   return Arena::CreateInternal< ::server2N::InfoItem >(arena);

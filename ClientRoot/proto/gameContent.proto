@@ -111,7 +111,7 @@ message EventItemGet
 	InfoItem item = 1;
 }
 
-message RequestUserPosition
+message RequestUserInfo
 {
 	int32 targetID = 1;
 	float EventPositionX = 2;
@@ -166,15 +166,16 @@ message GameEvent
 message SystemEvent{
 	enum action
 	{
-		Nothing            = 0;
-		EventItemSpawn      = 200;
-		EventItemGet      = 201;
+		Nothing = 0;
+		EventItemSpawn = 200;
+		EventItemGet = 201;
+		RequestUserInfo =  206;
 	}
 
 	action actType = 202;
 	EventItemSpawn itemSpawnEvent = 203;
 	EventItemGet itemGetEvent = 204;
-	RequestUserPosition requestUserPosition	= 205;
+	RequestUserInfo requestUserInfo	= 205;
 }
 message UserEvent{
 	enum action
