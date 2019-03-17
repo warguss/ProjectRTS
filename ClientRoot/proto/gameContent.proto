@@ -111,10 +111,11 @@ message EventItemGet
 	InfoItem item = 1;
 }
 
-message EventCam
+message RequestUserPosition
 {
-	bool isCamOff = 1;
-	int32 targetID = 2;
+	int32 targetID = 1;
+	float EventPositionX = 2;
+	float EventPositionY = 3;
 }
 
 message InfoItem
@@ -173,6 +174,7 @@ message SystemEvent{
 	action actType = 202;
 	EventItemSpawn itemSpawnEvent = 203;
 	EventItemGet itemGetEvent = 204;
+	RequestUserPosition requestUserPosition	= 205;
 }
 message UserEvent{
 	enum action
@@ -188,7 +190,6 @@ message UserEvent{
 		EventDeath         = 107;
 		EventBullet         = 108;
 		EventChangeWeapon   = 109;
-		EventCam   = 122;
 	}
 
 	action actType = 110;
@@ -203,7 +204,6 @@ message UserEvent{
 	EventChangeWeapon chWeaponEvent = 119;
 	EventItemSpawn itemSpawnEvent = 120;
 	EventItemGet itemGetEvent = 121;
-	EventCam camEvent = 123;
 }
 
 message PacketBody{

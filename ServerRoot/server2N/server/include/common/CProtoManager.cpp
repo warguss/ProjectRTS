@@ -92,6 +92,16 @@ void CProtoManager::close()
 	} 
 }
 
+#if 0 
+bool CProtoManager::createProto(int type, CUser* senderUser, CProtoPacket** packet)
+{
+	int type;
+	(*packet) = new CProtoPacket();
+
+	return true;
+}
+#endif
+
 bool CProtoManager::encodingHeader(unsigned char* outputBuf, server2N::PacketBody* protoPacket, uint32_t& bodyLength)
 {
     /*************************************
@@ -230,7 +240,7 @@ bool CProtoManager::decodingBody(unsigned char* buffer, uint32_t bufLength, uint
 		isSuccess = false;
     }
 
-	(*protoPacket)->_act = getLogValue((*protoPacket)->_type, "Invalid Action");
+	//(*protoPacket)->_act = getLogValue((*protoPacket)->_type, "Invalid Action");
     return isSuccess;
 }
 
@@ -245,7 +255,8 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 	(*packet) = new CProtoPacket();
 	(*packet)->_protoConnect = new server2N::UserConnection; 
 	(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_UserConnection);
-
+	(*packet)->_nickName = eventUser->_nickName;
+	(*packet)->_act = getLogValue(type, "Invalid Connection");
 	if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect )
 	{
 		LOG_INFO("USERID(%d) TRYCONNECT Change To AccepConnect", eventUser->_fd);
@@ -358,6 +369,10 @@ bool CProtoManager::setConnectType(int32_t type, CUser* eventUser, int32_t fd, l
 		LOG_ERROR("Error Not Exist Type");
 		if ( *packet ) 
 		{
+	
+			delete (*packet)->_protoConnect;
+			(*packet)->_protoConnect = NULL;
+
 			delete *packet;
 			*packet = NULL;
 		}
@@ -477,8 +492,6 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 		return false;
 	}
 
-
-	//tEvent.set_sectorno(eventUser->_sector);
 	if ( !isSelfEvent || type == (int32_t)server2N::SystemEvent_action_EventItemGet || type == (int32_t)server2N::SystemEvent_action_EventItemSpawn)
 	{
 		(*packet)->_protoEvent->CopyFrom(tEvent);
@@ -487,11 +500,16 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 		(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_GameEvent);
 		(*packet)->_type = (int32_t)type;
 		(*packet)->_proto->set_allocated_event((*packet)->_protoEvent);
+		(*packet)->_act = getLogValue(type, "Invalid Action");
+		(*packet)->_nickName = eventUser->_nickName;
 		LOG_DEBUG("Send Proto(%d) Sending debugString(%s)", (*packet)->_fd, tEvent.DebugString().c_str());
 	}
 	else
 	{
 		LOG_DEBUG("is Self Check? recvFd(%d), EventFd(%d)", recvUser->_fd, eventUser->_fd);
+		delete (*packet)->_protoEvent;
+		(*packet)->_protoEvent = NULL;
+
 		delete (*packet);
 		(*packet) = NULL;
 	} 
@@ -507,48 +525,68 @@ bool CProtoManager::setNotiType(int type, CUser* recvUser, CProtoPacket* eventUs
 		return false;
 	}
 
+	bool isSuccess = true;
 	(*packet) = new CProtoPacket();
 	(*packet)->_protoNoti = new server2N::GlobalNotice();
-	if ( type == (int32_t)server2N::UserEvent_action_EventDeath )
+	do 
 	{
-		type = (int32_t)server2N::GlobalNotice_NoticeInfo_KillInfo;
-		server2N::GameEvent tEvent = eventUser->_proto->event(); 
-		/********************************
-		 * Kill 
-		 * eventUser_fd -> victim
-		 * A User KillInfo Add
-		 * B User DeathInfo Add
-		 ********************************/
-		int32_t eventFd = eventUser->_fd;
-		CUser* victimUser = g_userPool.findUserInPool(eventFd);
-		if ( !victimUser ) 
+		if ( type == (int32_t)server2N::UserEvent_action_EventDeath )
 		{
-			/*********************************
-			 * 전체 조회이기 때문에, 
-			 * 찾지 못했다면 close(fd)로 종료
-			 *********************************/
-			LOG_ERROR("Not Exist VictimUser(%d)\n", victimUser->_fd);
-			return false;
+			type = (int32_t)server2N::GlobalNotice_NoticeInfo_KillInfo;
+			server2N::GameEvent tEvent = eventUser->_proto->event(); 
+			/********************************
+			 * Kill 
+			 * eventUser_fd -> victim
+			 * A User KillInfo Add
+			 * B User DeathInfo Add
+			 ********************************/
+			int32_t eventFd = eventUser->_fd;
+			CUser* victimUser = g_userPool.findUserInPool(eventFd);
+			if ( !victimUser ) 
+			{
+				/*********************************
+				 * 전체 조회이기 때문에, 
+				 * 찾지 못했다면 close(fd)로 종료
+				 *********************************/
+				LOG_ERROR("Not Exist VictimUser(%d)\n", victimUser->_fd);
+				isSuccess = false;
+				break;
+			}
+			(*packet)->_protoNoti->add_victim((int32_t)eventFd);
+			victimUser->_deathInfo++;
+			int triggerFd = tEvent.userevent().deathevent().triggerid();
+			CUser* triggerUser = g_userPool.findUserInPool(triggerFd);
+			if ( !triggerUser )
+			{
+				LOG_ERROR("Not Exist TriggerUser(%d)\n", triggerUser->_fd);
+				isSuccess = false;
+				break;
+			}
+			(*packet)->_protoNoti->set_performer((int32_t)triggerFd);
+			triggerUser->_killInfo++;
 		}
-		(*packet)->_protoNoti->add_victim((int32_t)eventFd);
-		victimUser->_deathInfo++;
-		int triggerFd = tEvent.userevent().deathevent().triggerid();
-		CUser* triggerUser = g_userPool.findUserInPool(triggerFd);
-		if ( !triggerUser )
-		{
-			LOG_ERROR("Not Exist TriggerUser(%d)\n", triggerUser->_fd);
-			return false;
-		}
-		(*packet)->_protoNoti->set_performer((int32_t)triggerFd);
-		triggerUser->_killInfo++;
+	}
+	while(false);
+
+	if ( isSuccess )
+	{
+		(*packet)->_type = type;
+		(*packet)->_fd = recvUser->_fd;
+		(*packet)->_protoNoti->set_notitype((int32_t)type);
+		(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_GlobalNotice);
+		(*packet)->_proto->set_allocated_notice((*packet)->_protoNoti);
+		(*packet)->_act = getLogValue(type, "Invalid Noti");
+		(*packet)->_nickName = eventUser->_nickName;
+	}
+	else
+	{
+		delete (*packet)->_protoNoti;
+		(*packet)->_protoNoti = NULL;
+
+		delete (*packet);
+		(*packet) = NULL;
 	}
 
-	(*packet)->_type = type;
-	(*packet)->_fd = recvUser->_fd;
-	(*packet)->_protoNoti->set_notitype((int32_t)type);
-	(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_GlobalNotice);
-	(*packet)->_proto->set_allocated_notice((*packet)->_protoNoti);
-
-	return true;
+	return isSuccess;
 }
 
