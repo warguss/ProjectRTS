@@ -39,6 +39,8 @@ public class GameLogic : MonoBehaviour
 
     Dictionary<string, FieldItem> FieldItems;
 
+    private int spectatorTarget = -1;
+
     int testId1P = 0;
     int testId2P = 1;
 
@@ -512,6 +514,7 @@ public class GameLogic : MonoBehaviour
                     float yPos = info.EventPositionY;
 
                     TestUI.Instance.PrintText("Receive RequestUserInfo - (" + targetId + "), " + xPos + ", " + yPos);
+                    StartCoroutine(KeepSpectatorSync(new Vector2(xPos, yPos)));
 
                     break;
                 }
@@ -610,6 +613,8 @@ public class GameLogic : MonoBehaviour
     void PlayerEventDie(int invokerId, Vector2 position, int AttackerId)
     {
         StartCoroutine(SpawnAfterSeconds(invokerId, new Vector2(Random.Range(1f, 10f), Random.Range(1f, 10f)), 5));
+        //StartCoroutine(KeepSpectatorSync(position));
+        spectatorTarget = AttackerId;
         CameraScript.SetTarget(playerControllers[AttackerId].Character.GetGameObject()); //TODO : 일정 딜레이 후 시점 바뀌는 걸로 바꾸기
         if (isOnline)
         {
@@ -637,6 +642,7 @@ public class GameLogic : MonoBehaviour
     void SpawnPlayer(int playerId, Vector2 position, bool setInvincible = true)
     {
         playerControllers[playerId].Spawn(position);
+        spectatorTarget = -1;
         if (setInvincible)
             playerControllers[playerId].SetInvincible(SPAWN_INVINCIBLE_TIME);
     }
@@ -736,6 +742,19 @@ public class GameLogic : MonoBehaviour
             }
             CreateItemRandomely(playerControllers[myId].GetCurrentPosition(), 10);
         }
+    }
+
+    IEnumerator KeepSpectatorSync(Vector2 startPosition)
+    {
+        TestUI.Instance.PrintText("KeepSpectatorSync Start, target : " + spectatorTarget);
+        NetworkModule.instance.WriteEventSync(myId, startPosition, new Vector2(), new CharacterStateInfo());
+        yield return new WaitForSeconds(NetworkModule.SyncFrequency);
+        while(spectatorTarget != -1)
+        {
+            NetworkModule.instance.WriteEventSync(myId, playerControllers[spectatorTarget].GetCurrentPosition(), new Vector2(), new CharacterStateInfo());
+            yield return new WaitForSeconds(NetworkModule.SyncFrequency);
+        }
+        TestUI.Instance.PrintText("KeepSpectatorSync End");
     }
 }
    

@@ -25,6 +25,7 @@ public class MainCharacter : ControllableCharacter
     public override void Spawn(Vector2 position)
     {
         gameObject.SetActive(true);
+        StartCoroutine("KeepSync");
         isDead = false;
         state.hp = state.MaxHP;
         SetLocation(position);
@@ -75,11 +76,12 @@ public class MainCharacter : ControllableCharacter
         state.MaxHP = DEFAULT_HP;
 
         gameObject.SetActive(false);
+        StopCoroutine("KeepSync");
     }
 
     void Start()
 	{
-        StartCoroutine("KeepSync");
+        
     }
 
 	// Update is called once per frame
@@ -245,7 +247,7 @@ public class MainCharacter : ControllableCharacter
                     InvokeEventShoot(CurrentPosition, CurrentVelocity, bullet.BulletStat, currentWeapon.WeaponId);
                     Inventory.InvokeSetAmmoEvent(currentWeapon.WeaponId, currentWeapon.CurrentAmmo);
 
-                    if (currentWeapon.CurrentAmmo == 0)
+                    if (currentWeapon.CurrentAmmo == 0 && IsLocalPlayer) // 리모트 유저의 남은 탄환은 동기화가 안 되서 덜 썼는데도 무기가 지워지는 현상 발생. IsLocalPlayer 체크 추가.
                     {
                         Inventory.DeleteItem(currentWeapon.WeaponId);
                     }
@@ -333,6 +335,7 @@ public class MainCharacter : ControllableCharacter
             isDead = true;
             InvokeEventDead(CurrentPosition, lastAttackedPlayerId);
             gameObject.SetActive(false);
+            StopCoroutine("KeepSync");
         }
     }
 
@@ -396,27 +399,7 @@ public class MainCharacter : ControllableCharacter
         {
             if (!isDead)
             {
-                if ((Math.Abs(charRigidbody.velocity.x) > 0.1 || Math.Abs(charRigidbody.velocity.y) > 0.1))
-                {
-                    InvokeEventSync(charRigidbody.position, charRigidbody.velocity, state);
-                    if (Math.Abs(charRigidbody.velocity.x) > 0.1)
-                        isSyncedXStop = false;
-                    if (Math.Abs(charRigidbody.velocity.y) > 0.1)
-                        isSyncedYStop = false;
-                }
-                else if((Math.Abs(charRigidbody.velocity.x) == 0 || Math.Abs(charRigidbody.velocity.y) == 0))
-                {
-                    if (!isSyncedXStop)
-                    {
-                        InvokeEventSync(charRigidbody.position, charRigidbody.velocity, state);
-                        isSyncedXStop = true;
-                    }
-                    if (!isSyncedYStop)
-                    {
-                        InvokeEventSync(charRigidbody.position, charRigidbody.velocity, state);
-                        isSyncedYStop = true;
-                    }
-                }
+                InvokeEventSync(charRigidbody.position, charRigidbody.velocity, state);
             }
             yield return new WaitForSeconds(NetworkModule.SyncFrequency);
         }
