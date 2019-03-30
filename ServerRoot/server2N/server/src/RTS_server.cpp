@@ -212,7 +212,7 @@ bool childProcessLogic()
 	/*******************************************************
 	 * Connection 관련 함수 Add
 	 *******************************************************/
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserConnection_ConnectionType_TryConnect, ConnectAllSendFunc) );
+	//funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserConnection_ConnectionType_TryConnect, ConnectAllSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserConnection_ConnectionType_Connect, ConnectAllSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserConnection_ConnectionType_DisConnect, ConnectAllSendFunc) );
 
@@ -297,8 +297,10 @@ bool childProcessLogic()
 				continue ;
 			}
 
-			if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect || type == (int32_t)server2N::SystemEvent_action_RequestUserInfo )
+	//funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserConnection_ConnectionType_TryConnect, ConnectAllSendFunc) );
+			if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect || type == (int32_t)server2N::UserEvent_action_EventMove || type == (int32_t)server2N::SystemEvent_action_RequestUserInfo )
 			{
+				LOG_DEBUG("TEST");
 				CLS_CALLBACK fnc = afxCreateClass(type);
 				CProtoLogicBase* logic = fnc(false);
 				if ( logic && logic->onPreProcess(data->_sector) && logic->onProcess(session, data) )
@@ -308,7 +310,9 @@ bool childProcessLogic()
 
 				delete logic;
 				continue;
-			} 
+			}
+
+
 			void (*func)(CSessionManager&, CProtoPacket*) = NULL;
 			func = funcMap.find(type)->second;
 			if ( func )
@@ -317,7 +321,8 @@ bool childProcessLogic()
 			}
 			else
 			{
-				LOG_ERROR("Not Register Type");
+				LOG_ERROR("Not FuncCallback Register Type");
+				
 			}
 		} 	
 	}

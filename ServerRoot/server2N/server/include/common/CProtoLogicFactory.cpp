@@ -226,6 +226,11 @@ bool CProtoItemEvent::onProcess(CSessionManager& session, CProtoPacket* eventPac
 	LOG_DEBUG("onProcess");
 }
 
+/***************************************
+ * MoveAll
+ * Move Action Class
+ ***************************************/
+PROTO_REGISTER((int32_t)server2N::UserEvent_action_EventMove, true, CProtoGameEventMoveAll);
 CProtoGameEventMoveAll::CProtoGameEventMoveAll()
 {
 	LOG_DEBUG("CProgoLogicBase");
@@ -240,6 +245,27 @@ CProtoGameEventMoveAll::~CProtoGameEventMoveAll()
 bool CProtoGameEventMoveAll::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
 	LOG_DEBUG("onProcess");
+	int32_t type = eventPacket->_type;
+	list<CUser*>::iterator it = _userList.begin();
+	for ( ; it != _userList.end(); it++ )
+	{
+		CUser* recvUser = (CUser*)*it;
+		CProtoPacket* packet = NULL;
+		if ( !g_packetManager.setActionType(type, recvUser, eventPacket, _userList, &packet) || !packet )
+		{
+			LOG_ERROR("Error Move Type");
+			continue ;
+		}
+		
+		/********************************
+		 * Enqueue
+		 ********************************/
+		_packetOutList.push_back(packet);
+		LOG_INFO("User(%d) Part Send Move Event", packet->_fd);
+	}
+
+		
+	return true;
 }
 
 CProtoGameEventSpawn::CProtoGameEventSpawn()
