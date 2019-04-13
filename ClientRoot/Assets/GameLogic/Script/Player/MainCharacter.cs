@@ -265,8 +265,7 @@ public class MainCharacter : ControllableCharacter
 
     public override void ChangeToNextWeapon() // 확인 필요. GameLogic에서 Inventory의 Change Weapon을 직접 호출중?
     {
-        WeaponId nextWeapon = Inventory.ChangeToNextWeapon();
-        ChangeWeapon(nextWeapon);
+        Inventory.ChangeToNextWeapon();
     }
 
     void CheckLand()

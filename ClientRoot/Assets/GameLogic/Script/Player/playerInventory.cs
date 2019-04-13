@@ -110,15 +110,17 @@ public class PlayerInventory
         }
     }
 
-    public WeaponId ChangeToNextWeapon()
+    public void ChangeToNextWeapon()
     {
-        int nextIndex = (GetCurrentWeaponIndex() + 1) % GameLogic.WEAPON_SLOT_COUNT;
-        if (nextIndex >= items.Count)
-            nextIndex = 0;
+        if (items.Count > 1)
+        {
+            int nextIndex = (GetCurrentWeaponIndex() + 1) % GameLogic.WEAPON_SLOT_COUNT;
+            if (nextIndex >= items.Count)
+                nextIndex = 0;
 
-        WeaponId NextWeapon = items[nextIndex].WeaponId;
-        ChangeWeapon(NextWeapon);
-        return NextWeapon;
+            WeaponId NextWeapon = items[nextIndex].WeaponId;
+            ChangeWeapon(NextWeapon);
+        }
     }
 
     public PlayerWeapon GetCurrentWeapon()

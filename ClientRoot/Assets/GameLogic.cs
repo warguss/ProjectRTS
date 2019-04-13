@@ -195,10 +195,7 @@ public class GameLogic : MonoBehaviour
                 SendInputToCharacter(myId, PlayerAction.Fire);
             if(inputInterface.GetNextWeapon())
             {
-                var CurrentInventory = playerControllers[myId].GetInventory();
-
-                CurrentInventory.ChangeToNextWeapon();
-
+                playerControllers[myId].ChangeToNextWeapon();
                 //playerControllers[myId].ChangeWeapon(keysList[nextIndex]);
             }
         }
@@ -214,10 +211,7 @@ public class GameLogic : MonoBehaviour
                 SendInputToCharacter(testId2P, PlayerAction.Fire);
             if(Input.GetKeyDown(KeyCode.Q))
             {
-                WeaponId CurrentWeaponId = playerControllers[testId2P].GetCurrentWeapon();
-                var CurrentInventory = playerControllers[testId2P].GetInventory();
-                CurrentInventory.ChangeToNextWeapon();
-                //playerControllers[testId2P].ChangeWeapon(keysList[nextIndex]);
+                playerControllers[testId2P].ChangeToNextWeapon();
             }
         }
 
