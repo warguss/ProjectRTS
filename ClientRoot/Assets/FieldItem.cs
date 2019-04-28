@@ -75,9 +75,9 @@ public class FieldItem : MonoBehaviour {
         if (other.tag == "Player")
         {
             MainCharacter targetPlayer = other.gameObject.GetComponent<MainCharacter>();
-            if (GameLogic.Instance.myId == targetPlayer.OwnerId) // ItemGet패킷 보낸 후 응답을 받아야 먹은 걸로 처리해야 함
+            if (GameStatus.myId == targetPlayer.OwnerId) // ItemGet패킷 보낸 후 응답을 받아야 먹은 걸로 처리해야 함
             {
-                if (!GameLogic.Instance.isOnline)
+                if (!GameStatus.isOnline)
                 {
                     targetPlayer.GetItem(this);
                     Destroy(gameObject);

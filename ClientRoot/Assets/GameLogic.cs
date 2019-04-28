@@ -15,7 +15,24 @@ public class GameLogic : MonoBehaviour
     public const float ITEM_INTERVAL_MAX = 30f;
     public const float ITEM_INTERVAL_MIN = 10f;
 
-    static public GameLogic Instance;
+    static public GameLogic Instance
+    {
+        get
+        {
+            GameObject gameLogicObject = GameObject.Find("/GameLogic");
+            if (gameLogicObject)
+            {
+                return gameLogicObject.GetComponent<GameLogic>();
+            }
+            else
+            {
+                GameObject tempInstance = new GameObject("GameLogic");
+                GameLogic createdGameLogic = tempInstance.AddComponent<GameLogic>();
+
+                return createdGameLogic;
+            }
+        }
+    }
 
     public InputInterface inputInterface;
 
@@ -23,13 +40,6 @@ public class GameLogic : MonoBehaviour
     public GameObject MapDataPrefab;
     public GameObject ItemPrefab;
     public CameraMove CameraScript;
-    public bool isOnline = false;
-
-    public int myId = -1;
-    public int mySector = -1;
-
-    public string entryName = "";
-    public bool isTestMode = true;
 
     Dictionary<int, PlayerController> playerControllers;
     MapData mapData;
@@ -46,17 +56,13 @@ public class GameLogic : MonoBehaviour
 
     byte[] msgBuffer = new byte[256];
 
-    private void Awake()
-    {
-        if(Instance != null)
-        {
-            Destroy(gameObject);
-        }
-        Instance = this;
-    }
-
     // Use this for initialization
     void Start()
+    {
+        
+    }
+
+    public void Initialize()
     {
         playerControllers = new Dictionary<int, PlayerController>();
         FieldItems = new Dictionary<string, FieldItem>();
@@ -68,10 +74,10 @@ public class GameLogic : MonoBehaviour
         mapData.LoadMap();
         mapData.DrawMap();
 
-        Debug.Log("isTestMode : "+isTestMode);
-        if (isTestMode)
+        Debug.Log("isTestMode : "+GameStatus.isTestMode);
+        if (GameStatus.isTestMode)
         {
-            myId = testId1P;
+            GameStatus.myId = testId1P;
             userJoin(testId1P, "test1p", true);
             userJoin(testId2P, "test2p", false, true);
             SpawnPlayer(testId2P, new Vector2(2, 2));
@@ -85,7 +91,7 @@ public class GameLogic : MonoBehaviour
 
             if (!NetworkModule.instance.isConnected)
             {
-                NetworkModule.instance.Connect(entryName);
+                NetworkModule.instance.Connect(GameStatus.entryName);
             }
         }
     }
@@ -93,13 +99,13 @@ public class GameLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckPacket();
         ProcessInput();
-        if(isOnline)
+        if(GameStatus.isOnline)
         {
-            if(!NetworkModule.instance.isConnected)
+            CheckPacket();
+            if (!NetworkModule.instance.isConnected)
             {
-                isOnline = false;
+                GameStatus.isOnline = false;
                 CleanUpGame();
                 TestUI.Instance.PrintText("Disconnected from server.");
                 StopAllCoroutines();
@@ -121,7 +127,7 @@ public class GameLogic : MonoBehaviour
         PlayerController player = playerControllers[id];
         if (isMe)
         {
-            CameraScript.SetTarget(playerControllers[myId].Character.GetGameObject());
+            CameraScript.SetTarget(playerControllers[GameStatus.myId].Character.GetGameObject());
             WeaponUI.Instance.SetInventory(player.GetInventory());
 
             StartCoroutine(ItemSpawnTimer());
@@ -182,25 +188,25 @@ public class GameLogic : MonoBehaviour
 
     void ProcessInput()
     {
-        if (myId != -1)
+        if (GameStatus.myId != -1)
         {
             //SendInputToCharacter(myId, PlayerAction.Left, Input.GetKey(KeyCode.LeftArrow));
             //SendInputToCharacter(myId, PlayerAction.Right, Input.GetKey(KeyCode.RightArrow));
-            SendInputToCharacter(myId, PlayerAction.Left, InputDirection.Left == inputInterface.GetCurrentDirection());
-            SendInputToCharacter(myId, PlayerAction.Right, InputDirection.Right == inputInterface.GetCurrentDirection());
+            SendInputToCharacter(GameStatus.myId, PlayerAction.Left, InputDirection.Left == inputInterface.GetCurrentDirection());
+            SendInputToCharacter(GameStatus.myId, PlayerAction.Right, InputDirection.Right == inputInterface.GetCurrentDirection());
 
             if (inputInterface.GetJump())
-                SendInputToCharacter(myId, PlayerAction.Jump);
+                SendInputToCharacter(GameStatus.myId, PlayerAction.Jump);
             if (inputInterface.GetFire())
-                SendInputToCharacter(myId, PlayerAction.Fire);
+                SendInputToCharacter(GameStatus.myId, PlayerAction.Fire);
             if(inputInterface.GetNextWeapon())
             {
-                playerControllers[myId].ChangeToNextWeapon();
+                playerControllers[GameStatus.myId].ChangeToNextWeapon();
                 //playerControllers[myId].ChangeWeapon(keysList[nextIndex]);
             }
         }
 
-        if(isTestMode)
+        if(GameStatus.isTestMode)
         {
             SendInputToCharacter(testId2P, PlayerAction.Left, Input.GetKey(KeyCode.A));
             SendInputToCharacter(testId2P, PlayerAction.Right, Input.GetKey(KeyCode.D));
@@ -219,7 +225,7 @@ public class GameLogic : MonoBehaviour
 
     public void CleanUpGame()
     {
-        isOnline = false;
+        GameStatus.isOnline = false;
 
         foreach (var entry in playerControllers)
         {
@@ -297,9 +303,9 @@ public class GameLogic : MonoBehaviour
                 //                         + " / Name = " + connectorName
                 //                         + " / Kill = " + connectorKillCount
                 //                         + " / Death = " + ConnectorDeathCount);
-                
-                isOnline = true;
-                myId = connectorId;
+
+                GameStatus.isOnline = true;
+                GameStatus.myId = connectorId;
                 userJoin(connectorId, connectorName, true);
             }
             else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.Connect)
@@ -315,8 +321,8 @@ public class GameLogic : MonoBehaviour
                                          + " / Death = " + ConnectorDeathCount);
                
                 userJoin(connectorId, connectorName, false, false, false);
-                if (playerControllers.ContainsKey(myId))
-                    playerControllers[myId].Character.InitialSync();
+                if (playerControllers.ContainsKey(GameStatus.myId))
+                    playerControllers[GameStatus.myId].Character.InitialSync();
             }
             else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.DisConnect)
             {
@@ -343,7 +349,7 @@ public class GameLogic : MonoBehaviour
                     foreach (int invokerId in EventPacket.InvokerId)
                     {
                         bool isInterested = EventPacket.IsInterested;//TO DO
-                        if (invokerId == myId)
+                        if (invokerId == GameStatus.myId)
                         {
                             continue;
                         }
@@ -547,7 +553,7 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventMove(int invokerId, Vector2 position, Vector2 velocity, bool isLeft)
     {
-        if (isOnline)
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventMove(invokerId, position, velocity, isLeft);
         }
@@ -555,7 +561,7 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventStop(int invokerId, Vector2 position, Vector2 velocity)
     {
-        if (isOnline)
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventStop(invokerId, position, velocity);
         }
@@ -563,7 +569,7 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, HitInfo info, float remainingHp)
     {
-        if (isOnline)
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventGetHit(invokerId, position, velocity, attackerId, info, remainingHp);
         }
@@ -571,7 +577,7 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventJump(int invokerId, Vector2 position, Vector2 velocity)
     {
-        if (isOnline)
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventJump(invokerId, position, velocity);
         }
@@ -579,8 +585,8 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventShoot(int invokerId, Vector2 position, Vector2 velocity, ShootInfo info, WeaponId weaponId)
     {
-        PlayerController player = playerControllers[myId];
-        if (isOnline)
+        PlayerController player = playerControllers[GameStatus.myId];
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventShoot(invokerId, position, velocity, info, weaponId);
         }
@@ -588,8 +594,8 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventChangeWeapon(int invokerId, Vector2 position, Vector2 velocity, WeaponId weaponId)
     {
-        PlayerController player = playerControllers[myId];
-        if (isOnline)
+        PlayerController player = playerControllers[GameStatus.myId];
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventChangeWeapon(invokerId, position, velocity, weaponId);
         }
@@ -597,8 +603,8 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventSpawn(int invokerId, Vector2 position)
     {
-        CameraScript.SetTarget(playerControllers[myId].Character.GetGameObject()); 
-        if (isOnline)
+        CameraScript.SetTarget(playerControllers[GameStatus.myId].Character.GetGameObject()); 
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventSpawn(invokerId, position);
         }
@@ -610,7 +616,7 @@ public class GameLogic : MonoBehaviour
         //StartCoroutine(KeepSpectatorSync(position));
         spectatorTarget = AttackerId;
         CameraScript.SetTarget(playerControllers[AttackerId].Character.GetGameObject()); //TODO : 일정 딜레이 후 시점 바뀌는 걸로 바꾸기
-        if (isOnline)
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventDead(invokerId, position, AttackerId);
             NetworkModule.instance.WriteRequestUserPosition(invokerId, AttackerId);
@@ -619,7 +625,7 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventGetItem(int invokerId, string itemId)
     {
-        if (isOnline)
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventGetItem(invokerId, itemId);
         }
@@ -627,7 +633,7 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventSync(int invokerId, Vector2 position, Vector2 velocity, CharacterStateInfo info)
     {
-        if (isOnline)
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventSync(invokerId, position, velocity, info);
         }
@@ -661,9 +667,9 @@ public class GameLogic : MonoBehaviour
     {
         var targetItem = FieldItems[itemId];
 
-        if(targetPlayer == myId)
+        if(targetPlayer == GameStatus.myId)
         {
-            playerControllers[myId].GetItem(targetItem);
+            playerControllers[GameStatus.myId].GetItem(targetItem);
         }
         else
         {
@@ -706,9 +712,9 @@ public class GameLogic : MonoBehaviour
                 }
         }
 
-        if (isOnline)
+        if (GameStatus.isOnline)
         {
-            NetworkModule.instance.WriteEventSpawnItem(myId, itemPosition, itemId, itemType, weaponId, itemAmount);
+            NetworkModule.instance.WriteEventSpawnItem(GameStatus.myId, itemPosition, itemId, itemType, weaponId, itemAmount);
         }
         else
         {
@@ -718,8 +724,8 @@ public class GameLogic : MonoBehaviour
 
     public string GenerateItemId()
     {
-        string itemId = myId + "_" + createItemCount;
         createItemCount++;
+        string itemId = System.Guid.NewGuid().ToString();
 
         return itemId;
     }
@@ -734,18 +740,18 @@ public class GameLogic : MonoBehaviour
                 yield return null;
                 currentItemInterval -= Time.deltaTime;
             }
-            CreateItemRandomely(playerControllers[myId].GetCurrentPosition(), 10);
+            CreateItemRandomely(playerControllers[GameStatus.myId].GetCurrentPosition(), 10);
         }
     }
 
     IEnumerator KeepSpectatorSync(Vector2 startPosition)
     {
         TestUI.Instance.PrintText("KeepSpectatorSync Start, target : " + spectatorTarget);
-        NetworkModule.instance.WriteEventSync(myId, startPosition, new Vector2(), new CharacterStateInfo());
+        NetworkModule.instance.WriteEventSync(GameStatus.myId, startPosition, new Vector2(), new CharacterStateInfo());
         yield return new WaitForSeconds(NetworkModule.SyncFrequency);
         while(spectatorTarget != -1)
         {
-            NetworkModule.instance.WriteEventSync(myId, playerControllers[spectatorTarget].GetCurrentPosition(), new Vector2(), new CharacterStateInfo());
+            NetworkModule.instance.WriteEventSync(GameStatus.myId, playerControllers[spectatorTarget].GetCurrentPosition(), new Vector2(), new CharacterStateInfo());
             yield return new WaitForSeconds(NetworkModule.SyncFrequency);
         }
         TestUI.Instance.PrintText("KeepSpectatorSync End");

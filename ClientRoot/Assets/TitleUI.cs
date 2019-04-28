@@ -19,7 +19,6 @@ public class TitleUI : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        DontDestroyOnLoad(GameLogic.gameObject);
         DontDestroyOnLoad(NetworkModule.gameObject);
         DontDestroyOnLoad(TestUI.gameObject);
 
@@ -37,8 +36,8 @@ public class TitleUI : MonoBehaviour {
     void onClickStart()
     {
         bool isOfflineMode = OfflineModeToggle.isOn;
-        GameLogic.Instance.entryName = NameInput.text;
-        GameLogic.Instance.isTestMode = isOfflineMode;
+        GameStatus.entryName = NameInput.text;
+        GameStatus.isTestMode = isOfflineMode;
 
         if (!isOfflineMode)
         {
@@ -50,6 +49,7 @@ public class TitleUI : MonoBehaviour {
             }
             else
             {
+                GameStatus.isOnline = true;
                 SceneManager.LoadScene(1);
             }
         }

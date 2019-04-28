@@ -6,7 +6,32 @@ using System.Text;
 
 public class TestUI : MonoBehaviour {
 
-    public static TestUI Instance;
+    public static TestUI Instance
+    {
+        get
+        {
+            if(m_Instance)
+            {
+                return m_Instance;
+            }
+            else
+            {
+                GameObject TestUICanvas = GameObject.Find("/TestUICanvas");
+                if(TestUICanvas)
+                {
+                    m_Instance = TestUICanvas.GetComponent<TestUI>();
+                }
+                else
+                {
+                    GameObject testUIPrefab = Resources.Load("prefabs/TestUICanvas", typeof(GameObject)) as GameObject;
+                    m_Instance = Instantiate(testUIPrefab).GetComponent<TestUI>();
+                }
+
+                return m_Instance;
+            }
+        }
+    }
+    private static TestUI m_Instance;
 
     public Text Console;
     public ScrollRect scrollView;
@@ -18,14 +43,18 @@ public class TestUI : MonoBehaviour {
     List<string> consoleMessage;
     bool newMessage = false;
 
-	// Use this for initialization
-	void Start () {
-        Instance = this;
+    private void Awake()
+    {
         concatString = new StringBuilder();
         consoleMessage = new List<string>();
 
         DisconnectButton.onClick.AddListener(OnClickDisconnect);
         //CreateItemButton.onClick.AddListener(OnClickItemCreate);
+    }
+
+    // Use this for initialization
+    void Start () {
+        
     }
 	
 	// Update is called once per frame

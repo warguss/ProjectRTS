@@ -78,6 +78,7 @@
     <Compile Include="Assets\GameLogic\Script\Player\SniperBullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\WeaponDatabase.cs" />
     <Compile Include="Assets\GameSceneManager.cs" />
+    <Compile Include="Assets\GameStatus.cs" />
     <Compile Include="Assets\Google.Protobuf\ByteArray.cs" />
     <Compile Include="Assets\Google.Protobuf\ByteString.cs" />
     <Compile Include="Assets\Google.Protobuf\CodedInputStream.cs" />

@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameSceneManager : MonoBehaviour {
 
-    InputInterface inputInterface;
-    CameraMove cameraScript;
+    public InputInterface inputInterface;
+    public CameraMove cameraScript;
 
     void OnEnable()
     {
@@ -16,18 +16,9 @@ public class GameSceneManager : MonoBehaviour {
     // called second
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.buildIndex == 1)
-        {
-            inputInterface = GameObject.Find("InputInterface").gameObject.GetComponent<InputInterface>();
-            cameraScript = GameObject.Find("CameraMove").gameObject.GetComponent<CameraMove>();
-
-            inputInterface.Initialize();
-
-            GameLogic.Instance.inputInterface = inputInterface;
-            GameLogic.Instance.CameraScript = cameraScript;
-
-            GameLogic.Instance.StartGame();
-        }
+        inputInterface.Initialize();
+        GameLogic.Instance.Initialize();
+        GameLogic.Instance.StartGame();
     }
 
     // Use this for initialization
