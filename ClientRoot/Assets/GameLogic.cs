@@ -11,6 +11,7 @@ public class GameLogic : MonoBehaviour
 {
     public const int WEAPON_SLOT_COUNT = 3;
     public const float SPAWN_INVINCIBLE_TIME = 3f;
+    public const float MIN_INTERPOLATION_DISTANCE = 2f;
 
     public const float ITEM_INTERVAL_MAX = 30f;
     public const float ITEM_INTERVAL_MIN = 10f;
@@ -348,13 +349,17 @@ public class GameLogic : MonoBehaviour
                 {
                     foreach (int invokerId in EventPacket.InvokerId)
                     {
+                        PlayerController currentPlayer = playerControllers[invokerId];
                         bool isInterested = EventPacket.IsInterested;//TO DO
                         if (invokerId == GameStatus.myId)
                         {
                             continue;
                         }
-                        //playerControllers[invokerId].IsInterested = isInterested;
-                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
+                        currentPlayer.IsInterested = !isInterested; // 서버에선 값이 반대?
+                        if (Vector2.Distance(currentPlayer.GetCurrentPosition(), position) > MIN_INTERPOLATION_DISTANCE)
+                        {
+                            currentPlayer.MoveWithInterpolation(position, velocity);
+                        }
 
                         var userEventPacket = EventPacket.UserEvent;
                         ProcessUserEvent(userEventPacket, invokerId, position);

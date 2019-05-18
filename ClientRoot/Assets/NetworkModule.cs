@@ -10,7 +10,7 @@ using System.Threading;
 
 public class NetworkModule : MonoBehaviour
 {
-    public const string SERVER_IP = "210.89.191.141";
+    public const string SERVER_IP = "ec2-13-125-18-197.ap-northeast-2.compute.amazonaws.com";
     public const int SERVER_PORT = 10001;
     public const float SyncFrequency = 0.2f;
     public const float MaxInterpolationTime = 0.3f;
