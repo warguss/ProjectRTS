@@ -77,6 +77,18 @@ public class InputInterface : MonoBehaviour {
         }
     }
 
+    public bool GetRoll()
+    {
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+            return true;
+
+        else
+        {
+            return false;
+            //return buttonInterface.GetRollDown();
+        }
+    }
+
     public bool GetNextWeapon()
     {
         if (Input.GetKeyDown(KeyCode.Slash))

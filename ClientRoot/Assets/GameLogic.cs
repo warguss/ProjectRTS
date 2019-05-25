@@ -200,7 +200,11 @@ public class GameLogic : MonoBehaviour
                 SendInputToCharacter(GameStatus.myId, PlayerAction.Jump);
             if (inputInterface.GetFire())
                 SendInputToCharacter(GameStatus.myId, PlayerAction.Fire);
-            if(inputInterface.GetNextWeapon())
+
+            if (inputInterface.GetRoll())
+                SendInputToCharacter(GameStatus.myId, PlayerAction.Roll);
+
+            if (inputInterface.GetNextWeapon())
             {
                 playerControllers[GameStatus.myId].ChangeToNextWeapon();
                 //playerControllers[myId].ChangeWeapon(keysList[nextIndex]);
@@ -670,19 +674,26 @@ public class GameLogic : MonoBehaviour
 
     public void ConsumeItem(int targetPlayer, string itemId)
     {
-        var targetItem = FieldItems[itemId];
-
-        if(targetPlayer == GameStatus.myId)
+        if (FieldItems.ContainsKey(itemId))
         {
-            playerControllers[GameStatus.myId].GetItem(targetItem);
+            var targetItem = FieldItems[itemId];
+
+            if (targetPlayer == GameStatus.myId)
+            {
+                playerControllers[GameStatus.myId].GetItem(targetItem);
+            }
+            else
+            {
+                //효과만 표시?
+            }
+
+            Destroy(targetItem.gameObject);
+            FieldItems.Remove(itemId);
         }
         else
         {
-            //효과만 표시?
-        }
 
-        Destroy(targetItem.gameObject);
-        FieldItems.Remove(itemId);
+        }
     }
 
     public void CreateItemRandomely(Vector2 centerPosition, float range)

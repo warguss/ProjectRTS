@@ -20,6 +20,7 @@ namespace RTS
         public bool right;
         public bool jump;
         public bool fire;
+        public bool roll;
     }
 
     public enum PlayerAction
@@ -28,7 +29,8 @@ namespace RTS
         Left,
         Right,
         Jump,
-        Fire
+        Fire,
+        Roll
     }
 
     public class Utils

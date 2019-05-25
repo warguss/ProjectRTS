@@ -9,10 +9,15 @@ public class MainCharacter : ControllableCharacter
     const float DEFAULT_HP_RECOVER_AMOUNT = 30;
     const float DEFAULT_HP = 100;
 
+    const float ROLLING_INVINCIBLE_TIME = 0.2f;
+
     public float MaxMoveSpeed;
     public float MoveForce;
     public float JumpForce;
     public int MaxJumpCount = 2;
+    public int MaxRollCount = 1;
+
+    public float RollForce = 7f;
 
     bool isInterpolating = false;
     float interpolationTime = NetworkModule.MaxInterpolationTime;
@@ -21,6 +26,11 @@ public class MainCharacter : ControllableCharacter
 
     bool isSyncedXStop = false;
     bool isSyncedYStop = false;
+
+    bool isRolling = false;
+    bool isRollingInvinsible = false;
+    float remainingRollingInvinsibleTime = 0f;
+    int rollCount = 0;
 
     public override void Spawn(Vector2 position)
     {
@@ -114,6 +124,15 @@ public class MainCharacter : ControllableCharacter
         {
             charSpriteObject.transform.localPosition = Vector3.zero;
         }
+
+        if(isRollingInvinsible)
+        {
+            remainingRollingInvinsibleTime -= Time.deltaTime;
+        }
+        if(remainingRollingInvinsibleTime <= 0)
+        {
+            isRollingInvinsible = false;
+        }
         
     }
 
@@ -121,7 +140,7 @@ public class MainCharacter : ControllableCharacter
     {
         CheckLand();
 
-        if (state.CurrentState == CharacterState.Neutral && !isMoving)
+        if (state.CurrentState == CharacterState.Neutral && !isMoving && !isRolling)
             Brake();
     }
 
@@ -129,6 +148,9 @@ public class MainCharacter : ControllableCharacter
     {
         if (!isDead)
         {
+            remainingRollingInvinsibleTime = 0f;
+            isRollingInvinsible = false;
+
             if (!isMoving || !isLeft)
                 InvokeEventMove(CurrentPosition, CurrentVelocity, true);
 
@@ -149,6 +171,9 @@ public class MainCharacter : ControllableCharacter
     {
         if (!isDead)
         {
+            remainingRollingInvinsibleTime = 0f;
+            isRollingInvinsible = false;
+
             if (!isMoving || isLeft)
             {
                 InvokeEventMove(CurrentPosition, CurrentVelocity, false);
@@ -168,7 +193,7 @@ public class MainCharacter : ControllableCharacter
 
     public override void MoveStop()
     {
-        if(state.CurrentState == CharacterState.Neutral)
+        if(state.CurrentState == CharacterState.Neutral && !isRolling)
         {
             if (isMoving)
                 InvokeEventStop(CurrentPosition, CurrentVelocity);
@@ -237,6 +262,9 @@ public class MainCharacter : ControllableCharacter
     {
         if (!isDead)
         {
+            remainingRollingInvinsibleTime = 0f;
+            isRollingInvinsible = false;
+
             PlayerWeapon currentWeapon = Inventory.GetCurrentWeapon();
             if (currentWeapon != null)
             {
@@ -271,6 +299,8 @@ public class MainCharacter : ControllableCharacter
     void CheckLand()
     {
         float distToGround = charCollider.bounds.extents.y;
+        //int mask = LayerMask.NameToLayer("Wall");
+
         var checkGrounded = Physics2D.Raycast(transform.position, -Vector2.up, distToGround + (float)0.1);
 
         if (checkGrounded)
@@ -300,12 +330,13 @@ public class MainCharacter : ControllableCharacter
     void Land()
     {
         isGrounded = true;
+        endRoll();
         jumpCount = 0;
     }
 
     public override void GetHit(int attackerId, HitInfo info, float? remainingHp = null)
     {
-        if (!state.Invincible) //무적인지 체크
+        if (!state.Invincible && !isRollingInvinsible) //무적인지 체크
         {
             if (remainingHp == null)
                 state.hp -= info.Damage;
@@ -402,6 +433,39 @@ public class MainCharacter : ControllableCharacter
             }
             yield return new WaitForSeconds(NetworkModule.SyncFrequency);
         }
+    }
+
+    public void DoRoll()
+    {
+        if (!isRolling && !isDead && rollCount < MaxRollCount)
+        {
+            isRolling = true;
+            isRollingInvinsible = true;
+            remainingRollingInvinsibleTime = ROLLING_INVINCIBLE_TIME;
+            rollCount++;
+
+
+            Vector2 directionVector;
+            if (isLeft)
+                directionVector = Vector2.left;
+            else
+                directionVector = Vector2.right;
+
+            //charRigidbody.velocity = new Vector2(0, 0);
+            //charRigidbody.AddForce((Vector2.up + directionVector) * RollForce);
+
+            charRigidbody.velocity = (Vector2.up + directionVector) * RollForce;
+
+            InvokeEventRoll(CurrentPosition, CurrentVelocity);
+        }
+    }
+
+    public void endRoll()
+    {
+        isRolling = false;
+        isRollingInvinsible = false;
+        remainingRollingInvinsibleTime = 0f;
+        rollCount = 0;
     }
 
 }

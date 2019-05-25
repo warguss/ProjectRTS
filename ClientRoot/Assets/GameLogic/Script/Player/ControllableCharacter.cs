@@ -12,6 +12,7 @@ public delegate void CharEventSpawn(int invokerId, Vector2 position);
 public delegate void CharEventDead(int invokerId, Vector2 position, int attackerId);
 //public delegate void CharEventGetItem(int invokerId, string itemId);
 public delegate void CharEventSync(int invokerId, Vector2 position, Vector2 velocity, CharacterStateInfo info);
+public delegate void CharEventRoll(int invokerId, Vector2 position, Vector2 velocity);
 
 public abstract class ControllableCharacter : MonoBehaviour
 {
@@ -58,6 +59,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     public event CharEventDead DieEvent;
     //public event CharEventGetItem GetItemEvent;
     public event CharEventSync SyncEvent;
+    public event CharEventRoll RollEvent;
 
     protected void InvokeEventMove(Vector2 position, Vector2 velocity, bool isLeft)
     {
@@ -98,6 +100,11 @@ public abstract class ControllableCharacter : MonoBehaviour
     protected void InvokeEventSync(Vector2 position, Vector2 velocity, CharacterStateInfo info)
     {
         SyncEvent?.Invoke(OwnerId, position, velocity, info);
+    }
+
+    protected void InvokeEventRoll(Vector2 position, Vector2 velocity)
+    {
+        RollEvent?.Invoke(OwnerId, position, velocity);
     }
 
     public void Start()

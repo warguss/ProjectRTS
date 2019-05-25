@@ -9,6 +9,8 @@ public class CurrentInput
     public bool Right = false;
     public bool Jump = false;
     public bool Fire = false;
+
+    public bool Roll = false;
 }
 
 public class PlayerController {
@@ -85,6 +87,10 @@ public class PlayerController {
                 currentInput.Left = false;
                 currentInput.Right = false;
                 break;
+
+            case PlayerAction.Roll:
+                currentInput.Roll = true;
+                break;
         }
     }
 
@@ -113,6 +119,15 @@ public class PlayerController {
         {
             Character.Shoot();
             currentInput.Fire = false;
+        }
+
+        if (currentInput.Roll)
+        {
+            if (Character is MainCharacter)
+            {
+                ((MainCharacter)Character).DoRoll();
+            }
+            currentInput.Roll = false;
         }
     }
 
