@@ -48,6 +48,8 @@ class CProtoGameEventLogicBase : public CProtoLogicBase
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
 };
 
+
+// ItemSpawn , ItemGet
 class CProtoItemEvent : public CProtoLogicBase
 {
 	public:
@@ -57,6 +59,7 @@ class CProtoItemEvent : public CProtoLogicBase
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
 };
 
+// Nothing , Stop, Jump, Move
 class CProtoGameEventMoveAll : public CProtoLogicBase
 {
 	public:
@@ -66,24 +69,18 @@ class CProtoGameEventMoveAll : public CProtoLogicBase
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
 };
 
-class CProtoGameEventSpawn : public CProtoLogicBase
+// Shoot, Hit, Death, Spawn
+class CProtoGameEventRule : public CProtoLogicBase
 {
 	public:
-		CProtoGameEventSpawn();
-		~CProtoGameEventSpawn();
+		CProtoGameEventRule();
+		~CProtoGameEventRule();
 
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
+		//bool onPostProcess(CSessionManager& session);
 };
 
-class CProtoNotiKillInfo : public CProtoLogicBase
-{
-	public:
-		CProtoNotiKillInfo();
-		~CProtoNotiKillInfo();
-
-		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
-};
-
+// Global Notice 에서만 필요할듯함
 class CProtoNotiSystem : public CProtoLogicBase 
 {
 	public:
@@ -92,17 +89,6 @@ class CProtoNotiSystem : public CProtoLogicBase
 
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
 };
-
-#if 0 
-class CProtoCamEvent : public CProtoLogicBase 
-{
-	public:
-		CProtoCamEvent();
-		~CProtoCamEvent();
-
-		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
-};
-#endif
 
 class CProtoRequestUserInfo : public CProtoLogicBase 
 {
@@ -149,6 +135,8 @@ class CProtoRegister
 	CProtoRegister g_##fnc(type, createProtoLogic<fnc>);
 //#define PROTO_REGISTER(type, isPartSend, fnc) PROTO_MAP_REGISTER(type, createProtoLogic<fnc>(isPartSend));
 
+#define PROTO_REGISTER_IDX(type, isPartSend, fnc, index) \
+	CProtoRegister g_##fnc##index(type, createProtoLogic<fnc>);
 
 
 

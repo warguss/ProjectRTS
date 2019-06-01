@@ -230,7 +230,10 @@ bool CProtoItemEvent::onProcess(CSessionManager& session, CProtoPacket* eventPac
  * MoveAll
  * Move Action Class
  ***************************************/
-PROTO_REGISTER((int32_t)server2N::UserEvent_action_EventMove, true, CProtoGameEventMoveAll);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_Nothing, true, CProtoGameEventMoveAll, 0);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventMove, true, CProtoGameEventMoveAll, 1);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventStop, true, CProtoGameEventMoveAll, 2);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventJump, true, CProtoGameEventMoveAll, 3);
 CProtoGameEventMoveAll::CProtoGameEventMoveAll()
 {
 	LOG_DEBUG("CProgoLogicBase");
@@ -264,47 +267,16 @@ bool CProtoGameEventMoveAll::onProcess(CSessionManager& session, CProtoPacket* e
 		LOG_INFO("User(%d) Part Send Move Event", packet->_fd);
 	}
 
-		
 	return true;
 }
 
-CProtoGameEventSpawn::CProtoGameEventSpawn()
-{
-	LOG_DEBUG("CProgoLogicBase");
-}
-
-
-CProtoGameEventSpawn::~CProtoGameEventSpawn()
-{
-	LOG_DEBUG("~CProgoLogicBase");
-}
-
-bool CProtoGameEventSpawn::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
-{
-	LOG_DEBUG("onProcess");
-}
-
-CProtoNotiKillInfo::CProtoNotiKillInfo()
-{
-	LOG_DEBUG("CProgoLogicBase");
-}
-
-
-CProtoNotiKillInfo::~CProtoNotiKillInfo()
-{
-	LOG_DEBUG("~CProgoLogicBase");
-}
-
-bool CProtoNotiKillInfo::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
-{
-	LOG_DEBUG("onProcess");
-}
-
+/***************************************
+ * Kill Info Noti 
+ ***************************************/
 CProtoNotiSystem::CProtoNotiSystem()
 {
 	LOG_DEBUG("CProgoLogicBase");
 }
-
 
 CProtoNotiSystem::~CProtoNotiSystem()
 {
@@ -358,6 +330,69 @@ bool CProtoRequestUserInfo::onProcess(CSessionManager& session, CProtoPacket* ev
 	LOG_DEBUG("Send Proto(%d) Sending debugString(%s)", eventPacket->_fd, eventPacket->_proto->event().DebugString().c_str());
 	return true;
 }
+	
+// Shoot | Hit | Death | Spawn
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventShoot, true, CProtoGameEventRule, 0);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventHit, true, CProtoGameEventRule, 1);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventDeath, true, CProtoGameEventRule, 2);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventSpawn, true, CProtoGameEventRule, 3);
+CProtoGameEventRule::CProtoGameEventRule()
+{
+	LOG_DEBUG("CProtoGameEventRule");
+}
+
+CProtoGameEventRule::~CProtoGameEventRule()
+{
+	LOG_DEBUG("CProtoGameEventRule");
+}
+
+bool CProtoGameEventRule::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
+{
+	LOG_DEBUG("onProcess");
+	int32_t type = eventPacket->_type;
+	list<CUser*>::iterator it = _userList.begin();
+	for ( ; it != _userList.end(); it++ )
+	{
+		CUser* recvUser = (CUser*)*it;
+		CProtoPacket* packet = NULL;
+		if ( !g_packetManager.setActionType(type, recvUser, eventPacket, _userList, &packet) || !packet )
+		{
+			LOG_ERROR("Error Move Type");
+			continue ;
+		}
+		
+		/********************************
+		 * Enqueue
+		 ********************************/
+		_packetOutList.push_back(packet);
+
+		/******************************************
+		 * Noti의 경우에는 추가로 보낸다
+		 * Death일때, type을 바꿔서 KillInfo 보냄
+		 ******************************************/
+		if ( _type == (int32_t)server2N::UserEvent_action_EventDeath )
+		{
+			CProtoPacket *notiPacket = NULL;
+			if ( !g_packetManager.setNotiType(type, user, eventUser, connectList, &notiPacket) || !notiPacket )
+			{
+				LOG_ERROR("Error Noti All Type");
+				continue ;
+			}
+			
+			_packetOutList.push_back(notiPacket);
+		}
+		LOG_INFO("User(%d) Part Send Move Event", packet->_fd);
+	}
+
+	return true;
+}
+
+// Sync
+
+
+// Item
+
+
 
 #if 0 
 void PROTO_MAP_REGISTER(int32_t type, CLS_CALLBACK fnc)
