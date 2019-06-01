@@ -2,6 +2,7 @@
 #define _MODULE_PROTOLOGIC_H_
 #include "CSessionManager.h"
 #include "CProtoManager.h"
+#include "redis/CCustomRedisManager.h"
 using namespace std;
 
 class CProtoLogicBase
@@ -72,12 +73,17 @@ class CProtoGameEventMoveAll : public CProtoLogicBase
 // Shoot, Hit, Death, Spawn
 class CProtoGameEventRule : public CProtoLogicBase
 {
+	private:
+		/* KillInfo Noti위한 후처리 */
+		list<CUser*> _allUserListForKillInfo;
+		CProtoPacket* _eventPacket;
+
 	public:
 		CProtoGameEventRule();
 		~CProtoGameEventRule();
 
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
-		//bool onPostProcess(CSessionManager& session);
+		bool onPostProcess(CSessionManager& session);
 };
 
 // Global Notice 에서만 필요할듯함
@@ -104,6 +110,9 @@ CLS_CALLBACK afxCreateClass(int32_t type);
 template <class T> CProtoLogicBase* createProtoLogic(bool isPartSend);
 
 void PROTO_MAP_REGISTER(int32_t type, CLS_CALLBACK fnc);
+void SEND_PACKET_EVENT(CSessionManager& session, list<CProtoPacket*> packetList);
+void REDIS_SCORE_BOARD_UPDATE(int32_t performerFd);
+
 #if 0 
 {
 	if ( !fnc )
