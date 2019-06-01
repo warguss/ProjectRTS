@@ -27,16 +27,11 @@ public class MainCharacter : ControllableCharacter
     bool isSyncedXStop = false;
     bool isSyncedYStop = false;
 
-    bool isRolling = false;
-    bool isRollingInvinsible = false;
-    float remainingRollingInvinsibleTime = 0f;
-    int rollCount = 0;
-
     public override void Spawn(Vector2 position)
     {
         gameObject.SetActive(true);
         StartCoroutine("KeepSync");
-        isDead = false;
+        state.IsDead = false;
         state.hp = state.MaxHP;
         SetLocation(position);
 
@@ -67,7 +62,9 @@ public class MainCharacter : ControllableCharacter
     // Use this for initialization
     void Awake()
     {
-        isDead = true;
+        state = new CharacterStateInfo();
+
+        state.IsDead = true;
         charRigidbody = GetComponent<Rigidbody2D>();
         charCollider = GetComponent<Collider2D>();
         charSpriteObject = transform.Find("Sprite").gameObject;
@@ -76,8 +73,6 @@ public class MainCharacter : ControllableCharacter
         Inventory = new PlayerInventory(this);
         //Inventory.AddItem(WeaponId.Pistol);////////////////////
         //Inventory.AddItem(WeaponId.Sniper);////////////////////
-
-        state = new CharacterStateInfo();
 
         var playerInfoDisplayGameObject = Instantiate(PlayerInfoDisplay, transform.Find("Sprite"));
         playerInfoDisplayGameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
@@ -101,7 +96,7 @@ public class MainCharacter : ControllableCharacter
         Inventory.UpdateWeaponInterval(Time.deltaTime);
         state.UpdateStateInfo(Time.deltaTime);
         
-        if(state.Invincible)
+        if(state.GetSpecialState(CharacterSpecialState.Invincible))
         {
             SpriteOverlay.SetInvincible(true);
         }
@@ -124,38 +119,27 @@ public class MainCharacter : ControllableCharacter
         {
             charSpriteObject.transform.localPosition = Vector3.zero;
         }
-
-        if(isRollingInvinsible)
-        {
-            remainingRollingInvinsibleTime -= Time.deltaTime;
-        }
-        if(remainingRollingInvinsibleTime <= 0)
-        {
-            isRollingInvinsible = false;
-        }
-        
     }
 
     void FixedUpdate()
     {
         CheckLand();
 
-        if (state.CurrentState == CharacterState.Neutral && !isMoving && !isRolling)
+        if (state.CurrentState == CharacterState.Neutral && !state.IsMoving && !state.IsRolling)
             Brake();
     }
 
         public override void MoveLeft()
     {
-        if (!isDead)
+        if (!state.IsDead)
         {
-            remainingRollingInvinsibleTime = 0f;
-            isRollingInvinsible = false;
+            state.DisableSpecialState(CharacterSpecialState.RollingInvincible);
 
-            if (!isMoving || !isLeft)
+            if (!state.IsMoving || !state.IsLeft)
                 InvokeEventMove(CurrentPosition, CurrentVelocity, true);
 
-            isMoving = true;
-            isLeft = true;
+            state.IsMoving = true;
+            state.IsLeft = true;
 
             //rb2d.velocity = new Vector2(-MaxMoveSpeed, rb2d.velocity.y);
             if (-1 * charRigidbody.velocity.x < MaxMoveSpeed)
@@ -169,18 +153,17 @@ public class MainCharacter : ControllableCharacter
 
     public override void MoveRight()
     {
-        if (!isDead)
+        if (!state.IsDead)
         {
-            remainingRollingInvinsibleTime = 0f;
-            isRollingInvinsible = false;
+            state.DisableSpecialState(CharacterSpecialState.RollingInvincible);
 
-            if (!isMoving || isLeft)
+            if (!state.IsMoving || state.IsLeft)
             {
                 InvokeEventMove(CurrentPosition, CurrentVelocity, false);
             }
 
-            isMoving = true;
-            isLeft = false;
+            state.IsMoving = true;
+            state.IsLeft = false;
 
             //rb2d.velocity = new Vector2(MaxMoveSpeed, rb2d.velocity.y);
             if (1 * charRigidbody.velocity.x < MaxMoveSpeed)
@@ -193,12 +176,12 @@ public class MainCharacter : ControllableCharacter
 
     public override void MoveStop()
     {
-        if(state.CurrentState == CharacterState.Neutral && !isRolling)
+        if(state.CurrentState == CharacterState.Neutral && !state.IsRolling)
         {
-            if (isMoving)
+            if (state.IsMoving)
                 InvokeEventStop(CurrentPosition, CurrentVelocity);
 
-            isMoving = false;
+            state.IsMoving = false;
 
             state.CurrentState = CharacterState.Neutral;
         }
@@ -211,12 +194,12 @@ public class MainCharacter : ControllableCharacter
 
     public override void InitialSync()
     {
-        if (!isDead)
+        if (!state.IsDead)
         {
             InvokeEventSpawn(CurrentPosition);
-            if (isMoving)
+            if (state.IsMoving)
             {
-                if (isLeft)
+                if (state.IsLeft)
                     InvokeEventMove(CurrentPosition, CurrentVelocity, true);
                 else
                     InvokeEventMove(CurrentPosition, CurrentVelocity, false);
@@ -226,9 +209,9 @@ public class MainCharacter : ControllableCharacter
 
     public override void Jump()
     {
-        if (jumpCount < MaxJumpCount)
+        if (state.jumpCount < MaxJumpCount)
         {
-            jumpCount++;
+            state.jumpCount++;
 
             //rb2d.AddForce(Vector2.up*JumpForce);
             charRigidbody.velocity = new Vector2(charRigidbody.velocity.x, JumpForce);
@@ -239,7 +222,7 @@ public class MainCharacter : ControllableCharacter
 
     public override void Shoot()
     {
-        if (!isDead)
+        if (!state.IsDead)
         {
             //ShootInfo shootInfo = new ShootInfo
             //{
@@ -260,10 +243,9 @@ public class MainCharacter : ControllableCharacter
 
     public override void ShootWithShootInfo(ShootInfo info, Vector2 position)
     {
-        if (!isDead)
+        if (!state.IsDead)
         {
-            remainingRollingInvinsibleTime = 0f;
-            isRollingInvinsible = false;
+            state.DisableSpecialState(CharacterSpecialState.RollingInvincible);
 
             PlayerWeapon currentWeapon = Inventory.GetCurrentWeapon();
             if (currentWeapon != null)
@@ -305,7 +287,7 @@ public class MainCharacter : ControllableCharacter
 
         if (checkGrounded)
         {
-            if (isGrounded)
+            if (state.IsGrounded)
             {
 
             }
@@ -316,9 +298,9 @@ public class MainCharacter : ControllableCharacter
         }
         else
         {
-            if (isGrounded)
+            if (state.IsGrounded)
             {
-                isGrounded = false;
+                state.IsGrounded = false;
             }
             else
             {
@@ -329,14 +311,14 @@ public class MainCharacter : ControllableCharacter
 
     void Land()
     {
-        isGrounded = true;
+        state.IsGrounded = true;
         endRoll();
-        jumpCount = 0;
+        state.jumpCount = 0;
     }
 
     public override void GetHit(int attackerId, HitInfo info, float? remainingHp = null)
     {
-        if (!state.Invincible && !isRollingInvinsible) //무적인지 체크
+        if (!state.GetSpecialState(CharacterSpecialState.Invincible) && !state.GetSpecialState(CharacterSpecialState.RollingInvincible)) //무적인지 체크
         {
             if (remainingHp == null)
                 state.hp -= info.Damage;
@@ -347,7 +329,7 @@ public class MainCharacter : ControllableCharacter
 
             charRigidbody.AddForce(new Vector2(info.ImpactX, info.ImpactY));
 
-            lastAttackedPlayerId = attackerId;
+            state.lastAttackedPlayerId = attackerId;
 
             InvokeEventGetHit(CurrentPosition, CurrentVelocity, attackerId, info, state.hp);
 
@@ -360,10 +342,10 @@ public class MainCharacter : ControllableCharacter
 
     public override void PlayerDie()
     {
-        if (!isDead)
+        if (!state.IsDead)
         {
-            isDead = true;
-            InvokeEventDead(CurrentPosition, lastAttackedPlayerId);
+            state.IsDead = true;
+            InvokeEventDead(CurrentPosition, state.lastAttackedPlayerId);
             gameObject.SetActive(false);
             StopCoroutine("KeepSync");
         }
@@ -371,7 +353,7 @@ public class MainCharacter : ControllableCharacter
 
     public override void SetLocation(Vector2 position)
     {
-        if (!isDead)
+        if (!state.IsDead)
         {
             gameObject.transform.position = position;
             //charRigidbody.MovePosition(position);
@@ -380,7 +362,7 @@ public class MainCharacter : ControllableCharacter
 
     public override void MoveWithInterpolation(Vector2 position, Vector2 velocity)
     {
-        if (!isDead)
+        if (!state.IsDead)
         {
             interpolationTime = Vector2.Distance(transform.position, position) / NetworkModule.InterpolationLongestDistance * NetworkModule.MaxInterpolationTime;
             if (interpolationTime != 0)
@@ -427,7 +409,7 @@ public class MainCharacter : ControllableCharacter
     {
         while (true)
         {
-            if (!isDead)
+            if (!state.IsDead)
             {
                 InvokeEventSync(charRigidbody.position, charRigidbody.velocity, state);
             }
@@ -437,16 +419,15 @@ public class MainCharacter : ControllableCharacter
 
     public void DoRoll()
     {
-        if (!isRolling && !isDead && rollCount < MaxRollCount)
+        if (!state.IsRolling && !state.IsDead && state.rollCount < MaxRollCount)
         {
-            isRolling = true;
-            isRollingInvinsible = true;
-            remainingRollingInvinsibleTime = ROLLING_INVINCIBLE_TIME;
-            rollCount++;
+            state.IsRolling = true;
+            state.rollCount++;
 
+            state.SetSpecialState(CharacterSpecialState.RollingInvincible, ROLLING_INVINCIBLE_TIME);
 
             Vector2 directionVector;
-            if (isLeft)
+            if (state.IsLeft)
                 directionVector = Vector2.left;
             else
                 directionVector = Vector2.right;
@@ -462,10 +443,10 @@ public class MainCharacter : ControllableCharacter
 
     public void endRoll()
     {
-        isRolling = false;
-        isRollingInvinsible = false;
-        remainingRollingInvinsibleTime = 0f;
-        rollCount = 0;
+        state.IsRolling = false;
+        state.rollCount = 0;
+
+        state.DisableSpecialState(CharacterSpecialState.RollingInvincible);
     }
 
 }

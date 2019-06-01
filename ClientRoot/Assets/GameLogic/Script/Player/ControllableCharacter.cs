@@ -32,22 +32,9 @@ public abstract class ControllableCharacter : MonoBehaviour
     protected PlayerInfoDisplay playerInfoDisplay;
     protected SpriteOverlayScript SpriteOverlay;
 
-    protected int hitRecovery = 0;
-
-    
     protected CharacterStateInfo state;
-    protected int jumpCount = 0;
-    protected int lastAttackedPlayerId = -1;
 
-    protected bool isGrounded = true;
-    protected bool isLeft = true;
-    protected bool isMoving = false;
-    protected bool isDead = false;
-
-    public bool IsGrounded { get { return isGrounded; } }
-    public bool IsLeft { get { return isLeft; } }
-    public bool IsMoving { get { return isMoving; } }
-    public bool IsDead { get { return isDead; } }
+    public bool IsLeft { get { return state.IsLeft;  } }
 
     public event CharEventMove MoveEvent;
     public event CharEventStop StopEvent;
@@ -133,7 +120,7 @@ public abstract class ControllableCharacter : MonoBehaviour
 
     public void SetVisible(bool isVisible)
     {
-        if (!isDead)
+        if (!state.IsDead)
             gameObject.SetActive(isVisible);
         Debug.Log("Player" + OwnerName + " SetVisible : " + isVisible);
     }
