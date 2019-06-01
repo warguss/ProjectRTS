@@ -42,9 +42,9 @@ abstract public class Bullet : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other)
     {
         //TestUI.Instance.PrintText("BulletOnTriggerEnter2D");
-        if (other.tag == "Player")
+        if (other.tag == "PlayerHitBox")
         {
-            MainCharacter targetPlayer = other.gameObject.GetComponent<MainCharacter>();
+            MainCharacter targetPlayer = other.gameObject.transform.parent.GetComponent<MainCharacter>();
             if (targetPlayer.OwnerId != OwnerId)
             {
                 if (targetPlayer.IsLocalPlayer)

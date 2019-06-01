@@ -27,6 +27,7 @@ public abstract class ControllableCharacter : MonoBehaviour
 
     protected Rigidbody2D charRigidbody;
     protected Collider2D charCollider;
+    protected Collider2D charHitBox;
     protected GameObject charSpriteObject;
 
     protected PlayerInfoDisplay playerInfoDisplay;

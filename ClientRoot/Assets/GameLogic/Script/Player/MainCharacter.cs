@@ -9,7 +9,7 @@ public class MainCharacter : ControllableCharacter
     const float DEFAULT_HP_RECOVER_AMOUNT = 30;
     const float DEFAULT_HP = 100;
 
-    const float ROLLING_INVINCIBLE_TIME = 0.2f;
+    const float ROLLING_INVINCIBLE_TIME = 0.8f;
 
     public float MaxMoveSpeed;
     public float MoveForce;
@@ -67,12 +67,11 @@ public class MainCharacter : ControllableCharacter
         state.IsDead = true;
         charRigidbody = GetComponent<Rigidbody2D>();
         charCollider = GetComponent<Collider2D>();
+        charHitBox = transform.Find("HitBox").GetComponent<Collider2D>();
         charSpriteObject = transform.Find("Sprite").gameObject;
         SpriteOverlay = transform.Find("SpriteOverlay").GetComponent<SpriteOverlayScript>();
 
         Inventory = new PlayerInventory(this);
-        //Inventory.AddItem(WeaponId.Pistol);////////////////////
-        //Inventory.AddItem(WeaponId.Sniper);////////////////////
 
         var playerInfoDisplayGameObject = Instantiate(PlayerInfoDisplay, transform.Find("Sprite"));
         playerInfoDisplayGameObject.transform.localPosition = new Vector3(0, 0.8f, 0);
@@ -103,6 +102,15 @@ public class MainCharacter : ControllableCharacter
         else
         {
             SpriteOverlay.SetInvincible(false);
+        }
+
+        if(state.GetSpecialState(CharacterSpecialState.RollingInvincible))
+        {
+            charHitBox.enabled = false;
+        }
+        else
+        {
+            charHitBox.enabled = true;
         }
 
         if (isInterpolating)
@@ -435,7 +443,7 @@ public class MainCharacter : ControllableCharacter
             //charRigidbody.velocity = new Vector2(0, 0);
             //charRigidbody.AddForce((Vector2.up + directionVector) * RollForce);
 
-            charRigidbody.velocity = (Vector2.up + directionVector) * RollForce;
+            charRigidbody.velocity = (Vector2.up * 0.6f + directionVector) * RollForce;
 
             InvokeEventRoll(CurrentPosition, CurrentVelocity);
         }
