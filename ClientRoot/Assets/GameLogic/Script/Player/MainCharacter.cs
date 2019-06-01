@@ -107,10 +107,12 @@ public class MainCharacter : ControllableCharacter
         if(state.GetSpecialState(CharacterSpecialState.RollingInvincible))
         {
             charHitBox.enabled = false;
+            SpriteOverlay.SetInvincible(true);
         }
         else
         {
             charHitBox.enabled = true;
+            SpriteOverlay.SetInvincible(false);
         }
 
         if (isInterpolating)
@@ -139,10 +141,8 @@ public class MainCharacter : ControllableCharacter
 
         public override void MoveLeft()
     {
-        if (!state.IsDead)
+        if (!state.IsDead && !state.IsRolling)
         {
-            state.DisableSpecialState(CharacterSpecialState.RollingInvincible);
-
             if (!state.IsMoving || !state.IsLeft)
                 InvokeEventMove(CurrentPosition, CurrentVelocity, true);
 
@@ -161,7 +161,7 @@ public class MainCharacter : ControllableCharacter
 
     public override void MoveRight()
     {
-        if (!state.IsDead)
+        if (!state.IsDead && !state.IsRolling)
         {
             state.DisableSpecialState(CharacterSpecialState.RollingInvincible);
 
