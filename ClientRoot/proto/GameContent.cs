@@ -36,63 +36,64 @@ namespace Server2N {
             "Y3QQBCJ5CglFdmVudE1vdmUSKwoEdHlwZRgFIAEoDjIdLnNlcnZlcjJOLkV2",
             "ZW50TW92ZS5EaXJlY3Rpb24iPwoJRGlyZWN0aW9uEgsKB05vdGhpbmcQABII",
             "CgRMZWZ0EAESCQoFUmlnaHQQAhIICgREb3duEAMSBgoCVXAQBCILCglFdmVu",
-            "dFN0b3AiCwoJRXZlbnRKdW1wIoIBCgpFdmVudFNob290EhEKCXNob290VHlw",
-            "ZRgBIAEoBRITCgtidWxsZXRTcGVlZBgCIAEoAhITCgtidWxsZXRSYW5nZRgD",
-            "IAEoAhISCgpzaG9vdEFuZ2xlGAQgASgCEg4KBmRhbWFnZRgFIAEoAhITCgtp",
-            "bXBhY3RTY2FsZRgGIAEoAiJyCghFdmVudEhpdBIPCgdoaXRUeXBlGAEgASgF",
-            "Eg4KBmRhbWFnZRgCIAEoAhIPCgdpbXBhY3RYGAMgASgCEg8KB2ltcGFjdFkY",
-            "BCABKAISEQoJY3VycmVudEhQGAUgASgCEhAKCGF0dGFja2VyGAYgASgFIiUK",
-            "EUV2ZW50Q2hhbmdlV2VhcG9uEhAKCHdlYXBvbklkGAEgASgFIgwKCkV2ZW50",
-            "U3Bhd24iNAoNRXZlbnRVc2VyU3luYxIRCgljdXJyZW50SFAYASABKAISEAoI",
-            "d2VhcG9uSWQYAiABKAUiHwoKRXZlbnREZWF0aBIRCgl0cmlnZ2VySWQYASAB",
-            "KAUiMgoORXZlbnRJdGVtU3Bhd24SIAoEaXRlbRgBIAEoCzISLnNlcnZlcjJO",
-            "LkluZm9JdGVtIjAKDEV2ZW50SXRlbUdldBIgCgRpdGVtGAEgASgLMhIuc2Vy",
-            "dmVyMk4uSW5mb0l0ZW0iUwoPUmVxdWVzdFVzZXJJbmZvEhAKCHRhcmdldElE",
-            "GAEgASgFEhYKDkV2ZW50UG9zaXRpb25YGAIgASgCEhYKDkV2ZW50UG9zaXRp",
-            "b25ZGAMgASgCIo0CCghJbmZvSXRlbRIOCgZhbW91bnQYBCABKAUSDgoGaXRl",
-            "bUlkGAIgASgJEi0KCGl0ZW1UeXBlGAUgASgOMhsuc2VydmVyMk4uSW5mb0l0",
-            "ZW0uSXRlbVR5cGUSLQoId2VhcG9uSWQYBiABKA4yGy5zZXJ2ZXIyTi5JbmZv",
-            "SXRlbS5XZWFwb25JZBIVCg1JdGVtUG9zaXRpb25YGAcgASgCEhUKDUl0ZW1Q",
-            "b3NpdGlvblkYCCABKAIiJAoISXRlbVR5cGUSCwoHUmVjb3ZlchAAEgsKB1dl",
-            "YXBvbmUQASIvCghXZWFwb25JZBILCgdOb3RoaW5nEAASCgoGUGlzdG9sEAES",
-            "CgoGU25pcGVyEAIi2QIKCUdhbWVFdmVudBImCgl1c2VyRXZlbnQYAyABKAsy",
-            "Ey5zZXJ2ZXIyTi5Vc2VyRXZlbnQSKgoLc3lzdGVtRXZlbnQYBCABKAsyFS5z",
-            "ZXJ2ZXIyTi5TeXN0ZW1FdmVudBIWCg5FdmVudFBvc2l0aW9uWBgGIAEoAhIW",
-            "Cg5FdmVudFBvc2l0aW9uWRgHIAEoAhIRCglWZWxvY2l0eVgYCCABKAISEQoJ",
-            "VmVsb2NpdHlZGAkgASgCEhEKCWludm9rZXJJZBgKIAMoBRIUCgxpc0ludGVy",
-            "ZXN0ZWQYCyABKAgSDwoHaXNMb2NhbBgMIAEoCBIuCgdldnRUeXBlGA0gASgO",
-            "Mh0uc2VydmVyMk4uR2FtZUV2ZW50LmV2ZW50VHlwZSI4CglldmVudFR5cGUS",
-            "CwoHTm90aGluZxAAEg0KCVVzZXJFdmVudBABEg8KC1N5c3RlbUV2ZW50EAIi",
-            "qQIKC1N5c3RlbUV2ZW50Ei4KB2FjdFR5cGUYygEgASgOMhwuc2VydmVyMk4u",
-            "U3lzdGVtRXZlbnQuYWN0aW9uEjEKDml0ZW1TcGF3bkV2ZW50GMsBIAEoCzIY",
-            "LnNlcnZlcjJOLkV2ZW50SXRlbVNwYXduEi0KDGl0ZW1HZXRFdmVudBjMASAB",
-            "KAsyFi5zZXJ2ZXIyTi5FdmVudEl0ZW1HZXQSMwoPcmVxdWVzdFVzZXJJbmZv",
-            "GM0BIAEoCzIZLnNlcnZlcjJOLlJlcXVlc3RVc2VySW5mbyJTCgZhY3Rpb24S",
-            "CwoHTm90aGluZxAAEhMKDkV2ZW50SXRlbVNwYXduEMgBEhEKDEV2ZW50SXRl",
-            "bUdldBDJARIUCg9SZXF1ZXN0VXNlckluZm8QzgEi0gUKCVVzZXJFdmVudBIr",
-            "CgdhY3RUeXBlGG4gASgOMhouc2VydmVyMk4uVXNlckV2ZW50LmFjdGlvbhIm",
-            "Cgltb3ZlRXZlbnQYbyABKAsyEy5zZXJ2ZXIyTi5FdmVudE1vdmUSJgoJc3Rv",
-            "cEV2ZW50GHAgASgLMhMuc2VydmVyMk4uRXZlbnRTdG9wEiYKCWp1bXBFdmVu",
-            "dBhxIAEoCzITLnNlcnZlcjJOLkV2ZW50SnVtcBIoCgpzaG9vdEV2ZW50GHIg",
-            "ASgLMhQuc2VydmVyMk4uRXZlbnRTaG9vdBIkCghoaXRFdmVudBhzIAEoCzIS",
-            "LnNlcnZlcjJOLkV2ZW50SGl0EigKCnNwYXduRXZlbnQYdCABKAsyFC5zZXJ2",
-            "ZXIyTi5FdmVudFNwYXduEioKCXN5bmNFdmVudBh1IAEoCzIXLnNlcnZlcjJO",
-            "LkV2ZW50VXNlclN5bmMSKAoKZGVhdGhFdmVudBh2IAEoCzIULnNlcnZlcjJO",
-            "LkV2ZW50RGVhdGgSMgoNY2hXZWFwb25FdmVudBh3IAEoCzIbLnNlcnZlcjJO",
-            "LkV2ZW50Q2hhbmdlV2VhcG9uEjAKDml0ZW1TcGF3bkV2ZW50GHggASgLMhgu",
-            "c2VydmVyMk4uRXZlbnRJdGVtU3Bhd24SLAoMaXRlbUdldEV2ZW50GHkgASgL",
-            "MhYuc2VydmVyMk4uRXZlbnRJdGVtR2V0IrsBCgZhY3Rpb24SCwoHTm90aGlu",
-            "ZxAAEg0KCUV2ZW50TW92ZRBkEg0KCUV2ZW50U3RvcBBlEg0KCUV2ZW50SnVt",
-            "cBBmEg4KCkV2ZW50U2hvb3QQZxIMCghFdmVudEhpdBBoEg4KCkV2ZW50U3Bh",
-            "d24QaRIRCg1FdmVudFVzZXJTeW5jEGoSDgoKRXZlbnREZWF0aBBrEg8KC0V2",
-            "ZW50QnVsbGV0EGwSFQoRRXZlbnRDaGFuZ2VXZWFwb24QbSKQAgoKUGFja2V0",
-            "Qm9keRIyCgdtc2dUeXBlGJBOIAEoDjIgLnNlcnZlcjJOLlBhY2tldEJvZHku",
-            "bWVzc2FnZVR5cGUSKQoHY29ubmVjdBgGIAEoCzIYLnNlcnZlcjJOLlVzZXJD",
-            "b25uZWN0aW9uEicKBm5vdGljZRiRTiABKAsyFi5zZXJ2ZXIyTi5HbG9iYWxO",
-            "b3RpY2USIgoFZXZlbnQYByABKAsyEy5zZXJ2ZXIyTi5HYW1lRXZlbnQSEAoI",
-            "c2VuZGVySWQYCCABKAUiRAoLbWVzc2FnZVR5cGUSDQoJR2FtZUV2ZW50EAAS",
-            "EwoOVXNlckNvbm5lY3Rpb24QkE4SEQoMR2xvYmFsTm90aWNlEJFOYgZwcm90",
-            "bzM="));
+            "dFN0b3AiCwoJRXZlbnRKdW1wIgsKCUV2ZW50Um9sbCKCAQoKRXZlbnRTaG9v",
+            "dBIRCglzaG9vdFR5cGUYASABKAUSEwoLYnVsbGV0U3BlZWQYAiABKAISEwoL",
+            "YnVsbGV0UmFuZ2UYAyABKAISEgoKc2hvb3RBbmdsZRgEIAEoAhIOCgZkYW1h",
+            "Z2UYBSABKAISEwoLaW1wYWN0U2NhbGUYBiABKAIicgoIRXZlbnRIaXQSDwoH",
+            "aGl0VHlwZRgBIAEoBRIOCgZkYW1hZ2UYAiABKAISDwoHaW1wYWN0WBgDIAEo",
+            "AhIPCgdpbXBhY3RZGAQgASgCEhEKCWN1cnJlbnRIUBgFIAEoAhIQCghhdHRh",
+            "Y2tlchgGIAEoBSIlChFFdmVudENoYW5nZVdlYXBvbhIQCgh3ZWFwb25JZBgB",
+            "IAEoBSIMCgpFdmVudFNwYXduIjQKDUV2ZW50VXNlclN5bmMSEQoJY3VycmVu",
+            "dEhQGAEgASgCEhAKCHdlYXBvbklkGAIgASgFIh8KCkV2ZW50RGVhdGgSEQoJ",
+            "dHJpZ2dlcklkGAEgASgFIjIKDkV2ZW50SXRlbVNwYXduEiAKBGl0ZW0YASAB",
+            "KAsyEi5zZXJ2ZXIyTi5JbmZvSXRlbSIwCgxFdmVudEl0ZW1HZXQSIAoEaXRl",
+            "bRgBIAEoCzISLnNlcnZlcjJOLkluZm9JdGVtIlMKD1JlcXVlc3RVc2VySW5m",
+            "bxIQCgh0YXJnZXRJRBgBIAEoBRIWCg5FdmVudFBvc2l0aW9uWBgCIAEoAhIW",
+            "Cg5FdmVudFBvc2l0aW9uWRgDIAEoAiKNAgoISW5mb0l0ZW0SDgoGYW1vdW50",
+            "GAQgASgFEg4KBml0ZW1JZBgCIAEoCRItCghpdGVtVHlwZRgFIAEoDjIbLnNl",
+            "cnZlcjJOLkluZm9JdGVtLkl0ZW1UeXBlEi0KCHdlYXBvbklkGAYgASgOMhsu",
+            "c2VydmVyMk4uSW5mb0l0ZW0uV2VhcG9uSWQSFQoNSXRlbVBvc2l0aW9uWBgH",
+            "IAEoAhIVCg1JdGVtUG9zaXRpb25ZGAggASgCIiQKCEl0ZW1UeXBlEgsKB1Jl",
+            "Y292ZXIQABILCgdXZWFwb25lEAEiLwoIV2VhcG9uSWQSCwoHTm90aGluZxAA",
+            "EgoKBlBpc3RvbBABEgoKBlNuaXBlchACItkCCglHYW1lRXZlbnQSJgoJdXNl",
+            "ckV2ZW50GAMgASgLMhMuc2VydmVyMk4uVXNlckV2ZW50EioKC3N5c3RlbUV2",
+            "ZW50GAQgASgLMhUuc2VydmVyMk4uU3lzdGVtRXZlbnQSFgoORXZlbnRQb3Np",
+            "dGlvblgYBiABKAISFgoORXZlbnRQb3NpdGlvblkYByABKAISEQoJVmVsb2Np",
+            "dHlYGAggASgCEhEKCVZlbG9jaXR5WRgJIAEoAhIRCglpbnZva2VySWQYCiAD",
+            "KAUSFAoMaXNJbnRlcmVzdGVkGAsgASgIEg8KB2lzTG9jYWwYDCABKAgSLgoH",
+            "ZXZ0VHlwZRgNIAEoDjIdLnNlcnZlcjJOLkdhbWVFdmVudC5ldmVudFR5cGUi",
+            "OAoJZXZlbnRUeXBlEgsKB05vdGhpbmcQABINCglVc2VyRXZlbnQQARIPCgtT",
+            "eXN0ZW1FdmVudBACIqkCCgtTeXN0ZW1FdmVudBIuCgdhY3RUeXBlGMoBIAEo",
+            "DjIcLnNlcnZlcjJOLlN5c3RlbUV2ZW50LmFjdGlvbhIxCg5pdGVtU3Bhd25F",
+            "dmVudBjLASABKAsyGC5zZXJ2ZXIyTi5FdmVudEl0ZW1TcGF3bhItCgxpdGVt",
+            "R2V0RXZlbnQYzAEgASgLMhYuc2VydmVyMk4uRXZlbnRJdGVtR2V0EjMKD3Jl",
+            "cXVlc3RVc2VySW5mbxjNASABKAsyGS5zZXJ2ZXIyTi5SZXF1ZXN0VXNlcklu",
+            "Zm8iUwoGYWN0aW9uEgsKB05vdGhpbmcQABITCg5FdmVudEl0ZW1TcGF3bhDI",
+            "ARIRCgxFdmVudEl0ZW1HZXQQyQESFAoPUmVxdWVzdFVzZXJJbmZvEM4BIokG",
+            "CglVc2VyRXZlbnQSKwoHYWN0VHlwZRhuIAEoDjIaLnNlcnZlcjJOLlVzZXJF",
+            "dmVudC5hY3Rpb24SJgoJbW92ZUV2ZW50GG8gASgLMhMuc2VydmVyMk4uRXZl",
+            "bnRNb3ZlEiYKCXN0b3BFdmVudBhwIAEoCzITLnNlcnZlcjJOLkV2ZW50U3Rv",
+            "cBImCglqdW1wRXZlbnQYcSABKAsyEy5zZXJ2ZXIyTi5FdmVudEp1bXASKAoK",
+            "c2hvb3RFdmVudBhyIAEoCzIULnNlcnZlcjJOLkV2ZW50U2hvb3QSJAoIaGl0",
+            "RXZlbnQYcyABKAsyEi5zZXJ2ZXIyTi5FdmVudEhpdBIoCgpzcGF3bkV2ZW50",
+            "GHQgASgLMhQuc2VydmVyMk4uRXZlbnRTcGF3bhIqCglzeW5jRXZlbnQYdSAB",
+            "KAsyFy5zZXJ2ZXIyTi5FdmVudFVzZXJTeW5jEigKCmRlYXRoRXZlbnQYdiAB",
+            "KAsyFC5zZXJ2ZXIyTi5FdmVudERlYXRoEjIKDWNoV2VhcG9uRXZlbnQYdyAB",
+            "KAsyGy5zZXJ2ZXIyTi5FdmVudENoYW5nZVdlYXBvbhIwCg5pdGVtU3Bhd25F",
+            "dmVudBh4IAEoCzIYLnNlcnZlcjJOLkV2ZW50SXRlbVNwYXduEiwKDGl0ZW1H",
+            "ZXRFdmVudBh5IAEoCzIWLnNlcnZlcjJOLkV2ZW50SXRlbUdldBImCglSb2xs",
+            "RXZlbnQYeiABKAsyEy5zZXJ2ZXIyTi5FdmVudFJvbGwiygEKBmFjdGlvbhIL",
+            "CgdOb3RoaW5nEAASDQoJRXZlbnRNb3ZlEGQSDQoJRXZlbnRTdG9wEGUSDQoJ",
+            "RXZlbnRKdW1wEGYSDgoKRXZlbnRTaG9vdBBnEgwKCEV2ZW50SGl0EGgSDgoK",
+            "RXZlbnRTcGF3bhBpEhEKDUV2ZW50VXNlclN5bmMQahIOCgpFdmVudERlYXRo",
+            "EGsSDwoLRXZlbnRCdWxsZXQQbBIVChFFdmVudENoYW5nZVdlYXBvbhBtEg0K",
+            "CUV2ZW50Um9sbBBuIpACCgpQYWNrZXRCb2R5EjIKB21zZ1R5cGUYkE4gASgO",
+            "MiAuc2VydmVyMk4uUGFja2V0Qm9keS5tZXNzYWdlVHlwZRIpCgdjb25uZWN0",
+            "GAYgASgLMhguc2VydmVyMk4uVXNlckNvbm5lY3Rpb24SJwoGbm90aWNlGJFO",
+            "IAEoCzIWLnNlcnZlcjJOLkdsb2JhbE5vdGljZRIiCgVldmVudBgHIAEoCzIT",
+            "LnNlcnZlcjJOLkdhbWVFdmVudBIQCghzZW5kZXJJZBgIIAEoBSJECgttZXNz",
+            "YWdlVHlwZRINCglHYW1lRXZlbnQQABITCg5Vc2VyQ29ubmVjdGlvbhCQThIR",
+            "CgxHbG9iYWxOb3RpY2UQkU5iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -101,6 +102,7 @@ namespace Server2N {
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventMove), global::Server2N.EventMove.Parser, new[]{ "Type" }, null, new[]{ typeof(global::Server2N.EventMove.Types.Direction) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventStop), global::Server2N.EventStop.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventJump), global::Server2N.EventJump.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventRoll), global::Server2N.EventRoll.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventShoot), global::Server2N.EventShoot.Parser, new[]{ "ShootType", "BulletSpeed", "BulletRange", "ShootAngle", "Damage", "ImpactScale" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventHit), global::Server2N.EventHit.Parser, new[]{ "HitType", "Damage", "ImpactX", "ImpactY", "CurrentHP", "Attacker" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.EventChangeWeapon), global::Server2N.EventChangeWeapon.Parser, new[]{ "WeaponId" }, null, null, null),
@@ -113,7 +115,7 @@ namespace Server2N {
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.InfoItem), global::Server2N.InfoItem.Parser, new[]{ "Amount", "ItemId", "ItemType", "WeaponId", "ItemPositionX", "ItemPositionY" }, null, new[]{ typeof(global::Server2N.InfoItem.Types.ItemType), typeof(global::Server2N.InfoItem.Types.WeaponId) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.GameEvent), global::Server2N.GameEvent.Parser, new[]{ "UserEvent", "SystemEvent", "EventPositionX", "EventPositionY", "VelocityX", "VelocityY", "InvokerId", "IsInterested", "IsLocal", "EvtType" }, null, new[]{ typeof(global::Server2N.GameEvent.Types.eventType) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.SystemEvent), global::Server2N.SystemEvent.Parser, new[]{ "ActType", "ItemSpawnEvent", "ItemGetEvent", "RequestUserInfo" }, null, new[]{ typeof(global::Server2N.SystemEvent.Types.action) }, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.UserEvent), global::Server2N.UserEvent.Parser, new[]{ "ActType", "MoveEvent", "StopEvent", "JumpEvent", "ShootEvent", "HitEvent", "SpawnEvent", "SyncEvent", "DeathEvent", "ChWeaponEvent", "ItemSpawnEvent", "ItemGetEvent" }, null, new[]{ typeof(global::Server2N.UserEvent.Types.action) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.UserEvent), global::Server2N.UserEvent.Parser, new[]{ "ActType", "MoveEvent", "StopEvent", "JumpEvent", "ShootEvent", "HitEvent", "SpawnEvent", "SyncEvent", "DeathEvent", "ChWeaponEvent", "ItemSpawnEvent", "ItemGetEvent", "RollEvent" }, null, new[]{ typeof(global::Server2N.UserEvent.Types.action) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Server2N.PacketBody), global::Server2N.PacketBody.Parser, new[]{ "MsgType", "Connect", "Notice", "Event", "SenderId" }, null, new[]{ typeof(global::Server2N.PacketBody.Types.messageType) }, null)
           }));
     }
@@ -874,6 +876,95 @@ namespace Server2N {
 
   }
 
+  public sealed partial class EventRoll : pb::IMessage<EventRoll> {
+    private static readonly pb::MessageParser<EventRoll> _parser = new pb::MessageParser<EventRoll>(() => new EventRoll());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<EventRoll> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventRoll() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventRoll(EventRoll other) : this() {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventRoll Clone() {
+      return new EventRoll(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as EventRoll);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(EventRoll other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(EventRoll other) {
+      if (other == null) {
+        return;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+        }
+      }
+    }
+
+  }
+
   public sealed partial class EventShoot : pb::IMessage<EventShoot> {
     private static readonly pb::MessageParser<EventShoot> _parser = new pb::MessageParser<EventShoot>(() => new EventShoot());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -881,7 +972,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[5]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1138,7 +1229,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1395,7 +1486,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[7]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1512,7 +1603,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[8]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1601,7 +1692,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[9]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1746,7 +1837,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[10]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1863,7 +1954,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[11]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1986,7 +2077,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[12]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[13]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2109,7 +2200,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[13]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[14]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2282,7 +2373,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[14]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[15]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2557,7 +2648,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[15]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[16]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2944,7 +3035,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[16]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[17]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3177,7 +3268,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[17]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[18]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3206,6 +3297,7 @@ namespace Server2N {
       ChWeaponEvent = other.chWeaponEvent_ != null ? other.ChWeaponEvent.Clone() : null;
       ItemSpawnEvent = other.itemSpawnEvent_ != null ? other.ItemSpawnEvent.Clone() : null;
       ItemGetEvent = other.itemGetEvent_ != null ? other.ItemGetEvent.Clone() : null;
+      RollEvent = other.rollEvent_ != null ? other.RollEvent.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3345,6 +3437,17 @@ namespace Server2N {
       }
     }
 
+    /// <summary>Field number for the "RollEvent" field.</summary>
+    public const int RollEventFieldNumber = 122;
+    private global::Server2N.EventRoll rollEvent_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Server2N.EventRoll RollEvent {
+      get { return rollEvent_; }
+      set {
+        rollEvent_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as UserEvent);
@@ -3370,6 +3473,7 @@ namespace Server2N {
       if (!object.Equals(ChWeaponEvent, other.ChWeaponEvent)) return false;
       if (!object.Equals(ItemSpawnEvent, other.ItemSpawnEvent)) return false;
       if (!object.Equals(ItemGetEvent, other.ItemGetEvent)) return false;
+      if (!object.Equals(RollEvent, other.RollEvent)) return false;
       return true;
     }
 
@@ -3388,6 +3492,7 @@ namespace Server2N {
       if (chWeaponEvent_ != null) hash ^= ChWeaponEvent.GetHashCode();
       if (itemSpawnEvent_ != null) hash ^= ItemSpawnEvent.GetHashCode();
       if (itemGetEvent_ != null) hash ^= ItemGetEvent.GetHashCode();
+      if (rollEvent_ != null) hash ^= RollEvent.GetHashCode();
       return hash;
     }
 
@@ -3446,6 +3551,10 @@ namespace Server2N {
         output.WriteRawTag(202, 7);
         output.WriteMessage(ItemGetEvent);
       }
+      if (rollEvent_ != null) {
+        output.WriteRawTag(210, 7);
+        output.WriteMessage(RollEvent);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3486,6 +3595,9 @@ namespace Server2N {
       }
       if (itemGetEvent_ != null) {
         size += 2 + pb::CodedOutputStream.ComputeMessageSize(ItemGetEvent);
+      }
+      if (rollEvent_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RollEvent);
       }
       return size;
     }
@@ -3563,6 +3675,12 @@ namespace Server2N {
           itemGetEvent_ = new global::Server2N.EventItemGet();
         }
         ItemGetEvent.MergeFrom(other.ItemGetEvent);
+      }
+      if (other.rollEvent_ != null) {
+        if (rollEvent_ == null) {
+          rollEvent_ = new global::Server2N.EventRoll();
+        }
+        RollEvent.MergeFrom(other.RollEvent);
       }
     }
 
@@ -3655,6 +3773,13 @@ namespace Server2N {
             input.ReadMessage(itemGetEvent_);
             break;
           }
+          case 978: {
+            if (rollEvent_ == null) {
+              rollEvent_ = new global::Server2N.EventRoll();
+            }
+            input.ReadMessage(rollEvent_);
+            break;
+          }
         }
       }
     }
@@ -3675,6 +3800,7 @@ namespace Server2N {
         [pbr::OriginalName("EventDeath")] EventDeath = 107,
         [pbr::OriginalName("EventBullet")] EventBullet = 108,
         [pbr::OriginalName("EventChangeWeapon")] EventChangeWeapon = 109,
+        [pbr::OriginalName("EventRoll")] EventRoll = 110,
       }
 
     }
@@ -3689,7 +3815,7 @@ namespace Server2N {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[18]; }
+      get { return global::Server2N.GameContentReflection.Descriptor.MessageTypes[19]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

@@ -37,7 +37,7 @@ namespace protobuf_gameContent_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[19];
+  static const ::google::protobuf::internal::ParseTable schema[20];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -53,6 +53,8 @@ void InitDefaultsEventStopImpl();
 void InitDefaultsEventStop();
 void InitDefaultsEventJumpImpl();
 void InitDefaultsEventJump();
+void InitDefaultsEventRollImpl();
+void InitDefaultsEventRoll();
 void InitDefaultsEventShootImpl();
 void InitDefaultsEventShoot();
 void InitDefaultsEventHitImpl();
@@ -87,6 +89,7 @@ inline void InitDefaults() {
   InitDefaultsEventMove();
   InitDefaultsEventStop();
   InitDefaultsEventJump();
+  InitDefaultsEventRoll();
   InitDefaultsEventShoot();
   InitDefaultsEventHit();
   InitDefaultsEventChangeWeapon();
@@ -125,6 +128,9 @@ extern EventJumpDefaultTypeInternal _EventJump_default_instance_;
 class EventMove;
 class EventMoveDefaultTypeInternal;
 extern EventMoveDefaultTypeInternal _EventMove_default_instance_;
+class EventRoll;
+class EventRollDefaultTypeInternal;
+extern EventRollDefaultTypeInternal _EventRoll_default_instance_;
 class EventShoot;
 class EventShootDefaultTypeInternal;
 extern EventShootDefaultTypeInternal _EventShoot_default_instance_;
@@ -171,6 +177,7 @@ template<> ::server2N::EventItemGet* Arena::Create< ::server2N::EventItemGet>(Ar
 template<> ::server2N::EventItemSpawn* Arena::Create< ::server2N::EventItemSpawn>(Arena*);
 template<> ::server2N::EventJump* Arena::Create< ::server2N::EventJump>(Arena*);
 template<> ::server2N::EventMove* Arena::Create< ::server2N::EventMove>(Arena*);
+template<> ::server2N::EventRoll* Arena::Create< ::server2N::EventRoll>(Arena*);
 template<> ::server2N::EventShoot* Arena::Create< ::server2N::EventShoot>(Arena*);
 template<> ::server2N::EventSpawn* Arena::Create< ::server2N::EventSpawn>(Arena*);
 template<> ::server2N::EventStop* Arena::Create< ::server2N::EventStop>(Arena*);
@@ -358,12 +365,13 @@ enum UserEvent_action {
   UserEvent_action_EventDeath = 107,
   UserEvent_action_EventBullet = 108,
   UserEvent_action_EventChangeWeapon = 109,
+  UserEvent_action_EventRoll = 110,
   UserEvent_action_UserEvent_action_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   UserEvent_action_UserEvent_action_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool UserEvent_action_IsValid(int value);
 const UserEvent_action UserEvent_action_action_MIN = UserEvent_action_Nothing;
-const UserEvent_action UserEvent_action_action_MAX = UserEvent_action_EventChangeWeapon;
+const UserEvent_action UserEvent_action_action_MAX = UserEvent_action_EventRoll;
 const int UserEvent_action_action_ARRAYSIZE = UserEvent_action_action_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* UserEvent_action_descriptor();
@@ -1109,6 +1117,102 @@ class EventJump : public ::google::protobuf::Message /* @@protoc_insertion_point
 };
 // -------------------------------------------------------------------
 
+class EventRoll : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.EventRoll) */ {
+ public:
+  EventRoll();
+  virtual ~EventRoll();
+
+  EventRoll(const EventRoll& from);
+
+  inline EventRoll& operator=(const EventRoll& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EventRoll(EventRoll&& from) noexcept
+    : EventRoll() {
+    *this = ::std::move(from);
+  }
+
+  inline EventRoll& operator=(EventRoll&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EventRoll& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EventRoll* internal_default_instance() {
+    return reinterpret_cast<const EventRoll*>(
+               &_EventRoll_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    5;
+
+  void Swap(EventRoll* other);
+  friend void swap(EventRoll& a, EventRoll& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EventRoll* New() const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventRoll>(NULL);
+  }
+
+  EventRoll* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<EventRoll>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const EventRoll& from);
+  void MergeFrom(const EventRoll& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(EventRoll* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:server2N.EventRoll)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_gameContent_2eproto::TableStruct;
+  friend void ::protobuf_gameContent_2eproto::InitDefaultsEventRollImpl();
+};
+// -------------------------------------------------------------------
+
 class EventShoot : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.EventShoot) */ {
  public:
   EventShoot();
@@ -1144,7 +1248,7 @@ class EventShoot : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_EventShoot_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    5;
+    6;
 
   void Swap(EventShoot* other);
   friend void swap(EventShoot& a, EventShoot& b) {
@@ -1282,7 +1386,7 @@ class EventHit : public ::google::protobuf::Message /* @@protoc_insertion_point(
                &_EventHit_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    6;
+    7;
 
   void Swap(EventHit* other);
   friend void swap(EventHit& a, EventHit& b) {
@@ -1420,7 +1524,7 @@ class EventChangeWeapon : public ::google::protobuf::Message /* @@protoc_inserti
                &_EventChangeWeapon_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    7;
+    8;
 
   void Swap(EventChangeWeapon* other);
   friend void swap(EventChangeWeapon& a, EventChangeWeapon& b) {
@@ -1523,7 +1627,7 @@ class EventSpawn : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_EventSpawn_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    8;
+    9;
 
   void Swap(EventSpawn* other);
   friend void swap(EventSpawn& a, EventSpawn& b) {
@@ -1619,7 +1723,7 @@ class EventUserSync : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_EventUserSync_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    9;
+    10;
 
   void Swap(EventUserSync* other);
   friend void swap(EventUserSync& a, EventUserSync& b) {
@@ -1729,7 +1833,7 @@ class EventDeath : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_EventDeath_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    10;
+    11;
 
   void Swap(EventDeath* other);
   friend void swap(EventDeath& a, EventDeath& b) {
@@ -1832,7 +1936,7 @@ class EventItemSpawn : public ::google::protobuf::Message /* @@protoc_insertion_
                &_EventItemSpawn_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    11;
+    12;
 
   void Swap(EventItemSpawn* other);
   friend void swap(EventItemSpawn& a, EventItemSpawn& b) {
@@ -1938,7 +2042,7 @@ class EventItemGet : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_EventItemGet_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    12;
+    13;
 
   void Swap(EventItemGet* other);
   friend void swap(EventItemGet& a, EventItemGet& b) {
@@ -2044,7 +2148,7 @@ class RequestUserInfo : public ::google::protobuf::Message /* @@protoc_insertion
                &_RequestUserInfo_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    13;
+    14;
 
   void Swap(RequestUserInfo* other);
   friend void swap(RequestUserInfo& a, RequestUserInfo& b) {
@@ -2161,7 +2265,7 @@ class InfoItem : public ::google::protobuf::Message /* @@protoc_insertion_point(
                &_InfoItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    14;
+    15;
 
   void Swap(InfoItem* other);
   friend void swap(InfoItem& a, InfoItem& b) {
@@ -2361,7 +2465,7 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_GameEvent_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    15;
+    16;
 
   void Swap(GameEvent* other);
   friend void swap(GameEvent& a, GameEvent& b) {
@@ -2568,7 +2672,7 @@ class SystemEvent : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SystemEvent_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    16;
+    17;
 
   void Swap(SystemEvent* other);
   friend void swap(SystemEvent& a, SystemEvent& b) {
@@ -2731,7 +2835,7 @@ class UserEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_UserEvent_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    17;
+    18;
 
   void Swap(UserEvent* other);
   friend void swap(UserEvent& a, UserEvent& b) {
@@ -2803,6 +2907,8 @@ class UserEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
     UserEvent_action_EventBullet;
   static const action EventChangeWeapon =
     UserEvent_action_EventChangeWeapon;
+  static const action EventRoll =
+    UserEvent_action_EventRoll;
   static inline bool action_IsValid(int value) {
     return UserEvent_action_IsValid(value);
   }
@@ -2925,6 +3031,15 @@ class UserEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::server2N::EventItemGet* mutable_itemgetevent();
   void set_allocated_itemgetevent(::server2N::EventItemGet* itemgetevent);
 
+  // .server2N.EventRoll RollEvent = 122;
+  bool has_rollevent() const;
+  void clear_rollevent();
+  static const int kRollEventFieldNumber = 122;
+  const ::server2N::EventRoll& rollevent() const;
+  ::server2N::EventRoll* release_rollevent();
+  ::server2N::EventRoll* mutable_rollevent();
+  void set_allocated_rollevent(::server2N::EventRoll* rollevent);
+
   // .server2N.UserEvent.action actType = 110;
   void clear_acttype();
   static const int kActTypeFieldNumber = 110;
@@ -2946,6 +3061,7 @@ class UserEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::server2N::EventChangeWeapon* chweaponevent_;
   ::server2N::EventItemSpawn* itemspawnevent_;
   ::server2N::EventItemGet* itemgetevent_;
+  ::server2N::EventRoll* rollevent_;
   int acttype_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
@@ -2988,7 +3104,7 @@ class PacketBody : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_PacketBody_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    18;
+    19;
 
   void Swap(PacketBody* other);
   friend void swap(PacketBody& a, PacketBody& b) {
@@ -3473,6 +3589,10 @@ inline void EventMove::set_type(::server2N::EventMove_Direction value) {
 // -------------------------------------------------------------------
 
 // EventJump
+
+// -------------------------------------------------------------------
+
+// EventRoll
 
 // -------------------------------------------------------------------
 
@@ -4989,6 +5109,57 @@ inline void UserEvent::set_allocated_itemgetevent(::server2N::EventItemGet* item
   // @@protoc_insertion_point(field_set_allocated:server2N.UserEvent.itemGetEvent)
 }
 
+// .server2N.EventRoll RollEvent = 122;
+inline bool UserEvent::has_rollevent() const {
+  return this != internal_default_instance() && rollevent_ != NULL;
+}
+inline void UserEvent::clear_rollevent() {
+  if (GetArenaNoVirtual() == NULL && rollevent_ != NULL) {
+    delete rollevent_;
+  }
+  rollevent_ = NULL;
+}
+inline const ::server2N::EventRoll& UserEvent::rollevent() const {
+  const ::server2N::EventRoll* p = rollevent_;
+  // @@protoc_insertion_point(field_get:server2N.UserEvent.RollEvent)
+  return p != NULL ? *p : *reinterpret_cast<const ::server2N::EventRoll*>(
+      &::server2N::_EventRoll_default_instance_);
+}
+inline ::server2N::EventRoll* UserEvent::release_rollevent() {
+  // @@protoc_insertion_point(field_release:server2N.UserEvent.RollEvent)
+  
+  ::server2N::EventRoll* temp = rollevent_;
+  rollevent_ = NULL;
+  return temp;
+}
+inline ::server2N::EventRoll* UserEvent::mutable_rollevent() {
+  
+  if (rollevent_ == NULL) {
+    rollevent_ = ::google::protobuf::Arena::Create< ::server2N::EventRoll >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:server2N.UserEvent.RollEvent)
+  return rollevent_;
+}
+inline void UserEvent::set_allocated_rollevent(::server2N::EventRoll* rollevent) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete rollevent_;
+  }
+  if (rollevent) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      rollevent = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, rollevent, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  rollevent_ = rollevent;
+  // @@protoc_insertion_point(field_set_allocated:server2N.UserEvent.RollEvent)
+}
+
 // -------------------------------------------------------------------
 
 // PacketBody
@@ -5177,6 +5348,8 @@ inline void PacketBody::set_senderid(::google::protobuf::int32 value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
