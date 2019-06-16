@@ -9,7 +9,7 @@ public class MainCharacter : ControllableCharacter
     const float DEFAULT_HP_RECOVER_AMOUNT = 30;
     const float DEFAULT_HP = 100;
 
-    const float ROLLING_INVINCIBLE_TIME = 0.8f;
+    const float ROLLING_INVINCIBLE_TIME = 0.3f;
 
     public float MaxMoveSpeed;
     public float MoveForce;
@@ -289,9 +289,11 @@ public class MainCharacter : ControllableCharacter
     void CheckLand()
     {
         float distToGround = charCollider.bounds.extents.y;
-        //int mask = LayerMask.NameToLayer("Wall");
+        int wallLayer = LayerMask.NameToLayer("Wall");
+        int playerLayer = LayerMask.NameToLayer("Player");
+        int mask = (1 << wallLayer) | (1 << playerLayer);
 
-        var checkGrounded = Physics2D.Raycast(transform.position, -Vector2.up, distToGround + (float)0.1);
+        var checkGrounded = Physics2D.Raycast(transform.position, -Vector2.up, distToGround + (float)0.1, mask);
 
         if (checkGrounded)
         {
@@ -319,6 +321,7 @@ public class MainCharacter : ControllableCharacter
 
     void Land()
     {
+        Debug.Log("Landed");
         state.IsGrounded = true;
         endRoll();
         state.jumpCount = 0;
