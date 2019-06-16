@@ -81,6 +81,12 @@ bool CProtoLogicBase::onProcess(CSessionManager& session, CProtoPacket* eventPac
 bool CProtoLogicBase::onPostProcess(CSessionManager& session)
 {
 	LOG_DEBUG("Common onPostProces");
+	if ( _packetOutList.size() <= 0 )
+	{
+		LOG_ERROR("Not Exist PacketList");
+		return false;
+	}
+
 	SEND_PACKET_EVENT(session, _packetOutList);
 	/*
 	list<CProtoPacket*>::iterator it = _packetOutList.begin();
@@ -382,10 +388,7 @@ bool CProtoGameEventRule::onProcess(CSessionManager& session, CProtoPacket* even
 {
 	LOG_DEBUG("CProtoGameEventRule::onProcess");
 	int32_t type = eventPacket->_type;
-	if ( type == (int32_t)server2N::UserEvent_action_EventDeath )
-	{
-		_eventPacket = eventPacket;
-	}
+	_eventPacket = eventPacket;
 
 	list<CUser*>::iterator it = _userList.begin();
 	for ( ; it != _userList.end(); it++ )
@@ -411,6 +414,12 @@ bool CProtoGameEventRule::onProcess(CSessionManager& session, CProtoPacket* even
 bool CProtoGameEventRule::onPostProcess(CSessionManager& session)
 {
 	LOG_DEBUG("GameEventRule PostProcess");
+	if ( _packetOutList.size() <= 0 )
+	{
+		LOG_ERROR("Not Exist PacketOutList");
+		return false;
+	}
+
 	int32_t type = _eventPacket->_type;
 	SEND_PACKET_EVENT(session, _packetOutList);
 
@@ -443,8 +452,14 @@ bool CProtoGameEventRule::onPostProcess(CSessionManager& session)
 			LOG_INFO("User(%d) Part Send Move Event", packet->_fd);
 		}
 
+		if ( _packetOutList.size() <= 0 )
+		{
+			LOG_ERROR("Not Exist PacketOutList");
+			return false;
+		}
+
 		SEND_PACKET_EVENT(session, _packetOutList);
-		REDIS_SCORE_BOARD_UPDATE(0);
+		//REDIS_SCORE_BOARD_UPDATE(0);
 	}
 
 
@@ -496,6 +511,7 @@ void SEND_PACKET_EVENT(CSessionManager& session, list<CProtoPacket*> packetList)
 {
 	if ( packetList.size() <= 0 )
 	{
+		LOG_ERROR("Not Exist PacketList");
 		return ;
 	}
 
@@ -508,6 +524,7 @@ void SEND_PACKET_EVENT(CSessionManager& session, list<CProtoPacket*> packetList)
 			continue ;
 		}
 	
+		LOG_DEBUG("SendPacketEvent (%d)", packet->_fd);
 		session.m_writeQ_Manager.unLock();
 		session.m_writeQ_Manager.enqueue(packet);
 		LOG_INFO("User(%d) Send Event", packet->_fd);

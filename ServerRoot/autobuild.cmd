@@ -12,6 +12,7 @@ ln -s libprotobuf.so.15.0.0 libprotobuf.so.15
 ln -s libprotoc.so.15.0.0 libprotoc.so
 ln -s libprotoc.so.15.0.0 libprotoc.so.15
 
+ln -s libhiredis.so libhiredis.so.0.14
 cd ../src
 make clean
 make
