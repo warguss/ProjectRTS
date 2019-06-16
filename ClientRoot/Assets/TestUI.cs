@@ -6,14 +6,35 @@ using System.Text;
 
 public class TestUI : MonoBehaviour {
 
-    public static TestUI Instance;
+    public static TestUI Instance
+    {
+        get
+        {
+            if(m_Instance)
+            {
+                return m_Instance;
+            }
+            else
+            {
+                GameObject TestUICanvas = GameObject.Find("/TestUICanvas");
+                if(TestUICanvas)
+                {
+                    m_Instance = TestUICanvas.GetComponent<TestUI>();
+                }
+                else
+                {
+                    GameObject testUIPrefab = Resources.Load("prefabs/TestUICanvas", typeof(GameObject)) as GameObject;
+                    m_Instance = Instantiate(testUIPrefab).GetComponent<TestUI>();
+                }
+
+                return m_Instance;
+            }
+        }
+    }
+    private static TestUI m_Instance;
 
     public Text Console;
     public ScrollRect scrollView;
-    public InputField IpInput;
-    public InputField PortInput;
-    public InputField NameInput;
-    public Button ConnectButton;
     public Button DisconnectButton;
     public Button CreateItemButton;
 
@@ -22,17 +43,18 @@ public class TestUI : MonoBehaviour {
     List<string> consoleMessage;
     bool newMessage = false;
 
-	// Use this for initialization
-	void Start () {
-        Instance = this;
+    private void Awake()
+    {
         concatString = new StringBuilder();
         consoleMessage = new List<string>();
 
-        ConnectButton.onClick.AddListener(OnClickConnect);
         DisconnectButton.onClick.AddListener(OnClickDisconnect);
         //CreateItemButton.onClick.AddListener(OnClickItemCreate);
-        IpInput.text = NetworkModule.SERVER_IP;
-        PortInput.text = NetworkModule.SERVER_PORT.ToString();
+    }
+
+    // Use this for initialization
+    void Start () {
+        
     }
 	
 	// Update is called once per frame
@@ -59,27 +81,6 @@ public class TestUI : MonoBehaviour {
         }
         newMessage = true;
         Debug.Log(message);
-    }
-
-    void OnClickConnect()
-    {
-        string ip = IpInput.text;
-        int port = int.Parse(PortInput.text);
-        if ( !NetworkModule.instance.Initializer(ip, port) )
-        {
-            return;
-        }
-
-        if ( !NetworkModule.instance.RequestAuthorization() )
-        {
-            return;
-        }
-
-        if (!NetworkModule.instance.isConnected)
-        {
-            string name = NameInput.text;
-            NetworkModule.instance.Connect(name);
-        }
     }
 
     void OnClickDisconnect()

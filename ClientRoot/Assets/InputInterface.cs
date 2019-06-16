@@ -18,8 +18,7 @@ public class InputInterface : MonoBehaviour {
 
     private void Awake()
     {
-        directionInterface = transform.Find("TouchInputCanvas/DirectionCanvas").gameObject.GetComponent<TouchDirectionInterface>();
-        buttonInterface = transform.Find("TouchInputCanvas/ButtonCanvas").gameObject.GetComponent<TouchButtonsInterface>();
+        
     }
 
     // Use this for initialization
@@ -31,6 +30,12 @@ public class InputInterface : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void Initialize()
+    {
+        directionInterface = transform.Find("TouchInputCanvas/DirectionCanvas").gameObject.GetComponent<TouchDirectionInterface>();
+        buttonInterface = transform.Find("TouchInputCanvas/ButtonCanvas").gameObject.GetComponent<TouchButtonsInterface>();
+    }
 
     public InputDirection GetCurrentDirection()
     {
@@ -69,6 +74,18 @@ public class InputInterface : MonoBehaviour {
         else
         {
             return buttonInterface.GetFireDown();
+        }
+    }
+
+    public bool GetRoll()
+    {
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+            return true;
+
+        else
+        {
+            return false;
+            //return buttonInterface.GetRollDown();
         }
     }
 

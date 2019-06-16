@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PlayerWeapon
 {
+    private const int BAZOOKA_DEFAULT_ANGLE = 45; 
+
     public WeaponStat stat;
     private ControllableCharacter owner; //필요없는 구조로 개선 예정
     
@@ -55,9 +57,19 @@ public class PlayerWeapon
             int shootAngle;
 
             if (owner.IsLeft)
-                shootAngle = 180;
+            {
+                if (WeaponId == WeaponId.Bazooka)
+                    shootAngle = 180 - 35;
+                else
+                    shootAngle = 180;
+            }
             else
-                shootAngle = 0;
+            {
+                if (WeaponId == WeaponId.Bazooka)
+                    shootAngle = 0 + 35;
+                else
+                    shootAngle = 0;
+            }
 
             bulletScript.SetAngle(shootAngle);
         }

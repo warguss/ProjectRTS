@@ -5,13 +5,14 @@ using System.Collections.Generic;
 public delegate void CharEventMove(int invokerId, Vector2 position, Vector2 velocity, bool isLeft);
 public delegate void CharEventStop(int invokerId, Vector2 position, Vector2 velocity);
 public delegate void CharEventJump(int invokerId, Vector2 position, Vector2 velocity);
-public delegate void CharEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, ShootInfo info, float remainingHp);
+public delegate void CharEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, HitInfo info, float remainingHp);
 public delegate void CharEventShoot(int invokerId, Vector2 position, Vector2 velocity, ShootInfo info, WeaponId weaponId);
 public delegate void CharEventChangeWeapon(int invokerId, Vector2 position, Vector2 velocity, WeaponId WeaponId);
 public delegate void CharEventSpawn(int invokerId, Vector2 position);
 public delegate void CharEventDead(int invokerId, Vector2 position, int attackerId);
 //public delegate void CharEventGetItem(int invokerId, string itemId);
-public delegate void CharEventSync(int invokerId, Vector2 position, Vector2 velocity);
+public delegate void CharEventSync(int invokerId, Vector2 position, Vector2 velocity, CharacterStateInfo info);
+public delegate void CharEventRoll(int invokerId, Vector2 position, Vector2 velocity);
 
 public abstract class ControllableCharacter : MonoBehaviour
 {
@@ -26,28 +27,15 @@ public abstract class ControllableCharacter : MonoBehaviour
 
     protected Rigidbody2D charRigidbody;
     protected Collider2D charCollider;
+    protected Collider2D charHitBox;
     protected GameObject charSpriteObject;
 
     protected PlayerInfoDisplay playerInfoDisplay;
     protected SpriteOverlayScript SpriteOverlay;
 
-    protected int hitRecovery = 0;
+    protected CharacterStateInfo state;
 
-    protected float hp;
-    public float MaxHP;
-    public CharacterStateInfo state;
-    protected int jumpCount = 0;
-    protected int lastAttackedPlayerId = -1;
-
-    protected bool isGrounded = true;
-    protected bool isLeft = true;
-    protected bool isMoving = false;
-    protected bool isDead = false;
-
-    public bool IsGrounded { get { return isGrounded; } }
-    public bool IsLeft { get { return isLeft; } }
-    public bool IsMoving { get { return isMoving; } }
-    public bool IsDead { get { return isDead; } }
+    public bool IsLeft { get { return state.IsLeft;  } }
 
     public event CharEventMove MoveEvent;
     public event CharEventStop StopEvent;
@@ -59,6 +47,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     public event CharEventDead DieEvent;
     //public event CharEventGetItem GetItemEvent;
     public event CharEventSync SyncEvent;
+    public event CharEventRoll RollEvent;
 
     protected void InvokeEventMove(Vector2 position, Vector2 velocity, bool isLeft)
     {
@@ -72,7 +61,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     {
         JumpEvent?.Invoke(OwnerId, position, velocity);
     }
-    protected void InvokeEventGetHit(Vector2 position, Vector2 velocity, int attackerId, ShootInfo info, float remainingHp)
+    protected void InvokeEventGetHit(Vector2 position, Vector2 velocity, int attackerId, HitInfo info, float remainingHp)
     {
         GetHitEvent?.Invoke(OwnerId, position, velocity, attackerId, info, remainingHp);
     }
@@ -96,9 +85,14 @@ public abstract class ControllableCharacter : MonoBehaviour
     //{
     //    GetItemEvent?.Invoke(OwnerId, itemId);
     //}
-    protected void InvokeEventSync(Vector2 position, Vector2 velocity)
+    protected void InvokeEventSync(Vector2 position, Vector2 velocity, CharacterStateInfo info)
     {
-        SyncEvent?.Invoke(OwnerId, position, velocity);
+        SyncEvent?.Invoke(OwnerId, position, velocity, info);
+    }
+
+    protected void InvokeEventRoll(Vector2 position, Vector2 velocity)
+    {
+        RollEvent?.Invoke(OwnerId, position, velocity);
     }
 
     public void Start()
@@ -127,25 +121,36 @@ public abstract class ControllableCharacter : MonoBehaviour
 
     public void SetVisible(bool isVisible)
     {
-        if (!isDead)
+        if (!state.IsDead)
             gameObject.SetActive(isVisible);
+        Debug.Log("Player" + OwnerName + " SetVisible : " + isVisible);
     }
 
     public void SetHP(float inHp)
     {
-        hp = inHp;   
+        state.hp = inHp;   
     }
 
     public void RecoverHp(float inHp)
     {
-        hp += inHp;
-        if (hp > MaxHP)
-            hp = MaxHP;
+        state.hp += inHp;
+        if (state.hp > state.MaxHP)
+            state.hp = state.MaxHP;
     }
 
     public Vector2 GetCurrentPosition()
     {
         return charRigidbody.position;
+    }
+
+    public CharacterStateInfo GetCharacterState()
+    {
+        return state;
+    }
+
+    public void SetCharacterSpecialState(CharacterSpecialState specialState, float time)
+    {
+        state.SetSpecialState(specialState, time);
     }
 
     public abstract void MoveLeft();
@@ -166,7 +171,7 @@ public abstract class ControllableCharacter : MonoBehaviour
     public abstract void SetLocation(Vector2 position);
     public abstract void MoveWithInterpolation(Vector2 position, Vector2 velocity);
 
-    public abstract void GetHit(int attackerId, ShootInfo info, float? remainingHp = null);
+    public abstract void GetHit(int attackerId, HitInfo info, float? remainingHp = null);
 
     public abstract GameObject GetGameObject();
 }

@@ -13,6 +13,9 @@ abstract public class Bullet : MonoBehaviour {
 
     protected Rigidbody2D rb2d;
 
+    protected float startTime = 0f;
+    protected float elapsedTime = 0f;
+
 	// Use this for initialization
 	void Start () {
         
@@ -25,26 +28,36 @@ abstract public class Bullet : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         
 	}
 
     void FixedUpdate()
     {
-        UpdatePosition();
+        elapsedTime = Time.time - startTime;
+        UpdatePosition(elapsedTime);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        //TestUI.Instance.PrintText("BulletOnTriggerEnter2D");
+        if (other.tag == "PlayerHitBox")
         {
-            MainCharacter targetPlayer = other.gameObject.GetComponent<MainCharacter>();
+            MainCharacter targetPlayer = other.gameObject.transform.parent.GetComponent<MainCharacter>();
             if (targetPlayer.OwnerId != OwnerId)
             {
                 if (targetPlayer.IsLocalPlayer)
                 {
-                    targetPlayer.GetHit(OwnerId, BulletStat);
-                    //TestUI.Instance.PrintText("BulletOnTriggerEnter2D");
+                    float radian = Mathf.PI * BulletStat.ShootAngle / 180f;
+
+                    HitInfo hitInfo = new HitInfo();
+                    hitInfo.Damage = BulletStat.Damage;
+                    hitInfo.HitType = weaponId;
+                    hitInfo.ImpactX = Mathf.Cos(radian) * BulletStat.ImpactScale;
+                    hitInfo.ImpactY = Mathf.Sin(radian) * BulletStat.ImpactScale;
+
+                    targetPlayer.GetHit(OwnerId, hitInfo);
                 }
 
                 Destroy(gameObject);
@@ -66,17 +79,18 @@ abstract public class Bullet : MonoBehaviour {
 
         BulletStat.BulletRange = info.Range;
         BulletStat.BulletSpeed = info.BulletSpeed;
-        BulletStat.HitType = weaponId;
+        BulletStat.ShootType = weaponId;
         BulletStat.Damage = info.Damage;
-        BulletStat.HitRecovery = info.HitRecovery;
-        BulletStat.Impact = info.Impact;
+        BulletStat.ImpactScale = info.Impact;///////////////////
         OwnerId = inOwnerId;
+
+        startTime = Time.time;
     }
 
     virtual public void SetAngle(int inAngle)
     {
-        BulletStat.shootAngle = inAngle;
+        BulletStat.ShootAngle = inAngle;
     }
 
-    protected abstract void UpdatePosition();
+    protected abstract void UpdatePosition(float elapsedTime);
 }

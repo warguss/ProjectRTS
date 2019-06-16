@@ -18,6 +18,7 @@ public enum WeaponId : int
     None = 0,
     Pistol = 1,
     Sniper = 2,
+    Bazooka = 3,
 }
 
 public class WeaponStat

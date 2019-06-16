@@ -9,6 +9,8 @@ public class CurrentInput
     public bool Right = false;
     public bool Jump = false;
     public bool Fire = false;
+
+    public bool Roll = false;
 }
 
 public class PlayerController {
@@ -85,6 +87,10 @@ public class PlayerController {
                 currentInput.Left = false;
                 currentInput.Right = false;
                 break;
+
+            case PlayerAction.Roll:
+                currentInput.Roll = true;
+                break;
         }
     }
 
@@ -114,6 +120,15 @@ public class PlayerController {
             Character.Shoot();
             currentInput.Fire = false;
         }
+
+        if (currentInput.Roll)
+        {
+            if (Character is MainCharacter)
+            {
+                ((MainCharacter)Character).DoRoll();
+            }
+            currentInput.Roll = false;
+        }
     }
 
     public void MoveWithInterpolation(Vector2 position, Vector2 velocity)
@@ -136,7 +151,7 @@ public class PlayerController {
         Character.ChangeToNextWeapon();
     }
 
-    public void GetHit(int attackerId, ShootInfo info, float? remainingHp = null)
+    public void GetHit(int attackerId, HitInfo info, float? remainingHp = null)
     {
         Character.GetHit(attackerId, info, remainingHp);
     }
@@ -178,7 +193,7 @@ public class PlayerController {
 
     public void SetInvincible(float time)
     {
-        Character.state.SetInvincible(time);
+        Character.SetCharacterSpecialState(CharacterSpecialState.Invincible, time);
     }
 
     public WeaponId GetCurrentWeapon()

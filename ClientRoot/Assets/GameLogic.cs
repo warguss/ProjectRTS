@@ -11,11 +11,29 @@ public class GameLogic : MonoBehaviour
 {
     public const int WEAPON_SLOT_COUNT = 3;
     public const float SPAWN_INVINCIBLE_TIME = 3f;
+    public const float MIN_INTERPOLATION_DISTANCE = 2f;
 
     public const float ITEM_INTERVAL_MAX = 30f;
     public const float ITEM_INTERVAL_MIN = 10f;
 
-    static public GameLogic Instance;
+    static public GameLogic Instance
+    {
+        get
+        {
+            GameObject gameLogicObject = GameObject.Find("/GameLogic");
+            if (gameLogicObject)
+            {
+                return gameLogicObject.GetComponent<GameLogic>();
+            }
+            else
+            {
+                GameObject tempInstance = new GameObject("GameLogic");
+                GameLogic createdGameLogic = tempInstance.AddComponent<GameLogic>();
+
+                return createdGameLogic;
+            }
+        }
+    }
 
     public InputInterface inputInterface;
 
@@ -23,10 +41,6 @@ public class GameLogic : MonoBehaviour
     public GameObject MapDataPrefab;
     public GameObject ItemPrefab;
     public CameraMove CameraScript;
-    public bool isOnline = false;
-
-    public int myId = -1;
-    public int mySector = -1;
 
     Dictionary<int, PlayerController> playerControllers;
     MapData mapData;
@@ -36,43 +50,63 @@ public class GameLogic : MonoBehaviour
 
     Dictionary<string, FieldItem> FieldItems;
 
+    private int spectatorTarget = -1;
+
     int testId1P = 0;
     int testId2P = 1;
 
     byte[] msgBuffer = new byte[256];
 
-    public bool TestMode;
-
     // Use this for initialization
     void Start()
     {
-        Instance = this;
+        
+    }
+
+    public void Initialize()
+    {
         playerControllers = new Dictionary<int, PlayerController>();
         FieldItems = new Dictionary<string, FieldItem>();
         mapData = Instantiate(MapDataPrefab).GetComponent<MapData>();
+    }
 
+    public void StartGame()
+    {
         mapData.LoadMap();
         mapData.DrawMap();
 
-        if (TestMode)
+        Debug.Log("isTestMode : "+GameStatus.isTestMode);
+        if (GameStatus.isTestMode)
         {
-            myId = testId1P;
+            GameStatus.myId = testId1P;
             userJoin(testId1P, "test1p", true);
             userJoin(testId2P, "test2p", false, true);
             SpawnPlayer(testId2P, new Vector2(2, 2));
+        }
+        else
+        {
+            if (!NetworkModule.instance.RequestAuthorization())
+            {
+                return;
+            }
+
+            if (!NetworkModule.instance.isConnected)
+            {
+                NetworkModule.instance.Connect(GameStatus.entryName);
+            }
         }
     }
 	
     // Update is called once per frame
     void Update()
     {
-        CheckPacket();
         ProcessInput();
-        if(isOnline)
+        if(GameStatus.isOnline)
         {
-            if(!NetworkModule.instance.isConnected)
+            CheckPacket();
+            if (!NetworkModule.instance.isConnected)
             {
-                isOnline = false;
+                GameStatus.isOnline = false;
                 CleanUpGame();
                 TestUI.Instance.PrintText("Disconnected from server.");
                 StopAllCoroutines();
@@ -94,7 +128,7 @@ public class GameLogic : MonoBehaviour
         PlayerController player = playerControllers[id];
         if (isMe)
         {
-            CameraScript.SetTarget(playerControllers[myId].Character.GetGameObject());
+            CameraScript.SetTarget(playerControllers[GameStatus.myId].Character.GetGameObject());
             WeaponUI.Instance.SetInventory(player.GetInventory());
 
             StartCoroutine(ItemSpawnTimer());
@@ -155,28 +189,29 @@ public class GameLogic : MonoBehaviour
 
     void ProcessInput()
     {
-        if (myId != -1)
+        if (GameStatus.myId != -1)
         {
             //SendInputToCharacter(myId, PlayerAction.Left, Input.GetKey(KeyCode.LeftArrow));
             //SendInputToCharacter(myId, PlayerAction.Right, Input.GetKey(KeyCode.RightArrow));
-            SendInputToCharacter(myId, PlayerAction.Left, InputDirection.Left == inputInterface.GetCurrentDirection());
-            SendInputToCharacter(myId, PlayerAction.Right, InputDirection.Right == inputInterface.GetCurrentDirection());
+            SendInputToCharacter(GameStatus.myId, PlayerAction.Left, InputDirection.Left == inputInterface.GetCurrentDirection());
+            SendInputToCharacter(GameStatus.myId, PlayerAction.Right, InputDirection.Right == inputInterface.GetCurrentDirection());
 
             if (inputInterface.GetJump())
-                SendInputToCharacter(myId, PlayerAction.Jump);
+                SendInputToCharacter(GameStatus.myId, PlayerAction.Jump);
             if (inputInterface.GetFire())
-                SendInputToCharacter(myId, PlayerAction.Fire);
-            if(inputInterface.GetNextWeapon())
+                SendInputToCharacter(GameStatus.myId, PlayerAction.Fire);
+
+            if (inputInterface.GetRoll())
+                SendInputToCharacter(GameStatus.myId, PlayerAction.Roll);
+
+            if (inputInterface.GetNextWeapon())
             {
-                var CurrentInventory = playerControllers[myId].GetInventory();
-
-                CurrentInventory.ChangeToNextWeapon();
-
+                playerControllers[GameStatus.myId].ChangeToNextWeapon();
                 //playerControllers[myId].ChangeWeapon(keysList[nextIndex]);
             }
         }
 
-        if(TestMode)
+        if(GameStatus.isTestMode)
         {
             SendInputToCharacter(testId2P, PlayerAction.Left, Input.GetKey(KeyCode.A));
             SendInputToCharacter(testId2P, PlayerAction.Right, Input.GetKey(KeyCode.D));
@@ -187,10 +222,7 @@ public class GameLogic : MonoBehaviour
                 SendInputToCharacter(testId2P, PlayerAction.Fire);
             if(Input.GetKeyDown(KeyCode.Q))
             {
-                WeaponId CurrentWeaponId = playerControllers[testId2P].GetCurrentWeapon();
-                var CurrentInventory = playerControllers[testId2P].GetInventory();
-                CurrentInventory.ChangeToNextWeapon();
-                //playerControllers[testId2P].ChangeWeapon(keysList[nextIndex]);
+                playerControllers[testId2P].ChangeToNextWeapon();
             }
         }
 
@@ -198,11 +230,19 @@ public class GameLogic : MonoBehaviour
 
     public void CleanUpGame()
     {
-        foreach(var entry in playerControllers)
+        GameStatus.isOnline = false;
+
+        foreach (var entry in playerControllers)
         {
             entry.Value.LeaveGame();
         }
+        foreach (var entry in FieldItems)
+        {
+            Destroy(entry.Value.gameObject);
+        }
+
         playerControllers.Clear();
+        FieldItems.Clear();
     }
 
 
@@ -238,6 +278,22 @@ public class GameLogic : MonoBehaviour
     void ProcessConnectionPacket(UserConnection ConnectionPacket)
     {
         TestUI.Instance.PrintText("Connection Type : " + ConnectionPacket.ConType);
+        if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.Connect) // Connect타입 패킷에서 아이템을 받는다? 처음에만 받고 이후 유저가 접속할 때는 없음. 개선예정?
+        {
+            TestUI.Instance.PrintText("Created Item Count : " + ConnectionPacket.Item.Count);
+            for (int j = 0; j < ConnectionPacket.Item.Count; j++)
+            {
+                string itemId = ConnectionPacket.Item[j].ItemId;
+                float itemPositionX = ConnectionPacket.Item[j].ItemPositionX;
+                float itemPositionY = ConnectionPacket.Item[j].ItemPositionY;
+                int itemType = (int)ConnectionPacket.Item[j].ItemType;
+                int weaponId = (int)ConnectionPacket.Item[j].WeaponId;
+                int amount = ConnectionPacket.Item[j].Amount;
+
+                CreateItem(new Vector2(itemPositionX, itemPositionY), itemId, (ItemType)itemType, (WeaponId)weaponId, amount);
+            }
+        }
+
         for (int i = 0; i< ConnectionPacket.ConnectorId.Count; i++)
         {
             int connectorId = ConnectionPacket.ConnectorId[i];
@@ -245,6 +301,22 @@ public class GameLogic : MonoBehaviour
             if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.AcceptConnect)
             {
                 string connectorName = ConnectionPacket.Nickname[i];
+                //int connectorKillCount = ConnectionPacket.KillInfo[i];
+                //int ConnectorDeathCount = ConnectionPacket.DeathInfo[i];
+
+                //TestUI.Instance.PrintText("Connector Id : " + connectorId
+                //                         + " / Name = " + connectorName
+                //                         + " / Kill = " + connectorKillCount
+                //                         + " / Death = " + ConnectorDeathCount);
+
+                GameStatus.isOnline = true;
+                GameStatus.myId = connectorId;
+                userJoin(connectorId, connectorName, true);
+            }
+            else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.Connect)
+            {
+                string connectorName = ConnectionPacket.Nickname[i];
+
                 int connectorKillCount = ConnectionPacket.KillInfo[i];
                 int ConnectorDeathCount = ConnectionPacket.DeathInfo[i];
 
@@ -252,18 +324,10 @@ public class GameLogic : MonoBehaviour
                                          + " / Name = " + connectorName
                                          + " / Kill = " + connectorKillCount
                                          + " / Death = " + ConnectorDeathCount);
-
-                isOnline = true;
-                myId = connectorId;
-                userJoin(connectorId, connectorName, true);
-            }
-            else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.Connect)
-            {
-                string connectorName = ConnectionPacket.Nickname[i];
-
+               
                 userJoin(connectorId, connectorName, false, false, false);
-                if (playerControllers.ContainsKey(myId))
-                    playerControllers[myId].Character.InitialSync();
+                if (playerControllers.ContainsKey(GameStatus.myId))
+                    playerControllers[GameStatus.myId].Character.InitialSync();
             }
             else if (ConnectionPacket.ConType == UserConnection.Types.ConnectionType.DisConnect)
             {
@@ -289,13 +353,17 @@ public class GameLogic : MonoBehaviour
                 {
                     foreach (int invokerId in EventPacket.InvokerId)
                     {
+                        PlayerController currentPlayer = playerControllers[invokerId];
                         bool isInterested = EventPacket.IsInterested;//TO DO
-                        if (invokerId == myId)
+                        if (invokerId == GameStatus.myId)
                         {
                             continue;
                         }
-                        //playerControllers[invokerId].IsInterested = isInterested;
-                        playerControllers[invokerId].MoveWithInterpolation(position, velocity);
+                        currentPlayer.IsInterested = !isInterested; // 서버에선 값이 반대?
+                        if (Vector2.Distance(currentPlayer.GetCurrentPosition(), position) > MIN_INTERPOLATION_DISTANCE)
+                        {
+                            currentPlayer.MoveWithInterpolation(position, velocity);
+                        }
 
                         var userEventPacket = EventPacket.UserEvent;
                         ProcessUserEvent(userEventPacket, invokerId, position);
@@ -355,14 +423,13 @@ public class GameLogic : MonoBehaviour
                     {
 
                         var info = userEventPacket.ShootEvent;
-                        int weaponId = info.WeaponId;
+                        int weaponId = info.ShootType;
                         ShootInfo shootInfo = new ShootInfo
                         {
-                            HitType = (WeaponId)weaponId,
-                            Damage = (int)info.Damage,
-                            shootAngle = info.Angle,
-                            HitRecovery = 10,/////////unused
-                            Impact = info.Impact,/////////////
+                            ShootType = (WeaponId)weaponId,
+                            Damage = info.Damage,
+                            ShootAngle = info.ShootAngle,
+                            ImpactScale = info.ImpactScale,/////////////
                             BulletRange = info.BulletRange,
                             BulletSpeed = info.BulletSpeed,
                         };
@@ -385,12 +452,12 @@ public class GameLogic : MonoBehaviour
                     {
 
                         var info = userEventPacket.HitEvent;
-                        ShootInfo shootInfo = new ShootInfo
-                        {
-                            HitType = (WeaponId)info.HitType,
-                            Damage = (int)info.Damage,
-                            HitRecovery = 10,/////////unused
-                            Impact = info.Impact,/////////////
+                    HitInfo shootInfo = new HitInfo
+                    {
+                        HitType = (WeaponId)info.HitType,
+                        Damage = info.Damage,
+                        ImpactX = info.ImpactX,/////////////
+                        ImpactY = info.ImpactY
                         };
                         float currentHp = info.CurrentHP;
                         playerControllers[invokerId].GetHit(info.Attacker, shootInfo, currentHp);
@@ -411,11 +478,11 @@ public class GameLogic : MonoBehaviour
                 case UserEvent.Types.action.EventUserSync:
                     {
                         var info = userEventPacket.SyncEvent;
-                        //float currentHp = info.CurrentHP;
-                        //int weaponId = info.WeaponId;
+                        float currentHp = info.CurrentHP;
+                        int weaponId = info.WeaponId;
 
-                        //playerControllers[invokerId].SetHP(currentHp);
-                        //playerControllers[invokerIs].ChangeWeapon(weaponId);
+                        playerControllers[invokerId].SetHP(currentHp);
+                        playerControllers[invokerId].ChangeWeapon((WeaponId)weaponId);
 
                         break;
                     }
@@ -447,6 +514,19 @@ public class GameLogic : MonoBehaviour
                     ConsumeItem(invokerId, itemId);
                     break;
                 }
+
+            case SystemEvent.Types.action.RequestUserInfo:
+                {
+                    var info = systemEventPacket.RequestUserInfo;
+                    int targetId = info.TargetID;
+                    float xPos = info.EventPositionX;
+                    float yPos = info.EventPositionY;
+
+                    TestUI.Instance.PrintText("Receive RequestUserInfo - (" + targetId + "), " + xPos + ", " + yPos);
+                    StartCoroutine(KeepSpectatorSync(new Vector2(xPos, yPos)));
+
+                    break;
+                }
         }
     }
 
@@ -455,10 +535,14 @@ public class GameLogic : MonoBehaviour
         switch(noticePacket.NotiType)
         {
             case GlobalNotice.Types.NoticeInfo.KillInfo:
-                int perfomerId = noticePacket.Performer;
+                int performerId = noticePacket.Performer;
                 var victimId = noticePacket.Victim;
-                TestUI.Instance.PrintText("perfomer : " + noticePacket.Performer + "(" + playerControllers[perfomerId].PlayerName + ")" + 
-                    " / victim : " + noticePacket.Victim + "(" + playerControllers[victimId[0]].PlayerName + ")");
+
+                string performerName = playerControllers[performerId].PlayerName;
+                string victimName = playerControllers[victimId[0]].PlayerName;
+                KillLogUi.Instance.GenerateKillLog(performerName, victimName);
+                TestUI.Instance.PrintText("perfomer : " + noticePacket.Performer + "(" + performerName + ")" + 
+                    " / victim : " + noticePacket.Victim + "(" + victimName + ")");
                 break;
 
             case GlobalNotice.Types.NoticeInfo.Notice:
@@ -478,7 +562,7 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventMove(int invokerId, Vector2 position, Vector2 velocity, bool isLeft)
     {
-        if (isOnline)
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventMove(invokerId, position, velocity, isLeft);
         }
@@ -486,15 +570,15 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventStop(int invokerId, Vector2 position, Vector2 velocity)
     {
-        if (isOnline)
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventStop(invokerId, position, velocity);
         }
     }
 
-    void PlayerEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, ShootInfo info, float remainingHp)
+    void PlayerEventGetHit(int invokerId, Vector2 position, Vector2 velocity, int attackerId, HitInfo info, float remainingHp)
     {
-        if (isOnline)
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventGetHit(invokerId, position, velocity, attackerId, info, remainingHp);
         }
@@ -502,7 +586,7 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventJump(int invokerId, Vector2 position, Vector2 velocity)
     {
-        if (isOnline)
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventJump(invokerId, position, velocity);
         }
@@ -510,8 +594,8 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventShoot(int invokerId, Vector2 position, Vector2 velocity, ShootInfo info, WeaponId weaponId)
     {
-        PlayerController player = playerControllers[myId];
-        if (isOnline)
+        PlayerController player = playerControllers[GameStatus.myId];
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventShoot(invokerId, position, velocity, info, weaponId);
         }
@@ -519,8 +603,8 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventChangeWeapon(int invokerId, Vector2 position, Vector2 velocity, WeaponId weaponId)
     {
-        PlayerController player = playerControllers[myId];
-        if (isOnline)
+        PlayerController player = playerControllers[GameStatus.myId];
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventChangeWeapon(invokerId, position, velocity, weaponId);
         }
@@ -528,7 +612,8 @@ public class GameLogic : MonoBehaviour
 
     void PlayerEventSpawn(int invokerId, Vector2 position)
     {
-        if (isOnline)
+        CameraScript.SetTarget(playerControllers[GameStatus.myId].Character.GetGameObject()); 
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventSpawn(invokerId, position);
         }
@@ -537,32 +622,36 @@ public class GameLogic : MonoBehaviour
     void PlayerEventDie(int invokerId, Vector2 position, int AttackerId)
     {
         StartCoroutine(SpawnAfterSeconds(invokerId, new Vector2(Random.Range(1f, 10f), Random.Range(1f, 10f)), 5));
-        if (isOnline)
+        //StartCoroutine(KeepSpectatorSync(position));
+        spectatorTarget = AttackerId;
+        CameraScript.SetTarget(playerControllers[AttackerId].Character.GetGameObject()); //TODO : 일정 딜레이 후 시점 바뀌는 걸로 바꾸기
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventDead(invokerId, position, AttackerId);
+            NetworkModule.instance.WriteRequestUserPosition(invokerId, AttackerId);
         }
     }
 
     void PlayerEventGetItem(int invokerId, string itemId)
     {
-        if (isOnline)
+        if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventGetItem(invokerId, itemId);
         }
     }
 
-    void PlayerEventSync(int invokerId, Vector2 position, Vector2 velocity)
+    void PlayerEventSync(int invokerId, Vector2 position, Vector2 velocity, CharacterStateInfo info)
     {
-        if (isOnline)
+        if (GameStatus.isOnline)
         {
-            NetworkModule.instance.WriteEventSync(invokerId, position, velocity);
-            
+            NetworkModule.instance.WriteEventSync(invokerId, position, velocity, info);
         }
     }
 
     void SpawnPlayer(int playerId, Vector2 position, bool setInvincible = true)
     {
         playerControllers[playerId].Spawn(position);
+        spectatorTarget = -1;
         if (setInvincible)
             playerControllers[playerId].SetInvincible(SPAWN_INVINCIBLE_TIME);
     }
@@ -585,19 +674,26 @@ public class GameLogic : MonoBehaviour
 
     public void ConsumeItem(int targetPlayer, string itemId)
     {
-        var targetItem = FieldItems[itemId];
-
-        if(targetPlayer == myId)
+        if (FieldItems.ContainsKey(itemId))
         {
-            playerControllers[myId].GetItem(targetItem);
+            var targetItem = FieldItems[itemId];
+
+            if (targetPlayer == GameStatus.myId)
+            {
+                playerControllers[GameStatus.myId].GetItem(targetItem);
+            }
+            else
+            {
+                //효과만 표시?
+            }
+
+            Destroy(targetItem.gameObject);
+            FieldItems.Remove(itemId);
         }
         else
         {
-            //효과만 표시?
-        }
 
-        Destroy(targetItem.gameObject);
-        FieldItems.Remove(itemId);
+        }
     }
 
     public void CreateItemRandomely(Vector2 centerPosition, float range)
@@ -632,9 +728,9 @@ public class GameLogic : MonoBehaviour
                 }
         }
 
-        if (isOnline)
+        if (GameStatus.isOnline)
         {
-            NetworkModule.instance.WriteEventSpawnItem(myId, itemPosition, itemId, itemType, weaponId, itemAmount);
+            NetworkModule.instance.WriteEventSpawnItem(GameStatus.myId, itemPosition, itemId, itemType, weaponId, itemAmount);
         }
         else
         {
@@ -644,8 +740,8 @@ public class GameLogic : MonoBehaviour
 
     public string GenerateItemId()
     {
-        string itemId = myId + "_" + createItemCount;
         createItemCount++;
+        string itemId = System.Guid.NewGuid().ToString();
 
         return itemId;
     }
@@ -660,8 +756,21 @@ public class GameLogic : MonoBehaviour
                 yield return null;
                 currentItemInterval -= Time.deltaTime;
             }
-            CreateItemRandomely(playerControllers[myId].GetCurrentPosition(), 10);
+            CreateItemRandomely(playerControllers[GameStatus.myId].GetCurrentPosition(), 10);
         }
+    }
+
+    IEnumerator KeepSpectatorSync(Vector2 startPosition)
+    {
+        TestUI.Instance.PrintText("KeepSpectatorSync Start, target : " + spectatorTarget);
+        NetworkModule.instance.WriteEventSync(GameStatus.myId, startPosition, new Vector2(), new CharacterStateInfo());
+        yield return new WaitForSeconds(NetworkModule.SyncFrequency);
+        while(spectatorTarget != -1)
+        {
+            NetworkModule.instance.WriteEventSync(GameStatus.myId, playerControllers[spectatorTarget].GetCurrentPosition(), new Vector2(), new CharacterStateInfo());
+            yield return new WaitForSeconds(NetworkModule.SyncFrequency);
+        }
+        TestUI.Instance.PrintText("KeepSpectatorSync End");
     }
 }
    

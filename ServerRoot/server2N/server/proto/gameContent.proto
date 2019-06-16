@@ -61,6 +61,11 @@ message EventJump
 
 }
 
+message EventRoll
+{
+
+}
+
 message EventShoot
 {
 	int32 shootType = 1;
@@ -191,6 +196,7 @@ message UserEvent{
 		EventDeath         = 107;
 		EventBullet         = 108;
 		EventChangeWeapon   = 109;
+		EventRoll   = 110;
 	}
 
 	action actType = 110;
@@ -205,6 +211,7 @@ message UserEvent{
 	EventChangeWeapon chWeaponEvent = 119;
 	EventItemSpawn itemSpawnEvent = 120;
 	EventItemGet itemGetEvent = 121;
+	EventRoll RollEvent = 122;
 }
 
 message PacketBody{

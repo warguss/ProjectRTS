@@ -58,13 +58,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\3rdp\Triangulator.cs" />
     <Compile Include="Assets\CameraMove.cs" />
     <Compile Include="Assets\FieldItem.cs" />
     <Compile Include="Assets\GameLogic.cs" />
+    <Compile Include="Assets\GameLogic\Script\Player\BazookaBullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\Bullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\BulletFactory.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\CharacterState.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\ControllableCharacter.cs" />
+    <Compile Include="Assets\GameLogic\Script\Player\ExplosionDamage.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\HPBar.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\MainCharacter.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\PistolBullet.cs" />
@@ -74,6 +77,8 @@
     <Compile Include="Assets\GameLogic\Script\Player\ShootInfo.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\SniperBullet.cs" />
     <Compile Include="Assets\GameLogic\Script\Player\WeaponDatabase.cs" />
+    <Compile Include="Assets\GameSceneManager.cs" />
+    <Compile Include="Assets\GameStatus.cs" />
     <Compile Include="Assets\Google.Protobuf\ByteArray.cs" />
     <Compile Include="Assets\Google.Protobuf\ByteString.cs" />
     <Compile Include="Assets\Google.Protobuf\CodedInputStream.cs" />
@@ -148,16 +153,22 @@
     <Compile Include="Assets\Google.Protobuf\WellKnownTypes\Wrappers.cs" />
     <Compile Include="Assets\Google.Protobuf\WellKnownTypes\WrappersPartial.cs" />
     <Compile Include="Assets\Google.Protobuf\WireFormat.cs" />
+    <Compile Include="Assets\InGameMenu.cs" />
     <Compile Include="Assets\InputInterface.cs" />
+    <Compile Include="Assets\KillLogEntry.cs" />
+    <Compile Include="Assets\KillLogUi.cs" />
     <Compile Include="Assets\Manager.cs" />
     <Compile Include="Assets\MapData.cs" />
     <Compile Include="Assets\NetworkModule.cs" />
     <Compile Include="Assets\Packet.cs" />
     <Compile Include="Assets\PlayerController.cs" />
+    <Compile Include="Assets\PolygonTerrain.cs" />
+    <Compile Include="Assets\PolygonTest.cs" />
     <Compile Include="Assets\Server\proto\GameContent.cs" />
     <Compile Include="Assets\ServiceAuth.cs" />
     <Compile Include="Assets\SpriteOverlayScript.cs" />
     <Compile Include="Assets\TestUI.cs" />
+    <Compile Include="Assets\TitleUI.cs" />
     <Compile Include="Assets\TouchButton.cs" />
     <Compile Include="Assets\TouchButtonsInterface.cs" />
     <Compile Include="Assets\TouchDirectionInterface.cs" />

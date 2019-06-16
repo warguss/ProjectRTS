@@ -10,7 +10,7 @@ using System.Threading;
 
 public class NetworkModule : MonoBehaviour
 {
-    public const string SERVER_IP = "210.89.191.141";
+    public const string SERVER_IP = "ec2-13-125-18-197.ap-northeast-2.compute.amazonaws.com";
     public const int SERVER_PORT = 10001;
     public const float SyncFrequency = 0.2f;
     public const float MaxInterpolationTime = 0.3f;
@@ -38,11 +38,18 @@ public class NetworkModule : MonoBehaviour
 
     //int testCount = 0;
 
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        instance = this;
+    }
+
     // Use this for initialization
     void Start()
     {
-        instance = this;
-
         readPacket = new Packet();
         writePacket = new Packet();
         RecevedPacketBodyQueue = new Queue<PacketBody>();
@@ -386,9 +393,14 @@ public class NetworkModule : MonoBehaviour
 
     //////////////////////////////////////////UserEvent
 
-    public void WriteEventSync(int InvokerId, Vector2 position, Vector2 velocity)
+    public void WriteEventSync(int InvokerId, Vector2 position, Vector2 velocity, CharacterStateInfo info)
     {
         var packet = CreateUserEventPacket(UserEvent.Types.action.EventUserSync, InvokerId, position, velocity);
+        packet.Event.UserEvent.SyncEvent = new EventUserSync
+        {
+            CurrentHP = info.hp,
+            WeaponId = (int)info.CurrentWeapon
+        };
 
         EnqueueSendPacket(packet);
     }
@@ -437,14 +449,15 @@ public class NetworkModule : MonoBehaviour
         EnqueueSendPacket(packet);
     }
 
-    public void WriteEventGetHit(int InvokerId, Vector2 position, Vector2 velocity, int attackerId, ShootInfo info, float remainingHp)
+    public void WriteEventGetHit(int InvokerId, Vector2 position, Vector2 velocity, int attackerId, HitInfo info, float remainingHp)
     {
         var packet = CreateUserEventPacket(UserEvent.Types.action.EventHit, InvokerId, position, velocity);
         packet.Event.UserEvent.HitEvent = new EventHit
         {
             Attacker = attackerId,
             HitType = (int)info.HitType,
-            Impact = info.Impact,
+            ImpactX = info.ImpactX,
+            ImpactY = info.ImpactY,
             Damage = info.Damage,
             CurrentHP = remainingHp
         };
@@ -470,10 +483,10 @@ public class NetworkModule : MonoBehaviour
         {
             BulletSpeed = info.BulletSpeed,
             BulletRange = info.BulletRange,
-            Impact = info.Impact,
-            Angle = info.shootAngle,
+            ImpactScale = info.ImpactScale,
+            ShootAngle = info.ShootAngle,
             Damage = info.Damage,
-            WeaponId = (int)weaponId 
+            ShootType = (int)weaponId 
         };
 
         EnqueueSendPacket(packet);
@@ -523,6 +536,19 @@ public class NetworkModule : MonoBehaviour
         };
 
         TestUI.Instance.PrintText("WriteEventGetItem(" + itemId + "), " + InvokerId);
+        EnqueueSendPacket(packet);
+    }
+
+    public void WriteRequestUserPosition(int InvokerId, int targetId)
+    {
+        var packet = CreateSystemEventPacket(SystemEvent.Types.action.RequestUserInfo, InvokerId, new Vector2(0, 0), new Vector2(0, 0));
+        RequestUserInfo requestUserInfo = new RequestUserInfo //현재는 Get할 때는 itemId만 사용
+        {
+            TargetID = targetId
+        };
+        packet.Event.SystemEvent.RequestUserInfo = requestUserInfo;
+
+        TestUI.Instance.PrintText("WriteRequestUserPosition(" + targetId + "), " + InvokerId);
         EnqueueSendPacket(packet);
     }
 

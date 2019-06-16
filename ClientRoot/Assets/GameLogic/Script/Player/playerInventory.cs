@@ -16,7 +16,6 @@ public class PlayerInventory
     public event ClearItemsDelegate ClearItemsEvent;
     public event ChangeItemDelegate ChangeItemEvent;
 
-
     private ControllableCharacter owner; //필요없는 구조로 개선 예정
     private List<PlayerWeapon> items = new List<PlayerWeapon>();
     private WeaponId m_CurrentWeaponId = WeaponId.None;
@@ -111,15 +110,17 @@ public class PlayerInventory
         }
     }
 
-    public WeaponId ChangeToNextWeapon()
+    public void ChangeToNextWeapon()
     {
-        int nextIndex = (GetCurrentWeaponIndex() + 1) % GameLogic.WEAPON_SLOT_COUNT;
-        if (nextIndex >= items.Count)
-            nextIndex = 0;
+        if (items.Count > 1)
+        {
+            int nextIndex = (GetCurrentWeaponIndex() + 1) % GameLogic.WEAPON_SLOT_COUNT;
+            if (nextIndex >= items.Count)
+                nextIndex = 0;
 
-        WeaponId NextWeapon = items[nextIndex].WeaponId;
-        ChangeWeapon(NextWeapon);
-        return NextWeapon;
+            WeaponId NextWeapon = items[nextIndex].WeaponId;
+            ChangeWeapon(NextWeapon);
+        }
     }
 
     public PlayerWeapon GetCurrentWeapon()

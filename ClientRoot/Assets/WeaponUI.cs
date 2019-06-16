@@ -57,7 +57,15 @@ public class WeaponUI : MonoBehaviour {
 
     public void DeleteWeapon(WeaponId weaponId)
     {
-
+        for (int i = 0; i < GameLogic.WEAPON_SLOT_COUNT; i++)
+        {
+            if (weaponSlots[i].WeaponId == (int)weaponId)
+            {
+                weaponSlots[i].SetEmpty();
+                return;
+            }
+        }
+        Debug.LogWarning("WeaponUI Error : Trying to delete weapon not exist");
     }
 
     public void SetAmmo(WeaponId weaponId, int ammo)

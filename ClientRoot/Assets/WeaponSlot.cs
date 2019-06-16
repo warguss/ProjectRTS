@@ -50,6 +50,9 @@ public class WeaponSlot : MonoBehaviour {
             case global::WeaponId.Sniper:
                 weaponIcon.color = Color.magenta;
                 break;
+            case global::WeaponId.Bazooka:
+                weaponIcon.color = Color.blue;
+                break;
             default:
                 WeaponId = -1;
                 break;
