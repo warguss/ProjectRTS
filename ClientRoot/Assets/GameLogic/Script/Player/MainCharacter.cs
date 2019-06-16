@@ -15,7 +15,7 @@ public class MainCharacter : ControllableCharacter
     public float MoveForce;
     public float JumpForce;
     public int MaxJumpCount = 2;
-    public int MaxRollCount = 1;
+    public int MaxRollCount = 2;
 
     public float RollForce = 7f;
 
@@ -224,6 +224,8 @@ public class MainCharacter : ControllableCharacter
             //rb2d.AddForce(Vector2.up*JumpForce);
             charRigidbody.velocity = new Vector2(charRigidbody.velocity.x, JumpForce);
 
+            endRoll(false);
+
             InvokeEventJump(CurrentPosition, CurrentVelocity);
         }
     }
@@ -284,7 +286,7 @@ public class MainCharacter : ControllableCharacter
     public override void ChangeToNextWeapon() // 확인 필요. GameLogic에서 Inventory의 Change Weapon을 직접 호출중?
     {
         Inventory.ChangeToNextWeapon();
-    }
+    } 
 
     void CheckLand()
     {
@@ -321,7 +323,6 @@ public class MainCharacter : ControllableCharacter
 
     void Land()
     {
-        Debug.Log("Landed");
         state.IsGrounded = true;
         endRoll();
         state.jumpCount = 0;
@@ -434,6 +435,7 @@ public class MainCharacter : ControllableCharacter
         {
             state.IsRolling = true;
             state.rollCount++;
+            
 
             state.SetSpecialState(CharacterSpecialState.RollingInvincible, ROLLING_INVINCIBLE_TIME);
 
@@ -452,10 +454,12 @@ public class MainCharacter : ControllableCharacter
         }
     }
 
-    public void endRoll()
+    public void endRoll(bool resetRollCount = true)
     {
         state.IsRolling = false;
-        state.rollCount = 0;
+
+        if (resetRollCount)
+            state.rollCount = 0;
 
         state.DisableSpecialState(CharacterSpecialState.RollingInvincible);
     }

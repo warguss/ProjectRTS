@@ -139,6 +139,7 @@ public class GameLogic : MonoBehaviour
             player.Character.StopEvent += PlayerEventStop;
             player.Character.JumpEvent += PlayerEventJump;
             player.Character.ShootEvent += PlayerEventShoot;
+            player.Character.RollEvent += PlayerEventRoll;
             player.Character.ChangeWeaponEvent += PlayerEventChangeWeapon;
             player.Character.GetHitEvent += PlayerEventGetHit;
             player.Character.SpawnEvent += PlayerEventSpawn;
@@ -419,7 +420,15 @@ public class GameLogic : MonoBehaviour
                         break;
                     }
 
-                case UserEvent.Types.action.EventShoot:
+            case UserEvent.Types.action.EventRoll:
+                {
+
+                    var info = userEventPacket.RollEvent;
+                    SendInputToCharacter(invokerId, PlayerAction.Roll);
+                    break;
+                }
+
+            case UserEvent.Types.action.EventShoot:
                     {
 
                         var info = userEventPacket.ShootEvent;
@@ -589,6 +598,14 @@ public class GameLogic : MonoBehaviour
         if (GameStatus.isOnline)
         {
             NetworkModule.instance.WriteEventJump(invokerId, position, velocity);
+        }
+    }
+
+    void PlayerEventRoll(int invokerId, Vector2 position, Vector2 velocity)
+    {
+        if (GameStatus.isOnline)
+        {
+            NetworkModule.instance.WriteEventRoll(invokerId, position, velocity);
         }
     }
 

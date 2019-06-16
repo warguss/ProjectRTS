@@ -233,7 +233,12 @@ public class NetworkModule : MonoBehaviour
 
             ns.Write(writePacket.RawData, ZERO_OFFSET, writePacket.RawData.Length);
             //TestUI.Instance.PrintText("PacketSended type : " + packet.MsgType + ", BodyLength : " + writePacket.BodyLength);
-            Debug.Log("PacketSended type : " + packet.MsgType + ", BodyLength : " + writePacket.BodyLength);
+            TestUI.Instance.PrintText("PacketSended type : " + packet.MsgType + ", BodyLength : " + writePacket.BodyLength);
+            if(packet.MsgType == PacketBody.Types.messageType.GameEvent)
+            {
+                if(packet.Event.EvtType == GameEvent.Types.eventType.UserEvent)
+                    TestUI.Instance.PrintText("UserEvent : " + packet.Event.UserEvent.ActType);
+            }
 
             writePacket.Clean();
 
@@ -469,6 +474,17 @@ public class NetworkModule : MonoBehaviour
     {
         var packet = CreateUserEventPacket(UserEvent.Types.action.EventJump, InvokerId, position, velocity);
         packet.Event.UserEvent.JumpEvent = new EventJump
+        {
+
+        };
+
+        EnqueueSendPacket(packet);
+    }
+
+    public void WriteEventRoll(int InvokerId, Vector2 position, Vector2 velocity)
+    {
+        var packet = CreateUserEventPacket(UserEvent.Types.action.EventRoll, InvokerId, position, velocity);
+        packet.Event.UserEvent.RollEvent = new EventRoll
         {
 
         };
