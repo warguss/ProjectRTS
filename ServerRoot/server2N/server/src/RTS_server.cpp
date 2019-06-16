@@ -239,8 +239,8 @@ bool childProcessLogic()
 	/*******************************************************
 	 * System Event Action 관련 함수 Add
 	 *******************************************************/
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::SystemEvent_action_EventItemSpawn, ActionAllSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::SystemEvent_action_EventItemGet, ActionAllSendFunc) );
+	//funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::SystemEvent_action_EventItemSpawn, ActionAllSendFunc) );
+	//funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::SystemEvent_action_EventItemGet, ActionAllSendFunc) );
 
 
 
@@ -275,7 +275,6 @@ bool childProcessLogic()
 	 * IP | Port | Timeout
 	 ***********************************************/
 	g_redisManager.initialize("127.0.0.1", (int32_t)6789, (uint32_t)10);
-
 	while(true)
 	{
 		/***********************************************
@@ -309,8 +308,8 @@ bool childProcessLogic()
 				continue ;
 			}
 
-	//funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserConnection_ConnectionType_TryConnect, ConnectAllSendFunc) );
-			if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect || type == (int32_t)server2N::UserEvent_action_EventMove || type == (int32_t)server2N::SystemEvent_action_RequestUserInfo || type == (int32_t)server2N::UserEvent_action_EventMove || type == (int32_t)server2N::UserEvent_action_EventStop || type == (int32_t)server2N::UserEvent_action_EventJump || type == (int32_t)server2N::UserEvent_action_EventShoot || type == (int32_t)server2N::UserEvent_action_EventHit || type == (int32_t)server2N::UserEvent_action_EventDeath || type == (int32_t)server2N::UserEvent_action_EventSpawn || type == (int32_t)server2N::UserEvent_action_EventUserSync )
+			//funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserConnection_ConnectionType_TryConnect, ConnectAllSendFunc) );
+			//if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect || type == (int32_t)server2N::UserEvent_action_EventMove || type == (int32_t)server2N::SystemEvent_action_RequestUserInfo || type == (int32_t)server2N::UserEvent_action_EventMove || type == (int32_t)server2N::UserEvent_action_EventStop || type == (int32_t)server2N::UserEvent_action_EventJump || type == (int32_t)server2N::UserEvent_action_EventShoot || type == (int32_t)server2N::UserEvent_action_EventHit || type == (int32_t)server2N::UserEvent_action_EventDeath || type == (int32_t)server2N::UserEvent_action_EventSpawn || type == (int32_t)server2N::UserEvent_action_EventUserSync )
 			{
 				LOG_DEBUG("TEST");
 				do
