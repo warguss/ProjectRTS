@@ -248,7 +248,7 @@ bool childProcessLogic()
 	 * Noti 관련 함수 Add
 	 *******************************************************/
 	//funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GlobalNotice_NoticeInfo_KillInfo, NotiAllSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GlobalNotice_NoticeInfo_Notice, NotiAllSendFunc) );
+	//funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GlobalNotice_NoticeInfo_Notice, NotiAllSendFunc) );
 
 	/*******************************************************
 	 * Sector Index Setting 
@@ -274,7 +274,7 @@ bool childProcessLogic()
 	 * Redis Init
 	 * IP | Port | Timeout
 	 ***********************************************/
-	g_redisManager.initialize("127.0.0.1", (int32_t)6789, (uint32_t)10);
+	//g_redisManager.initialize("127.0.0.1", (int32_t)6789, (uint32_t)10);
 	while(true)
 	{
 		/***********************************************
@@ -317,22 +317,28 @@ bool childProcessLogic()
 					CLS_CALLBACK fnc = afxCreateClass(type);
 					if ( !fnc ) 
 					{
+						LOG_DEBUG("TEST2");
 						break;
 					}
+					LOG_DEBUG("TEST3");
 
 					CProtoLogicBase* logic = fnc(false);
 					if ( logic->onPreProcess(data->_sector) && logic->onProcess(session, data) )
 					{
+						LOG_DEBUG("TEST4");
 						logic->onPostProcess(session);	
 					} 
 
 					delete logic;
 					continue;
+
 				}
 				while(false);
+
 			}
 
-
+#if 0 
+			LOG_DEBUG("TEST5");
 			void (*func)(CSessionManager&, CProtoPacket*) = NULL;
 			func = funcMap.find(type)->second;
 			if ( func )
@@ -344,6 +350,7 @@ bool childProcessLogic()
 				LOG_ERROR("Not FuncCallback Register Type");
 				
 			}
+#endif
 		} 	
 	}
 	int status;
@@ -358,7 +365,7 @@ int main(int argc, char* argv[])
 	// Verify that the version of the library that we linked against is
 	// compatible with the version of the headers we compiled against.
 	GOOGLE_PROTOBUF_VERIFY_VERSION;
-	childProcessLogic();
+	//childProcessLogic();
 	do 
 	{
 		pid_t pid;

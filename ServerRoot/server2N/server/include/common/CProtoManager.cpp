@@ -58,6 +58,7 @@ void CProtoManager::initialize()
 	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserEvent_action_EventDeath, (const char*)strdup("UserEvent_EventDeath")) );
 	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserEvent_action_EventBullet, (const char*)strdup("UserEvent_EventBullet")) );
 	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::UserEvent_action_EventChangeWeapon, (const char*)strdup("UserEvent_EventChangeWeapon")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>((int32_t)server2N::UserEvent_action_EventRoll, (const char*)strdup("UserEvent_EventRoll")) );
 
 
 	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::SystemEvent_action_EventItemSpawn, (const char*)strdup("SystemEvent_EventSpawn")) );
@@ -420,7 +421,7 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 		 ******************************/
 		LOG_DEBUG("Type EventDeath");
 	}
-	else if ( type == (int32_t)server2N::UserEvent_action_EventUserSync || type == (int32_t)server2N::UserEvent_action_EventMove || type == (int32_t)server2N::UserEvent_action_EventStop || type == (int32_t)server2N::UserEvent_action_EventJump || type == (int32_t)server2N::UserEvent_action_EventSpawn )
+	else if ( type == (int32_t)server2N::UserEvent_action_EventUserSync || type == (int32_t)server2N::UserEvent_action_EventMove || type == (int32_t)server2N::UserEvent_action_EventStop || type == (int32_t)server2N::UserEvent_action_EventJump || type == (int32_t)server2N::UserEvent_action_EventSpawn || type == (int32_t)server2N::UserEvent_action_EventRoll )
 	{
 		LOG_DEBUG("Check Move(%d), event(%d)", recvUser->_fd, eventUser->_fd);
 		if ( isSelfEvent )
