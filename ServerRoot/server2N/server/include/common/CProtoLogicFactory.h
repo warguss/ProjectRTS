@@ -49,8 +49,7 @@ class CProtoGameEventLogicBase : public CProtoLogicBase
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
 };
 
-
-// ItemSpawn , ItemGet
+#if 0 
 class CProtoItemEvent : public CProtoLogicBase
 {
 	public:
@@ -59,6 +58,7 @@ class CProtoItemEvent : public CProtoLogicBase
 
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
 };
+#endif
 
 // Nothing , Stop, Jump, Move
 class CProtoGameEventMoveAll : public CProtoLogicBase
@@ -105,6 +105,15 @@ class CProtoRequestUserInfo : public CProtoLogicBase
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
 };
 
+class CProtoSystemActionEvent : public CProtoLogicBase 
+{
+	public:
+		CProtoSystemActionEvent();
+		~CProtoSystemActionEvent();
+
+		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
+};
+
 typedef CProtoLogicBase* (*CLS_CALLBACK)(bool isPartSend);
 CLS_CALLBACK afxCreateClass(int32_t type);
 template <class T> CProtoLogicBase* createProtoLogic(bool isPartSend);
@@ -146,19 +155,5 @@ class CProtoRegister
 
 #define PROTO_REGISTER_IDX(type, isPartSend, fnc, index) \
 	CProtoRegister g_##fnc##index(type, createProtoLogic<fnc>);
-
-
-
-
 #endif
-
-
-
-
-
-
-
-
-
-
 

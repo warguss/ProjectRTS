@@ -3,6 +3,9 @@
 #include "CItemManager.h"
 #include "CUserPool.h"
 
+bool partSend = true;
+bool allSend = false;
+
 using namespace std;
 extern CUserPool g_userPool;
 extern CCustomRedisManager g_redisManager;
@@ -105,7 +108,7 @@ bool CProtoLogicBase::onPostProcess(CSessionManager& session)
  * 2. Server -> All Client 
  * (All Connect 전송 유저 접속 판단 위함)
  ***************************************/
-PROTO_REGISTER((int32_t)server2N::UserConnection_ConnectionType_TryConnect, false, CProtoConnection);
+PROTO_REGISTER((int32_t)server2N::UserConnection_ConnectionType_TryConnect, allSend, CProtoConnection);
 CProtoConnection::CProtoConnection()
 {
 	LOG_DEBUG("CProgoLogicBase");
@@ -161,7 +164,7 @@ bool CProtoConnection::onProcess(CSessionManager& manager, CProtoPacket* eventPa
 	return true;
 }
 
-PROTO_REGISTER((int32_t)server2N::UserConnection_ConnectionType_DisConnect, false, CProtoDisConnection);
+PROTO_REGISTER((int32_t)server2N::UserConnection_ConnectionType_DisConnect, allSend, CProtoDisConnection);
 CProtoDisConnection::CProtoDisConnection()
 {
 	LOG_DEBUG("CProgoLogicBase");
@@ -214,44 +217,44 @@ bool CProtoDisConnection::onProcess(CSessionManager& session, CProtoPacket* even
 	return true;
 }
 
+#if 0
 CProtoItemEvent::CProtoItemEvent()
 {
-	LOG_DEBUG("CProgoLogicBase");
+	LOG_DEBUG("CProtoItemEvent");
 }
-
 
 CProtoItemEvent::~CProtoItemEvent()
 {
-	LOG_DEBUG("~CProgoLogicBase");
+	LOG_DEBUG("~CProtoItemEvent");
 }
 
 bool CProtoItemEvent::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
-	LOG_DEBUG("onProcess");
+	LOG_DEBUG("CProtoItemEvent::onProcess");
 }
+#endif
 
 /***************************************
  * MoveAll
  * Move Action Class
  ***************************************/
-PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_Nothing, true, CProtoGameEventMoveAll, 0);
-PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventMove, true, CProtoGameEventMoveAll, 1);
-PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventStop, true, CProtoGameEventMoveAll, 2);
-PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventJump, true, CProtoGameEventMoveAll, 3);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_Nothing, partSend, CProtoGameEventMoveAll, 0);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventMove, partSend, CProtoGameEventMoveAll, 1);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventStop, partSend, CProtoGameEventMoveAll, 2);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventJump, partSend, CProtoGameEventMoveAll, 3);
 CProtoGameEventMoveAll::CProtoGameEventMoveAll()
 {
-	LOG_DEBUG("CProgoLogicBase");
+	LOG_DEBUG("CProtoGameEventMoveAll");
 }
-
 
 CProtoGameEventMoveAll::~CProtoGameEventMoveAll()
 {
-	LOG_DEBUG("~CProgoLogicBase");
+	LOG_DEBUG("~CProtoGameEventMoveAll");
 }
 
 bool CProtoGameEventMoveAll::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
-	LOG_DEBUG("onProcess");
+	LOG_DEBUG("CProtoGameEventMoveAll::onProcess");
 	int32_t type = eventPacket->_type;
 	list<CUser*>::iterator it = _userList.begin();
 	for ( ; it != _userList.end(); it++ )
@@ -279,17 +282,37 @@ bool CProtoGameEventMoveAll::onProcess(CSessionManager& session, CProtoPacket* e
  ***************************************/
 CProtoNotiSystem::CProtoNotiSystem()
 {
-	LOG_DEBUG("CProgoLogicBase");
+	LOG_DEBUG("CProtoNotiSystem");
 }
 
 CProtoNotiSystem::~CProtoNotiSystem()
 {
-	LOG_DEBUG("~CProgoLogicBase");
+	LOG_DEBUG("~CProtoNotiSystem");
 }
 
 bool CProtoNotiSystem::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
-	LOG_DEBUG("onProcess");
+	LOG_DEBUG("CProtoNotiSystem::onProcess()");
+	int32_t type = eventPacket->_type;
+	list<CUser*>::iterator it = _userList.begin();
+	for ( ; it != _userList.end(); it++ )
+	{
+		CUser* recvUser = (CUser*)*it;
+		CProtoPacket* packet = NULL;
+		if ( !g_packetManager.setNotiType(type, recvUser, eventPacket, &packet) || !packet )
+		{
+			LOG_ERROR("Error Move Type");
+			continue ;
+		}
+		
+		/********************************
+		 * Enqueue
+		 ********************************/
+		_packetOutList.push_back(packet);
+		LOG_INFO("User(%d) Part Send Move Event", packet->_fd);
+	}
+
+	return true;
 }
 
 /***************************************
@@ -297,7 +320,7 @@ bool CProtoNotiSystem::onProcess(CSessionManager& session, CProtoPacket* eventPa
  * (Response Position)
  * 1:1 Request - Response
  ***************************************/
-PROTO_REGISTER((int32_t)server2N::SystemEvent_action_RequestUserInfo, false, CProtoRequestUserInfo);
+PROTO_REGISTER((int32_t)server2N::SystemEvent_action_RequestUserInfo, allSend, CProtoRequestUserInfo);
 CProtoRequestUserInfo::CProtoRequestUserInfo()
 {
 	LOG_DEBUG("CProtoRequestUserInfo");
@@ -336,11 +359,11 @@ bool CProtoRequestUserInfo::onProcess(CSessionManager& session, CProtoPacket* ev
 }
 	
 // Shoot | Hit | Death | Spawn
-PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventShoot, true, CProtoGameEventRule, 0);
-PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventHit, true, CProtoGameEventRule, 1);
-PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventDeath, true, CProtoGameEventRule, 2);
-PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventSpawn, true, CProtoGameEventRule, 3);
-PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventUserSync, true, CProtoGameEventRule, 4);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventShoot, partSend, CProtoGameEventRule, 0);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventHit, partSend, CProtoGameEventRule, 1);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventDeath, partSend, CProtoGameEventRule, 2);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventSpawn, partSend, CProtoGameEventRule, 3);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventUserSync, partSend, CProtoGameEventRule, 4);
 CProtoGameEventRule::CProtoGameEventRule()
 {
 	LOG_DEBUG("CProtoGameEventRule");
@@ -355,7 +378,7 @@ CProtoGameEventRule::~CProtoGameEventRule()
 
 bool CProtoGameEventRule::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
-	LOG_DEBUG("onProcess");
+	LOG_DEBUG("CProtoGameEventRule::onProcess");
 	int32_t type = eventPacket->_type;
 	if ( type == (int32_t)server2N::UserEvent_action_EventDeath )
 	{
@@ -427,10 +450,46 @@ bool CProtoGameEventRule::onPostProcess(CSessionManager& session)
 	return true;
 }
 
-// Sync
-
-
 // Item
+PROTO_REGISTER_IDX((int32_t)server2N::SystemEvent_action_EventItemSpawn, allSend, CProtoSystemActionEvent, 0);
+PROTO_REGISTER_IDX((int32_t)server2N::SystemEvent_action_EventItemSpawn, allSend, CProtoSystemActionEvent, 1);
+CProtoSystemActionEvent::CProtoSystemActionEvent()
+{
+	LOG_DEBUG("CProtoSystemActionEvent");
+	//_eventPacket = NULL;
+	//_allUserListForKillInfo.clear();
+}
+
+CProtoSystemActionEvent::~CProtoSystemActionEvent()
+{
+	LOG_DEBUG("CProtoSystemActionEvent");
+}
+
+bool CProtoSystemActionEvent::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
+{
+	LOG_DEBUG("CProtoSystemActionEvent::onProcess");
+	int32_t type = eventPacket->_type;
+	list<CUser*>::iterator it = _userList.begin();
+	for ( ; it != _userList.end(); it++ )
+	{
+		CUser* recvUser = (CUser*)*it;
+		CProtoPacket* packet = NULL;
+		if ( !g_packetManager.setActionType(type, recvUser, eventPacket, _userList, &packet) || !packet )
+		{
+			LOG_ERROR("Error Move Type");
+			continue ;
+		}
+		
+		/********************************
+		 * Enqueue
+		 ********************************/
+		_packetOutList.push_back(packet);
+		LOG_INFO("User(%d) Part Send Move Event", packet->_fd);
+	}
+
+	return true;
+}
+
 
 void SEND_PACKET_EVENT(CSessionManager& session, list<CProtoPacket*> packetList)
 {
