@@ -280,6 +280,7 @@ bool CProtoGameEventMoveAll::onProcess(CSessionManager& session, CProtoPacket* e
 /***************************************
  * Kill Info Noti 
  ***************************************/
+PROTO_REGISTER_IDX((int32_t)server2N::GlobalNotice_NoticeInfo_Notice, allSend, CProtoNotiSystem, 0);
 CProtoNotiSystem::CProtoNotiSystem()
 {
 	LOG_DEBUG("CProtoNotiSystem");
@@ -364,6 +365,7 @@ PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventHit, partSend, CProt
 PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventDeath, partSend, CProtoGameEventRule, 2);
 PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventSpawn, partSend, CProtoGameEventRule, 3);
 PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventUserSync, partSend, CProtoGameEventRule, 4);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventRoll, partSend, CProtoGameEventRule, 5);
 CProtoGameEventRule::CProtoGameEventRule()
 {
 	LOG_DEBUG("CProtoGameEventRule");
@@ -412,7 +414,6 @@ bool CProtoGameEventRule::onPostProcess(CSessionManager& session)
 	int32_t type = _eventPacket->_type;
 	SEND_PACKET_EVENT(session, _packetOutList);
 
-
 	/******************************************
 	 * Noti의 경우에는 추가로 보낸다
 	 * Death일때, type을 바꿔서 KillInfo 보냄
@@ -452,7 +453,7 @@ bool CProtoGameEventRule::onPostProcess(CSessionManager& session)
 
 // Item
 PROTO_REGISTER_IDX((int32_t)server2N::SystemEvent_action_EventItemSpawn, allSend, CProtoSystemActionEvent, 0);
-PROTO_REGISTER_IDX((int32_t)server2N::SystemEvent_action_EventItemSpawn, allSend, CProtoSystemActionEvent, 1);
+PROTO_REGISTER_IDX((int32_t)server2N::SystemEvent_action_EventItemGet, allSend, CProtoSystemActionEvent, 1);
 CProtoSystemActionEvent::CProtoSystemActionEvent()
 {
 	LOG_DEBUG("CProtoSystemActionEvent");
@@ -493,6 +494,11 @@ bool CProtoSystemActionEvent::onProcess(CSessionManager& session, CProtoPacket* 
 
 void SEND_PACKET_EVENT(CSessionManager& session, list<CProtoPacket*> packetList)
 {
+	if ( packetList.size() <= 0 )
+	{
+		return ;
+	}
+
 	list<CProtoPacket*>::iterator it = packetList.begin();
 	for ( ; it != packetList.end() ; ++it )
 	{
