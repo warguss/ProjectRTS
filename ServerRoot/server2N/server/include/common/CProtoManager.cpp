@@ -515,7 +515,7 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 	return true;
 }
 
-bool CProtoManager::setNotiType(int type, CUser* recvUser, CProtoPacket* eventUser, list<CUser*> allUser, CProtoPacket** packet)
+bool CProtoManager::setNotiType(int type, CUser* recvUser, CProtoPacket* eventUser, CProtoPacket** packet)
 {
 	if ( type < 0 || !eventUser || eventUser->_fd <= 0 || recvUser <= 0 )
 	{

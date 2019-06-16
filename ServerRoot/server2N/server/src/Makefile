@@ -1,5 +1,5 @@
 APP_SRCS:=$(wildcard *.cpp)
-APP_SRCS += $(wildcard ../include/common/*.cpp)
+APP_SRCS += $(wildcard ../include/common/*.cpp ../include/redis/*.cpp)
 
 PROTO_SRCS= ../proto/gameContent.pb.cc 
 
@@ -8,7 +8,7 @@ APP_OBJS=$(APP_SRCS:.cpp=.o)
 PROTO_OBJS= ../proto/gameContent.pb.o
 
 INCLUDES=-I./ -I../proto -I../include -I../
-LIBRARY=-L../lib -lprotobuf-lite -lprotobuf -lprotoc -lpthread
+LIBRARY=-L../lib -lprotobuf-lite -lprotobuf -lprotoc -lpthread -lhiredis
 
 
 all: Project echo

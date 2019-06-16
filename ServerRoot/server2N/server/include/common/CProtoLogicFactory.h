@@ -2,6 +2,7 @@
 #define _MODULE_PROTOLOGIC_H_
 #include "CSessionManager.h"
 #include "CProtoManager.h"
+#include "redis/CCustomRedisManager.h"
 using namespace std;
 
 class CProtoLogicBase
@@ -48,6 +49,7 @@ class CProtoGameEventLogicBase : public CProtoLogicBase
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
 };
 
+#if 0 
 class CProtoItemEvent : public CProtoLogicBase
 {
 	public:
@@ -56,7 +58,9 @@ class CProtoItemEvent : public CProtoLogicBase
 
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
 };
+#endif
 
+// Nothing , Stop, Jump, Move
 class CProtoGameEventMoveAll : public CProtoLogicBase
 {
 	public:
@@ -66,24 +70,23 @@ class CProtoGameEventMoveAll : public CProtoLogicBase
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
 };
 
-class CProtoGameEventSpawn : public CProtoLogicBase
+// Shoot, Hit, Death, Spawn
+class CProtoGameEventRule : public CProtoLogicBase
 {
+	private:
+		/* KillInfo Noti위한 후처리 */
+		list<CUser*> _allUserListForKillInfo;
+		CProtoPacket* _eventPacket;
+
 	public:
-		CProtoGameEventSpawn();
-		~CProtoGameEventSpawn();
+		CProtoGameEventRule();
+		~CProtoGameEventRule();
 
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
+		bool onPostProcess(CSessionManager& session);
 };
 
-class CProtoNotiKillInfo : public CProtoLogicBase
-{
-	public:
-		CProtoNotiKillInfo();
-		~CProtoNotiKillInfo();
-
-		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
-};
-
+// Global Notice 에서만 필요할듯함
 class CProtoNotiSystem : public CProtoLogicBase 
 {
 	public:
@@ -92,17 +95,6 @@ class CProtoNotiSystem : public CProtoLogicBase
 
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
 };
-
-#if 0 
-class CProtoCamEvent : public CProtoLogicBase 
-{
-	public:
-		CProtoCamEvent();
-		~CProtoCamEvent();
-
-		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
-};
-#endif
 
 class CProtoRequestUserInfo : public CProtoLogicBase 
 {
@@ -113,11 +105,23 @@ class CProtoRequestUserInfo : public CProtoLogicBase
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
 };
 
+class CProtoSystemActionEvent : public CProtoLogicBase 
+{
+	public:
+		CProtoSystemActionEvent();
+		~CProtoSystemActionEvent();
+
+		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
+};
+
 typedef CProtoLogicBase* (*CLS_CALLBACK)(bool isPartSend);
 CLS_CALLBACK afxCreateClass(int32_t type);
 template <class T> CProtoLogicBase* createProtoLogic(bool isPartSend);
 
 void PROTO_MAP_REGISTER(int32_t type, CLS_CALLBACK fnc);
+void SEND_PACKET_EVENT(CSessionManager& session, list<CProtoPacket*> packetList);
+void REDIS_SCORE_BOARD_UPDATE(int32_t performerFd);
+
 #if 0 
 {
 	if ( !fnc )
@@ -149,19 +153,7 @@ class CProtoRegister
 	CProtoRegister g_##fnc(type, createProtoLogic<fnc>);
 //#define PROTO_REGISTER(type, isPartSend, fnc) PROTO_MAP_REGISTER(type, createProtoLogic<fnc>(isPartSend));
 
-
-
-
-
+#define PROTO_REGISTER_IDX(type, isPartSend, fnc, index) \
+	CProtoRegister g_##fnc##index(type, createProtoLogic<fnc>);
 #endif
-
-
-
-
-
-
-
-
-
-
 

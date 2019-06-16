@@ -45,6 +45,11 @@ class EventJumpDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<EventJump>
       _instance;
 } _EventJump_default_instance_;
+class EventRollDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<EventRoll>
+      _instance;
+} _EventRoll_default_instance_;
 class EventShootDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<EventShoot>
@@ -221,6 +226,27 @@ void InitDefaultsEventJumpImpl() {
 void InitDefaultsEventJump() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsEventJumpImpl);
+}
+
+void InitDefaultsEventRollImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
+#else
+  ::google::protobuf::internal::InitProtobufDefaults();
+#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  {
+    void* ptr = &::server2N::_EventRoll_default_instance_;
+    new (ptr) ::server2N::EventRoll();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::server2N::EventRoll::InitAsDefaultInstance();
+}
+
+void InitDefaultsEventRoll() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsEventRollImpl);
 }
 
 void InitDefaultsEventShootImpl() {
@@ -501,6 +527,7 @@ void InitDefaultsUserEventImpl() {
   protobuf_gameContent_2eproto::InitDefaultsEventChangeWeapon();
   protobuf_gameContent_2eproto::InitDefaultsEventItemSpawn();
   protobuf_gameContent_2eproto::InitDefaultsEventItemGet();
+  protobuf_gameContent_2eproto::InitDefaultsEventRoll();
   {
     void* ptr = &::server2N::_UserEvent_default_instance_;
     new (ptr) ::server2N::UserEvent();
@@ -538,7 +565,7 @@ void InitDefaultsPacketBody() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsPacketBodyImpl);
 }
 
-::google::protobuf::Metadata file_level_metadata[19];
+::google::protobuf::Metadata file_level_metadata[20];
 const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[9];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -575,6 +602,11 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventJump, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::EventRoll, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
@@ -696,6 +728,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::UserEvent, chweaponevent_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::UserEvent, itemspawnevent_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::UserEvent, itemgetevent_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::UserEvent, rollevent_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::server2N::PacketBody, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -713,20 +746,21 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 20, -1, sizeof(::server2N::EventMove)},
   { 26, -1, sizeof(::server2N::EventStop)},
   { 31, -1, sizeof(::server2N::EventJump)},
-  { 36, -1, sizeof(::server2N::EventShoot)},
-  { 47, -1, sizeof(::server2N::EventHit)},
-  { 58, -1, sizeof(::server2N::EventChangeWeapon)},
-  { 64, -1, sizeof(::server2N::EventSpawn)},
-  { 69, -1, sizeof(::server2N::EventUserSync)},
-  { 76, -1, sizeof(::server2N::EventDeath)},
-  { 82, -1, sizeof(::server2N::EventItemSpawn)},
-  { 88, -1, sizeof(::server2N::EventItemGet)},
-  { 94, -1, sizeof(::server2N::RequestUserInfo)},
-  { 102, -1, sizeof(::server2N::InfoItem)},
-  { 113, -1, sizeof(::server2N::GameEvent)},
-  { 128, -1, sizeof(::server2N::SystemEvent)},
-  { 137, -1, sizeof(::server2N::UserEvent)},
-  { 154, -1, sizeof(::server2N::PacketBody)},
+  { 36, -1, sizeof(::server2N::EventRoll)},
+  { 41, -1, sizeof(::server2N::EventShoot)},
+  { 52, -1, sizeof(::server2N::EventHit)},
+  { 63, -1, sizeof(::server2N::EventChangeWeapon)},
+  { 69, -1, sizeof(::server2N::EventSpawn)},
+  { 74, -1, sizeof(::server2N::EventUserSync)},
+  { 81, -1, sizeof(::server2N::EventDeath)},
+  { 87, -1, sizeof(::server2N::EventItemSpawn)},
+  { 93, -1, sizeof(::server2N::EventItemGet)},
+  { 99, -1, sizeof(::server2N::RequestUserInfo)},
+  { 107, -1, sizeof(::server2N::InfoItem)},
+  { 118, -1, sizeof(::server2N::GameEvent)},
+  { 133, -1, sizeof(::server2N::SystemEvent)},
+  { 142, -1, sizeof(::server2N::UserEvent)},
+  { 160, -1, sizeof(::server2N::PacketBody)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -735,6 +769,7 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_EventMove_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_EventStop_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_EventJump_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_EventRoll_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_EventShoot_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_EventHit_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::server2N::_EventChangeWeapon_default_instance_),
@@ -767,7 +802,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 19);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 20);
 }
 
 void AddDescriptorsImpl() {
@@ -789,72 +824,74 @@ void AddDescriptorsImpl() {
       "\030\005 \001(\0162\035.server2N.EventMove.Direction\"\?\n"
       "\tDirection\022\013\n\007Nothing\020\000\022\010\n\004Left\020\001\022\t\n\005Rig"
       "ht\020\002\022\010\n\004Down\020\003\022\006\n\002Up\020\004\"\013\n\tEventStop\"\013\n\tE"
-      "ventJump\"\202\001\n\nEventShoot\022\021\n\tshootType\030\001 \001"
-      "(\005\022\023\n\013bulletSpeed\030\002 \001(\002\022\023\n\013bulletRange\030\003"
-      " \001(\002\022\022\n\nshootAngle\030\004 \001(\002\022\016\n\006damage\030\005 \001(\002"
-      "\022\023\n\013impactScale\030\006 \001(\002\"r\n\010EventHit\022\017\n\007hit"
-      "Type\030\001 \001(\005\022\016\n\006damage\030\002 \001(\002\022\017\n\007impactX\030\003 "
-      "\001(\002\022\017\n\007impactY\030\004 \001(\002\022\021\n\tcurrentHP\030\005 \001(\002\022"
-      "\020\n\010attacker\030\006 \001(\005\"%\n\021EventChangeWeapon\022\020"
-      "\n\010weaponId\030\001 \001(\005\"\014\n\nEventSpawn\"4\n\rEventU"
-      "serSync\022\021\n\tcurrentHP\030\001 \001(\002\022\020\n\010weaponId\030\002"
-      " \001(\005\"\037\n\nEventDeath\022\021\n\ttriggerId\030\001 \001(\005\"2\n"
-      "\016EventItemSpawn\022 \n\004item\030\001 \001(\0132\022.server2N"
-      ".InfoItem\"0\n\014EventItemGet\022 \n\004item\030\001 \001(\0132"
-      "\022.server2N.InfoItem\"S\n\017RequestUserInfo\022\020"
-      "\n\010targetID\030\001 \001(\005\022\026\n\016EventPositionX\030\002 \001(\002"
-      "\022\026\n\016EventPositionY\030\003 \001(\002\"\215\002\n\010InfoItem\022\016\n"
-      "\006amount\030\004 \001(\005\022\016\n\006itemId\030\002 \001(\t\022-\n\010itemTyp"
-      "e\030\005 \001(\0162\033.server2N.InfoItem.ItemType\022-\n\010"
-      "weaponId\030\006 \001(\0162\033.server2N.InfoItem.Weapo"
-      "nId\022\025\n\rItemPositionX\030\007 \001(\002\022\025\n\rItemPositi"
-      "onY\030\010 \001(\002\"$\n\010ItemType\022\013\n\007Recover\020\000\022\013\n\007We"
-      "apone\020\001\"/\n\010WeaponId\022\013\n\007Nothing\020\000\022\n\n\006Pist"
-      "ol\020\001\022\n\n\006Sniper\020\002\"\331\002\n\tGameEvent\022&\n\tuserEv"
-      "ent\030\003 \001(\0132\023.server2N.UserEvent\022*\n\013system"
-      "Event\030\004 \001(\0132\025.server2N.SystemEvent\022\026\n\016Ev"
-      "entPositionX\030\006 \001(\002\022\026\n\016EventPositionY\030\007 \001"
-      "(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVelocityY\030\t \001(\002"
-      "\022\021\n\tinvokerId\030\n \003(\005\022\024\n\014isInterested\030\013 \001("
-      "\010\022\017\n\007isLocal\030\014 \001(\010\022.\n\007evtType\030\r \001(\0162\035.se"
-      "rver2N.GameEvent.eventType\"8\n\teventType\022"
-      "\013\n\007Nothing\020\000\022\r\n\tUserEvent\020\001\022\017\n\013SystemEve"
-      "nt\020\002\"\251\002\n\013SystemEvent\022.\n\007actType\030\312\001 \001(\0162\034"
-      ".server2N.SystemEvent.action\0221\n\016itemSpaw"
-      "nEvent\030\313\001 \001(\0132\030.server2N.EventItemSpawn\022"
-      "-\n\014itemGetEvent\030\314\001 \001(\0132\026.server2N.EventI"
-      "temGet\0223\n\017requestUserInfo\030\315\001 \001(\0132\031.serve"
-      "r2N.RequestUserInfo\"S\n\006action\022\013\n\007Nothing"
-      "\020\000\022\023\n\016EventItemSpawn\020\310\001\022\021\n\014EventItemGet\020"
-      "\311\001\022\024\n\017RequestUserInfo\020\316\001\"\322\005\n\tUserEvent\022+"
-      "\n\007actType\030n \001(\0162\032.server2N.UserEvent.act"
-      "ion\022&\n\tmoveEvent\030o \001(\0132\023.server2N.EventM"
-      "ove\022&\n\tstopEvent\030p \001(\0132\023.server2N.EventS"
-      "top\022&\n\tjumpEvent\030q \001(\0132\023.server2N.EventJ"
-      "ump\022(\n\nshootEvent\030r \001(\0132\024.server2N.Event"
-      "Shoot\022$\n\010hitEvent\030s \001(\0132\022.server2N.Event"
-      "Hit\022(\n\nspawnEvent\030t \001(\0132\024.server2N.Event"
-      "Spawn\022*\n\tsyncEvent\030u \001(\0132\027.server2N.Even"
-      "tUserSync\022(\n\ndeathEvent\030v \001(\0132\024.server2N"
-      ".EventDeath\0222\n\rchWeaponEvent\030w \001(\0132\033.ser"
-      "ver2N.EventChangeWeapon\0220\n\016itemSpawnEven"
-      "t\030x \001(\0132\030.server2N.EventItemSpawn\022,\n\014ite"
-      "mGetEvent\030y \001(\0132\026.server2N.EventItemGet\""
-      "\273\001\n\006action\022\013\n\007Nothing\020\000\022\r\n\tEventMove\020d\022\r"
-      "\n\tEventStop\020e\022\r\n\tEventJump\020f\022\016\n\nEventSho"
-      "ot\020g\022\014\n\010EventHit\020h\022\016\n\nEventSpawn\020i\022\021\n\rEv"
-      "entUserSync\020j\022\016\n\nEventDeath\020k\022\017\n\013EventBu"
-      "llet\020l\022\025\n\021EventChangeWeapon\020m\"\220\002\n\nPacket"
-      "Body\0222\n\007msgType\030\220N \001(\0162 .server2N.Packet"
-      "Body.messageType\022)\n\007connect\030\006 \001(\0132\030.serv"
-      "er2N.UserConnection\022\'\n\006notice\030\221N \001(\0132\026.s"
-      "erver2N.GlobalNotice\022\"\n\005event\030\007 \001(\0132\023.se"
-      "rver2N.GameEvent\022\020\n\010senderId\030\010 \001(\005\"D\n\013me"
-      "ssageType\022\r\n\tGameEvent\020\000\022\023\n\016UserConnecti"
-      "on\020\220N\022\021\n\014GlobalNotice\020\221Nb\006proto3"
+      "ventJump\"\013\n\tEventRoll\"\202\001\n\nEventShoot\022\021\n\t"
+      "shootType\030\001 \001(\005\022\023\n\013bulletSpeed\030\002 \001(\002\022\023\n\013"
+      "bulletRange\030\003 \001(\002\022\022\n\nshootAngle\030\004 \001(\002\022\016\n"
+      "\006damage\030\005 \001(\002\022\023\n\013impactScale\030\006 \001(\002\"r\n\010Ev"
+      "entHit\022\017\n\007hitType\030\001 \001(\005\022\016\n\006damage\030\002 \001(\002\022"
+      "\017\n\007impactX\030\003 \001(\002\022\017\n\007impactY\030\004 \001(\002\022\021\n\tcur"
+      "rentHP\030\005 \001(\002\022\020\n\010attacker\030\006 \001(\005\"%\n\021EventC"
+      "hangeWeapon\022\020\n\010weaponId\030\001 \001(\005\"\014\n\nEventSp"
+      "awn\"4\n\rEventUserSync\022\021\n\tcurrentHP\030\001 \001(\002\022"
+      "\020\n\010weaponId\030\002 \001(\005\"\037\n\nEventDeath\022\021\n\ttrigg"
+      "erId\030\001 \001(\005\"2\n\016EventItemSpawn\022 \n\004item\030\001 \001"
+      "(\0132\022.server2N.InfoItem\"0\n\014EventItemGet\022 "
+      "\n\004item\030\001 \001(\0132\022.server2N.InfoItem\"S\n\017Requ"
+      "estUserInfo\022\020\n\010targetID\030\001 \001(\005\022\026\n\016EventPo"
+      "sitionX\030\002 \001(\002\022\026\n\016EventPositionY\030\003 \001(\002\"\215\002"
+      "\n\010InfoItem\022\016\n\006amount\030\004 \001(\005\022\016\n\006itemId\030\002 \001"
+      "(\t\022-\n\010itemType\030\005 \001(\0162\033.server2N.InfoItem"
+      ".ItemType\022-\n\010weaponId\030\006 \001(\0162\033.server2N.I"
+      "nfoItem.WeaponId\022\025\n\rItemPositionX\030\007 \001(\002\022"
+      "\025\n\rItemPositionY\030\010 \001(\002\"$\n\010ItemType\022\013\n\007Re"
+      "cover\020\000\022\013\n\007Weapone\020\001\"/\n\010WeaponId\022\013\n\007Noth"
+      "ing\020\000\022\n\n\006Pistol\020\001\022\n\n\006Sniper\020\002\"\331\002\n\tGameEv"
+      "ent\022&\n\tuserEvent\030\003 \001(\0132\023.server2N.UserEv"
+      "ent\022*\n\013systemEvent\030\004 \001(\0132\025.server2N.Syst"
+      "emEvent\022\026\n\016EventPositionX\030\006 \001(\002\022\026\n\016Event"
+      "PositionY\030\007 \001(\002\022\021\n\tVelocityX\030\010 \001(\002\022\021\n\tVe"
+      "locityY\030\t \001(\002\022\021\n\tinvokerId\030\n \003(\005\022\024\n\014isIn"
+      "terested\030\013 \001(\010\022\017\n\007isLocal\030\014 \001(\010\022.\n\007evtTy"
+      "pe\030\r \001(\0162\035.server2N.GameEvent.eventType\""
+      "8\n\teventType\022\013\n\007Nothing\020\000\022\r\n\tUserEvent\020\001"
+      "\022\017\n\013SystemEvent\020\002\"\251\002\n\013SystemEvent\022.\n\007act"
+      "Type\030\312\001 \001(\0162\034.server2N.SystemEvent.actio"
+      "n\0221\n\016itemSpawnEvent\030\313\001 \001(\0132\030.server2N.Ev"
+      "entItemSpawn\022-\n\014itemGetEvent\030\314\001 \001(\0132\026.se"
+      "rver2N.EventItemGet\0223\n\017requestUserInfo\030\315"
+      "\001 \001(\0132\031.server2N.RequestUserInfo\"S\n\006acti"
+      "on\022\013\n\007Nothing\020\000\022\023\n\016EventItemSpawn\020\310\001\022\021\n\014"
+      "EventItemGet\020\311\001\022\024\n\017RequestUserInfo\020\316\001\"\211\006"
+      "\n\tUserEvent\022+\n\007actType\030n \001(\0162\032.server2N."
+      "UserEvent.action\022&\n\tmoveEvent\030o \001(\0132\023.se"
+      "rver2N.EventMove\022&\n\tstopEvent\030p \001(\0132\023.se"
+      "rver2N.EventStop\022&\n\tjumpEvent\030q \001(\0132\023.se"
+      "rver2N.EventJump\022(\n\nshootEvent\030r \001(\0132\024.s"
+      "erver2N.EventShoot\022$\n\010hitEvent\030s \001(\0132\022.s"
+      "erver2N.EventHit\022(\n\nspawnEvent\030t \001(\0132\024.s"
+      "erver2N.EventSpawn\022*\n\tsyncEvent\030u \001(\0132\027."
+      "server2N.EventUserSync\022(\n\ndeathEvent\030v \001"
+      "(\0132\024.server2N.EventDeath\0222\n\rchWeaponEven"
+      "t\030w \001(\0132\033.server2N.EventChangeWeapon\0220\n\016"
+      "itemSpawnEvent\030x \001(\0132\030.server2N.EventIte"
+      "mSpawn\022,\n\014itemGetEvent\030y \001(\0132\026.server2N."
+      "EventItemGet\022&\n\tRollEvent\030z \001(\0132\023.server"
+      "2N.EventRoll\"\312\001\n\006action\022\013\n\007Nothing\020\000\022\r\n\t"
+      "EventMove\020d\022\r\n\tEventStop\020e\022\r\n\tEventJump\020"
+      "f\022\016\n\nEventShoot\020g\022\014\n\010EventHit\020h\022\016\n\nEvent"
+      "Spawn\020i\022\021\n\rEventUserSync\020j\022\016\n\nEventDeath"
+      "\020k\022\017\n\013EventBullet\020l\022\025\n\021EventChangeWeapon"
+      "\020m\022\r\n\tEventRoll\020n\"\220\002\n\nPacketBody\0222\n\007msgT"
+      "ype\030\220N \001(\0162 .server2N.PacketBody.message"
+      "Type\022)\n\007connect\030\006 \001(\0132\030.server2N.UserCon"
+      "nection\022\'\n\006notice\030\221N \001(\0132\026.server2N.Glob"
+      "alNotice\022\"\n\005event\030\007 \001(\0132\023.server2N.GameE"
+      "vent\022\020\n\010senderId\030\010 \001(\005\"D\n\013messageType\022\r\n"
+      "\tGameEvent\020\000\022\023\n\016UserConnection\020\220N\022\021\n\014Glo"
+      "balNotice\020\221Nb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 3152);
+      descriptor, 3220);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "gameContent.proto", &protobuf_RegisterTypes);
 }
@@ -1059,6 +1096,7 @@ bool UserEvent_action_IsValid(int value) {
     case 107:
     case 108:
     case 109:
+    case 110:
       return true;
     default:
       return false;
@@ -1077,6 +1115,7 @@ const UserEvent_action UserEvent::EventUserSync;
 const UserEvent_action UserEvent::EventDeath;
 const UserEvent_action UserEvent::EventBullet;
 const UserEvent_action UserEvent::EventChangeWeapon;
+const UserEvent_action UserEvent::EventRoll;
 const UserEvent_action UserEvent::action_MIN;
 const UserEvent_action UserEvent::action_MAX;
 const int UserEvent::action_ARRAYSIZE;
@@ -2623,6 +2662,193 @@ void EventJump::InternalSwap(EventJump* other) {
 }
 
 ::google::protobuf::Metadata EventJump::GetMetadata() const {
+  protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_gameContent_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void EventRoll::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+EventRoll::EventRoll()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_gameContent_2eproto::InitDefaultsEventRoll();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:server2N.EventRoll)
+}
+EventRoll::EventRoll(const EventRoll& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:server2N.EventRoll)
+}
+
+void EventRoll::SharedCtor() {
+  _cached_size_ = 0;
+}
+
+EventRoll::~EventRoll() {
+  // @@protoc_insertion_point(destructor:server2N.EventRoll)
+  SharedDtor();
+}
+
+void EventRoll::SharedDtor() {
+}
+
+void EventRoll::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* EventRoll::descriptor() {
+  ::protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_gameContent_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const EventRoll& EventRoll::default_instance() {
+  ::protobuf_gameContent_2eproto::InitDefaultsEventRoll();
+  return *internal_default_instance();
+}
+
+
+void EventRoll::Clear() {
+// @@protoc_insertion_point(message_clear_start:server2N.EventRoll)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear();
+}
+
+bool EventRoll::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:server2N.EventRoll)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+  handle_unusual:
+    if (tag == 0) {
+      goto success;
+    }
+    DO_(::google::protobuf::internal::WireFormat::SkipField(
+          input, tag, _internal_metadata_.mutable_unknown_fields()));
+  }
+success:
+  // @@protoc_insertion_point(parse_success:server2N.EventRoll)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:server2N.EventRoll)
+  return false;
+#undef DO_
+}
+
+void EventRoll::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:server2N.EventRoll)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:server2N.EventRoll)
+}
+
+::google::protobuf::uint8* EventRoll::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:server2N.EventRoll)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:server2N.EventRoll)
+  return target;
+}
+
+size_t EventRoll::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:server2N.EventRoll)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void EventRoll::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:server2N.EventRoll)
+  GOOGLE_DCHECK_NE(&from, this);
+  const EventRoll* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const EventRoll>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:server2N.EventRoll)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:server2N.EventRoll)
+    MergeFrom(*source);
+  }
+}
+
+void EventRoll::MergeFrom(const EventRoll& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:server2N.EventRoll)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void EventRoll::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:server2N.EventRoll)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void EventRoll::CopyFrom(const EventRoll& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:server2N.EventRoll)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool EventRoll::IsInitialized() const {
+  return true;
+}
+
+void EventRoll::Swap(EventRoll* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void EventRoll::InternalSwap(EventRoll* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata EventRoll::GetMetadata() const {
   protobuf_gameContent_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_gameContent_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -6603,6 +6829,8 @@ void UserEvent::InitAsDefaultInstance() {
       ::server2N::EventItemSpawn::internal_default_instance());
   ::server2N::_UserEvent_default_instance_._instance.get_mutable()->itemgetevent_ = const_cast< ::server2N::EventItemGet*>(
       ::server2N::EventItemGet::internal_default_instance());
+  ::server2N::_UserEvent_default_instance_._instance.get_mutable()->rollevent_ = const_cast< ::server2N::EventRoll*>(
+      ::server2N::EventRoll::internal_default_instance());
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int UserEvent::kActTypeFieldNumber;
@@ -6617,6 +6845,7 @@ const int UserEvent::kDeathEventFieldNumber;
 const int UserEvent::kChWeaponEventFieldNumber;
 const int UserEvent::kItemSpawnEventFieldNumber;
 const int UserEvent::kItemGetEventFieldNumber;
+const int UserEvent::kRollEventFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 UserEvent::UserEvent()
@@ -6687,6 +6916,11 @@ UserEvent::UserEvent(const UserEvent& from)
   } else {
     itemgetevent_ = NULL;
   }
+  if (from.has_rollevent()) {
+    rollevent_ = new ::server2N::EventRoll(*from.rollevent_);
+  } else {
+    rollevent_ = NULL;
+  }
   acttype_ = from.acttype_;
   // @@protoc_insertion_point(copy_constructor:server2N.UserEvent)
 }
@@ -6715,6 +6949,7 @@ void UserEvent::SharedDtor() {
   if (this != internal_default_instance()) delete chweaponevent_;
   if (this != internal_default_instance()) delete itemspawnevent_;
   if (this != internal_default_instance()) delete itemgetevent_;
+  if (this != internal_default_instance()) delete rollevent_;
 }
 
 void UserEvent::SetCachedSize(int size) const {
@@ -6783,6 +7018,10 @@ void UserEvent::Clear() {
     delete itemgetevent_;
   }
   itemgetevent_ = NULL;
+  if (GetArenaNoVirtual() == NULL && rollevent_ != NULL) {
+    delete rollevent_;
+  }
+  rollevent_ = NULL;
   acttype_ = 0;
   _internal_metadata_.Clear();
 }
@@ -6944,6 +7183,18 @@ bool UserEvent::MergePartialFromCodedStream(
         break;
       }
 
+      // .server2N.EventRoll RollEvent = 122;
+      case 122: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(210u /* 978 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_rollevent()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -7040,6 +7291,12 @@ void UserEvent::SerializeWithCachedSizes(
   if (this->has_itemgetevent()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       121, *itemgetevent_, output);
+  }
+
+  // .server2N.EventRoll RollEvent = 122;
+  if (this->has_rollevent()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      122, *rollevent_, output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -7139,6 +7396,13 @@ void UserEvent::SerializeWithCachedSizes(
         121, *itemgetevent_, deterministic, target);
   }
 
+  // .server2N.EventRoll RollEvent = 122;
+  if (this->has_rollevent()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        122, *rollevent_, deterministic, target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -7233,6 +7497,13 @@ size_t UserEvent::ByteSizeLong() const {
         *itemgetevent_);
   }
 
+  // .server2N.EventRoll RollEvent = 122;
+  if (this->has_rollevent()) {
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::MessageSize(
+        *rollevent_);
+  }
+
   // .server2N.UserEvent.action actType = 110;
   if (this->acttype() != 0) {
     total_size += 2 +
@@ -7301,6 +7572,9 @@ void UserEvent::MergeFrom(const UserEvent& from) {
   if (from.has_itemgetevent()) {
     mutable_itemgetevent()->::server2N::EventItemGet::MergeFrom(from.itemgetevent());
   }
+  if (from.has_rollevent()) {
+    mutable_rollevent()->::server2N::EventRoll::MergeFrom(from.rollevent());
+  }
   if (from.acttype() != 0) {
     set_acttype(from.acttype());
   }
@@ -7341,6 +7615,7 @@ void UserEvent::InternalSwap(UserEvent* other) {
   swap(chweaponevent_, other->chweaponevent_);
   swap(itemspawnevent_, other->itemspawnevent_);
   swap(itemgetevent_, other->itemgetevent_);
+  swap(rollevent_, other->rollevent_);
   swap(acttype_, other->acttype_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -7792,6 +8067,9 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::server2N::EventStop* Arena::Crea
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::server2N::EventJump* Arena::Create< ::server2N::EventJump >(Arena* arena) {
   return Arena::CreateInternal< ::server2N::EventJump >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::server2N::EventRoll* Arena::Create< ::server2N::EventRoll >(Arena* arena) {
+  return Arena::CreateInternal< ::server2N::EventRoll >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::server2N::EventShoot* Arena::Create< ::server2N::EventShoot >(Arena* arena) {
   return Arena::CreateInternal< ::server2N::EventShoot >(arena);

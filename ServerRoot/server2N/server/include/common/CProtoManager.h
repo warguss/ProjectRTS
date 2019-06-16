@@ -46,7 +46,7 @@ class CProtoManager
 		int32_t typeReturn(server2N::PacketBody* protoPacket);
 		bool setActionType(int type, CUser* senderUser, CProtoPacket* eventUser, list<CUser*> allUser, CProtoPacket** packet);
 		bool setConnectType(int type, CUser* senderUser, int eventFd, list<CUser*> allUser, CProtoPacket** packet);
-		bool setNotiType(int type, CUser* senderUser, CProtoPacket* eventUser, list<CUser*> allUser, CProtoPacket** packet);
+		bool setNotiType(int type, CUser* senderUser, CProtoPacket* eventUser, CProtoPacket** packet);
 
 		void resetProtoPacket(CProtoPacket* protoPacket);
 

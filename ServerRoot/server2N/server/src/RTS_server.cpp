@@ -17,6 +17,7 @@
 #include "common/CProtoPacket.h"
 #include "common/CUserPool.h"
 #include "common/CProtoLogicFactory.h"
+#include "redis/CCustomRedisManager.h"
 
 using namespace std;
 bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventUser);
@@ -31,6 +32,7 @@ extern CLS_CALLBACK afxCreateClass(int32_t type);
 extern int32_t g_sectorIdx;
 extern CUserPool g_userPool;
 extern CThreadLockManager g_lockManager;
+extern CCustomRedisManager g_redisManager;
 
 bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 {
@@ -184,7 +186,7 @@ bool NotiAllSendFunc(CSessionManager& session, CProtoPacket* eventUser)
 	{
 		CUser* user = (CUser*)*it;
 		CProtoPacket *packet = NULL;
-		if ( !g_packetManager.setNotiType(type, user, eventUser, connectList, &packet) || !packet )
+		if ( !g_packetManager.setNotiType(type, user, eventUser, &packet) || !packet )
 		{
 			LOG_ERROR("Error Noti All Type");
 			return false;
@@ -212,23 +214,27 @@ bool childProcessLogic()
 	/*******************************************************
 	 * Connection 관련 함수 Add
 	 *******************************************************/
+#if 0 
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserConnection_ConnectionType_TryConnect, ConnectAllSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserConnection_ConnectionType_Connect, ConnectAllSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserConnection_ConnectionType_DisConnect, ConnectAllSendFunc) );
-
+#endif
 	
 	/*******************************************************
 	 * User Event Action 관련 함수 Add
 	 *******************************************************/
+#if 0
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_Nothing, ActionPartSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventStop, ActionPartSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventJump, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventMove, ActionPartSendFunc) );
+
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventShoot, ActionPartSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventHit, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventSpawn, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventUserSync, ActionPartSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventDeath, ActionPartSendFunc) );
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventMove, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventUserSync, ActionPartSendFunc) );
+	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserEvent_action_EventSpawn, ActionPartSendFunc) );
+#endif
 
 	/*******************************************************
 	 * System Event Action 관련 함수 Add
@@ -241,7 +247,7 @@ bool childProcessLogic()
 	/*******************************************************
 	 * Noti 관련 함수 Add
 	 *******************************************************/
-	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GlobalNotice_NoticeInfo_KillInfo, NotiAllSendFunc) );
+	//funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GlobalNotice_NoticeInfo_KillInfo, NotiAllSendFunc) );
 	funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::GlobalNotice_NoticeInfo_Notice, NotiAllSendFunc) );
 
 	/*******************************************************
@@ -263,6 +269,12 @@ bool childProcessLogic()
 	{
 		return false;
 	}
+
+	/***********************************************
+	 * Redis Init
+	 * IP | Port | Timeout
+	 ***********************************************/
+	g_redisManager.initialize("127.0.0.1", (int32_t)6789, (uint32_t)10);
 
 	while(true)
 	{
@@ -297,18 +309,31 @@ bool childProcessLogic()
 				continue ;
 			}
 
-			if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect || type == (int32_t)server2N::SystemEvent_action_RequestUserInfo )
+	//funcMap.insert( pair<int32_t, CallBackFunc>((int32_t)server2N::UserConnection_ConnectionType_TryConnect, ConnectAllSendFunc) );
+			if ( type == (int32_t)server2N::UserConnection_ConnectionType_TryConnect || type == (int32_t)server2N::UserEvent_action_EventMove || type == (int32_t)server2N::SystemEvent_action_RequestUserInfo || type == (int32_t)server2N::UserEvent_action_EventMove || type == (int32_t)server2N::UserEvent_action_EventStop || type == (int32_t)server2N::UserEvent_action_EventJump || type == (int32_t)server2N::UserEvent_action_EventShoot || type == (int32_t)server2N::UserEvent_action_EventHit || type == (int32_t)server2N::UserEvent_action_EventDeath || type == (int32_t)server2N::UserEvent_action_EventSpawn || type == (int32_t)server2N::UserEvent_action_EventUserSync )
 			{
-				CLS_CALLBACK fnc = afxCreateClass(type);
-				CProtoLogicBase* logic = fnc(false);
-				if ( logic && logic->onPreProcess(data->_sector) && logic->onProcess(session, data) )
+				LOG_DEBUG("TEST");
+				do
 				{
-					logic->onPostProcess(session);	
-				} 
+					CLS_CALLBACK fnc = afxCreateClass(type);
+					if ( !fnc ) 
+					{
+						break;
+					}
 
-				delete logic;
-				continue;
-			} 
+					CProtoLogicBase* logic = fnc(false);
+					if ( logic->onPreProcess(data->_sector) && logic->onProcess(session, data) )
+					{
+						logic->onPostProcess(session);	
+					} 
+
+					delete logic;
+					continue;
+				}
+				while(false);
+			}
+
+
 			void (*func)(CSessionManager&, CProtoPacket*) = NULL;
 			func = funcMap.find(type)->second;
 			if ( func )
@@ -317,13 +342,15 @@ bool childProcessLogic()
 			}
 			else
 			{
-				LOG_ERROR("Not Register Type");
+				LOG_ERROR("Not FuncCallback Register Type");
+				
 			}
 		} 	
 	}
 	int status;
 	pthread_join(thread, (void**)&status);
 	google::protobuf::ShutdownProtobufLibrary();
+	g_redisManager.destroyer();
 	return true;
 } 
 
@@ -360,6 +387,8 @@ int main(int argc, char* argv[])
 			LOG_ERROR("Error Fork");
 			return -1;
 		}
-	}while(true);
+	}
+	while(true);
+
 	return 0;
 }

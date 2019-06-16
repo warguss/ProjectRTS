@@ -3,8 +3,12 @@
 #include "CItemManager.h"
 #include "CUserPool.h"
 
+bool partSend = true;
+bool allSend = false;
+
 using namespace std;
 extern CUserPool g_userPool;
+extern CCustomRedisManager g_redisManager;
 std::map<int32_t, CLS_CALLBACK> *g_commandMap;
 template <class T> CProtoLogicBase* createProtoLogic(bool isPartSend)
 {
@@ -77,6 +81,8 @@ bool CProtoLogicBase::onProcess(CSessionManager& session, CProtoPacket* eventPac
 bool CProtoLogicBase::onPostProcess(CSessionManager& session)
 {
 	LOG_DEBUG("Common onPostProces");
+	SEND_PACKET_EVENT(session, _packetOutList);
+	/*
 	list<CProtoPacket*>::iterator it = _packetOutList.begin();
 	for ( ; it != _packetOutList.end() ; ++it )
 	{
@@ -90,6 +96,7 @@ bool CProtoLogicBase::onPostProcess(CSessionManager& session)
 		session.m_writeQ_Manager.enqueue(packet);
 		LOG_INFO("User(%d) Send Event", packet->_fd);
 	}
+	*/
 
 	return true;
 }
@@ -101,7 +108,7 @@ bool CProtoLogicBase::onPostProcess(CSessionManager& session)
  * 2. Server -> All Client 
  * (All Connect 전송 유저 접속 판단 위함)
  ***************************************/
-PROTO_REGISTER((int32_t)server2N::UserConnection_ConnectionType_TryConnect, false, CProtoConnection);
+PROTO_REGISTER((int32_t)server2N::UserConnection_ConnectionType_TryConnect, allSend, CProtoConnection);
 CProtoConnection::CProtoConnection()
 {
 	LOG_DEBUG("CProgoLogicBase");
@@ -157,7 +164,7 @@ bool CProtoConnection::onProcess(CSessionManager& manager, CProtoPacket* eventPa
 	return true;
 }
 
-PROTO_REGISTER((int32_t)server2N::UserConnection_ConnectionType_DisConnect, false, CProtoDisConnection);
+PROTO_REGISTER((int32_t)server2N::UserConnection_ConnectionType_DisConnect, allSend, CProtoDisConnection);
 CProtoDisConnection::CProtoDisConnection()
 {
 	LOG_DEBUG("CProgoLogicBase");
@@ -210,84 +217,102 @@ bool CProtoDisConnection::onProcess(CSessionManager& session, CProtoPacket* even
 	return true;
 }
 
+#if 0
 CProtoItemEvent::CProtoItemEvent()
 {
-	LOG_DEBUG("CProgoLogicBase");
+	LOG_DEBUG("CProtoItemEvent");
 }
-
 
 CProtoItemEvent::~CProtoItemEvent()
 {
-	LOG_DEBUG("~CProgoLogicBase");
+	LOG_DEBUG("~CProtoItemEvent");
 }
 
 bool CProtoItemEvent::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
-	LOG_DEBUG("onProcess");
+	LOG_DEBUG("CProtoItemEvent::onProcess");
 }
+#endif
 
+/***************************************
+ * MoveAll
+ * Move Action Class
+ ***************************************/
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_Nothing, partSend, CProtoGameEventMoveAll, 0);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventMove, partSend, CProtoGameEventMoveAll, 1);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventStop, partSend, CProtoGameEventMoveAll, 2);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventJump, partSend, CProtoGameEventMoveAll, 3);
 CProtoGameEventMoveAll::CProtoGameEventMoveAll()
 {
-	LOG_DEBUG("CProgoLogicBase");
+	LOG_DEBUG("CProtoGameEventMoveAll");
 }
-
 
 CProtoGameEventMoveAll::~CProtoGameEventMoveAll()
 {
-	LOG_DEBUG("~CProgoLogicBase");
+	LOG_DEBUG("~CProtoGameEventMoveAll");
 }
 
 bool CProtoGameEventMoveAll::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
-	LOG_DEBUG("onProcess");
+	LOG_DEBUG("CProtoGameEventMoveAll::onProcess");
+	int32_t type = eventPacket->_type;
+	list<CUser*>::iterator it = _userList.begin();
+	for ( ; it != _userList.end(); it++ )
+	{
+		CUser* recvUser = (CUser*)*it;
+		CProtoPacket* packet = NULL;
+		if ( !g_packetManager.setActionType(type, recvUser, eventPacket, _userList, &packet) || !packet )
+		{
+			LOG_ERROR("Error Move Type");
+			continue ;
+		}
+		
+		/********************************
+		 * Enqueue
+		 ********************************/
+		_packetOutList.push_back(packet);
+		LOG_INFO("User(%d) Part Send Move Event", packet->_fd);
+	}
+
+	return true;
 }
 
-CProtoGameEventSpawn::CProtoGameEventSpawn()
-{
-	LOG_DEBUG("CProgoLogicBase");
-}
-
-
-CProtoGameEventSpawn::~CProtoGameEventSpawn()
-{
-	LOG_DEBUG("~CProgoLogicBase");
-}
-
-bool CProtoGameEventSpawn::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
-{
-	LOG_DEBUG("onProcess");
-}
-
-CProtoNotiKillInfo::CProtoNotiKillInfo()
-{
-	LOG_DEBUG("CProgoLogicBase");
-}
-
-
-CProtoNotiKillInfo::~CProtoNotiKillInfo()
-{
-	LOG_DEBUG("~CProgoLogicBase");
-}
-
-bool CProtoNotiKillInfo::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
-{
-	LOG_DEBUG("onProcess");
-}
-
+/***************************************
+ * Kill Info Noti 
+ ***************************************/
 CProtoNotiSystem::CProtoNotiSystem()
 {
-	LOG_DEBUG("CProgoLogicBase");
+	LOG_DEBUG("CProtoNotiSystem");
 }
-
 
 CProtoNotiSystem::~CProtoNotiSystem()
 {
-	LOG_DEBUG("~CProgoLogicBase");
+	LOG_DEBUG("~CProtoNotiSystem");
 }
 
 bool CProtoNotiSystem::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
-	LOG_DEBUG("onProcess");
+	LOG_DEBUG("CProtoNotiSystem::onProcess()");
+	int32_t type = eventPacket->_type;
+	list<CUser*>::iterator it = _userList.begin();
+	for ( ; it != _userList.end(); it++ )
+	{
+		CUser* recvUser = (CUser*)*it;
+		CProtoPacket* packet = NULL;
+		if ( !g_packetManager.setNotiType(type, recvUser, eventPacket, &packet) || !packet )
+		{
+			LOG_ERROR("Error Move Type");
+			continue ;
+		}
+		
+		/********************************
+		 * Enqueue
+		 ********************************/
+		_packetOutList.push_back(packet);
+		LOG_INFO("User(%d) Part Send Move Event", packet->_fd);
+	}
+
+	return true;
 }
 
 /***************************************
@@ -295,7 +320,7 @@ bool CProtoNotiSystem::onProcess(CSessionManager& session, CProtoPacket* eventPa
  * (Response Position)
  * 1:1 Request - Response
  ***************************************/
-PROTO_REGISTER((int32_t)server2N::SystemEvent_action_RequestUserInfo, false, CProtoRequestUserInfo);
+PROTO_REGISTER((int32_t)server2N::SystemEvent_action_RequestUserInfo, allSend, CProtoRequestUserInfo);
 CProtoRequestUserInfo::CProtoRequestUserInfo()
 {
 	LOG_DEBUG("CProtoRequestUserInfo");
@@ -332,6 +357,183 @@ bool CProtoRequestUserInfo::onProcess(CSessionManager& session, CProtoPacket* ev
 	LOG_DEBUG("Send Proto(%d) Sending debugString(%s)", eventPacket->_fd, eventPacket->_proto->event().DebugString().c_str());
 	return true;
 }
+	
+// Shoot | Hit | Death | Spawn
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventShoot, partSend, CProtoGameEventRule, 0);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventHit, partSend, CProtoGameEventRule, 1);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventDeath, partSend, CProtoGameEventRule, 2);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventSpawn, partSend, CProtoGameEventRule, 3);
+PROTO_REGISTER_IDX((int32_t)server2N::UserEvent_action_EventUserSync, partSend, CProtoGameEventRule, 4);
+CProtoGameEventRule::CProtoGameEventRule()
+{
+	LOG_DEBUG("CProtoGameEventRule");
+	_eventPacket = NULL;
+	_allUserListForKillInfo.clear();
+}
+
+CProtoGameEventRule::~CProtoGameEventRule()
+{
+	LOG_DEBUG("CProtoGameEventRule");
+}
+
+bool CProtoGameEventRule::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
+{
+	LOG_DEBUG("CProtoGameEventRule::onProcess");
+	int32_t type = eventPacket->_type;
+	if ( type == (int32_t)server2N::UserEvent_action_EventDeath )
+	{
+		_eventPacket = eventPacket;
+	}
+
+	list<CUser*>::iterator it = _userList.begin();
+	for ( ; it != _userList.end(); it++ )
+	{
+		CUser* recvUser = (CUser*)*it;
+		CProtoPacket* packet = NULL;
+		if ( !g_packetManager.setActionType(type, recvUser, eventPacket, _userList, &packet) || !packet )
+		{
+			LOG_ERROR("Error Move Type");
+			continue ;
+		}
+		
+		/********************************
+		 * Enqueue
+		 ********************************/
+		_packetOutList.push_back(packet);
+		LOG_INFO("User(%d) Part Send Move Event", packet->_fd);
+	}
+
+	return true;
+}
+
+bool CProtoGameEventRule::onPostProcess(CSessionManager& session)
+{
+	LOG_DEBUG("GameEventRule PostProcess");
+	int32_t type = _eventPacket->_type;
+	SEND_PACKET_EVENT(session, _packetOutList);
+
+
+	/******************************************
+	 * Noti의 경우에는 추가로 보낸다
+	 * Death일때, type을 바꿔서 KillInfo 보냄
+	 * KillInfo는 All로 보내야한다.
+	 ******************************************/
+	if ( type == (int32_t)server2N::UserEvent_action_EventDeath )
+	{
+		_packetOutList.clear();
+		list<CUser*> _allUserListForKillInfo;
+		g_userPool.getAllUserList(_allUserListForKillInfo);
+
+		list<CUser*>::iterator it = _allUserListForKillInfo.begin();
+		for ( ; it != _allUserListForKillInfo.end(); it++ )
+		{
+			CUser* recvUser = (CUser*)*it;
+			CProtoPacket* packet = NULL;
+			if ( !g_packetManager.setNotiType(type, recvUser, _eventPacket, &packet) || !packet )
+			{
+				LOG_ERROR("Error Move Type");
+				continue ;
+			}
+
+			/********************************
+			 * Enqueue
+			 ********************************/
+			_packetOutList.push_back(packet);
+			LOG_INFO("User(%d) Part Send Move Event", packet->_fd);
+		}
+
+		SEND_PACKET_EVENT(session, _packetOutList);
+		REDIS_SCORE_BOARD_UPDATE(0);
+	}
+
+
+	return true;
+}
+
+// Item
+PROTO_REGISTER_IDX((int32_t)server2N::SystemEvent_action_EventItemSpawn, allSend, CProtoSystemActionEvent, 0);
+PROTO_REGISTER_IDX((int32_t)server2N::SystemEvent_action_EventItemSpawn, allSend, CProtoSystemActionEvent, 1);
+CProtoSystemActionEvent::CProtoSystemActionEvent()
+{
+	LOG_DEBUG("CProtoSystemActionEvent");
+	//_eventPacket = NULL;
+	//_allUserListForKillInfo.clear();
+}
+
+CProtoSystemActionEvent::~CProtoSystemActionEvent()
+{
+	LOG_DEBUG("CProtoSystemActionEvent");
+}
+
+bool CProtoSystemActionEvent::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
+{
+	LOG_DEBUG("CProtoSystemActionEvent::onProcess");
+	int32_t type = eventPacket->_type;
+	list<CUser*>::iterator it = _userList.begin();
+	for ( ; it != _userList.end(); it++ )
+	{
+		CUser* recvUser = (CUser*)*it;
+		CProtoPacket* packet = NULL;
+		if ( !g_packetManager.setActionType(type, recvUser, eventPacket, _userList, &packet) || !packet )
+		{
+			LOG_ERROR("Error Move Type");
+			continue ;
+		}
+		
+		/********************************
+		 * Enqueue
+		 ********************************/
+		_packetOutList.push_back(packet);
+		LOG_INFO("User(%d) Part Send Move Event", packet->_fd);
+	}
+
+	return true;
+}
+
+
+void SEND_PACKET_EVENT(CSessionManager& session, list<CProtoPacket*> packetList)
+{
+	list<CProtoPacket*>::iterator it = packetList.begin();
+	for ( ; it != packetList.end() ; ++it )
+	{
+		CProtoPacket* packet = (CProtoPacket*)*it;
+		if ( !packet )
+		{
+			continue ;
+		}
+	
+		session.m_writeQ_Manager.unLock();
+		session.m_writeQ_Manager.enqueue(packet);
+		LOG_INFO("User(%d) Send Event", packet->_fd);
+	}
+}
+
+void REDIS_SCORE_BOARD_UPDATE(int32_t performerFd)
+{
+	/***************************************
+	 * UserPool에서 User 정보를 꺼내온다
+	 ***************************************/
+
+
+	/***************************************
+	 * User의 KillInfo 수치를 계산한다
+	 * Kill = 2, Death = 1
+	 ***************************************/
+
+
+	/***************************************
+	 * Redis에서 가져와 수치를 비교한다
+	 * Key
+	 * = score1~10 , String
+	 *
+	 * Value
+	 * = nickname_kill_death , String
+	 ***************************************/
+
+}
+
+
+
 
 #if 0 
 void PROTO_MAP_REGISTER(int32_t type, CLS_CALLBACK fnc)
