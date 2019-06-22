@@ -37,7 +37,7 @@ namespace protobuf_gameContent_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[20];
+  static const ::google::protobuf::internal::ParseTable schema[21];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -45,6 +45,8 @@ struct TableStruct {
 void AddDescriptors();
 void InitDefaultsGlobalNoticeImpl();
 void InitDefaultsGlobalNotice();
+void InitDefaultsPushScoreBoardImpl();
+void InitDefaultsPushScoreBoard();
 void InitDefaultsUserConnectionImpl();
 void InitDefaultsUserConnection();
 void InitDefaultsEventMoveImpl();
@@ -85,6 +87,7 @@ void InitDefaultsPacketBodyImpl();
 void InitDefaultsPacketBody();
 inline void InitDefaults() {
   InitDefaultsGlobalNotice();
+  InitDefaultsPushScoreBoard();
   InitDefaultsUserConnection();
   InitDefaultsEventMove();
   InitDefaultsEventStop();
@@ -155,6 +158,9 @@ extern InfoItemDefaultTypeInternal _InfoItem_default_instance_;
 class PacketBody;
 class PacketBodyDefaultTypeInternal;
 extern PacketBodyDefaultTypeInternal _PacketBody_default_instance_;
+class PushScoreBoard;
+class PushScoreBoardDefaultTypeInternal;
+extern PushScoreBoardDefaultTypeInternal _PushScoreBoard_default_instance_;
 class RequestUserInfo;
 class RequestUserInfoDefaultTypeInternal;
 extern RequestUserInfoDefaultTypeInternal _RequestUserInfo_default_instance_;
@@ -186,6 +192,7 @@ template<> ::server2N::GameEvent* Arena::Create< ::server2N::GameEvent>(Arena*);
 template<> ::server2N::GlobalNotice* Arena::Create< ::server2N::GlobalNotice>(Arena*);
 template<> ::server2N::InfoItem* Arena::Create< ::server2N::InfoItem>(Arena*);
 template<> ::server2N::PacketBody* Arena::Create< ::server2N::PacketBody>(Arena*);
+template<> ::server2N::PushScoreBoard* Arena::Create< ::server2N::PushScoreBoard>(Arena*);
 template<> ::server2N::RequestUserInfo* Arena::Create< ::server2N::RequestUserInfo>(Arena*);
 template<> ::server2N::SystemEvent* Arena::Create< ::server2N::SystemEvent>(Arena*);
 template<> ::server2N::UserConnection* Arena::Create< ::server2N::UserConnection>(Arena*);
@@ -199,12 +206,13 @@ enum GlobalNotice_NoticeInfo {
   GlobalNotice_NoticeInfo_KillInfo = 1,
   GlobalNotice_NoticeInfo_Notice = 2,
   GlobalNotice_NoticeInfo_ItemInfo = 3,
+  GlobalNotice_NoticeInfo_ScoreBoard = 4,
   GlobalNotice_NoticeInfo_GlobalNotice_NoticeInfo_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   GlobalNotice_NoticeInfo_GlobalNotice_NoticeInfo_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool GlobalNotice_NoticeInfo_IsValid(int value);
 const GlobalNotice_NoticeInfo GlobalNotice_NoticeInfo_NoticeInfo_MIN = GlobalNotice_NoticeInfo_Nothing;
-const GlobalNotice_NoticeInfo GlobalNotice_NoticeInfo_NoticeInfo_MAX = GlobalNotice_NoticeInfo_ItemInfo;
+const GlobalNotice_NoticeInfo GlobalNotice_NoticeInfo_NoticeInfo_MAX = GlobalNotice_NoticeInfo_ScoreBoard;
 const int GlobalNotice_NoticeInfo_NoticeInfo_ARRAYSIZE = GlobalNotice_NoticeInfo_NoticeInfo_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* GlobalNotice_NoticeInfo_descriptor();
@@ -501,6 +509,8 @@ class GlobalNotice : public ::google::protobuf::Message /* @@protoc_insertion_po
     GlobalNotice_NoticeInfo_Notice;
   static const NoticeInfo ItemInfo =
     GlobalNotice_NoticeInfo_ItemInfo;
+  static const NoticeInfo ScoreBoard =
+    GlobalNotice_NoticeInfo_ScoreBoard;
   static inline bool NoticeInfo_IsValid(int value) {
     return GlobalNotice_NoticeInfo_IsValid(value);
   }
@@ -536,6 +546,18 @@ class GlobalNotice : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_victim();
 
+  // repeated .server2N.PushScoreBoard score = 5;
+  int score_size() const;
+  void clear_score();
+  static const int kScoreFieldNumber = 5;
+  ::server2N::PushScoreBoard* mutable_score(int index);
+  ::google::protobuf::RepeatedPtrField< ::server2N::PushScoreBoard >*
+      mutable_score();
+  const ::server2N::PushScoreBoard& score(int index) const;
+  ::server2N::PushScoreBoard* add_score();
+  const ::google::protobuf::RepeatedPtrField< ::server2N::PushScoreBoard >&
+      score() const;
+
   // string notice = 2;
   void clear_notice();
   static const int kNoticeFieldNumber = 2;
@@ -568,12 +590,145 @@ class GlobalNotice : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > victim_;
   mutable int _victim_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::server2N::PushScoreBoard > score_;
   ::google::protobuf::internal::ArenaStringPtr notice_;
   int notitype_;
   ::google::protobuf::int32 performer_;
   mutable int _cached_size_;
   friend struct ::protobuf_gameContent_2eproto::TableStruct;
   friend void ::protobuf_gameContent_2eproto::InitDefaultsGlobalNoticeImpl();
+};
+// -------------------------------------------------------------------
+
+class PushScoreBoard : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:server2N.PushScoreBoard) */ {
+ public:
+  PushScoreBoard();
+  virtual ~PushScoreBoard();
+
+  PushScoreBoard(const PushScoreBoard& from);
+
+  inline PushScoreBoard& operator=(const PushScoreBoard& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  PushScoreBoard(PushScoreBoard&& from) noexcept
+    : PushScoreBoard() {
+    *this = ::std::move(from);
+  }
+
+  inline PushScoreBoard& operator=(PushScoreBoard&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PushScoreBoard& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const PushScoreBoard* internal_default_instance() {
+    return reinterpret_cast<const PushScoreBoard*>(
+               &_PushScoreBoard_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    1;
+
+  void Swap(PushScoreBoard* other);
+  friend void swap(PushScoreBoard& a, PushScoreBoard& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline PushScoreBoard* New() const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<PushScoreBoard>(NULL);
+  }
+
+  PushScoreBoard* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL {
+    return ::google::protobuf::Arena::Create<PushScoreBoard>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const PushScoreBoard& from);
+  void MergeFrom(const PushScoreBoard& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(PushScoreBoard* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string nickname = 4;
+  void clear_nickname();
+  static const int kNicknameFieldNumber = 4;
+  const ::std::string& nickname() const;
+  void set_nickname(const ::std::string& value);
+  #if LANG_CXX11
+  void set_nickname(::std::string&& value);
+  #endif
+  void set_nickname(const char* value);
+  void set_nickname(const char* value, size_t size);
+  ::std::string* mutable_nickname();
+  ::std::string* release_nickname();
+  void set_allocated_nickname(::std::string* nickname);
+
+  // int32 kill = 1;
+  void clear_kill();
+  static const int kKillFieldNumber = 1;
+  ::google::protobuf::int32 kill() const;
+  void set_kill(::google::protobuf::int32 value);
+
+  // int32 death = 2;
+  void clear_death();
+  static const int kDeathFieldNumber = 2;
+  ::google::protobuf::int32 death() const;
+  void set_death(::google::protobuf::int32 value);
+
+  // int32 rank = 3;
+  void clear_rank();
+  static const int kRankFieldNumber = 3;
+  ::google::protobuf::int32 rank() const;
+  void set_rank(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:server2N.PushScoreBoard)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr nickname_;
+  ::google::protobuf::int32 kill_;
+  ::google::protobuf::int32 death_;
+  ::google::protobuf::int32 rank_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_gameContent_2eproto::TableStruct;
+  friend void ::protobuf_gameContent_2eproto::InitDefaultsPushScoreBoardImpl();
 };
 // -------------------------------------------------------------------
 
@@ -612,7 +767,7 @@ class UserConnection : public ::google::protobuf::Message /* @@protoc_insertion_
                &_UserConnection_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    1;
+    2;
 
   void Swap(UserConnection* other);
   friend void swap(UserConnection& a, UserConnection& b) {
@@ -825,7 +980,7 @@ class EventMove : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_EventMove_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    2;
+    3;
 
   void Swap(EventMove* other);
   friend void swap(EventMove& a, EventMove& b) {
@@ -960,7 +1115,7 @@ class EventStop : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_EventStop_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    3;
+    4;
 
   void Swap(EventStop* other);
   friend void swap(EventStop& a, EventStop& b) {
@@ -1056,7 +1211,7 @@ class EventJump : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_EventJump_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    4;
+    5;
 
   void Swap(EventJump* other);
   friend void swap(EventJump& a, EventJump& b) {
@@ -1152,7 +1307,7 @@ class EventRoll : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_EventRoll_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    5;
+    6;
 
   void Swap(EventRoll* other);
   friend void swap(EventRoll& a, EventRoll& b) {
@@ -1248,7 +1403,7 @@ class EventShoot : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_EventShoot_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    6;
+    7;
 
   void Swap(EventShoot* other);
   friend void swap(EventShoot& a, EventShoot& b) {
@@ -1386,7 +1541,7 @@ class EventHit : public ::google::protobuf::Message /* @@protoc_insertion_point(
                &_EventHit_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    7;
+    8;
 
   void Swap(EventHit* other);
   friend void swap(EventHit& a, EventHit& b) {
@@ -1524,7 +1679,7 @@ class EventChangeWeapon : public ::google::protobuf::Message /* @@protoc_inserti
                &_EventChangeWeapon_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    8;
+    9;
 
   void Swap(EventChangeWeapon* other);
   friend void swap(EventChangeWeapon& a, EventChangeWeapon& b) {
@@ -1627,7 +1782,7 @@ class EventSpawn : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_EventSpawn_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    9;
+    10;
 
   void Swap(EventSpawn* other);
   friend void swap(EventSpawn& a, EventSpawn& b) {
@@ -1723,7 +1878,7 @@ class EventUserSync : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_EventUserSync_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    10;
+    11;
 
   void Swap(EventUserSync* other);
   friend void swap(EventUserSync& a, EventUserSync& b) {
@@ -1833,7 +1988,7 @@ class EventDeath : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_EventDeath_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    11;
+    12;
 
   void Swap(EventDeath* other);
   friend void swap(EventDeath& a, EventDeath& b) {
@@ -1936,7 +2091,7 @@ class EventItemSpawn : public ::google::protobuf::Message /* @@protoc_insertion_
                &_EventItemSpawn_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    12;
+    13;
 
   void Swap(EventItemSpawn* other);
   friend void swap(EventItemSpawn& a, EventItemSpawn& b) {
@@ -2042,7 +2197,7 @@ class EventItemGet : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_EventItemGet_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    13;
+    14;
 
   void Swap(EventItemGet* other);
   friend void swap(EventItemGet& a, EventItemGet& b) {
@@ -2148,7 +2303,7 @@ class RequestUserInfo : public ::google::protobuf::Message /* @@protoc_insertion
                &_RequestUserInfo_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    14;
+    15;
 
   void Swap(RequestUserInfo* other);
   friend void swap(RequestUserInfo& a, RequestUserInfo& b) {
@@ -2265,7 +2420,7 @@ class InfoItem : public ::google::protobuf::Message /* @@protoc_insertion_point(
                &_InfoItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    15;
+    16;
 
   void Swap(InfoItem* other);
   friend void swap(InfoItem& a, InfoItem& b) {
@@ -2465,7 +2620,7 @@ class GameEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_GameEvent_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    16;
+    17;
 
   void Swap(GameEvent* other);
   friend void swap(GameEvent& a, GameEvent& b) {
@@ -2672,7 +2827,7 @@ class SystemEvent : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SystemEvent_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    17;
+    18;
 
   void Swap(SystemEvent* other);
   friend void swap(SystemEvent& a, SystemEvent& b) {
@@ -2835,7 +2990,7 @@ class UserEvent : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_UserEvent_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    18;
+    19;
 
   void Swap(UserEvent* other);
   friend void swap(UserEvent& a, UserEvent& b) {
@@ -3104,7 +3259,7 @@ class PacketBody : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_PacketBody_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    19;
+    20;
 
   void Swap(PacketBody* other);
   friend void swap(PacketBody& a, PacketBody& b) {
@@ -3355,6 +3510,135 @@ inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 GlobalNotice::mutable_victim() {
   // @@protoc_insertion_point(field_mutable_list:server2N.GlobalNotice.victim)
   return &victim_;
+}
+
+// repeated .server2N.PushScoreBoard score = 5;
+inline int GlobalNotice::score_size() const {
+  return score_.size();
+}
+inline void GlobalNotice::clear_score() {
+  score_.Clear();
+}
+inline ::server2N::PushScoreBoard* GlobalNotice::mutable_score(int index) {
+  // @@protoc_insertion_point(field_mutable:server2N.GlobalNotice.score)
+  return score_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::server2N::PushScoreBoard >*
+GlobalNotice::mutable_score() {
+  // @@protoc_insertion_point(field_mutable_list:server2N.GlobalNotice.score)
+  return &score_;
+}
+inline const ::server2N::PushScoreBoard& GlobalNotice::score(int index) const {
+  // @@protoc_insertion_point(field_get:server2N.GlobalNotice.score)
+  return score_.Get(index);
+}
+inline ::server2N::PushScoreBoard* GlobalNotice::add_score() {
+  // @@protoc_insertion_point(field_add:server2N.GlobalNotice.score)
+  return score_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::server2N::PushScoreBoard >&
+GlobalNotice::score() const {
+  // @@protoc_insertion_point(field_list:server2N.GlobalNotice.score)
+  return score_;
+}
+
+// -------------------------------------------------------------------
+
+// PushScoreBoard
+
+// int32 kill = 1;
+inline void PushScoreBoard::clear_kill() {
+  kill_ = 0;
+}
+inline ::google::protobuf::int32 PushScoreBoard::kill() const {
+  // @@protoc_insertion_point(field_get:server2N.PushScoreBoard.kill)
+  return kill_;
+}
+inline void PushScoreBoard::set_kill(::google::protobuf::int32 value) {
+  
+  kill_ = value;
+  // @@protoc_insertion_point(field_set:server2N.PushScoreBoard.kill)
+}
+
+// int32 death = 2;
+inline void PushScoreBoard::clear_death() {
+  death_ = 0;
+}
+inline ::google::protobuf::int32 PushScoreBoard::death() const {
+  // @@protoc_insertion_point(field_get:server2N.PushScoreBoard.death)
+  return death_;
+}
+inline void PushScoreBoard::set_death(::google::protobuf::int32 value) {
+  
+  death_ = value;
+  // @@protoc_insertion_point(field_set:server2N.PushScoreBoard.death)
+}
+
+// int32 rank = 3;
+inline void PushScoreBoard::clear_rank() {
+  rank_ = 0;
+}
+inline ::google::protobuf::int32 PushScoreBoard::rank() const {
+  // @@protoc_insertion_point(field_get:server2N.PushScoreBoard.rank)
+  return rank_;
+}
+inline void PushScoreBoard::set_rank(::google::protobuf::int32 value) {
+  
+  rank_ = value;
+  // @@protoc_insertion_point(field_set:server2N.PushScoreBoard.rank)
+}
+
+// string nickname = 4;
+inline void PushScoreBoard::clear_nickname() {
+  nickname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& PushScoreBoard::nickname() const {
+  // @@protoc_insertion_point(field_get:server2N.PushScoreBoard.nickname)
+  return nickname_.GetNoArena();
+}
+inline void PushScoreBoard::set_nickname(const ::std::string& value) {
+  
+  nickname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:server2N.PushScoreBoard.nickname)
+}
+#if LANG_CXX11
+inline void PushScoreBoard::set_nickname(::std::string&& value) {
+  
+  nickname_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:server2N.PushScoreBoard.nickname)
+}
+#endif
+inline void PushScoreBoard::set_nickname(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  nickname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:server2N.PushScoreBoard.nickname)
+}
+inline void PushScoreBoard::set_nickname(const char* value, size_t size) {
+  
+  nickname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:server2N.PushScoreBoard.nickname)
+}
+inline ::std::string* PushScoreBoard::mutable_nickname() {
+  
+  // @@protoc_insertion_point(field_mutable:server2N.PushScoreBoard.nickname)
+  return nickname_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* PushScoreBoard::release_nickname() {
+  // @@protoc_insertion_point(field_release:server2N.PushScoreBoard.nickname)
+  
+  return nickname_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PushScoreBoard::set_allocated_nickname(::std::string* nickname) {
+  if (nickname != NULL) {
+    
+  } else {
+    
+  }
+  nickname_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), nickname);
+  // @@protoc_insertion_point(field_set_allocated:server2N.PushScoreBoard.nickname)
 }
 
 // -------------------------------------------------------------------
@@ -5348,6 +5632,8 @@ inline void PacketBody::set_senderid(::google::protobuf::int32 value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
