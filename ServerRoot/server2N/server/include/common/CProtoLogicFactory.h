@@ -133,27 +133,30 @@ void REDIS_SCORE_BOARD_UPDATE(int32_t performerFd);
 }
 #endif
 
+extern std::map<int32_t, bool> g_partSendMap;
 extern std::map<int32_t, CLS_CALLBACK> *g_commandMap;
 class CProtoRegister
 {
 	public:
-		CProtoRegister(int32_t type, CLS_CALLBACK fnc)
+		CProtoRegister(int32_t type, CLS_CALLBACK fnc, bool isPartSend)
 		{
 			if ( !g_commandMap )
 			{
 				g_commandMap = new std::map<int32_t, CLS_CALLBACK>;
 			}
 
+			//fnc(isPartSend);
+			g_partSendMap.insert(std::pair<int32_t, bool>(type, isPartSend));
 			g_commandMap->insert(std::pair<int32_t, CLS_CALLBACK>(type, fnc));
 		}
 };
 
 
 #define PROTO_REGISTER(type, isPartSend, fnc) \
-	CProtoRegister g_##fnc(type, createProtoLogic<fnc>);
+	CProtoRegister g_##fnc(type, createProtoLogic<fnc>, isPartSend);
 //#define PROTO_REGISTER(type, isPartSend, fnc) PROTO_MAP_REGISTER(type, createProtoLogic<fnc>(isPartSend));
 
 #define PROTO_REGISTER_IDX(type, isPartSend, fnc, index) \
-	CProtoRegister g_##fnc##index(type, createProtoLogic<fnc>);
+	CProtoRegister g_##fnc##index(type, createProtoLogic<fnc>, isPartSend);
 #endif
 
