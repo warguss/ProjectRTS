@@ -10,9 +10,11 @@ using namespace std;
 extern CUserPool g_userPool;
 extern CCustomRedisManager g_redisManager;
 std::map<int32_t, CLS_CALLBACK> *g_commandMap;
+std::map<int32_t, bool> g_partSendMap;
 template <class T> CProtoLogicBase* createProtoLogic(bool isPartSend)
 {
 	CProtoLogicBase* logic = new T();
+	LOG_DEBUG("isPartSend ADD(%s)", isPartSend ? "PartSend Create" : "AllSend Create");
 	logic->_isPartSend = isPartSend;
 	return logic;
 }
@@ -31,7 +33,7 @@ CLS_CALLBACK afxCreateClass(int32_t type)
 CProtoLogicBase::CProtoLogicBase(bool isPartSend)
 {
 	LOG_DEBUG("CProgoLogicBase1");
-	//_isPartSend = isPartSend;
+	_isPartSend = isPartSend;
 	_userList.clear();
 	_packetOutList.clear();
 }
@@ -39,7 +41,6 @@ CProtoLogicBase::CProtoLogicBase(bool isPartSend)
 CProtoLogicBase::CProtoLogicBase()
 {
 	LOG_DEBUG("CProgoLogicBase2");
-	_isPartSend = false;
 	_userList.clear();
 	_packetOutList.clear();
 }

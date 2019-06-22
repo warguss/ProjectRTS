@@ -33,6 +33,8 @@ extern int32_t g_sectorIdx;
 extern CUserPool g_userPool;
 extern CThreadLockManager g_lockManager;
 extern CCustomRedisManager g_redisManager;
+extern std::map<int32_t, bool> g_partSendMap;
+
 
 bool ConnectAllSendFunc(CSessionManager& session, CProtoPacket* eventPacket)
 {
@@ -322,7 +324,9 @@ bool childProcessLogic()
 					}
 					LOG_DEBUG("TEST3");
 
-					CProtoLogicBase* logic = fnc(false);
+					std::map<int32_t, bool>::iterator iter = g_partSendMap.find(type);
+					bool partSendCheck = iter->second;
+					CProtoLogicBase* logic = fnc(partSendCheck);
 					if ( logic->onPreProcess(data->_sector) && logic->onProcess(session, data) )
 					{
 						LOG_DEBUG("TEST4");
@@ -369,7 +373,7 @@ int main(int argc, char* argv[])
 	do 
 	{
 		pid_t pid;
-		close(STDIN_FILENO);
+		//close(STDIN_FILENO);
 		close(STDOUT_FILENO);
 		close(STDERR_FILENO);
 
