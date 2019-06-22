@@ -436,11 +436,11 @@ bool CProtoGameEventRule::onPostProcess(CSessionManager& session)
 		g_userPool.getAllUserList(_allUserListForKillInfo);
 
 		list<CUser*>::iterator it = _allUserListForKillInfo.begin();
-		for ( ; it != _allUserListForKillInfo.end(); it++ )
+		for ( int idx = 0; it != _allUserListForKillInfo.end(); it++, idx++ )
 		{
 			CUser* recvUser = (CUser*)*it;
 			CProtoPacket* packet = NULL;
-			if ( !g_packetManager.setNotiType(type, recvUser, _eventPacket, &packet) || !packet )
+			if ( !g_packetManager.setNotiType(type, recvUser, _eventPacket, &packet, idx) || !packet )
 			{
 				LOG_ERROR("Error Move Type");
 				continue ;
@@ -460,9 +460,42 @@ bool CProtoGameEventRule::onPostProcess(CSessionManager& session)
 		}
 
 		SEND_PACKET_EVENT(session, _packetOutList);
-		//REDIS_SCORE_BOARD_UPDATE(0);
-	}
+	
+		/***************************************
+		 * Redis에서 가져와 수치를 비교한다
+		 * Key
+		 * = score1~4 , String
+		 *
+		 * Value
+		 * = nickname_kill_death , String
+		 ***************************************/
+		list<CUser*> forRankUpd;
+		g_userPool.getAllUserList(forRankUpd);
 
+		forRankUpd.sort(scoreSort);
+		list<CUser*>::iterator rankIt = forRankUpd.begin();
+		for ( int32_t idx = 1; rankIt != forRankUpd.end(); rankIt++, idx++ )
+		{
+			/***********************************
+			 * User별 데이터 저장
+			 ***********************************/
+			CUser* user = (CUser*)*rankIt;
+			char psKey[128] = {'\0',};
+			sprintf(psKey, "score_%d", idx);
+			std::string key = psKey;
+
+			char psValue[1024] = {'\0',};
+			sprintf(psValue, "%s_%d_%d", user->_nickName.c_str(), user->_killInfo, user->_deathInfo);
+			std::string value = psValue;
+
+			REDIS_SCORE_BOARD_UPDATE("SET",  key, value);
+		}
+
+		CProtoScoreBoardNoti noti;
+		noti.onPreProcess(0);
+		noti.onProcess(session, NULL);
+		noti.onPostProcess(session);
+	}
 
 	return true;
 }
@@ -507,6 +540,77 @@ bool CProtoSystemActionEvent::onProcess(CSessionManager& session, CProtoPacket* 
 	return true;
 }
 
+/***************************************
+ * ScoreBoard Logic
+ ***************************************/
+PROTO_REGISTER((int32_t)server2N::GlobalNotice_NoticeInfo_ScoreBoard, allSend, CProtoScoreBoardNoti);
+CProtoScoreBoardNoti::CProtoScoreBoardNoti()
+{
+	LOG_DEBUG("CProtoScoreBoardNoti");
+}
+
+CProtoScoreBoardNoti::~CProtoScoreBoardNoti()
+{
+	LOG_DEBUG("~CProtoScoreBoardNoti");
+}
+
+bool CProtoScoreBoardNoti::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
+{
+	LOG_DEBUG("CProtoScoreBoardNoti::onProcess()");
+	int32_t rankMax = 5;
+
+	/***************************************
+	 * Redis Format
+	 * Key : score_$idx
+	 * value : $nick_$kill_$death
+	 ***************************************/
+	list<std::string> scoreList;
+	for ( int idx = 1; idx < rankMax; idx++ )
+	{
+		char psKey[128] = {'\0',};
+		sprintf(psKey, "score_%d", idx);
+		std::string key = psKey;
+
+		std::string value;
+		if ( !REDIS_SCORE_BOARD_UPDATE("GET", key, value) )
+		{
+			LOG_ERROR("Get Redis Error");
+			continue ;	
+		}
+
+		LOG_INFO("getValue(%s)", value.c_str());
+		scoreList.push_back(value.c_str());
+	}
+
+	/***********************************************
+	 * Proto Set
+	 ***********************************************/
+	int32_t type = server2N::GlobalNotice_NoticeInfo_ScoreBoard;
+	list<CUser*>::iterator it = _userList.begin();
+	LOG_DEBUG("UserList Set(%d)", _userList.size());
+	for ( ; it != _userList.end(); ++it )
+	{
+		CUser* user = *it;
+		if ( !user )
+		{
+			continue ;
+		}
+
+		CProtoPacket *packet = NULL;
+		if ( !g_packetManager.setNotiType(type, user, &packet, scoreList) || !packet )
+		{
+			LOG_ERROR("Error Connector Type");
+			continue;
+		} 
+
+		LOG_INFO("User(%d) PushNoti (%s)", packet->_fd, packet->_proto->notice().DebugString().c_str());
+		/*********************************
+		 * Enqueue
+		 *********************************/
+		_packetOutList.push_back(packet);
+	}
+	return true;
+}
 
 void SEND_PACKET_EVENT(CSessionManager& session, list<CProtoPacket*> packetList)
 {
@@ -532,32 +636,56 @@ void SEND_PACKET_EVENT(CSessionManager& session, list<CProtoPacket*> packetList)
 	}
 }
 
-void REDIS_SCORE_BOARD_UPDATE(int32_t performerFd)
+bool REDIS_SCORE_BOARD_UPDATE(std::string command, std::string key, std::string& value)
 {
 	/***************************************
 	 * UserPool에서 User 정보를 꺼내온다
 	 ***************************************/
+	bool isSuccess = true;
+	if ( strcasecmp(command.c_str(), "SET") == 0 )
+	{
+		if ( !(isSuccess = g_redisManager.setRedis(key, value)) )
+		{
+			LOG_ERROR("Redis Set Value Error KEY(%s) VALUE(%s)"
+					, key.c_str(), value.c_str());
+		}
+	}
+	else if ( strcasecmp(command.c_str(), "GET") == 0 )
+	{
+		value.clear();
+		if ( !(isSuccess = g_redisManager.getRedis(key, value)) )
+		{
+			LOG_ERROR("Redis Get Value Error KEY(%s)"
+					, key.c_str());
+		}
+	}
+	else
+	{
+		LOG_DEBUG("Not Exist Command(%s) key(%s) value(%s)"
+				, command.c_str(), key.c_str(), value.c_str());
+		isSuccess = false;
+	}
 
+	if ( isSuccess )
+	{
+		LOG_INFO("Redis Success Command(%s) Key(%s) Value(%s)"
+				, command.c_str(), key.c_str(), value.c_str());
+	}
 
-	/***************************************
-	 * User의 KillInfo 수치를 계산한다
-	 * Kill = 2, Death = 1
-	 ***************************************/
-
-
-	/***************************************
-	 * Redis에서 가져와 수치를 비교한다
-	 * Key
-	 * = score1~10 , String
-	 *
-	 * Value
-	 * = nickname_kill_death , String
-	 ***************************************/
-
+	return isSuccess;
 }
 
-
-
+bool scoreSort(CUser* first, CUser* second)
+{
+	if ( first->_score < second->_score )
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
 
 #if 0 
 void PROTO_MAP_REGISTER(int32_t type, CLS_CALLBACK fnc)

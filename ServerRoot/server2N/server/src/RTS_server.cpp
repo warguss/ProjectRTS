@@ -276,7 +276,7 @@ bool childProcessLogic()
 	 * Redis Init
 	 * IP | Port | Timeout
 	 ***********************************************/
-	//g_redisManager.initialize("127.0.0.1", (int32_t)6789, (uint32_t)10);
+	g_redisManager.initialize("127.0.0.1", (int32_t)6379, (uint32_t)10);
 	while(true)
 	{
 		/***********************************************

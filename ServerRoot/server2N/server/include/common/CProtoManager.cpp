@@ -72,6 +72,7 @@ void CProtoManager::initialize()
 	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GlobalNotice_NoticeInfo_Nothing, (const char*)strdup("GlobalNotice_Nothing")) );
 	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GlobalNotice_NoticeInfo_KillInfo, (const char*)strdup("GlobalNotice_KillInfo")) );
 	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GlobalNotice_NoticeInfo_Notice, (const char*)strdup("GlobalNotice_Notice")) );
+	_userEventMsgMap.insert( std::pair<int32_t, const char*>(server2N::GlobalNotice_NoticeInfo_ScoreBoard, (const char*)strdup("GlobalNotice_ScoreBoard")) );
 
 }
 
@@ -516,7 +517,87 @@ bool CProtoManager::setActionType(int32_t type, CUser* recvUser, CProtoPacket* e
 	return true;
 }
 
-bool CProtoManager::setNotiType(int type, CUser* recvUser, CProtoPacket* eventUser, CProtoPacket** packet)
+bool CProtoManager::setNotiType(int type, CUser* recvUser, CProtoPacket** packet, list<string> scoreList)
+{
+	if ( type < 0 || scoreList.size() <= 0 )
+	{
+		LOG_ERROR("Not Exist User , User ProtoPacket");
+		return false;
+	}
+
+	bool isSuccess = true;
+	(*packet) = new CProtoPacket();
+	(*packet)->_protoNoti = new server2N::GlobalNotice();
+	do 
+	{
+		if ( type == (int32_t)server2N::GlobalNotice_NoticeInfo_ScoreBoard )
+		{
+			int idx = 1;
+			list<string>::iterator iter = scoreList.begin();
+			for ( ; iter != scoreList.end(); ++iter, ++idx )
+			{
+				string value = *iter;
+				if ( value.size() <= 0 )
+				{
+					continue ;
+				}
+
+				char *ptr = value.c_str();
+				char *lPtr;
+				char *psNickName = strtok_r(ptr, "_", &lPtr);
+				char *psKillInfo = strtok_r(lPtr, "_", &lPtr);
+				char *psDeathInfo = strtok_r(lPtr, "_", &lPtr);
+
+				LOG_DEBUG("value(%s) nick(%s) kill(%s) death(%s)", value.c_str(), psNickName, 
+						psKillInfo, psDeathInfo);
+				if ( !psNickName || !psKillInfo || !psDeathInfo )
+				{
+					continue ;
+				}
+
+				server2N::PushScoreBoard *protoScore = (*packet)->_protoNoti->add_score();
+				if ( protoScore )
+				{
+					LOG_ERROR("Exist protoITem");
+					protoScore->set_nickname(psNickName);
+					protoScore->set_kill(atoi(psKillInfo));
+					protoScore->set_death(atoi(psDeathInfo));
+					protoScore->set_rank(idx);
+				}
+				else
+				{
+					LOG_ERROR("Not Exist protoITem");
+				}
+			}
+	
+		}
+	}
+	while(false);
+
+	if ( isSuccess )
+	{
+		(*packet)->_type = type;
+		(*packet)->_fd = recvUser->_fd;
+		(*packet)->_protoNoti->set_notitype((int32_t)type);
+		(*packet)->_proto->set_msgtype(server2N::PacketBody_messageType_GlobalNotice);
+		(*packet)->_proto->set_allocated_notice((*packet)->_protoNoti);
+		(*packet)->_act = getLogValue(type, "Invalid Noti");
+		(*packet)->_nickName = "Push Noti";
+	}
+	else
+	{
+		delete (*packet)->_protoNoti;
+		(*packet)->_protoNoti = NULL;
+
+		delete (*packet);
+		(*packet) = NULL;
+	}
+
+	return isSuccess;
+}
+
+
+bool CProtoManager::setNotiType(int type, CUser* recvUser, CProtoPacket* eventUser, CProtoPacket** packet, int idx)
 {
 	if ( type < 0 || !eventUser || eventUser->_fd <= 0 || recvUser <= 0 )
 	{
@@ -552,7 +633,11 @@ bool CProtoManager::setNotiType(int type, CUser* recvUser, CProtoPacket* eventUs
 				break;
 			}
 			(*packet)->_protoNoti->add_victim((int32_t)eventFd);
-			victimUser->_deathInfo++;
+			if ( idx == 0 )
+			{
+				victimUser->_deathInfo++;
+			}
+			victimUser->userKillDeathScoreCalc();
 			int triggerFd = tEvent.userevent().deathevent().triggerid();
 			CUser* triggerUser = g_userPool.findUserInPool(triggerFd);
 			if ( !triggerUser )
@@ -562,7 +647,11 @@ bool CProtoManager::setNotiType(int type, CUser* recvUser, CProtoPacket* eventUs
 				break;
 			}
 			(*packet)->_protoNoti->set_performer((int32_t)triggerFd);
-			triggerUser->_killInfo++;
+			if ( idx == 0 )
+			{
+				triggerUser->_killInfo++;
+			}
+			triggerUser->userKillDeathScoreCalc();
 		}
 	}
 	while(false);
