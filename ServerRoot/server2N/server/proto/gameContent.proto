@@ -10,12 +10,22 @@ message GlobalNotice
 		KillInfo = 1;
 		Notice = 2;
 		ItemInfo = 3;
+		ScoreBoard = 4;
 	}
 
 	NoticeInfo notiType = 1;
 	string notice = 2;
 	int32 performer = 3;
 	repeated int32 victim = 4;
+	repeated PushScoreBoard score = 5;
+}
+
+message PushScoreBoard
+{
+	int32 kill = 1;
+	int32 death = 2;
+	int32 rank = 3;
+	string nickname = 4;
 }
 
 message UserConnection
