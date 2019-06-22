@@ -96,6 +96,15 @@ class CProtoNotiSystem : public CProtoLogicBase
 		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
 };
 
+class CProtoScoreBoardNoti : public CProtoLogicBase
+{
+	public:
+		CProtoScoreBoardNoti();
+		~CProtoScoreBoardNoti();
+
+		bool onProcess(CSessionManager& session, CProtoPacket* eventPacket);
+};
+
 class CProtoRequestUserInfo : public CProtoLogicBase 
 {
 	public:
@@ -107,6 +116,8 @@ class CProtoRequestUserInfo : public CProtoLogicBase
 
 class CProtoSystemActionEvent : public CProtoLogicBase 
 {
+	private:
+		list<string> _scoreList;
 	public:
 		CProtoSystemActionEvent();
 		~CProtoSystemActionEvent();
@@ -120,7 +131,7 @@ template <class T> CProtoLogicBase* createProtoLogic(bool isPartSend);
 
 void PROTO_MAP_REGISTER(int32_t type, CLS_CALLBACK fnc);
 void SEND_PACKET_EVENT(CSessionManager& session, list<CProtoPacket*> packetList);
-void REDIS_SCORE_BOARD_UPDATE(int32_t performerFd);
+bool REDIS_SCORE_BOARD_UPDATE(std::string command, std::string key, std::string& value);
 
 #if 0 
 {
@@ -150,6 +161,8 @@ class CProtoRegister
 			g_commandMap->insert(std::pair<int32_t, CLS_CALLBACK>(type, fnc));
 		}
 };
+
+bool scoreSort(CUser* first, CUser* second);
 
 
 #define PROTO_REGISTER(type, isPartSend, fnc) \

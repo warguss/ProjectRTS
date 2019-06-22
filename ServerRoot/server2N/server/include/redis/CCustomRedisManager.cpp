@@ -33,6 +33,7 @@ bool CCustomRedisManager::initialize(std::string ip, int32_t port, uint32_t time
 	/********************************************
 	 * 특정 로그 파일 존재 시,
 	 * Redis에 다시 Setting한다
+	 * (Dump 관련)
 	 ********************************************/
 
 	return true;
@@ -70,7 +71,7 @@ bool CCustomRedisManager::getRedis(std::string key, std::string &getValue)
 {
 	redisReply *reply = NULL;
 	reply = redisCommand(_connect, "GET %s", key.c_str());
-	if ( !reply || reply->type == REDIS_REPLY_ERROR )
+	if ( !reply || !reply->str || reply->type == REDIS_REPLY_ERROR )
 	{
 		LOG_ERROR("Redis Set Error Key[%s] DES[%s]", key.c_str(),  reply->str);
 		return false;

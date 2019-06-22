@@ -27,11 +27,13 @@ class CUser
 		int _health_point;
 		int _fd;
 		bool _isInterested;
+		int32_t _score;
 	public:
         CUser();
         CUser(int fd, int32_t x, int32_t y);
         ~CUser();
         bool setData(int fd, int type);
+		void userKillDeathScoreCalc();
 
 	private:
 		bool _userConnectionEvent(int fd);
