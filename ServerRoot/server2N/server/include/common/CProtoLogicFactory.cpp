@@ -55,7 +55,22 @@ CProtoLogicBase::~CProtoLogicBase()
 /***********************************
  * Pre 단계 User List Setup
  ***********************************/ 
-bool CProtoLogicBase::onPreProcess(int eventSector)
+bool CProtoLogicBase::onPreProcess(int32_t eventSector, bool isPartSend)
+{
+	_isPartSend = isPartSend;
+	LOG_DEBUG("Common onPreProcess (%s)", _isPartSend ? "Part Send True" : "All Send True");
+	if ( _isPartSend ) 
+	{
+		g_userPool.getPartUserList(_userList, eventSector);
+	}
+	else
+	{
+		g_userPool.getAllUserList(_userList);
+	}
+
+	return true;
+}
+bool CProtoLogicBase::onPreProcess(int32_t eventSector)
 {
 	LOG_DEBUG("Common onPreProcess (%s)", _isPartSend ? "Part Send True" : "All Send True");
 	if ( _isPartSend  ) 
@@ -89,21 +104,6 @@ bool CProtoLogicBase::onPostProcess(CSessionManager& session)
 	}
 
 	SEND_PACKET_EVENT(session, _packetOutList);
-	/*
-	list<CProtoPacket*>::iterator it = _packetOutList.begin();
-	for ( ; it != _packetOutList.end() ; ++it )
-	{
-		CProtoPacket* packet = (CProtoPacket*)*it;
-		if ( !packet )
-		{
-			continue ;
-		}
-	
-		session.m_writeQ_Manager.unLock();
-		session.m_writeQ_Manager.enqueue(packet);
-		LOG_INFO("User(%d) Send Event", packet->_fd);
-	}
-	*/
 
 	return true;
 }
@@ -127,7 +127,7 @@ CProtoConnection::~CProtoConnection()
 	LOG_DEBUG("~CProgoLogicBase");
 }
 
-bool CProtoConnection::onProcess(CSessionManager& manager, CProtoPacket* eventPacket)
+bool CProtoConnection::onProcess(CSessionManager& session, CProtoPacket* eventPacket)
 {
 	int32_t type = eventPacket->_type;
 	CUser* eventUser = g_userPool.findUserInPool(eventPacket->_fd);
@@ -167,6 +167,11 @@ bool CProtoConnection::onProcess(CSessionManager& manager, CProtoPacket* eventPa
 		_packetOutList.push_back(packet);
 		LOG_INFO("User(%d) All Send Connection Event", packet->_fd);
 	}
+
+	CProtoScoreBoardNoti noti;
+	noti.onPreProcess(0, allSend);
+	noti.onProcess(session, NULL);
+	noti.onPostProcess(session);
 
 	return true;
 }
@@ -476,6 +481,11 @@ bool CProtoGameEventRule::onPostProcess(CSessionManager& session)
 		list<CUser*>::iterator rankIt = forRankUpd.begin();
 		for ( int32_t idx = 1; rankIt != forRankUpd.end(); rankIt++, idx++ )
 		{
+			if ( idx == 5 )
+			{
+				break;
+			}
+
 			/***********************************
 			 * User별 데이터 저장
 			 ***********************************/
@@ -484,7 +494,7 @@ bool CProtoGameEventRule::onPostProcess(CSessionManager& session)
 			sprintf(psKey, "score_%d", idx);
 			std::string key = psKey;
 
-			char psValue[1024] = {'\0',};
+			char psValue[256] = {'\0',};
 			sprintf(psValue, "%s_%d_%d", user->_nickName.c_str(), user->_killInfo, user->_deathInfo);
 			std::string value = psValue;
 
@@ -492,7 +502,7 @@ bool CProtoGameEventRule::onPostProcess(CSessionManager& session)
 		}
 
 		CProtoScoreBoardNoti noti;
-		noti.onPreProcess(0);
+		noti.onPreProcess(0, allSend);
 		noti.onProcess(session, NULL);
 		noti.onPostProcess(session);
 	}

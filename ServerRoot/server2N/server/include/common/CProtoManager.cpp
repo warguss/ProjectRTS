@@ -536,7 +536,8 @@ bool CProtoManager::setNotiType(int type, CUser* recvUser, CProtoPacket** packet
 			list<string>::iterator iter = scoreList.begin();
 			for ( ; iter != scoreList.end(); ++iter, ++idx )
 			{
-				string value = *iter;
+				string ptr_value = *iter;
+				string value = ptr_value.c_str();
 				if ( value.size() <= 0 )
 				{
 					continue ;

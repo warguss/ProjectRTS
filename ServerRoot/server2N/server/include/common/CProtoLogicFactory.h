@@ -17,6 +17,7 @@ class CProtoLogicBase
 		CProtoLogicBase(bool isPartSend);
 		virtual ~CProtoLogicBase();
 
+		virtual bool onPreProcess(int32_t eventSector, bool isPartSend);
 		virtual bool onPreProcess(int32_t eventSector);
 		virtual bool onProcess(CSessionManager& session, CProtoPacket* eventPacket) = 0;
 		virtual bool onPostProcess(CSessionManager& session);
